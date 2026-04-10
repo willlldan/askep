@@ -3,13 +3,13 @@ require_once "koneksi.php";
 require_once "utils.php";
 
 if (isset($_POST['submit'])) {
-    $no_dokumen = $_POST['no_dokumen']; 
+    $no_dokumen = $_POST['no_dokumen'];
     $status_dokumen = $_POST['status_dokumen'];
     $tgl_keluar_dok = $_POST['tgl_keluar_dok'];
     $perihal = $_POST['perihal'];
     $tujuan = $_POST['tujuan'];
     $label_arsip = $_POST['label_arsip'];
-    $rak_arsip = $_POST['rak_arsip'];    
+    $rak_arsip = $_POST['rak_arsip'];
     $tgl_pinjam = $_POST['tgl_pinjam'];
     $peminjaman = $_POST['peminjaman'];
     $tgl_kembali = $_POST['tgl_kembali'];
@@ -60,8 +60,8 @@ if (isset($_POST['submit'])) {
             '$tgl_kembali',
             '$keterangan',
             '$file_name'
-            )";  
-                
+            )";
+
     if ($mysqli->query($sql) === TRUE) {
         echo "<script>alert('Dokumen Keluar berhasil ditambah.')</script>";
     } else {
@@ -72,2489 +72,2410 @@ if (isset($_POST['submit'])) {
 ?>
 
 <main id="main" class="main">
-
-    <!-- Card Identitas -->
-
-    <div class="pagetitle">
-        <h1><strong>Asuhan Keperawatan Gerontik</strong></h1>
-    </div><!-- End Page Title -->
-    <br>
-
-
-    <ul class="nav nav-tabs custom-tabs">
-
-   <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'pengkajian') == 'pengkajian' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=pengkajian">
-        Pengkajian
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=pengkajian">
-        Pengkajian
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa_keperawatan' ? 'active' : '' ?>"
-        href="index.php?page=gerontik/resume_antenatal_care&tab=diagnosa_keperawatan">
-        Diagnosa Keperawatan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'intervensi_keperawatan' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=intervensi_keperawatan">
-        Intervensi Keperawatan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi_keperawatan' ? 'active' : '' ?>"
-       href="index.php?page=maternitas/resume_antenatal_care&tab=implementasi_keperawatan">
-        Implementasi Keperawatan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi_keperawatan' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=evaluasi_keperawatan">
-        Evaluasi keperawatan
-        </a>
-    </li>
-
-    </ul>
-
-    <style>
-    .custom-tabs {
-        border-bottom: 1px solid #dee2e6;
-    }
-
-    .custom-tabs .nav-link {
-        border: none;
-        background: transparent;
-        color: #f6f9ff;
-        font-weight: 500;
-        padding: 10px 20px;
-    }
-
-    .custom-tabs .nav-link:hover {
-        color: #4154f1;
-    }
-
-    .custom-tabs .nav-link.active {
-        border: none;
-        border-bottom: 3px solid #4154f1;
-        color: #4154f1;
-        font-weight: 600;
-        background: transparent;
-    }
-    </style>
-
+    <?php include "navbar_gerontik.php"; ?>
     <section class="section dashboard">
         <div class="card">
             <div class="card-body">
-            
+
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-                <h5 class="card-title"><strong>A. PENGKAJIAN</strong></h5>
-                <div class="row mb-2">
+                    <h5 class="card-title"><strong>A. PENGKAJIAN</strong></h5>
+                    <div class="row mb-2">
                         <label class="col-sm-2 col-form-label text-primary">
                             <strong>I. Identitas</strong>
                     </div>
 
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-            
-            <!-- Bagian Nama -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Nama</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="nama">
-                   
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                    <!-- General Form Elements -->
+                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                        <!-- Bagian Nama -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Nama</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="nama">
+
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
-                            </div>
-                         </div>
-                    </div>
+                        <!-- Bagian Tempat Lahir -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Tempat Lahir</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="tempat_lahir">
 
-            <!-- Bagian Tempat Lahir -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Tempat Lahir</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="tempat_lahir">
-                    
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenttempat_lahir" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commenttempat_lahir" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
+                        <!-- Bagian Tanggal Lahir -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Tanggal Lahir</strong></label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" name="tgl_lahir" required>
 
-            <!-- Bagian Tanggal Lahir -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Tanggal Lahir</strong></label>
-                <div class="col-sm-9">
-                    <input type="date" class="form-control" name="tgl_lahir" required>
-                   
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenttgl_lahir" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commenttgl_lahir" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
+                        <!-- Bagian Jenis Kelamin -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Jenis Kelamin</strong></label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="jenis_kelamin" required>
+                                    <option value="">Pilih</option>
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
 
-            <!-- Bagian Jenis Kelamin -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Jenis Kelamin</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-control" name="jenis_kelamin" required>
-                        <option value="">Pilih</option>
-                        <option value="Laki-laki">Laki-laki</option>
-                        <option value="Perempuan">Perempuan</option>
-                    </select>
-                   
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentjenis_kelamin" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentjenis_kelamin" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
+
+                        <!-- Bagian Status Perkawinan -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="status_perkawinan" required>
+
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentstatus_perkawinan" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
                             </div>
-                         </div>
-                    </div>
 
-
-            <!-- Bagian Status Perkawinan -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="status_perkawinan" required>
-                    
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentstatus_perkawinan" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
+                        <!-- Bagian Agama -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Agama</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="agama" required>
 
-            <!-- Bagian Agama -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Agama</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="agama" required>
-                    
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentagama" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentagama" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
+                        <!-- Bagian Pendidikan -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Pendidikan</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="pendidikan" required>
 
-            <!-- Bagian Pendidikan -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Pendidikan</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="pendidikan" required>
-                    
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentpendidikan" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentpendidikan" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
+                        <!-- Bagian Pekerjaan Saat Ini -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Pekerjaan Saat Ini</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="pekerjaan_sekarang">
 
-            <!-- Bagian Pekerjaan Saat Ini -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Pekerjaan Saat Ini</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="pekerjaan_sekarang">
-                    
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentpekerjaan_sekarang" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentpekerjaan_sekarang" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
+                        <!-- Bagian Pekerjaan Sebelumnya -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Pekerjaan Sebelumnya</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="pekerjaan_sebelumnya">
 
-            <!-- Bagian Pekerjaan Sebelumnya -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Pekerjaan Sebelumnya</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="pekerjaan_sebelumnya">
-                    
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentpekerjaan_sebelumnya" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentpekerjaan_sebelumnya" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
+                        <!-- Bagian Tanggal Pengkajian -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" name="tgl_pengkajian" required>
 
-            <!-- Bagian Tanggal Pengkajian -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
-                <div class="col-sm-9">
-                    <input type="date" class="form-control" name="tgl_pengkajian" required>
-                    
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenttgl_pengkajian" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commenttgl_pengkajian" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
+                        <!-- Bagian Alamat -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="tgl_pengkajian" required>
 
-            <!-- Bagian Alamat -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
-               <div class="col-sm-9">
-                    <input type="text" class="form-control" name="tgl_pengkajian" required>
-                    
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenttgl_pengkajian" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commenttgl_pengkajian" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
             </div>
-</div>
+        </div>
 
         <div class="card">
             <div class="card-body">
-            
+
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-                <h5 class="card-title"><strong>II. Riwayat Kesehatan</strong></h5>
+                    <h5 class="card-title"><strong>II. Riwayat Kesehatan</strong></h5>
 
-                <!-- General Form Elements -->
-                <class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-            
-                <!-- Bagian Keluhan Utama -->
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Keluhan Utama</strong></label>
-                    <div class="col-sm-9">
-                        <textarea name="keluhan_utama" class="form-control" rows="4" placeholder=""></textarea>
-                        
-                        <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentkeluhan_utama" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                    <!-- General Form Elements -->
+                    <class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                        <!-- Bagian Keluhan Utama -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Keluhan Utama</strong></label>
+                            <div class="col-sm-9">
+                                <textarea name="keluhan_utama" class="form-control" rows="4" placeholder=""></textarea>
+
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentkeluhan_utama" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
+                        <!-- Bagian Riwayat Kesehatan Saat Ini -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Riwayat Kesehatan Saat Ini</strong></label>
+                            <div class="col-sm-9">
+                                <textarea name="riwayat_kesehatan_sekarang" class="form-control" rows="4" placeholder=""></textarea>
 
-                <!-- Bagian Riwayat Kesehatan Saat Ini -->
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Riwayat Kesehatan Saat Ini</strong></label>
-                    <div class="col-sm-9">
-                        <textarea name="riwayat_kesehatan_sekarang" class="form-control" rows="4" placeholder=""></textarea>
-                        
-                        <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentriwayat_kesehatan_sekarang" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentriwayat_kesehatan_sekarang" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
-                </class>
+                        </class>
                 </form>
-                </div>
+            </div>
         </div>
-        
 
-<div class="card">
+
+        <div class="card">
             <div class="card-body">
-            
+
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-                <h5 class="card-title"><strong>III. Status Lanjut Usia</strong></h5>
+                    <h5 class="card-title"><strong>III. Status Lanjut Usia</strong></h5>
 
-            <!-- Berkualitas -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Berkualitas</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-control" name="berkualitas">
-                        <option value="">-- Pilih --</option>
-                        <option value="Ya">Ya</option>
-                        <option value="Tidak">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC"
-                        style="resize:none;" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
+                    <!-- Berkualitas -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Berkualitas</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="berkualitas">
+                                <option value="">-- Pilih --</option>
+                                <option value="Ya">Ya</option>
+                                <option value="Tidak">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC"
+                                style="resize:none;" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Sehat -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Sehat</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="sehat">
+                                <option value="">-- Pilih --</option>
+                                <option>Ya</option>
+                                <option>Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC"
+                                style="resize:none;" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Aktif -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Aktif</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="aktif">
+                                <option value="">-- Pilih --</option>
+                                <option>Ya</option>
+                                <option>Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC"
+                                style="resize:none;" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Produktif -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Produktif</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="produktif">
+                                <option value="">-- Pilih --</option>
+                                <option>Ya</option>
+                                <option>Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC"
+                                style="resize:none;" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Sakit dengan perawatan -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label">
+                            <strong>Sakit dengan perawatan</strong>
+                        </label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="sakit_perawatan">
+                                <option value="">-- Pilih --</option>
+                                <option>Ya</option>
+                                <option>Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC"
+                                style="resize:none;" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Sakit tanpa perawatan -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label">
+                            <strong>Sakit tanpa perawatan</strong>
+                        </label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="sakit_tanpa_perawatan">
+                                <option value="">-- Pilih --</option>
+                                <option>Ya</option>
+                                <option>Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC"
+                                style="resize:none;" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
             </div>
-
-            <!-- Sehat -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Sehat</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-control" name="sehat">
-                        <option value="">-- Pilih --</option>
-                        <option>Ya</option>
-                        <option>Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC"
-                        style="resize:none;" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Aktif -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Aktif</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-control" name="aktif">
-                        <option value="">-- Pilih --</option>
-                        <option>Ya</option>
-                        <option>Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC"
-                        style="resize:none;" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Produktif -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Produktif</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-control" name="produktif">
-                        <option value="">-- Pilih --</option>
-                        <option>Ya</option>
-                        <option>Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC"
-                        style="resize:none;" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Sakit dengan perawatan -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label">
-                    <strong>Sakit dengan perawatan</strong>
-                </label>
-                <div class="col-sm-9">
-                    <select class="form-control" name="sakit_perawatan">
-                        <option value="">-- Pilih --</option>
-                        <option>Ya</option>
-                        <option>Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC"
-                        style="resize:none;" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Sakit tanpa perawatan -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label">
-                    <strong>Sakit tanpa perawatan</strong>
-                </label>
-                <div class="col-sm-9">
-                    <select class="form-control" name="sakit_tanpa_perawatan">
-                        <option value="">-- Pilih --</option>
-                        <option>Ya</option>
-                        <option>Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC"
-                        style="resize:none;" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
         </div>
-    </div>
-</div>
-<div class="card">
+        </div>
+        <div class="card">
             <div class="card-body">
-            
+
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-                <h5 class="card-title"><strong>IV. Riwayat Kesehatan Masa Lalu</strong></h5>
+                    <h5 class="card-title"><strong>IV. Riwayat Kesehatan Masa Lalu</strong></h5>
 
 
 
-            <!-- Imunisasi -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">
-                    <strong>Imunisasi</strong>
-                </label>
+                    <!-- Imunisasi -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">
+                            <strong>Imunisasi</strong>
+                        </label>
 
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="imunisasi">
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="imunisasi">
 
-                    <textarea class="form-control mt-2"
-                        rows="2"
-                        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi tetap semangat!"
-                        style="overflow:hidden; resize:none;"
-                        readonly></textarea>
-                </div>
+                            <textarea class="form-control mt-2"
+                                rows="2"
+                                placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi tetap semangat!"
+                                style="overflow:hidden; resize:none;"
+                                readonly></textarea>
+                        </div>
 
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" disabled>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Alergi Obat -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">
-                    <strong>Alergi Obat</strong>
-                </label>
-
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="alergi_obat">
-
-                    <textarea class="form-control mt-2"
-                        rows="2"
-                        placeholder="Kolom revisi dari dosen"
-                        style="overflow:hidden; resize:none;"
-                        readonly></textarea>
-                </div>
-
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" disabled>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Kecelakaan -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">
-                    <strong>Kecelakaan</strong>
-                </label>
-
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="kecelakaan">
-
-                    <textarea class="form-control mt-2"
-                        rows="2"
-                        placeholder="Kolom revisi dari dosen"
-                        style="overflow:hidden; resize:none;"
-                        readonly></textarea>
-                </div>
-
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" disabled>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Kebiasaan Merokok -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">
-                    <strong>Kebiasaan Merokok</strong>
-                </label>
-
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="merokok">
-
-                    <textarea class="form-control mt-2"
-                        rows="2"
-                        placeholder="Kolom revisi dari dosen"
-                        style="overflow:hidden; resize:none;"
-                        readonly></textarea>
-                </div>
-
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" disabled>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Dirawat di Rumah Sakit -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">
-                    <strong>Dirawat di Rumah Sakit</strong>
-                </label>
-
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="dirawat_rs">
-
-                    <textarea class="form-control mt-2"
-                        rows="2"
-                        placeholder="Kolom revisi dari dosen"
-                        style="overflow:hidden; resize:none;"
-                        readonly></textarea>
-                </div>
-
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" disabled>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Penyakit 1 Tahun Terakhir -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">
-                    <strong>Penyakit 1 Tahun Terakhir</strong>
-                </label>
-
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="penyakit_1_tahun">
-
-                    <textarea class="form-control mt-2"
-                        rows="2"
-                        placeholder="Kolom revisi dari dosen"
-                        style="overflow:hidden; resize:none;"
-                        readonly></textarea>
-                </div>
-
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" disabled>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Nama Obat 2 Minggu -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">
-                    <strong>Nama Obat (2 Minggu Terakhir)</strong>
-                </label>
-
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="obat_2_minggu">
-
-                    <textarea class="form-control mt-2"
-                        rows="2"
-                        placeholder="Kolom revisi dari dosen"
-                        style="overflow:hidden; resize:none;"
-                        readonly></textarea>
-                </div>
-
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" disabled>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Teratur Dikonsumsi -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">
-                    <strong>Teratur Dikonsumsi</strong>
-                </label>
-
-                <div class="col-sm-9">
-                    <select class="form-control" name="teratur_konsumsi">
-                        <option value="">-- Pilih --</option>
-                        <option>Ya</option>
-                        <option>Tidak</option>
-                    </select>
-
-                    <textarea class="form-control mt-2"
-                        rows="2"
-                        placeholder="Kolom revisi dari dosen"
-                        style="overflow:hidden; resize:none;"
-                        readonly></textarea>
-                </div>
-
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" disabled>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Obat Diresepkan Dokter -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label">
-                    <strong>Obat Diresepkan Dokter</strong>
-                </label>
-
-                <div class="col-sm-9">
-                    <select class="form-control" name="resep_dokter">
-                        <option value="">-- Pilih --</option>
-                        <option>Ya</option>
-                        <option>Tidak</option>
-                    </select>
-
-                    <textarea class="form-control mt-2"
-                        rows="2"
-                        placeholder="Kolom revisi dari dosen"
-                        style="overflow:hidden; resize:none;"
-                        readonly></textarea>
-                </div>
-
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" disabled>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
-</div>
-
-<div class="card">
-            <div class="card-body">
-            
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                <h5 class="card-title"><strong>V. Riwayat Gerontik</strong></h5>
-
-               <!-- Genogram -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Genogram</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="genogram">
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC"
-                        style="resize:none;" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Judul Keterangan -->
-            <div class="mb-3">
-                <h5><strong>Keterangan Penjelasan</strong></h5>
-            </div>
-
-            <!-- G1 -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>G1</strong></label>
-                <div class="col-sm-9">
-                    <textarea class="form-control" name="G1" rows="3"></textarea>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC"
-                        style="resize:none;" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- G2 -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>G2</strong></label>
-                <div class="col-sm-9">
-                    <textarea class="form-control" name="G2" rows="3"></textarea>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC"
-                        style="resize:none;" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- G3 -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>G3</strong></label>
-                <div class="col-sm-9">
-                    <textarea class="form-control" name="G3" rows="3"></textarea>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC"
-                        style="resize:none;" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-body">
-
-        <form class="needs-validation" novalidate method="POST" enctype="multipart/form-data">
-
-            <h5 class="card-title"><strong>VI. Pemeriksaan Fisik</strong></h5>
-
-            <div class="row mb-2">
-                <label class="col-sm-12 col-form-label text-primary">
-                    <strong>Tanda-tanda Vital</strong>
-                </label>
-            </div>
-
-            <!-- TD -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>TD (Tekanan Darah)</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="td" placeholder="Masukkan TD">
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Nadi -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>N (Nadi)</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="nadi" placeholder="Masukkan Nadi">
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- RR -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>RR (Frekuensi Pernafasan)</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="rr" placeholder="Masukkan RR">
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Suhu -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Suhu (Celsius)</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="suhu" placeholder="Masukkan Suhu">
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Kesadaran -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Tingkat Kesadaran</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="tingkat_kesadaran"
-                        placeholder="Masukkan tingkat kesadaran">
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-
-            <h5 class="card-title mt-4"><strong>Pengkajian Head to Toe</strong></h5>
-
-            <div class="row mb-2">
-                <label class="col-sm-12 col-form-label text-primary">
-                    <strong>1. Kepala</strong>
-                </label>
-            </div>
-
-            <!-- Sakit Kepala -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Sakit Kepala</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="sakit_kepala">
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Trauma Kepala -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Trauma Kepala di Masa Lalu</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="trauma_kepala_masa_lalu">
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-            <!-- Pusing -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Pusing</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="pusing">
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div> <!-- INI YANG KURANG -->
-
-            <!-- 2. Mata -->
-            <div class="row mb-2">
-                <label class="col-sm-12 col-form-label text-primary">
-                    <strong>2. Mata</strong>
-                </label>
-            </div>
-
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Penurunan Penglihatan</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="penurunan_penglihatan" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Penglihatan Kabur</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="penglihatan_kabur" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Kekeruhan Lensa</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="kekeruhan_lensa" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Menggunakan Kacamata / Lensa Kontak</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="kacamata_lensa_kontak" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Nyeri</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="nyeri_mata" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Pruritus (Gatal)</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="pruritus" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Bengkak Sekitar Mata</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="bengkak_mata" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Floater</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="floater" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Diplopia</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="diplopia" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- 3. Telinga -->
-            <div class="row mb-2 mt-4">
-                <label class="col-sm-12 col-form-label text-primary">
-                    <strong>3. Telinga</strong>
-                </label>
-            </div>
-
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Penurunan Pendengaran</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="penurunan_pendengaran" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Menggunakan Alat Bantu Pendengaran</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="alat_bantu_pendengaran" required>
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div><div class="row mb-2">
-                <label class="col-sm-12 col-form-label text-primary">
-                    <strong>4. Hidung dan Sinus</strong>
-                </label>
-            </div>
-
-            <!-- Rinorea -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Rinorea</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="rinorea">
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Rabas -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Rabas</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="rabas_hidung">
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Riwayat Epitaksis -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Riwayat Epitaksis</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="riwayat_epitaksis">
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Mendengkur -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Mendengkur Bila Tidur</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="mendengkur_tidur">
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Nyeri Sinus -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Nyeri Pada Sinus</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="nyeri_sinus">
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-
-            <!-- Pernapasan Cuping Hidung -->
-            <div class="row mb-3 align-items-start">
-                <label class="col-sm-2 col-form-label"><strong>Pernapasan Cuping Hidung</strong></label>
-                <div class="col-sm-9">
-                    <select class="form-select" name="pernapasan_cuping_hidung">
-                        <option value="">-- Pilih --</option>
-                        <option value="Y">Ya</option>
-                        <option value="T">Tidak</option>
-                    </select>
-                    <textarea class="form-control mt-2" rows="2"
-                        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-1">
-                    <input class="form-check-input mt-2" type="checkbox">
-                </div>
-            </div>
-                         <div class="row mb-2">
-                    <label class="col-sm-12 col-form-label text-primary">
-                        <strong>5. Mulut dan Tenggorokan</strong>
-                    </label>
-                </div>
-
-                <!-- Sakit Tenggorokan -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Sakit Tenggorokan</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="sakit_tenggorokan">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Lesi / Ulkus -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Lesi / Ulkus</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="lesi_ulkus">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Suara Serak -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Suara Serak</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="suara_serak">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Perubahan Suara -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Perubahan Suara</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="perubahan_suara">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Kesulitan Menelan -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Kesulitan Menelan</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="kesulitan_menelan">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Perdarahan Gusi -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Perdarahan Gusi</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="perdarahan_gusi">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Karies -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Karies</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="karies">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Gigi Bersih -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Gigi Bersih</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="gigi_bersih">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Menggunakan Gigi Palsu -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Menggunakan Gigi Palsu</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="gigi_palsu">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Rutin Menggosok Gigi -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Rutin Menggosok Gigi</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="rutin_menggosok_gigi">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-                                                <div class="row mb-2">
-                    <label class="col-sm-12 col-form-label text-primary">
-                        <strong>6. Leher</strong>
-                    </label>
-                </div>
-
-                <!-- Kekakuan -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Kekakuan</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="kekakuan_leher">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Nyeri -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Nyeri</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="nyeri_leher">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Benjolan -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Benjolan</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="benjolan_leher">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Keterbatasan Gerak -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Keterbatasan Gerak</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="keterbatasan_gerak_leher">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                                            <div class="row mb-2">
-                    <label class="col-sm-12 col-form-label text-primary">
-                        <strong>7. Pernapasan</strong>
-                    </label>
-                </div>
-
-                <!-- Batuk -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Batuk</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="batuk">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Sesak Napas -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Sesak Napas</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="sesak_napas">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Hemoptomisis -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Hemoptomisis</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="hemoptomisis">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Sputum -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Sputum</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="sputum">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Riwayat Asma -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Riwayat Asma</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="riwayat_asma">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Kesulitan Menarik Napas -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Kesulitan Dalam Menarik Napas</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="kesulitan_menarik_napas">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <div class="row mb-2">
-    <label class="col-sm-12 col-form-label text-primary">
-        <strong>8. Kardiovaskuler</strong>
-    </label>
-</div>
-
-<!-- Nyeri Dada -->
-<div class="row mb-3 align-items-start">
-    <label class="col-sm-2 col-form-label"><strong>Nyeri / Ketidaknyamanan Dada</strong></label>
-    <div class="col-sm-9">
-        <select class="form-select" name="nyeri_dada">
-            <option value="">-- Pilih --</option>
-            <option value="Y">Ya</option>
-            <option value="T">Tidak</option>
-        </select>
-        <textarea class="form-control mt-2" rows="2"
-        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-    </div>
-    <div class="col-sm-1">
-        <input class="form-check-input mt-2" type="checkbox">
-    </div>
-</div>
-
-<!-- Palpitasi -->
-<div class="row mb-3 align-items-start">
-    <label class="col-sm-2 col-form-label"><strong>Palpitasi</strong></label>
-    <div class="col-sm-9">
-        <select class="form-select" name="palpitasi">
-            <option value="">-- Pilih --</option>
-            <option value="Y">Ya</option>
-            <option value="T">Tidak</option>
-        </select>
-        <textarea class="form-control mt-2" rows="2"
-        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-    </div>
-    <div class="col-sm-1">
-        <input class="form-check-input mt-2" type="checkbox">
-    </div>
-</div>
-
-<!-- Dispneu Nocturnal Proximal -->
-<div class="row mb-3 align-items-start">
-    <label class="col-sm-2 col-form-label"><strong>Dispneu Nocturnal Proximal</strong></label>
-    <div class="col-sm-9">
-        <select class="form-select" name="dispneu_nocturnal">
-            <option value="">-- Pilih --</option>
-            <option value="Y">Ya</option>
-            <option value="T">Tidak</option>
-        </select>
-        <textarea class="form-control mt-2" rows="2"
-        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-    </div>
-    <div class="col-sm-1">
-        <input class="form-check-input mt-2" type="checkbox">
-    </div>
-</div>
-
-<!-- Ortopneu -->
-<div class="row mb-3 align-items-start">
-    <label class="col-sm-2 col-form-label"><strong>Ortopneu</strong></label>
-    <div class="col-sm-9">
-        <select class="form-select" name="ortopneu">
-            <option value="">-- Pilih --</option>
-            <option value="Y">Ya</option>
-            <option value="T">Tidak</option>
-        </select>
-        <textarea class="form-control mt-2" rows="2"
-        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-    </div>
-    <div class="col-sm-1">
-        <input class="form-check-input mt-2" type="checkbox">
-    </div>
-</div>
-
-<!-- Murmur -->
-<div class="row mb-3 align-items-start">
-    <label class="col-sm-2 col-form-label"><strong>Murmur</strong></label>
-    <div class="col-sm-9">
-        <select class="form-select" name="murmur">
-            <option value="">-- Pilih --</option>
-            <option value="Y">Ya</option>
-            <option value="T">Tidak</option>
-        </select>
-        <textarea class="form-control mt-2" rows="2"
-        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-    </div>
-    <div class="col-sm-1">
-        <input class="form-check-input mt-2" type="checkbox">
-    </div>
-</div>
-
-<!-- Edema -->
-<div class="row mb-3 align-items-start">
-    <label class="col-sm-2 col-form-label"><strong>Edema</strong></label>
-    <div class="col-sm-9">
-        <select class="form-select" name="edema">
-            <option value="">-- Pilih --</option>
-            <option value="Y">Ya</option>
-            <option value="T">Tidak</option>
-        </select>
-        <textarea class="form-control mt-2" rows="2"
-        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-    </div>
-    <div class="col-sm-1">
-        <input class="form-check-input mt-2" type="checkbox">
-    </div>
-</div>
-
-<!-- Parestesia -->
-<div class="row mb-3 align-items-start">
-    <label class="col-sm-2 col-form-label"><strong>Parestesia</strong></label>
-    <div class="col-sm-9">
-        <select class="form-select" name="parestesia">
-            <option value="">-- Pilih --</option>
-            <option value="Y">Ya</option>
-            <option value="T">Tidak</option>
-        </select>
-        <textarea class="form-control mt-2" rows="2"
-        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-    </div>
-    <div class="col-sm-1">
-        <input class="form-check-input mt-2" type="checkbox">
-    </div>
-</div>
-
-<!-- Riwayat Infark -->
-<div class="row mb-3 align-items-start">
-    <label class="col-sm-2 col-form-label"><strong>Riwayat Infark</strong></label>
-    <div class="col-sm-9">
-        <select class="form-select" name="riwayat_infark">
-            <option value="">-- Pilih --</option>
-            <option value="Y">Ya</option>
-            <option value="T">Tidak</option>
-        </select>
-        <textarea class="form-control mt-2" rows="2"
-        placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-    </div>
-    <div class="col-sm-1">
-        <input class="form-check-input mt-2" type="checkbox">
-    </div>
-</div>
-
-
-                <div class="row mb-2">
-                    <label class="col-sm-12 col-form-label text-primary">
-                        <strong>9. Gastrointestinal</strong>
-                    </label>
-                </div>
-
-                <!-- Disfagia -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Disfagia</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="disfagia">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Tidak Dapat Mengunyah -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Tidak Dapat Mengunyah</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="tidak_dapat_mengunyah">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Nyeri Uluhati -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Nyeri Uluhati</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="nyeri_uluhati">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Mual -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Mual</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="mual">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Muntah -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Muntah</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="muntah">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Hematemesis -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Hematemesis</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="hematemesis">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Penurunan Selera Makan -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Penurunan Selera Makan</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="penurunan_selera_makan">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Ikterik -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Ikterik</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="ikterik">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-                                                                            <div class="row mb-2">
-                    <label class="col-sm-12 col-form-label text-primary">
-                        <strong>10. Perkemihan</strong>
-                    </label>
-                </div>
-
-                <!-- Disuria -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Disuria</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="disuria">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Frekuensi -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Frekuensi</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="frekuensi">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Menetes -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Menetes</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="menetes">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Hematuria -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Hematuria</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="hematuria">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Poliuria -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Poliuria</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="poliuria">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Oliguria -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Oliguria</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="oliguria">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Riwayat Batu Perkemihan -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Riwayat Batu Pada Perkemihan</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="riwayat_batu_perkemihan">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Nokturia -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Nokturia</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="nokturia">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Inkontinensia Uri -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Inkontinensia Uri</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="inkontinensia_uri">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Riwayat Pembesaran Prostat -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Riwayat Pembesaran Prostat</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="riwayat_pembesaran_prostat">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-                                                                                <div class="row mb-2">
-                    <label class="col-sm-12 col-form-label text-primary">
-                        <strong>11. Muskuloskeletal</strong>
-                    </label>
-                </div>
-
-                <!-- Nyeri Sendi -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Nyeri Sendi</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="nyeri_sendi">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Kekakuan Sendi -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Kekakuan Sendi</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="kekakuan_sendi">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Pembengkakan Sendi -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Pembengkakan Sendi</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="pembengkakan_sendi">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Spasme -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Spasme</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="spasme">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Kram Otot -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Kram Otot</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="kram_otot">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Deformitas -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Deformitas</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="deformitas">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Penurunan Kekuatan Otot -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Penurunan Kekuatan Otot</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="penurunan_kekuatan_otot">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Kelemahan -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Kelemahan</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="kelemahan">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Nyeri Punggung -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Nyeri Punggung Belakang</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="nyeri_punggung_belakang">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Nyeri Pinggang -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Nyeri Pinggang</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="nyeri_pinggang">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Alat Bantuan Berjalan -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Menggunakan Alat Bantuan Berjalan</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="alat_bantuan_berjalan">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Perubahan Cara Berjalan -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Perubahan Cara Berjalan</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="perubahan_cara_berjalan">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Tremor -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Tremor</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="tremor">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Atropi Otot -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Atropi Otot</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="atropi_otot">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-                                                                                <div class="row mb-2">
-                    <label class="col-sm-12 col-form-label text-primary">
-                        <strong>12. Endokrin</strong>
-                    </label>
-                </div>
-
-                <!-- Intoleransi Panas -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Intoleransi Panas</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="intoleransi_panas">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Intoleransi Dingin -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Intoleransi Dingin</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="intoleransi_dingin">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Goiter -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Goiter</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="goiter">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Poli Fagi -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Poli Fagi</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="poli_fagi">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Poli Uri -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Poli Uri</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="poli_uri">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Poli Dipsi -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Poli Dipsi</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="poli_dipsi">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Perubahan Rambut -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Perubahan Rambut</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="perubahan_rambut">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Pigmentasi Kulit -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Pigmentasi Kulit</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="pigmentasi_kulit">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-                                                <div class="row mb-2">
-                    <label class="col-sm-12 col-form-label text-primary">
-                        <strong>14. Integumen</strong>
-                    </label>
-                </div>
-
-                <!-- Kulit Kering -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Kulit Kering</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="kulit_kering">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Kulit Keriput -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Kulit Keriput / Mengerut</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="kulit_keriput">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Menjaga Kebersihan Kulit -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Menjaga Kebersihan Kulit</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="menjaga_kebersihan_kulit">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
-
-                <!-- Penurunan Lemak di Bawah Kulit -->
-                <div class="row mb-3 align-items-start">
-                    <label class="col-sm-2 col-form-label"><strong>Penurunan Lemak di Bawah Kulit</strong></label>
-                    <div class="col-sm-9">
-                        <select class="form-select" name="penurunan_lemak_bawah_kulit">
-                            <option value="">-- Pilih --</option>
-                            <option value="Y">Ya</option>
-                            <option value="T">Tidak</option>
-                        </select>
-                        <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                    </div>
-                    <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                    </div>
-                </div>
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled>
                             </div>
-</div>
-                   
-                   
-         <div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+                        </div>
+                    </div>
+
+
+                    <!-- Alergi Obat -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">
+                            <strong>Alergi Obat</strong>
+                        </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="alergi_obat">
+
+                            <textarea class="form-control mt-2"
+                                rows="2"
+                                placeholder="Kolom revisi dari dosen"
+                                style="overflow:hidden; resize:none;"
+                                readonly></textarea>
+                        </div>
+
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Kecelakaan -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">
+                            <strong>Kecelakaan</strong>
+                        </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="kecelakaan">
+
+                            <textarea class="form-control mt-2"
+                                rows="2"
+                                placeholder="Kolom revisi dari dosen"
+                                style="overflow:hidden; resize:none;"
+                                readonly></textarea>
+                        </div>
+
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Kebiasaan Merokok -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">
+                            <strong>Kebiasaan Merokok</strong>
+                        </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="merokok">
+
+                            <textarea class="form-control mt-2"
+                                rows="2"
+                                placeholder="Kolom revisi dari dosen"
+                                style="overflow:hidden; resize:none;"
+                                readonly></textarea>
+                        </div>
+
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Dirawat di Rumah Sakit -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">
+                            <strong>Dirawat di Rumah Sakit</strong>
+                        </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="dirawat_rs">
+
+                            <textarea class="form-control mt-2"
+                                rows="2"
+                                placeholder="Kolom revisi dari dosen"
+                                style="overflow:hidden; resize:none;"
+                                readonly></textarea>
+                        </div>
+
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Penyakit 1 Tahun Terakhir -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">
+                            <strong>Penyakit 1 Tahun Terakhir</strong>
+                        </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="penyakit_1_tahun">
+
+                            <textarea class="form-control mt-2"
+                                rows="2"
+                                placeholder="Kolom revisi dari dosen"
+                                style="overflow:hidden; resize:none;"
+                                readonly></textarea>
+                        </div>
+
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Nama Obat 2 Minggu -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">
+                            <strong>Nama Obat (2 Minggu Terakhir)</strong>
+                        </label>
+
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="obat_2_minggu">
+
+                            <textarea class="form-control mt-2"
+                                rows="2"
+                                placeholder="Kolom revisi dari dosen"
+                                style="overflow:hidden; resize:none;"
+                                readonly></textarea>
+                        </div>
+
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Teratur Dikonsumsi -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">
+                            <strong>Teratur Dikonsumsi</strong>
+                        </label>
+
+                        <div class="col-sm-9">
+                            <select class="form-control" name="teratur_konsumsi">
+                                <option value="">-- Pilih --</option>
+                                <option>Ya</option>
+                                <option>Tidak</option>
+                            </select>
+
+                            <textarea class="form-control mt-2"
+                                rows="2"
+                                placeholder="Kolom revisi dari dosen"
+                                style="overflow:hidden; resize:none;"
+                                readonly></textarea>
+                        </div>
+
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Obat Diresepkan Dokter -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label">
+                            <strong>Obat Diresepkan Dokter</strong>
+                        </label>
+
+                        <div class="col-sm-9">
+                            <select class="form-control" name="resep_dokter">
+                                <option value="">-- Pilih --</option>
+                                <option>Ya</option>
+                                <option>Tidak</option>
+                            </select>
+
+                            <textarea class="form-control mt-2"
+                                rows="2"
+                                placeholder="Kolom revisi dari dosen"
+                                style="overflow:hidden; resize:none;"
+                                readonly></textarea>
+                        </div>
+
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+
+            </div>
+        </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                    <h5 class="card-title"><strong>V. Riwayat Gerontik</strong></h5>
+
+                    <!-- Genogram -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Genogram</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="genogram">
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC"
+                                style="resize:none;" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Judul Keterangan -->
+                    <div class="mb-3">
+                        <h5><strong>Keterangan Penjelasan</strong></h5>
+                    </div>
+
+                    <!-- G1 -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>G1</strong></label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="G1" rows="3"></textarea>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC"
+                                style="resize:none;" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- G2 -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>G2</strong></label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="G2" rows="3"></textarea>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC"
+                                style="resize:none;" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- G3 -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>G3</strong></label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" name="G3" rows="3"></textarea>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC"
+                                style="resize:none;" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+
+                <form class="needs-validation" novalidate method="POST" enctype="multipart/form-data">
+
+                    <h5 class="card-title"><strong>VI. Pemeriksaan Fisik</strong></h5>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>Tanda-tanda Vital</strong>
+                        </label>
+                    </div>
+
+                    <!-- TD -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>TD (Tekanan Darah)</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="td" placeholder="Masukkan TD">
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Nadi -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>N (Nadi)</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="nadi" placeholder="Masukkan Nadi">
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- RR -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>RR (Frekuensi Pernafasan)</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="rr" placeholder="Masukkan RR">
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Suhu -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Suhu (Celsius)</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="suhu" placeholder="Masukkan Suhu">
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Kesadaran -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Tingkat Kesadaran</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="tingkat_kesadaran"
+                                placeholder="Masukkan tingkat kesadaran">
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+
+                    <h5 class="card-title mt-4"><strong>Pengkajian Head to Toe</strong></h5>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>1. Kepala</strong>
+                        </label>
+                    </div>
+
+                    <!-- Sakit Kepala -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Sakit Kepala</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="sakit_kepala">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Trauma Kepala -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Trauma Kepala di Masa Lalu</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="trauma_kepala_masa_lalu">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+                    <!-- Pusing -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Pusing</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="pusing">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div> <!-- INI YANG KURANG -->
+
+                    <!-- 2. Mata -->
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>2. Mata</strong>
+                        </label>
+                    </div>
+
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Penurunan Penglihatan</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="penurunan_penglihatan" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Penglihatan Kabur</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="penglihatan_kabur" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Kekeruhan Lensa</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="kekeruhan_lensa" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Menggunakan Kacamata / Lensa Kontak</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="kacamata_lensa_kontak" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Nyeri</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="nyeri_mata" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Pruritus (Gatal)</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="pruritus" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Bengkak Sekitar Mata</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="bengkak_mata" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Floater</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="floater" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Diplopia</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="diplopia" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- 3. Telinga -->
+                    <div class="row mb-2 mt-4">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>3. Telinga</strong>
+                        </label>
+                    </div>
+
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Penurunan Pendengaran</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="penurunan_pendengaran" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Menggunakan Alat Bantu Pendengaran</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="alat_bantu_pendengaran" required>
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>4. Hidung dan Sinus</strong>
+                        </label>
+                    </div>
+
+                    <!-- Rinorea -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Rinorea</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="rinorea">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Rabas -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Rabas</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="rabas_hidung">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Riwayat Epitaksis -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Riwayat Epitaksis</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="riwayat_epitaksis">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Mendengkur -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Mendengkur Bila Tidur</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="mendengkur_tidur">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Nyeri Sinus -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Nyeri Pada Sinus</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="nyeri_sinus">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Pernapasan Cuping Hidung -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Pernapasan Cuping Hidung</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="pernapasan_cuping_hidung">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>5. Mulut dan Tenggorokan</strong>
+                        </label>
+                    </div>
+
+                    <!-- Sakit Tenggorokan -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Sakit Tenggorokan</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="sakit_tenggorokan">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Lesi / Ulkus -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Lesi / Ulkus</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="lesi_ulkus">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Suara Serak -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Suara Serak</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="suara_serak">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Perubahan Suara -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Perubahan Suara</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="perubahan_suara">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Kesulitan Menelan -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Kesulitan Menelan</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="kesulitan_menelan">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Perdarahan Gusi -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Perdarahan Gusi</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="perdarahan_gusi">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Karies -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Karies</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="karies">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Gigi Bersih -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Gigi Bersih</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="gigi_bersih">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Menggunakan Gigi Palsu -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Menggunakan Gigi Palsu</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="gigi_palsu">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Rutin Menggosok Gigi -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Rutin Menggosok Gigi</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="rutin_menggosok_gigi">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>6. Leher</strong>
+                        </label>
+                    </div>
+
+                    <!-- Kekakuan -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Kekakuan</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="kekakuan_leher">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Nyeri -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Nyeri</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="nyeri_leher">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Benjolan -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Benjolan</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="benjolan_leher">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Keterbatasan Gerak -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Keterbatasan Gerak</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="keterbatasan_gerak_leher">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>7. Pernapasan</strong>
+                        </label>
+                    </div>
+
+                    <!-- Batuk -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Batuk</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="batuk">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Sesak Napas -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Sesak Napas</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="sesak_napas">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Hemoptomisis -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Hemoptomisis</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="hemoptomisis">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Sputum -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Sputum</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="sputum">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Riwayat Asma -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Riwayat Asma</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="riwayat_asma">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Kesulitan Menarik Napas -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Kesulitan Dalam Menarik Napas</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="kesulitan_menarik_napas">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>8. Kardiovaskuler</strong>
+                        </label>
+                    </div>
+
+                    <!-- Nyeri Dada -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Nyeri / Ketidaknyamanan Dada</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="nyeri_dada">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Palpitasi -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Palpitasi</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="palpitasi">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Dispneu Nocturnal Proximal -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Dispneu Nocturnal Proximal</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="dispneu_nocturnal">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Ortopneu -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Ortopneu</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="ortopneu">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Murmur -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Murmur</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="murmur">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Edema -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Edema</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="edema">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Parestesia -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Parestesia</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="parestesia">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Riwayat Infark -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Riwayat Infark</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="riwayat_infark">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>9. Gastrointestinal</strong>
+                        </label>
+                    </div>
+
+                    <!-- Disfagia -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Disfagia</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="disfagia">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Tidak Dapat Mengunyah -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Tidak Dapat Mengunyah</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="tidak_dapat_mengunyah">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Nyeri Uluhati -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Nyeri Uluhati</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="nyeri_uluhati">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Mual -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Mual</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="mual">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Muntah -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Muntah</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="muntah">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Hematemesis -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Hematemesis</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="hematemesis">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Penurunan Selera Makan -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Penurunan Selera Makan</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="penurunan_selera_makan">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Ikterik -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Ikterik</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="ikterik">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>10. Perkemihan</strong>
+                        </label>
+                    </div>
+
+                    <!-- Disuria -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Disuria</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="disuria">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Frekuensi -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Frekuensi</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="frekuensi">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Menetes -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Menetes</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="menetes">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Hematuria -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Hematuria</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="hematuria">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Poliuria -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Poliuria</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="poliuria">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Oliguria -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Oliguria</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="oliguria">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Riwayat Batu Perkemihan -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Riwayat Batu Pada Perkemihan</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="riwayat_batu_perkemihan">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Nokturia -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Nokturia</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="nokturia">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Inkontinensia Uri -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Inkontinensia Uri</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="inkontinensia_uri">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Riwayat Pembesaran Prostat -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Riwayat Pembesaran Prostat</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="riwayat_pembesaran_prostat">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>11. Muskuloskeletal</strong>
+                        </label>
+                    </div>
+
+                    <!-- Nyeri Sendi -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Nyeri Sendi</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="nyeri_sendi">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Kekakuan Sendi -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Kekakuan Sendi</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="kekakuan_sendi">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Pembengkakan Sendi -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Pembengkakan Sendi</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="pembengkakan_sendi">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Spasme -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Spasme</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="spasme">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Kram Otot -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Kram Otot</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="kram_otot">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Deformitas -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Deformitas</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="deformitas">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Penurunan Kekuatan Otot -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Penurunan Kekuatan Otot</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="penurunan_kekuatan_otot">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Kelemahan -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Kelemahan</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="kelemahan">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Nyeri Punggung -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Nyeri Punggung Belakang</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="nyeri_punggung_belakang">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Nyeri Pinggang -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Nyeri Pinggang</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="nyeri_pinggang">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Alat Bantuan Berjalan -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Menggunakan Alat Bantuan Berjalan</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="alat_bantuan_berjalan">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Perubahan Cara Berjalan -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Perubahan Cara Berjalan</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="perubahan_cara_berjalan">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Tremor -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Tremor</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="tremor">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Atropi Otot -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Atropi Otot</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="atropi_otot">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>12. Endokrin</strong>
+                        </label>
+                    </div>
+
+                    <!-- Intoleransi Panas -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Intoleransi Panas</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="intoleransi_panas">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Intoleransi Dingin -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Intoleransi Dingin</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="intoleransi_dingin">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Goiter -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Goiter</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="goiter">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Poli Fagi -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Poli Fagi</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="poli_fagi">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Poli Uri -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Poli Uri</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="poli_uri">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Poli Dipsi -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Poli Dipsi</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="poli_dipsi">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Perubahan Rambut -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Perubahan Rambut</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="perubahan_rambut">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Pigmentasi Kulit -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Pigmentasi Kulit</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="pigmentasi_kulit">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <label class="col-sm-12 col-form-label text-primary">
+                            <strong>14. Integumen</strong>
+                        </label>
+                    </div>
+
+                    <!-- Kulit Kering -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Kulit Kering</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="kulit_kering">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Kulit Keriput -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Kulit Keriput / Mengerut</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="kulit_keriput">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Menjaga Kebersihan Kulit -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Menjaga Kebersihan Kulit</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="menjaga_kebersihan_kulit">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+
+                    <!-- Penurunan Lemak di Bawah Kulit -->
+                    <div class="row mb-3 align-items-start">
+                        <label class="col-sm-2 col-form-label"><strong>Penurunan Lemak di Bawah Kulit</strong></label>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="penurunan_lemak_bawah_kulit">
+                                <option value="">-- Pilih --</option>
+                                <option value="Y">Ya</option>
+                                <option value="T">Tidak</option>
+                            </select>
+                            <textarea class="form-control mt-2" rows="2"
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-body">
+
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
                     <h5 class="card-title"><strong>VII. Pola Kebiasaan Sehari-Hari</strong></h5>
 
@@ -2701,7 +2622,7 @@ if (isset($_POST['submit'])) {
                             <input class="form-check-input mt-2" type="checkbox">
                         </div>
                     </div>
-                        <div class="row mb-2">
+                    <div class="row mb-2">
                         <label class="col-sm-12 col-form-label text-primary">
                             <strong>2. Eliminasi</strong>
                         </label>
@@ -2719,7 +2640,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="warna_bak">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2732,7 +2653,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="keluhan_bak">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2749,7 +2670,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2766,7 +2687,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2785,7 +2706,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="frekuensi_bab">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2798,7 +2719,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="bau_bab">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2811,7 +2732,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="warna_bab">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2824,7 +2745,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="konsistensi_bab">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2837,7 +2758,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="keluhan_bab">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2850,7 +2771,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="pengalaman_laksatif">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2867,7 +2788,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2884,12 +2805,13 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
                         </div>
-                    </div><div class="row mb-2">
+                    </div>
+                    <div class="row mb-2">
                         <label class="col-sm-12 col-form-label text-primary">
                             <strong>3. Hygiene Personal</strong>
                         </label>
@@ -2907,7 +2829,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="frekuensi_mandi">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2924,7 +2846,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2941,7 +2863,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2961,7 +2883,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="frekuensi_hygiene_oral">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2978,7 +2900,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -2995,7 +2917,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3015,7 +2937,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="frekuensi_cuci_rambut">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3032,7 +2954,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3049,7 +2971,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3069,7 +2991,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="frekuensi_gunting_kuku">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3086,7 +3008,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3103,14 +3025,14 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
                         </div>
                     </div>
 
-                            <div class="row mb-2">
+                    <div class="row mb-2">
                         <label class="col-sm-12 col-form-label text-primary">
                             <strong>4. Istirahat dan Tidur</strong>
                         </label>
@@ -3122,7 +3044,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="lama_tidur">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3139,7 +3061,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3156,7 +3078,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3180,7 +3102,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3193,7 +3115,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="jenis_frekuensi_olahraga">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3206,7 +3128,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="kegiatan_waktu_luang">
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3223,7 +3145,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3240,7 +3162,7 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
                             <input class="form-check-input mt-2" type="checkbox">
@@ -3257,2687 +3179,2712 @@ if (isset($_POST['submit'])) {
                                 <option value="T">Tidak</option>
                             </select>
                             <textarea class="form-control mt-2" rows="2"
-                            placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
                         </div>
                         <div class="col-sm-1">
-                        <input class="form-check-input mt-2" type="checkbox">
-                </div>
+                            <input class="form-check-input mt-2" type="checkbox">
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
-    </div>
-</div>
-<div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
                     <h5 class="card-title"><strong>VIII. Pengkajian Psiko Sosial dan Spiritual</strong></h5>
 
 
-        <!-- Pertanyaan 1 -->
-        <div class="row mb-3">
-            <label class="col-sm-6 col-form-label"><strong>1. Lansia menyadari dan menerima kondisinya / kesehatannya tidak seperti saat muda</strong></label>
-            <div class="col-sm-6 d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <input type="radio" id="kondisi_lansia_ya" name="kondisi_lansia" value="Y" required>
-                    <label for="kondisi_lansia_ya" class="me-3">Ya</label>
-                    <input type="radio" id="kondisi_lansia_tidak" name="kondisi_lansia" value="T" required>
-                    <label for="kondisi_lansia_tidak">Tidak</label>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pertanyaan 2 -->
-        <div class="row mb-3">
-            <label class="col-sm-6 col-form-label"><strong>2. Lansia menyesuaikan / tidak memaksakan pekerjaan / aktivitas yang dilakukan</strong></label>
-            <div class="col-sm-6 d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <input type="radio" id="penyesuaian_lansia_ya" name="penyesuaian_lansia" value="Y" required>
-                    <label for="penyesuaian_lansia_ya" class="me-3">Ya</label>
-                    <input type="radio" id="penyesuaian_lansia_tidak" name="penyesuaian_lansia" value="T" required>
-                    <label for="penyesuaian_lansia_tidak">Tidak</label>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-                </div>
-            
-        </div>
-
-        <!-- Pertanyaan 3 -->
-        <div class="row mb-3">
-            <label class="col-sm-6 col-form-label"><strong>3. Lansia rutin mengikuti kegiatan Prolanis</strong></label>
-            <div class="col-sm-6 d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <input type="radio" id="prolanis_lansia_ya" name="prolanis_lansia" value="Y" required>
-                    <label for="prolanis_lansia_ya" class="me-3">Ya</label>
-                    <input type="radio" id="prolanis_lansia_tidak" name="prolanis_lansia" value="T" required>
-                    <label for="prolanis_lansia_tidak">Tidak</label>
-                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pertanyaan 4 -->
-        <div class="row mb-3">
-            <label class="col-sm-6 col-form-label"><strong>4. Lansia rutin memeriksakan kesehatannya di praktik dokter / puskesmas</strong></label>
-            <div class="col-sm-6 d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <input type="radio" id="periksa_kesehatan_lansia_ya" name="periksa_kesehatan_lansia" value="Y" required>
-                    <label for="periksa_kesehatan_lansia_ya" class="me-3">Ya</label>
-                    <input type="radio" id="periksa_kesehatan_lansia_tidak" name="periksa_kesehatan_lansia" value="T" required>
-                    <label for="periksa_kesehatan_lansia_tidak">Tidak</label>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pertanyaan 5 -->
-        <div class="row mb-3">
-            <label class="col-sm-6 col-form-label"><strong>5. Lansia masih mengikuti kegiatan pemeriksaan kesehatan di Posyandu lansia</strong></label>
-            <div class="col-sm-6 d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <input type="radio" id="posyandu_lansia_ya" name="posyandu_lansia" value="Y" required>
-                    <label for="posyandu_lansia_ya" class="me-3">Ya</label>
-                    <input type="radio" id="posyandu_lansia_tidak" name="posyandu_lansia" value="T" required>
-                    <label for="posyandu_lansia_tidak">Tidak</label>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pertanyaan 6 -->
-        <div class="row mb-3">
-            <label class="col-sm-6 col-form-label"><strong>6. Lansia masih sempat mengikuti kegiatan-kegiatan yang dilaksanakan oleh RT</strong></label>
-            <div class="col-sm-6 d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <input type="radio" id="kegiatan_rt_lansia_ya" name="kegiatan_rt_lansia" value="Y" required>
-                    <label for="kegiatan_rt_lansia_ya" class="me-3">Ya</label>
-                    <input type="radio" id="kegiatan_rt_lansia_tidak" name="kegiatan_rt_lansia" value="T" required>
-                    <label for="kegiatan_rt_lansia_tidak">Tidak</label>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pertanyaan 7 -->
-        <div class="row mb-3">
-            <label class="col-sm-6 col-form-label"><strong>7. Gerontik lansia memberikan dukungan dan peduli terhadap kesehatan lansia</strong></label>
-            <div class="col-sm-6 d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <input type="radio" id="dukungan_gerontik_ya" name="dukungan_gerontik" value="Y" required>
-                    <label for="dukungan_gerontik_ya" class="me-3">Ya</label>
-                    <input type="radio" id="dukungan_gerontik_tidak" name="dukungan_gerontik" value="T" required>
-                    <label for="dukungan_gerontik_tidak">Tidak</label>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pertanyaan 8 -->
-        <div class="row mb-3">
-            <label class="col-sm-6 col-form-label"><strong>8. Gerontik mengingatkan pantangan makanan bagi kesehatan lansia</strong></label>
-            <div class="col-sm-6 d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <input type="radio" id="ingatkan_pantangan_ya" name="ingatkan_pantangan" value="Y" required>
-                    <label for="ingatkan_pantangan_ya" class="me-3">Ya</label>
-                    <input type="radio" id="ingatkan_pantangan_tidak" name="ingatkan_pantangan" value="T" required>
-                    <label for="ingatkan_pantangan_tidak">Tidak</label>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pertanyaan 9 -->
-        <div class="row mb-3">
-            <label class="col-sm-6 col-form-label"><strong>9. Lansia merasa senang bila sedang berkumpul dengan anak dan cucu</strong></label>
-            <div class="col-sm-6 d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <input type="radio" id="senang_berkumpul_ya" name="senang_berkumpul" value="Y" required>
-                    <label for="senang_berkumpul_ya" class="me-3">Ya</label>
-                    <input type="radio" id="senang_berkumpul_tidak" name="senang_berkumpul" value="T" required>
-                    <label for="senang_berkumpul_tidak">Tidak</label>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pertanyaan 10 -->
-        <div class="row mb-3">
-            <label class="col-sm-6 col-form-label"><strong>10. Lansia masih rutin menjalankan ibadah</strong></label>
-            <div class="col-sm-6 d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <input type="radio" id="rutin_ibadah_ya" name="rutin_ibadah" value="Y" required>
-                    <label for="rutin_ibadah_ya" class="me-3">Ya</label>
-                    <input type="radio" id="rutin_ibadah_tidak" name="rutin_ibadah" value="T" required>
-                    <label for="rutin_ibadah_tidak">Tidak</label>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pertanyaan 11 -->
-        <div class="row mb-3">
-            <label class="col-sm-6 col-form-label"><strong>11. Lansia merasa bersyukur kepada Tuhan YME dengan kondisinya saat ini</strong></label>
-            <div class="col-sm-6 d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <input type="radio" id="bersyukur_ya" name="bersyukur" value="Y" required>
-                    <label for="bersyukur_ya" class="me-3">Ya</label>
-                    <input type="radio" id="bersyukur_tidak" name="bersyukur" value="T" required>
-                    <label for="bersyukur_tidak">Tidak</label>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pertanyaan 12 -->
-        <div class="row mb-3">
-            <label class="col-sm-6 col-form-label"><strong>12. Lansia menganggap bahwa semakin bertambahnya usia semakin mendekatkan diri kepada Tuhan YME</strong></label>
-            <div class="col-sm-6 d-flex align-items-center">
-                <div class="flex-grow-1">
-                    <input type="radio" id="berkembang_usia_ya" name="berkembang_usia" value="Y" required>
-                    <label for="berkembang_usia_ya" class="me-3">Ya</label>
-                    <input type="radio" id="berkembang_usia_tidak" name="berkembang_usia" value="T" required>
-                    <label for="berkembang_usia_tidak">Tidak</label>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                    <h5 class="card-title"><strong>IX. Pengkajian Status Fungsional</strong></h5>
-
-        <p>
-            Pengkajian status fungsional adalah suatu bentuk pengukuran kemampuan seseorang untuk melakukan aktivitas sehari-hari secara mandiri. Penentuan kemandirian fungsional dapat mengidentifikasi kemampuan dan keterbatasan klien sehingga memudahkan pemilihan intervensi yang tepat.
-        </p>
-        <p>
-            Pengkajian ini menggunakan indeks kemandirian Katz untuk aktivitas kehidupan sehari-hari yang berdasarkan pada evaluasi fungsi kemandirian atau tergantung dari klien dalam hal makan, kontinen (defekasi/berkemih), berpindah, ke kamar kecil, pakaian, dan mandi. Silakan dicentang sesuai dengan kondisi lansia.
-        </p>
-<form>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Kegiatan</th>
-                <th>Status Fungsional</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Makan</td>
-                <td>
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="makan" value="mandiri" required> Mandiri
-                    </label>
-                    <label class="form-check-label ms-3">
-                        <input class="form-check-input" type="radio" name="makan" value="tergantung"> Tergantung
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>Kontinen (Defekasi/Berkemih)</td>
-                <td>
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="kontinen" value="mandiri" required> Mandiri
-                    </label>
-                    <label class="form-check-label ms-3">
-                        <input class="form-check-input" type="radio" name="kontinen" value="tergantung"> Tergantung
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>Berpindah</td>
-                <td>
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="berpindah" value="mandiri" required> Mandiri
-                    </label>
-                    <label class="form-check-label ms-3">
-                        <input class="form-check-input" type="radio" name="berpindah" value="tergantung"> Tergantung
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>Ke kamar kecil</td>
-                <td>
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="kamar_kecil" value="mandiri" required> Mandiri
-                    </label>
-                    <label class="form-check-label ms-3">
-                        <input class="form-check-input" type="radio" name="kamar_kecil" value="tergantung"> Tergantung
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>Berpakaian</td>
-                <td>
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="berpakaian" value="mandiri" required> Mandiri
-                    </label>
-                    <label class="form-check-label ms-3">
-                        <input class="form-check-input" type="radio" name="berpakaian" value="tergantung"> Tergantung
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>Mandi</td>
-                <td>
-                    <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="mandi" value="mandiri" required> Mandiri
-                    </label>
-                    <label class="form-check-label ms-3">
-                        <input class="form-check-input" type="radio" name="mandi" value="tergantung"> Tergantung
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td><strong>Kesimpulan Status Fungsional</strong></td>
-                <td>
-                    <div class="d-flex align-items-center">
-                        <input type="text" class="form-control" name="kesimpulan_status_fungsional" placeholder="Kesimpulan" required>
-                        <div class="col-sm-2 d-flex align-items-center ms-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                    <!-- Pertanyaan 1 -->
+                    <div class="row mb-3">
+                        <label class="col-sm-6 col-form-label"><strong>1. Lansia menyadari dan menerima kondisinya / kesehatannya tidak seperti saat muda</strong></label>
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="radio" id="kondisi_lansia_ya" name="kondisi_lansia" value="Y" required>
+                                <label for="kondisi_lansia_ya" class="me-3">Ya</label>
+                                <input type="radio" id="kondisi_lansia_tidak" name="kondisi_lansia" value="T" required>
+                                <label for="kondisi_lansia_tidak">Tidak</label>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Ketentuan</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>A</td>
-                <td>Kemandirian dalam hal makan, kontinen (defekasi/berkemih), berpindah, ke kamar kecil, berpakaian, dan mandi.</td>
-            </tr>
-            <tr>
-                <td>B</td>
-                <td>Kemandirian dalam semua hal kecuali satu dari fungsi tersebut.</td>
-            </tr>
-            <tr>
-                <td>C</td>
-                <td>Kemandirian dalam semua hal kecuali mandi dan satu fungsi tambahan.</td>
-            </tr>
-            <tr>
-                <td>D</td>
-                <td>Kemandirian dalam semua hal kecuali mandi, berpakaian, dan satu fungsi tambahan.</td>
-            </tr>
-            <tr>
-                <td>E</td>
-                <td>Kemandirian dalam semua hal kecuali mandi, berpakaian, ke kamar kecil, dan satu fungsi tambahan.</td>
-            </tr>
-            <tr>
-                <td>F</td>
-                <td>Kemandirian dalam semua hal kecuali mandi, berpakaian, ke kamar kecil, berpindah, dan satu fungsi tambahan.</td>
-            </tr>
-            <tr>
-                <td>G</td>
-                <td>Ketergantungan pada keenam fungsi tersebut.</td>
-            </tr>
-        </tbody>
-    </table>
+                    <!-- Pertanyaan 2 -->
+                    <div class="row mb-3">
+                        <label class="col-sm-6 col-form-label"><strong>2. Lansia menyesuaikan / tidak memaksakan pekerjaan / aktivitas yang dilakukan</strong></label>
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="radio" id="penyesuaian_lansia_ya" name="penyesuaian_lansia" value="Y" required>
+                                <label for="penyesuaian_lansia_ya" class="me-3">Ya</label>
+                                <input type="radio" id="penyesuaian_lansia_tidak" name="penyesuaian_lansia" value="T" required>
+                                <label for="penyesuaian_lansia_tidak">Tidak</label>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
 
-            
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+                    </div>
 
-                    <h5 class="card-title"><strong>Penjelasan</strong></h5>
-    
-        <p>Kemandirian berarti tanpa pengawasan, pengarahan, atau bantuan pribadi aktif, kecuali secara spesifik akan digambarkan di bawah ini.</p>
-        <p>Pengkajian ini didasarkan pada kondisi aktual klien dan bukan pada kemampuan. Artinya, jika klien menolak untuk melakukan suatu fungsi, dianggap sebagai tidak melakukan fungsi meskipun ia sebenarnya mampu.</p>
+                    <!-- Pertanyaan 3 -->
+                    <div class="row mb-3">
+                        <label class="col-sm-6 col-form-label"><strong>3. Lansia rutin mengikuti kegiatan Prolanis</strong></label>
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="radio" id="prolanis_lansia_ya" name="prolanis_lansia" value="Y" required>
+                                <label for="prolanis_lansia_ya" class="me-3">Ya</label>
+                                <input type="radio" id="prolanis_lansia_tidak" name="prolanis_lansia" value="T" required>
+                                <label for="prolanis_lansia_tidak">Tidak</label>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-        
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Kegiatan</th>
-                    <th>Mandiri</th>
-                    <th>Tergantung</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Makan</td>
-                    <td>Memilih makanan dari piring dan menyuapi sendiri</td>
-                    <td>Bantuan dalam hal mengambil makanan dan menyuapinya, tidak makan sama sekali, makan parenteral/enteral.</td>
-                </tr>
-                <tr>
-                    <td>Kontinen (Defekasi/Berkemih)</td>
-                    <td>Berkemih dan defekasi sepenuhnya dikendalikan sendiri</td>
-                    <td>Inkontinensia parsial atau total, penggunaan kateter, pispot, enema, pembalut (diapers)</td>
-                </tr>
-                <tr>
-                    <td>Berpindah</td>
-                    <td>Berpindah ke dan dari tempat tidur, bangkit dari kursi sendiri</td>
-                    <td>Bantuan dalam naik dan turun dari tempat tidur atau kursi, tidak melakukan satu atau lebih perpindahan</td>
-                </tr>
-                <tr>
-                    <td>Ke Kamar Kecil</td>
-                    <td>Masuk dan keluar kamar kecil, membersihkan genitalia sendiri</td>
-                    <td>Menerima bantuan untuk masuk ke kamar kecil dan menggunakan pispot</td>
-                </tr>
-                <tr>
-                    <td>Berpakaian</td>
-                    <td>Memilih baju dari lemari, memakai dan melepaskan pakaian, mengancing atau mengikat pakaian</td>
-                    <td>Tidak dapat memakai baju sendiri atau sebagian</td>
-                </tr>
-                <tr>
-                    <td>Mandi</td>
-                    <td>Bantuan hanya pada satu bagian tubuh (seperti punggung atau ekstremitas yang tidak mampu) atau mandi sepenuhnya sendiri</td>
-                    <td>Bantuan mandi lebih dari satu bagian tubuh, bantuan masuk dan keluar dari bak mandi, tidak mandi sendiri</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</form>
-    </div>
-</div>
+                    <!-- Pertanyaan 4 -->
+                    <div class="row mb-3">
+                        <label class="col-sm-6 col-form-label"><strong>4. Lansia rutin memeriksakan kesehatannya di praktik dokter / puskesmas</strong></label>
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="radio" id="periksa_kesehatan_lansia_ya" name="periksa_kesehatan_lansia" value="Y" required>
+                                <label for="periksa_kesehatan_lansia_ya" class="me-3">Ya</label>
+                                <input type="radio" id="periksa_kesehatan_lansia_tidak" name="periksa_kesehatan_lansia" value="T" required>
+                                <label for="periksa_kesehatan_lansia_tidak">Tidak</label>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-<div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+                    <!-- Pertanyaan 5 -->
+                    <div class="row mb-3">
+                        <label class="col-sm-6 col-form-label"><strong>5. Lansia masih mengikuti kegiatan pemeriksaan kesehatan di Posyandu lansia</strong></label>
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="radio" id="posyandu_lansia_ya" name="posyandu_lansia" value="Y" required>
+                                <label for="posyandu_lansia_ya" class="me-3">Ya</label>
+                                <input type="radio" id="posyandu_lansia_tidak" name="posyandu_lansia" value="T" required>
+                                <label for="posyandu_lansia_tidak">Tidak</label>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 6 -->
+                    <div class="row mb-3">
+                        <label class="col-sm-6 col-form-label"><strong>6. Lansia masih sempat mengikuti kegiatan-kegiatan yang dilaksanakan oleh RT</strong></label>
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="radio" id="kegiatan_rt_lansia_ya" name="kegiatan_rt_lansia" value="Y" required>
+                                <label for="kegiatan_rt_lansia_ya" class="me-3">Ya</label>
+                                <input type="radio" id="kegiatan_rt_lansia_tidak" name="kegiatan_rt_lansia" value="T" required>
+                                <label for="kegiatan_rt_lansia_tidak">Tidak</label>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 7 -->
+                    <div class="row mb-3">
+                        <label class="col-sm-6 col-form-label"><strong>7. Gerontik lansia memberikan dukungan dan peduli terhadap kesehatan lansia</strong></label>
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="radio" id="dukungan_gerontik_ya" name="dukungan_gerontik" value="Y" required>
+                                <label for="dukungan_gerontik_ya" class="me-3">Ya</label>
+                                <input type="radio" id="dukungan_gerontik_tidak" name="dukungan_gerontik" value="T" required>
+                                <label for="dukungan_gerontik_tidak">Tidak</label>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 8 -->
+                    <div class="row mb-3">
+                        <label class="col-sm-6 col-form-label"><strong>8. Gerontik mengingatkan pantangan makanan bagi kesehatan lansia</strong></label>
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="radio" id="ingatkan_pantangan_ya" name="ingatkan_pantangan" value="Y" required>
+                                <label for="ingatkan_pantangan_ya" class="me-3">Ya</label>
+                                <input type="radio" id="ingatkan_pantangan_tidak" name="ingatkan_pantangan" value="T" required>
+                                <label for="ingatkan_pantangan_tidak">Tidak</label>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 9 -->
+                    <div class="row mb-3">
+                        <label class="col-sm-6 col-form-label"><strong>9. Lansia merasa senang bila sedang berkumpul dengan anak dan cucu</strong></label>
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="radio" id="senang_berkumpul_ya" name="senang_berkumpul" value="Y" required>
+                                <label for="senang_berkumpul_ya" class="me-3">Ya</label>
+                                <input type="radio" id="senang_berkumpul_tidak" name="senang_berkumpul" value="T" required>
+                                <label for="senang_berkumpul_tidak">Tidak</label>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 10 -->
+                    <div class="row mb-3">
+                        <label class="col-sm-6 col-form-label"><strong>10. Lansia masih rutin menjalankan ibadah</strong></label>
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="radio" id="rutin_ibadah_ya" name="rutin_ibadah" value="Y" required>
+                                <label for="rutin_ibadah_ya" class="me-3">Ya</label>
+                                <input type="radio" id="rutin_ibadah_tidak" name="rutin_ibadah" value="T" required>
+                                <label for="rutin_ibadah_tidak">Tidak</label>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 11 -->
+                    <div class="row mb-3">
+                        <label class="col-sm-6 col-form-label"><strong>11. Lansia merasa bersyukur kepada Tuhan YME dengan kondisinya saat ini</strong></label>
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="radio" id="bersyukur_ya" name="bersyukur" value="Y" required>
+                                <label for="bersyukur_ya" class="me-3">Ya</label>
+                                <input type="radio" id="bersyukur_tidak" name="bersyukur" value="T" required>
+                                <label for="bersyukur_tidak">Tidak</label>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pertanyaan 12 -->
+                    <div class="row mb-3">
+                        <label class="col-sm-6 col-form-label"><strong>12. Lansia menganggap bahwa semakin bertambahnya usia semakin mendekatkan diri kepada Tuhan YME</strong></label>
+                        <div class="col-sm-6 d-flex align-items-center">
+                            <div class="flex-grow-1">
+                                <input type="radio" id="berkembang_usia_ya" name="berkembang_usia" value="Y" required>
+                                <label for="berkembang_usia_ya" class="me-3">Ya</label>
+                                <input type="radio" id="berkembang_usia_tidak" name="berkembang_usia" value="T" required>
+                                <label for="berkembang_usia_tidak">Tidak</label>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                    <h5 class="card-title"><strong>IX. Pengkajian Status Fungsional</strong></h5>
+
+                    <p>
+                        Pengkajian status fungsional adalah suatu bentuk pengukuran kemampuan seseorang untuk melakukan aktivitas sehari-hari secara mandiri. Penentuan kemandirian fungsional dapat mengidentifikasi kemampuan dan keterbatasan klien sehingga memudahkan pemilihan intervensi yang tepat.
+                    </p>
+                    <p>
+                        Pengkajian ini menggunakan indeks kemandirian Katz untuk aktivitas kehidupan sehari-hari yang berdasarkan pada evaluasi fungsi kemandirian atau tergantung dari klien dalam hal makan, kontinen (defekasi/berkemih), berpindah, ke kamar kecil, pakaian, dan mandi. Silakan dicentang sesuai dengan kondisi lansia.
+                    </p>
+                    <form>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Kegiatan</th>
+                                    <th>Status Fungsional</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Makan</td>
+                                    <td>
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="makan" value="mandiri" required> Mandiri
+                                        </label>
+                                        <label class="form-check-label ms-3">
+                                            <input class="form-check-input" type="radio" name="makan" value="tergantung"> Tergantung
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Kontinen (Defekasi/Berkemih)</td>
+                                    <td>
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="kontinen" value="mandiri" required> Mandiri
+                                        </label>
+                                        <label class="form-check-label ms-3">
+                                            <input class="form-check-input" type="radio" name="kontinen" value="tergantung"> Tergantung
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Berpindah</td>
+                                    <td>
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="berpindah" value="mandiri" required> Mandiri
+                                        </label>
+                                        <label class="form-check-label ms-3">
+                                            <input class="form-check-input" type="radio" name="berpindah" value="tergantung"> Tergantung
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Ke kamar kecil</td>
+                                    <td>
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="kamar_kecil" value="mandiri" required> Mandiri
+                                        </label>
+                                        <label class="form-check-label ms-3">
+                                            <input class="form-check-input" type="radio" name="kamar_kecil" value="tergantung"> Tergantung
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Berpakaian</td>
+                                    <td>
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="berpakaian" value="mandiri" required> Mandiri
+                                        </label>
+                                        <label class="form-check-label ms-3">
+                                            <input class="form-check-input" type="radio" name="berpakaian" value="tergantung"> Tergantung
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Mandi</td>
+                                    <td>
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="mandi" value="mandiri" required> Mandiri
+                                        </label>
+                                        <label class="form-check-label ms-3">
+                                            <input class="form-check-input" type="radio" name="mandi" value="tergantung"> Tergantung
+                                        </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Kesimpulan Status Fungsional</strong></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <input type="text" class="form-control" name="kesimpulan_status_fungsional" placeholder="Kesimpulan" required>
+                                            <div class="col-sm-2 d-flex align-items-center ms-2">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Ketentuan</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>A</td>
+                                    <td>Kemandirian dalam hal makan, kontinen (defekasi/berkemih), berpindah, ke kamar kecil, berpakaian, dan mandi.</td>
+                                </tr>
+                                <tr>
+                                    <td>B</td>
+                                    <td>Kemandirian dalam semua hal kecuali satu dari fungsi tersebut.</td>
+                                </tr>
+                                <tr>
+                                    <td>C</td>
+                                    <td>Kemandirian dalam semua hal kecuali mandi dan satu fungsi tambahan.</td>
+                                </tr>
+                                <tr>
+                                    <td>D</td>
+                                    <td>Kemandirian dalam semua hal kecuali mandi, berpakaian, dan satu fungsi tambahan.</td>
+                                </tr>
+                                <tr>
+                                    <td>E</td>
+                                    <td>Kemandirian dalam semua hal kecuali mandi, berpakaian, ke kamar kecil, dan satu fungsi tambahan.</td>
+                                </tr>
+                                <tr>
+                                    <td>F</td>
+                                    <td>Kemandirian dalam semua hal kecuali mandi, berpakaian, ke kamar kecil, berpindah, dan satu fungsi tambahan.</td>
+                                </tr>
+                                <tr>
+                                    <td>G</td>
+                                    <td>Ketergantungan pada keenam fungsi tersebut.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+
+                        <!-- General Form Elements -->
+                        <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                            <h5 class="card-title"><strong>Penjelasan</strong></h5>
+
+                            <p>Kemandirian berarti tanpa pengawasan, pengarahan, atau bantuan pribadi aktif, kecuali secara spesifik akan digambarkan di bawah ini.</p>
+                            <p>Pengkajian ini didasarkan pada kondisi aktual klien dan bukan pada kemampuan. Artinya, jika klien menolak untuk melakukan suatu fungsi, dianggap sebagai tidak melakukan fungsi meskipun ia sebenarnya mampu.</p>
+
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Kegiatan</th>
+                                        <th>Mandiri</th>
+                                        <th>Tergantung</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Makan</td>
+                                        <td>Memilih makanan dari piring dan menyuapi sendiri</td>
+                                        <td>Bantuan dalam hal mengambil makanan dan menyuapinya, tidak makan sama sekali, makan parenteral/enteral.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kontinen (Defekasi/Berkemih)</td>
+                                        <td>Berkemih dan defekasi sepenuhnya dikendalikan sendiri</td>
+                                        <td>Inkontinensia parsial atau total, penggunaan kateter, pispot, enema, pembalut (diapers)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Berpindah</td>
+                                        <td>Berpindah ke dan dari tempat tidur, bangkit dari kursi sendiri</td>
+                                        <td>Bantuan dalam naik dan turun dari tempat tidur atau kursi, tidak melakukan satu atau lebih perpindahan</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ke Kamar Kecil</td>
+                                        <td>Masuk dan keluar kamar kecil, membersihkan genitalia sendiri</td>
+                                        <td>Menerima bantuan untuk masuk ke kamar kecil dan menggunakan pispot</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Berpakaian</td>
+                                        <td>Memilih baju dari lemari, memakai dan melepaskan pakaian, mengancing atau mengikat pakaian</td>
+                                        <td>Tidak dapat memakai baju sendiri atau sebagian</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mandi</td>
+                                        <td>Bantuan hanya pada satu bagian tubuh (seperti punggung atau ekstremitas yang tidak mampu) atau mandi sepenuhnya sendiri</td>
+                                        <td>Bantuan mandi lebih dari satu bagian tubuh, bantuan masuk dan keluar dari bak mandi, tidak mandi sendiri</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+            </div>
+            </form>
+        </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
                     <h5 class="card-title"><strong>X. Skala Depresi Geriatric</strong></h5>
 
-            <h6>Pengkajian ini menggunakan skala depresi geriatric bentuk singkat dari Yesavage (1983) 
-                yang instrumennya disusun secara khusus digunakan pada lanjut usia untuk memeriksa depresi. 
-                Jawaban pertanyaan sesuai dengan indikasi yang dinilai. Nilai 5 atau lebih dapat menandakan depresi.</h6>
+                    <h6>Pengkajian ini menggunakan skala depresi geriatric bentuk singkat dari Yesavage (1983)
+                        yang instrumennya disusun secara khusus digunakan pada lanjut usia untuk memeriksa depresi.
+                        Jawaban pertanyaan sesuai dengan indikasi yang dinilai. Nilai 5 atau lebih dapat menandakan depresi.</h6>
 
-            <form action="#">
-                <!-- Pertanyaan 1 - 10 -->
-                <div class="question">
-                    <label>1. Apakah pada dasarnya Anda puas dengan kehidupan Anda?</label><br>
-                    <input type="radio" id="q1_no" name="q1" value="Tidak">
-                    <label for="q1_no">Tidak</label>
-                    <input type="radio" id="q1_yes" name="q1" value="Ya">
-                    <label for="q1_yes">Ya</label>
-                </div>
-                <div class="question">
-                    <label>2. Sudahkah Anda banyak menghentikan aktivitas dan minat Anda?</label><br>
-                    <input type="radio" id="q2_no" name="q2" value="Tidak">
-                    <label for="q2_no">Tidak</label>
-                    <input type="radio" id="q2_yes" name="q2" value="Ya">
-                    <label for="q2_yes">Ya</label>
-                </div>
-                <div class="question">
-                    <label>3. Apakah Anda merasa bahwa hidup Anda kosong?</label><br>
-                    <input type="radio" id="q3_no" name="q3" value="Tidak">
-                    <label for="q3_no">Tidak</label>
-                    <input type="radio" id="q3_yes" name="q3" value="Ya">
-                    <label for="q3_yes">Ya</label>
-                </div>
-                <div class="question">
-                    <label>4. Apakah Anda sering bosan?</label><br>
-                    <input type="radio" id="q4_no" name="q4" value="Tidak">
-                    <label for="q4_no">Tidak</label>
-                    <input type="radio" id="q4_yes" name="q4" value="Ya">
-                    <label for="q4_yes">Ya</label>
-                </div>
-                <div class="question">
-                    <label>5. Apakah Anda banyak berharap pada masa depan?</label><br>
-                    <input type="radio" id="q5_no" name="q5" value="Tidak">
-                    <label for="q5_no">Tidak</label>
-                    <input type="radio" id="q5_yes" name="q5" value="Ya">
-                    <label for="q5_yes">Ya</label>
-                </div>
-                <div class="question">
-                    <label>6. Apakah Anda takut sesuatu akan terjadi pada Anda?</label><br>
-                    <input type="radio" id="q6_no" name="q6" value="Tidak">
-                    <label for="q6_no">Tidak</label>
-                    <input type="radio" id="q6_yes" name="q6" value="Ya">
-                    <label for="q6_yes">Ya</label>
-                </div>
-                <div class="question">
-                    <label>7. Apakah Anda merasa terganggu dengan pemikiran bahwa Anda tidak bisa lepas dari pikiran yang sama?</label><br>
-                    <input type="radio" id="q7_no" name="q7" value="Tidak">
-                    <label for="q7_no">Tidak</label>
-                    <input type="radio" id="q7_yes" name="q7" value="Ya">
-                    <label for="q7_yes">Ya</label>
-                </div>
-                <div class="question">
-                    <label>8. Apakah Anda takut bahwa suatu hal yang buruk akan menimpa Anda?</label><br>
-                    <input type="radio" id="q8_no" name="q8" value="Tidak">
-                    <label for="q8_no">Tidak</label>
-                    <input type="radio" id="q8_yes" name="q8" value="Ya">
-                    <label for="q8_yes">Ya</label>
-                </div>
-                <div class="question">
-                    <label>9. Apakah Anda merasa gembira dalam sebagian besar waktu Anda?</label><br>
-                    <input type="radio" id="q9_no" name="q9" value="Tidak">
-                    <label for="q9_no">Tidak</label>
-                    <input type="radio" id="q9_yes" name="q9" value="Ya">
-                    <label for="q9_yes">Ya</label>
-                </div>
-                <div class="question">
-                    <label>10. Apakah Anda merasa tidak mungkin tertolong?</label><br>
-                    <input type="radio" id="q10_no" name="q10" value="Tidak">
-                    <label for="q10_no">Tidak</label>
-                    <input type="radio" id="q10_yes" name="q10" value="Ya">
-                    <label for="q10_yes">Ya</label>
-                </div>
+                    <form action="#">
+                        <!-- Pertanyaan 1 - 10 -->
+                        <div class="question">
+                            <label>1. Apakah pada dasarnya Anda puas dengan kehidupan Anda?</label><br>
+                            <input type="radio" id="q1_no" name="q1" value="Tidak">
+                            <label for="q1_no">Tidak</label>
+                            <input type="radio" id="q1_yes" name="q1" value="Ya">
+                            <label for="q1_yes">Ya</label>
+                        </div>
+                        <div class="question">
+                            <label>2. Sudahkah Anda banyak menghentikan aktivitas dan minat Anda?</label><br>
+                            <input type="radio" id="q2_no" name="q2" value="Tidak">
+                            <label for="q2_no">Tidak</label>
+                            <input type="radio" id="q2_yes" name="q2" value="Ya">
+                            <label for="q2_yes">Ya</label>
+                        </div>
+                        <div class="question">
+                            <label>3. Apakah Anda merasa bahwa hidup Anda kosong?</label><br>
+                            <input type="radio" id="q3_no" name="q3" value="Tidak">
+                            <label for="q3_no">Tidak</label>
+                            <input type="radio" id="q3_yes" name="q3" value="Ya">
+                            <label for="q3_yes">Ya</label>
+                        </div>
+                        <div class="question">
+                            <label>4. Apakah Anda sering bosan?</label><br>
+                            <input type="radio" id="q4_no" name="q4" value="Tidak">
+                            <label for="q4_no">Tidak</label>
+                            <input type="radio" id="q4_yes" name="q4" value="Ya">
+                            <label for="q4_yes">Ya</label>
+                        </div>
+                        <div class="question">
+                            <label>5. Apakah Anda banyak berharap pada masa depan?</label><br>
+                            <input type="radio" id="q5_no" name="q5" value="Tidak">
+                            <label for="q5_no">Tidak</label>
+                            <input type="radio" id="q5_yes" name="q5" value="Ya">
+                            <label for="q5_yes">Ya</label>
+                        </div>
+                        <div class="question">
+                            <label>6. Apakah Anda takut sesuatu akan terjadi pada Anda?</label><br>
+                            <input type="radio" id="q6_no" name="q6" value="Tidak">
+                            <label for="q6_no">Tidak</label>
+                            <input type="radio" id="q6_yes" name="q6" value="Ya">
+                            <label for="q6_yes">Ya</label>
+                        </div>
+                        <div class="question">
+                            <label>7. Apakah Anda merasa terganggu dengan pemikiran bahwa Anda tidak bisa lepas dari pikiran yang sama?</label><br>
+                            <input type="radio" id="q7_no" name="q7" value="Tidak">
+                            <label for="q7_no">Tidak</label>
+                            <input type="radio" id="q7_yes" name="q7" value="Ya">
+                            <label for="q7_yes">Ya</label>
+                        </div>
+                        <div class="question">
+                            <label>8. Apakah Anda takut bahwa suatu hal yang buruk akan menimpa Anda?</label><br>
+                            <input type="radio" id="q8_no" name="q8" value="Tidak">
+                            <label for="q8_no">Tidak</label>
+                            <input type="radio" id="q8_yes" name="q8" value="Ya">
+                            <label for="q8_yes">Ya</label>
+                        </div>
+                        <div class="question">
+                            <label>9. Apakah Anda merasa gembira dalam sebagian besar waktu Anda?</label><br>
+                            <input type="radio" id="q9_no" name="q9" value="Tidak">
+                            <label for="q9_no">Tidak</label>
+                            <input type="radio" id="q9_yes" name="q9" value="Ya">
+                            <label for="q9_yes">Ya</label>
+                        </div>
+                        <div class="question">
+                            <label>10. Apakah Anda merasa tidak mungkin tertolong?</label><br>
+                            <input type="radio" id="q10_no" name="q10" value="Tidak">
+                            <label for="q10_no">Tidak</label>
+                            <input type="radio" id="q10_yes" name="q10" value="Ya">
+                            <label for="q10_yes">Ya</label>
+                        </div>
 
-                <!-- Kesimpulan Skala Depresi -->
-                <div style="text-align: left; margin: 20px;">
-    <p>Nilai 1 poin untuk setiap respon yang cocok dengan jawaban "Ya".</p>
-    <p>Normal (5±4), Depresi Ringan (15±6), Depresi Berat (23±5)</p>
-</div>
+                        <!-- Kesimpulan Skala Depresi -->
+                        <div style="text-align: left; margin: 20px;">
+                            <p>Nilai 1 poin untuk setiap respon yang cocok dengan jawaban "Ya".</p>
+                            <p>Normal (5±4), Depresi Ringan (15±6), Depresi Berat (23±5)</p>
+                        </div>
 
-<div style="text-align: left; margin-top: 20px;">
-    <p><em>Kesimpulan Skala Depresi Lansia:</em></p>
-    <form>
-        <div class="d-flex">
-            <textarea name="kesimpulan" rows="4" cols="50" placeholder="" class="form-control"></textarea>
-            <div class="col-sm-2 d-flex align-items-center ms-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                </div>
+                        <div style="text-align: left; margin-top: 20px;">
+                            <p><em>Kesimpulan Skala Depresi Lansia:</em></p>
+                            <form>
+                                <div class="d-flex">
+                                    <textarea name="kesimpulan" rows="4" cols="50" placeholder="" class="form-control"></textarea>
+                                    <div class="col-sm-2 d-flex align-items-center ms-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </div>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </form>
+                        </div>
             </div>
-        </div>
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-    </form>
-</div>
-                </div>
 
             </form>
         </div>
-    </div>
-</div>
+        </div>
+        </div>
 
-<div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+        <div class="card">
+            <div class="card-body">
+
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
                     <h5 class="card-title"><strong>XI. APGAR Gerontik</strong></h5>
 
-            <p>APGAR Gerontik ditujukan untuk mengkaji fungsi sosial lansia. A (Adaptasi), P (Partnership), G (Growth), A (Affection), R (Resolve)</p>
-            <p><strong>Penilaian:</strong></p>
-            <ul>
-                <li>&lt; 3: disfungsi Gerontik sangat tinggi</li>
-                <li>4-6: disfungsi Gerontik sedang</li>
-                <li>7-8: ringan</li>
-                <li>9-10: normal</li>
-            </ul>
-            <p><strong>Petunjuk:</strong> Silakan memberikan tanda centang pada pilihan jawaban yang sesuai dengan pernyataan Lansia.</p>
+                    <p>APGAR Gerontik ditujukan untuk mengkaji fungsi sosial lansia. A (Adaptasi), P (Partnership), G (Growth), A (Affection), R (Resolve)</p>
+                    <p><strong>Penilaian:</strong></p>
+                    <ul>
+                        <li>&lt; 3: disfungsi Gerontik sangat tinggi</li>
+                        <li>4-6: disfungsi Gerontik sedang</li>
+                        <li>7-8: ringan</li>
+                        <li>9-10: normal</li>
+                    </ul>
+                    <p><strong>Petunjuk:</strong> Silakan memberikan tanda centang pada pilihan jawaban yang sesuai dengan pernyataan Lansia.</p>
 
-            <form action="#">
-                <!-- Pertanyaan A -->
-                <div class="question">
-                    <label for="A">A. Saya puas bisa kembali pada Gerontik (teman) saya untuk membantu saya bila suatu waktu ada kondisi yang menyusahkan saya:</label><br>
-                    <input type="radio" id="A_selalu" name="A" value="2">
-                    <label for="A_selalu">Selalu (2)</label>
-                    <input type="radio" id="A_kadang" name="A" value="1">
-                    <label for="A_kadang">Kadang (1)</label>
-                    <input type="radio" id="A_tidak_pernah" name="A" value="0">
-                    <label for="A_tidak_pernah">Tidak pernah (0)</label>
-                </div>
+                    <form action="#">
+                        <!-- Pertanyaan A -->
+                        <div class="question">
+                            <label for="A">A. Saya puas bisa kembali pada Gerontik (teman) saya untuk membantu saya bila suatu waktu ada kondisi yang menyusahkan saya:</label><br>
+                            <input type="radio" id="A_selalu" name="A" value="2">
+                            <label for="A_selalu">Selalu (2)</label>
+                            <input type="radio" id="A_kadang" name="A" value="1">
+                            <label for="A_kadang">Kadang (1)</label>
+                            <input type="radio" id="A_tidak_pernah" name="A" value="0">
+                            <label for="A_tidak_pernah">Tidak pernah (0)</label>
+                        </div>
 
-                <!-- Pertanyaan P -->
-                <div class="question">
-                    <label for="P">P. Saya puas dengan cara Gerontik (teman) saya membicarakan sesuatu dan mengungkapkan masalah dengan saya:</label><br>
-                    <input type="radio" id="P_selalu" name="P" value="2">
-                    <label for="P_selalu">Selalu (2)</label>
-                    <input type="radio" id="P_kadang" name="P" value="1">
-                    <label for="P_kadang">Kadang (1)</label>
-                    <input type="radio" id="P_tidak_pernah" name="P" value="0">
-                    <label for="P_tidak_pernah">Tidak pernah (0)</label>
-                </div>
+                        <!-- Pertanyaan P -->
+                        <div class="question">
+                            <label for="P">P. Saya puas dengan cara Gerontik (teman) saya membicarakan sesuatu dan mengungkapkan masalah dengan saya:</label><br>
+                            <input type="radio" id="P_selalu" name="P" value="2">
+                            <label for="P_selalu">Selalu (2)</label>
+                            <input type="radio" id="P_kadang" name="P" value="1">
+                            <label for="P_kadang">Kadang (1)</label>
+                            <input type="radio" id="P_tidak_pernah" name="P" value="0">
+                            <label for="P_tidak_pernah">Tidak pernah (0)</label>
+                        </div>
 
-                <!-- Pertanyaan G -->
-                <div class="question">
-                    <label for="G">G. Saya puas bahwa Gerontik (teman) saya menerima dan mendukung keinginan untuk melakukan aktivitas:</label><br>
-                    <input type="radio" id="G_selalu" name="G" value="2">
-                    <label for="G_selalu">Selalu (2)</label>
-                    <input type="radio" id="G_kadang" name="G" value="1">
-                    <label for="G_kadang">Kadang (1)</label>
-                    <input type="radio" id="G_tidak_pernah" name="G" value="0">
-                    <label for="G_tidak_pernah">Tidak pernah (0)</label>
-                </div>
+                        <!-- Pertanyaan G -->
+                        <div class="question">
+                            <label for="G">G. Saya puas bahwa Gerontik (teman) saya menerima dan mendukung keinginan untuk melakukan aktivitas:</label><br>
+                            <input type="radio" id="G_selalu" name="G" value="2">
+                            <label for="G_selalu">Selalu (2)</label>
+                            <input type="radio" id="G_kadang" name="G" value="1">
+                            <label for="G_kadang">Kadang (1)</label>
+                            <input type="radio" id="G_tidak_pernah" name="G" value="0">
+                            <label for="G_tidak_pernah">Tidak pernah (0)</label>
+                        </div>
 
-                <!-- Pertanyaan A2 -->
-                <div class="question">
-                    <label for="A2">A. Saya puas dengan cara Gerontik (teman) saya mengekspresikan afek dan berespon terhadap emosi saya seperti marah, sedih, atau mencintai:</label><br>
-                    <input type="radio" id="A2_selalu" name="A2" value="2">
-                    <label for="A2_selalu">Selalu (2)</label>
-                    <input type="radio" id="A2_kadang" name="A2" value="1">
-                    <label for="A2_kadang">Kadang (1)</label>
-                    <input type="radio" id="A2_tidak_pernah" name="A2" value="0">
-                    <label for="A2_tidak_pernah">Tidak pernah (0)</label>
-                </div>
+                        <!-- Pertanyaan A2 -->
+                        <div class="question">
+                            <label for="A2">A. Saya puas dengan cara Gerontik (teman) saya mengekspresikan afek dan berespon terhadap emosi saya seperti marah, sedih, atau mencintai:</label><br>
+                            <input type="radio" id="A2_selalu" name="A2" value="2">
+                            <label for="A2_selalu">Selalu (2)</label>
+                            <input type="radio" id="A2_kadang" name="A2" value="1">
+                            <label for="A2_kadang">Kadang (1)</label>
+                            <input type="radio" id="A2_tidak_pernah" name="A2" value="0">
+                            <label for="A2_tidak_pernah">Tidak pernah (0)</label>
+                        </div>
 
-                <!-- Pertanyaan R -->
-                <div class="question">
-                    <label for="R">R. Saya puas dengan cara teman saya menyediakan waktu secara bersama-sama:</label><br>
-                    <input type="radio" id="R_selalu" name="R" value="2">
-                    <label for="R_selalu">Selalu (2)</label>
-                    <input type="radio" id="R_kadang" name="R" value="1">
-                    <label for="R_kadang">Kadang (1)</label>
-                    <input type="radio" id="R_tidak_pernah" name="R" value="0">
-                    <label for="R_tidak_pernah">Tidak pernah (0)</label>
-                </div>
-            </form>
+                        <!-- Pertanyaan R -->
+                        <div class="question">
+                            <label for="R">R. Saya puas dengan cara teman saya menyediakan waktu secara bersama-sama:</label><br>
+                            <input type="radio" id="R_selalu" name="R" value="2">
+                            <label for="R_selalu">Selalu (2)</label>
+                            <input type="radio" id="R_kadang" name="R" value="1">
+                            <label for="R_kadang">Kadang (1)</label>
+                            <input type="radio" id="R_tidak_pernah" name="R" value="0">
+                            <label for="R_tidak_pernah">Tidak pernah (0)</label>
+                        </div>
+                    </form>
 
-            <!-- Kesimpulan APGAR Gerontik -->
-            <div style="text-align: left; margin-top: 20px;">
-    <p><em>Kesimpulan APGAR Gerontik:</em></p>
-    <form>
-        <div class="d-flex align-items-center">
-            <textarea name="kesimpulan_apgar" rows="4" cols="50" placeholder="" class="form-control"></textarea>
-            <div class="col-sm-2 d-flex justify-content-start align-items-center ms-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                </div>
+                    <!-- Kesimpulan APGAR Gerontik -->
+                    <div style="text-align: left; margin-top: 20px;">
+                        <p><em>Kesimpulan APGAR Gerontik:</em></p>
+                        <form>
+                            <div class="d-flex align-items-center">
+                                <textarea name="kesimpulan_apgar" rows="4" cols="50" placeholder="" class="form-control"></textarea>
+                                <div class="col-sm-2 d-flex justify-content-start align-items-center ms-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </div>
+                            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                        </form>
+                    </div>
             </div>
         </div>
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-    </form>
-</div>
         </div>
-    </div>
-</div>
-<div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+        <div class="card">
+            <div class="card-body">
+
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
                     <h5 class="card-title"><strong>XII. Pemeriksaan Short Portable Status Questionnaire (SPMSQ)</strong></h5>
 
-            <p>Digunakan untuk mendeteksi adanya tingkat gangguan intelektual/memori. Catatlah jumlah kesalahan dari semua pertanyaan, berikan tanda centang pada kolom B (Jawaban lansia benar) atau S (Jawaban lansia salah).</p>
+                    <p>Digunakan untuk mendeteksi adanya tingkat gangguan intelektual/memori. Catatlah jumlah kesalahan dari semua pertanyaan, berikan tanda centang pada kolom B (Jawaban lansia benar) atau S (Jawaban lansia salah).</p>
 
-            <form action="#">
-                <table style="width:100%; margin-top: 20px; text-align: left;">
-                    <thead>
-                        <tr>
-                            <th>B</th>
-                            <th>S</th>
-                            <th>No</th>
-                            <th>Pertanyaan</th>
-                            <th>Jawaban Lansia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Pertanyaan 1 -->
-                        <tr>
-                            <td><input type="radio" name="q1" value="B"></td>
-                            <td><input type="radio" name="q1" value="S"></td>
-                            <td>1</td>
-                            <td>Tanggal berapa hari ini? (Hari/Tanggal/Tahun)</td>
-                            <td><input type="text" name="jawaban1"></td>
-                        </tr>
+                    <form action="#">
+                        <table style="width:100%; margin-top: 20px; text-align: left;">
+                            <thead>
+                                <tr>
+                                    <th>B</th>
+                                    <th>S</th>
+                                    <th>No</th>
+                                    <th>Pertanyaan</th>
+                                    <th>Jawaban Lansia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Pertanyaan 1 -->
+                                <tr>
+                                    <td><input type="radio" name="q1" value="B"></td>
+                                    <td><input type="radio" name="q1" value="S"></td>
+                                    <td>1</td>
+                                    <td>Tanggal berapa hari ini? (Hari/Tanggal/Tahun)</td>
+                                    <td><input type="text" name="jawaban1"></td>
+                                </tr>
 
-                        <!-- Pertanyaan 2 -->
-                        <tr>
-                            <td><input type="radio" name="q2" value="B"></td>
-                            <td><input type="radio" name="q2" value="S"></td>
-                            <td>2</td>
-                            <td>Hari apa sekarang?</td>
-                            <td><input type="text" name="jawaban2"></td>
-                        </tr>
+                                <!-- Pertanyaan 2 -->
+                                <tr>
+                                    <td><input type="radio" name="q2" value="B"></td>
+                                    <td><input type="radio" name="q2" value="S"></td>
+                                    <td>2</td>
+                                    <td>Hari apa sekarang?</td>
+                                    <td><input type="text" name="jawaban2"></td>
+                                </tr>
 
-                        <!-- Pertanyaan 3 -->
-                        <tr>
-                            <td><input type="radio" name="q3" value="B"></td>
-                            <td><input type="radio" name="q3" value="S"></td>
-                            <td>3</td>
-                            <td>Apa nama tempat/kelurahan ini?</td>
-                            <td><input type="text" name="jawaban3"></td>
-                        </tr>
+                                <!-- Pertanyaan 3 -->
+                                <tr>
+                                    <td><input type="radio" name="q3" value="B"></td>
+                                    <td><input type="radio" name="q3" value="S"></td>
+                                    <td>3</td>
+                                    <td>Apa nama tempat/kelurahan ini?</td>
+                                    <td><input type="text" name="jawaban3"></td>
+                                </tr>
 
-                        <!-- Pertanyaan 4 -->
-                        <tr>
-                            <td><input type="radio" name="q4" value="B"></td>
-                            <td><input type="radio" name="q4" value="S"></td>
-                            <td>4</td>
-                            <td>Dimana alamat lengkap Anda?</td>
-                            <td><input type="text" name="jawaban4"></td>
-                        </tr>
+                                <!-- Pertanyaan 4 -->
+                                <tr>
+                                    <td><input type="radio" name="q4" value="B"></td>
+                                    <td><input type="radio" name="q4" value="S"></td>
+                                    <td>4</td>
+                                    <td>Dimana alamat lengkap Anda?</td>
+                                    <td><input type="text" name="jawaban4"></td>
+                                </tr>
 
-                        <!-- Pertanyaan 5 -->
-                        <tr>
-                            <td><input type="radio" name="q5" value="B"></td>
-                            <td><input type="radio" name="q5" value="S"></td>
-                            <td>5</td>
-                            <td>Berapa umur Anda?</td>
-                            <td><input type="text" name="jawaban5"></td>
-                        </tr>
+                                <!-- Pertanyaan 5 -->
+                                <tr>
+                                    <td><input type="radio" name="q5" value="B"></td>
+                                    <td><input type="radio" name="q5" value="S"></td>
+                                    <td>5</td>
+                                    <td>Berapa umur Anda?</td>
+                                    <td><input type="text" name="jawaban5"></td>
+                                </tr>
 
-                        <!-- Pertanyaan 6 -->
-                        <tr>
-                            <td><input type="radio" name="q6" value="B"></td>
-                            <td><input type="radio" name="q6" value="S"></td>
-                            <td>6</td>
-                            <td>Kapan Anda lahir?</td>
-                            <td><input type="text" name="jawaban6"></td>
-                        </tr>
+                                <!-- Pertanyaan 6 -->
+                                <tr>
+                                    <td><input type="radio" name="q6" value="B"></td>
+                                    <td><input type="radio" name="q6" value="S"></td>
+                                    <td>6</td>
+                                    <td>Kapan Anda lahir?</td>
+                                    <td><input type="text" name="jawaban6"></td>
+                                </tr>
 
-                        <!-- Pertanyaan 7 -->
-                        <tr>
-                            <td><input type="radio" name="q7" value="B"></td>
-                            <td><input type="radio" name="q7" value="S"></td>
-                            <td>7</td>
-                            <td>Presiden Indonesia sekarang?</td>
-                            <td><input type="text" name="jawaban7"></td>
-                        </tr>
+                                <!-- Pertanyaan 7 -->
+                                <tr>
+                                    <td><input type="radio" name="q7" value="B"></td>
+                                    <td><input type="radio" name="q7" value="S"></td>
+                                    <td>7</td>
+                                    <td>Presiden Indonesia sekarang?</td>
+                                    <td><input type="text" name="jawaban7"></td>
+                                </tr>
 
-                        <!-- Pertanyaan 8 -->
-                        <tr>
-                            <td><input type="radio" name="q8" value="B"></td>
-                            <td><input type="radio" name="q8" value="S"></td>
-                            <td>8</td>
-                            <td>Siapa nama presidennya sebelumnya?</td>
-                            <td><input type="text" name="jawaban8"></td>
-                        </tr>
+                                <!-- Pertanyaan 8 -->
+                                <tr>
+                                    <td><input type="radio" name="q8" value="B"></td>
+                                    <td><input type="radio" name="q8" value="S"></td>
+                                    <td>8</td>
+                                    <td>Siapa nama presidennya sebelumnya?</td>
+                                    <td><input type="text" name="jawaban8"></td>
+                                </tr>
 
-                        <!-- Pertanyaan 9 -->
-                        <tr>
-                            <td><input type="radio" name="q9" value="B"></td>
-                            <td><input type="radio" name="q9" value="S"></td>
-                            <td>9</td>
-                            <td>Siapa nama kecil ibu Anda?</td>
-                            <td><input type="text" name="jawaban9"></td>
-                        </tr>
+                                <!-- Pertanyaan 9 -->
+                                <tr>
+                                    <td><input type="radio" name="q9" value="B"></td>
+                                    <td><input type="radio" name="q9" value="S"></td>
+                                    <td>9</td>
+                                    <td>Siapa nama kecil ibu Anda?</td>
+                                    <td><input type="text" name="jawaban9"></td>
+                                </tr>
 
-                        <!-- Pertanyaan 10 -->
-                        <tr>
-                            <td><input type="radio" name="q10" value="B"></td>
-                            <td><input type="radio" name="q10" value="S"></td>
-                            <td>10</td>
-                            <td>Perhitungan: 20-3 = … kemudian hasilnya dikurangi 3 terus hasilnya lagi dikurang 3 sampai mendapat angka 0.</td>
-                            <td><input type="text" name="jawaban10"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            
+                                <!-- Pertanyaan 10 -->
+                                <tr>
+                                    <td><input type="radio" name="q10" value="B"></td>
+                                    <td><input type="radio" name="q10" value="S"></td>
+                                    <td>10</td>
+                                    <td>Perhitungan: 20-3 = … kemudian hasilnya dikurangi 3 terus hasilnya lagi dikurang 3 sampai mendapat angka 0.</td>
+                                    <td><input type="text" name="jawaban10"></td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-            <!-- Kesimpulan Pemeriksaan SPMSQ -->
-           <div style="text-align: left; margin-top: 20px;">
-    <p><em>Kesimpulan Pemeriksaan SPMSQ:</em></p>
-    <form>
-        <div class="d-flex align-items-center">
-            <textarea name="kesimpulan_spmsq" rows="4" cols="50" placeholder="Masukkan kesimpulan di sini..." class="form-control"></textarea>
-            <div class="col-sm-2 d-flex justify-content-start align-items-center ms-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                </div>
+
+                        <!-- Kesimpulan Pemeriksaan SPMSQ -->
+                        <div style="text-align: left; margin-top: 20px;">
+                            <p><em>Kesimpulan Pemeriksaan SPMSQ:</em></p>
+                            <form>
+                                <div class="d-flex align-items-center">
+                                    <textarea name="kesimpulan_spmsq" rows="4" cols="50" placeholder="Masukkan kesimpulan di sini..." class="form-control"></textarea>
+                                    <div class="col-sm-2 d-flex justify-content-start align-items-center ms-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </div>
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                            </form>
+                        </div>
+
+                        <!-- General Form Elements -->
+                        <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                            <h5 class="card-title"><strong>Kriteria Penilaian</strong></h5>
+                            <!-- Kriteria Penilaian -->
+
+                            <p>Kesalahan 0-2 = Fungsi intelektual utuh</p>
+                            <p>Kesalahan 3-4 = Gangguan intelektual ringan</p>
+                            <p>Kesalahan 5-7 = Gangguan intelektual sedang</p>
+                            <p>Kesalahan 8-10 = Gangguan intelektual berat</p>
             </div>
         </div>
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-    </form>
-</div>
- 
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                    <h5 class="card-title"><strong>Kriteria Penilaian</strong></h5>
-        <!-- Kriteria Penilaian -->
-       
-            <p>Kesalahan 0-2 = Fungsi intelektual utuh</p>
-            <p>Kesalahan 3-4 = Gangguan intelektual ringan</p>
-            <p>Kesalahan 5-7 = Gangguan intelektual sedang</p>
-            <p>Kesalahan 8-10 = Gangguan intelektual berat</p>
         </div>
-    </div>
-</div>
-<div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+        <div class="card">
+            <div class="card-body">
+
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
                     <h5 class="card-title"><strong>XIII. Skala Jatuh Pada Lansia - Ontario Modified Stratify-Sydney Scoring</strong></h5>
 
-            <div class="container">
-                <form action="#">
-                    <table border="1" cellpadding="10" cellspacing="0" style="width:100%; margin-top: 20px; text-align: left;">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Parameter</th>
-                                <th>Skrining</th>
-                                <th>Jawaban</th>
-                                <th>Keterangan Nilai</th>
-                                <th>Skor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Riwayat Jatuh -->
-                            <tr>
-                                <td>1</td>
-                                <td>Riwayat jatuh</td>
-                                <td>1. Apakah pasien datang ke rumah sakit karena jatuh?</td>
-                                <td>
-                                    <input type="radio" name="riwayat_jatuh_1" value="Y"> Ya
-                                    <input type="radio" name="riwayat_jatuh_1" value="T"> Tidak
-                                </td>
-                                <td>Jika jawaban "Ya" = 6</td>
-                                <td><input type="number" name="skor_riwayat_jatuh_1" placeholder="Masukkan skor" min="0" max="6"></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>2. Jika tidak, apakah klien pernah jatuh dalam dua bulan terakhir?</td>
-                                <td>
-                                    <input type="radio" name="riwayat_jatuh_2" value="Y"> Ya
-                                    <input type="radio" name="riwayat_jatuh_2" value="T"> Tidak
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                    <div class="container">
+                        <form action="#">
+                            <table border="1" cellpadding="10" cellspacing="0" style="width:100%; margin-top: 20px; text-align: left;">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Parameter</th>
+                                        <th>Skrining</th>
+                                        <th>Jawaban</th>
+                                        <th>Keterangan Nilai</th>
+                                        <th>Skor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Riwayat Jatuh -->
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Riwayat jatuh</td>
+                                        <td>1. Apakah pasien datang ke rumah sakit karena jatuh?</td>
+                                        <td>
+                                            <input type="radio" name="riwayat_jatuh_1" value="Y"> Ya
+                                            <input type="radio" name="riwayat_jatuh_1" value="T"> Tidak
+                                        </td>
+                                        <td>Jika jawaban "Ya" = 6</td>
+                                        <td><input type="number" name="skor_riwayat_jatuh_1" placeholder="Masukkan skor" min="0" max="6"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>2. Jika tidak, apakah klien pernah jatuh dalam dua bulan terakhir?</td>
+                                        <td>
+                                            <input type="radio" name="riwayat_jatuh_2" value="Y"> Ya
+                                            <input type="radio" name="riwayat_jatuh_2" value="T"> Tidak
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
 
-                            <!-- Status Mental -->
-                            <tr>
-                                <td>2</td>
-                                <td>Status mental</td>
-                                <td>1. Apakah pasien derilium (tidak dapat membuat keputusan, gangguan daya ingat)?</td>
-                                <td>
-                                    <input type="radio" name="status_mental_1" value="Y"> Ya
-                                    <input type="radio" name="status_mental_1" value="T"> Tidak
-                                </td>
-                                <td>Jika jawaban "Ya" = 14</td>
-                                <td><input type="number" name="skor_status_mental_1" placeholder="Masukkan skor" min="0" max="14"></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>2. Apakah pasien disorientasi (salah menyebutkan waktu dan tempat)?</td>
-                                <td>
-                                    <input type="radio" name="status_mental_2" value="Y"> Ya
-                                    <input type="radio" name="status_mental_2" value="T"> Tidak
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>3. Apakah pasien mengalami agitasi (ketakutan, gelisah, dan cemas)?</td>
-                                <td>
-                                    <input type="radio" name="status_mental_3" value="Y"> Ya
-                                    <input type="radio" name="status_mental_3" value="T"> Tidak
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                                    <!-- Status Mental -->
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Status mental</td>
+                                        <td>1. Apakah pasien derilium (tidak dapat membuat keputusan, gangguan daya ingat)?</td>
+                                        <td>
+                                            <input type="radio" name="status_mental_1" value="Y"> Ya
+                                            <input type="radio" name="status_mental_1" value="T"> Tidak
+                                        </td>
+                                        <td>Jika jawaban "Ya" = 14</td>
+                                        <td><input type="number" name="skor_status_mental_1" placeholder="Masukkan skor" min="0" max="14"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>2. Apakah pasien disorientasi (salah menyebutkan waktu dan tempat)?</td>
+                                        <td>
+                                            <input type="radio" name="status_mental_2" value="Y"> Ya
+                                            <input type="radio" name="status_mental_2" value="T"> Tidak
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>3. Apakah pasien mengalami agitasi (ketakutan, gelisah, dan cemas)?</td>
+                                        <td>
+                                            <input type="radio" name="status_mental_3" value="Y"> Ya
+                                            <input type="radio" name="status_mental_3" value="T"> Tidak
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
 
-                            <!-- Penglihatan -->
-                            <tr>
-                                <td>3</td>
-                                <td>Penglihatan</td>
-                                <td>1. Apakah pasien menggunakan kacamata?</td>
-                                <td>
-                                    <input type="radio" name="penglihatan_1" value="Y"> Ya
-                                    <input type="radio" name="penglihatan_1" value="T"> Tidak
-                                </td>
-                                <td>Jika jawaban "Ya" = 1</td>
-                                <td><input type="number" name="skor_penglihatan_1" placeholder="Masukkan skor" min="0" max="1"></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>2. Apakah pasien mengeluh penglihatan buram?</td>
-                                <td>
-                                    <input type="radio" name="penglihatan_2" value="Y"> Ya
-                                    <input type="radio" name="penglihatan_2" value="T"> Tidak
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>3. Apakah pasien mempunyai glaukoma/katarak/degenerasi makula?</td>
-                                <td>
-                                    <input type="radio" name="penglihatan_3" value="Y"> Ya
-                                    <input type="radio" name="penglihatan_3" value="T"> Tidak
-                                </td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                                    <!-- Penglihatan -->
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Penglihatan</td>
+                                        <td>1. Apakah pasien menggunakan kacamata?</td>
+                                        <td>
+                                            <input type="radio" name="penglihatan_1" value="Y"> Ya
+                                            <input type="radio" name="penglihatan_1" value="T"> Tidak
+                                        </td>
+                                        <td>Jika jawaban "Ya" = 1</td>
+                                        <td><input type="number" name="skor_penglihatan_1" placeholder="Masukkan skor" min="0" max="1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>2. Apakah pasien mengeluh penglihatan buram?</td>
+                                        <td>
+                                            <input type="radio" name="penglihatan_2" value="Y"> Ya
+                                            <input type="radio" name="penglihatan_2" value="T"> Tidak
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>3. Apakah pasien mempunyai glaukoma/katarak/degenerasi makula?</td>
+                                        <td>
+                                            <input type="radio" name="penglihatan_3" value="Y"> Ya
+                                            <input type="radio" name="penglihatan_3" value="T"> Tidak
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
 
-                            <!-- Kebiasaan Berkemih -->
-                            <tr>
-                                <td>4</td>
-                                <td>Kebiasaan Berkemih</td>
-                                <td>Apakah terdapat perubahan perilaku berkemih (urgensi, frekuensi, inkontinensia, nokturia)?</td>
-                                <td>
-                                    <input type="radio" name="berkemih" value="Y"> Ya
-                                    <input type="radio" name="berkemih" value="T"> Tidak
-                                </td>
-                                <td>Jika jawaban "Ya" = 2</td>
-                                <td><input type="number" name="skor_berkemih" placeholder="Masukkan skor" min="0" max="2"></td>
-                            </tr>
+                                    <!-- Kebiasaan Berkemih -->
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Kebiasaan Berkemih</td>
+                                        <td>Apakah terdapat perubahan perilaku berkemih (urgensi, frekuensi, inkontinensia, nokturia)?</td>
+                                        <td>
+                                            <input type="radio" name="berkemih" value="Y"> Ya
+                                            <input type="radio" name="berkemih" value="T"> Tidak
+                                        </td>
+                                        <td>Jika jawaban "Ya" = 2</td>
+                                        <td><input type="number" name="skor_berkemih" placeholder="Masukkan skor" min="0" max="2"></td>
+                                    </tr>
 
-                            <!-- Transfer (Berpindah Tempat) -->
-                            <tr>
-                                <td>5</td>
-                                <td>Transfer (Berpindah Tempat)</td>
-                                <td>1. Mandiri (boleh memakai alat bantu):</td>
-                                <td><input type="radio" name="transfer_1" value="0"> 0</td>
-                                <td>Jumlah (gabungan nilai) </td>
-                                <td><input type="number" name="skor_transfer_1" placeholder="Masukkan skor" min="0" max="0"></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>2. Memerlukan sedikit bantuan orang dewasa (1 orang):</td>
-                                <td><input type="radio" name="transfer_2" value="1"> 1</td>
-                                <td>transfer dan mobilitas</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>3. Bantuan yang nyata 2 orang:</td>
-                                <td><input type="radio" name="transfer_3" value="2"> 2</td>
-                                <td>Jika nilai 0-3 maka skornya 0</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>4. Tidak dapat duduk seimbang, perlu bantuan total:</td>
-                                <td><input type="radio" name="transfer_4" value="3"> 3</td>
-                                <td>Jika nilai 4-6 maka skornya 7</td>
-                                <td></td>
-                            </tr>
+                                    <!-- Transfer (Berpindah Tempat) -->
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Transfer (Berpindah Tempat)</td>
+                                        <td>1. Mandiri (boleh memakai alat bantu):</td>
+                                        <td><input type="radio" name="transfer_1" value="0"> 0</td>
+                                        <td>Jumlah (gabungan nilai) </td>
+                                        <td><input type="number" name="skor_transfer_1" placeholder="Masukkan skor" min="0" max="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>2. Memerlukan sedikit bantuan orang dewasa (1 orang):</td>
+                                        <td><input type="radio" name="transfer_2" value="1"> 1</td>
+                                        <td>transfer dan mobilitas</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>3. Bantuan yang nyata 2 orang:</td>
+                                        <td><input type="radio" name="transfer_3" value="2"> 2</td>
+                                        <td>Jika nilai 0-3 maka skornya 0</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>4. Tidak dapat duduk seimbang, perlu bantuan total:</td>
+                                        <td><input type="radio" name="transfer_4" value="3"> 3</td>
+                                        <td>Jika nilai 4-6 maka skornya 7</td>
+                                        <td></td>
+                                    </tr>
 
-                            <!-- Mobilitas -->
-                            <tr>
-                                <td>6</td>
-                                <td>Mobilitas</td>
-                                <td>1. Mandiri (boleh menggunakan alat):</td>
-                                <td><input type="radio" name="mobilitas_1" value="0"> 0</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>2. Berjalan dengan bantuan 1 orang (fisik/verbal):</td>
-                                <td><input type="radio" name="mobilitas_2" value="1"> 1</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>3. Menggunakan kursi roda:</td>
-                                <td><input type="radio" name="mobilitas_3" value="2"> 2</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>4. Imobilisasi:</td>
-                                <td><input type="radio" name="mobilitas_4" value="3"> 3</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    <!-- Mobilitas -->
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Mobilitas</td>
+                                        <td>1. Mandiri (boleh menggunakan alat):</td>
+                                        <td><input type="radio" name="mobilitas_1" value="0"> 0</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>2. Berjalan dengan bantuan 1 orang (fisik/verbal):</td>
+                                        <td><input type="radio" name="mobilitas_2" value="1"> 1</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>3. Menggunakan kursi roda:</td>
+                                        <td><input type="radio" name="mobilitas_3" value="2"> 2</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>4. Imobilisasi:</td>
+                                        <td><input type="radio" name="mobilitas_4" value="3"> 3</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-                    <p>0-5  : risiko rendah,   6-16 : risiko sedang,  17-30 : risiko tinggi</p>
+                            <p>0-5 : risiko rendah, 6-16 : risiko sedang, 17-30 : risiko tinggi</p>
 
-                    <!-- Kesimpulan Penilaian -->
-                    <div style="text-align: left; margin-top: 20px;">
-    <p><em>Kesimpulan Penilaian:</em></p>
-    <form>
-        <div class="d-flex align-items-center">
-            <textarea name="kesimpulan_penilaian" rows="4" cols="50" placeholder="Masukkan kesimpulan di sini..." class="form-control"></textarea>
-            <div class="col-sm-2 d-flex justify-content-start align-items-center ms-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                </div>
+                            <!-- Kesimpulan Penilaian -->
+                            <div style="text-align: left; margin-top: 20px;">
+                                <p><em>Kesimpulan Penilaian:</em></p>
+                                <form>
+                                    <div class="d-flex align-items-center">
+                                        <textarea name="kesimpulan_penilaian" rows="4" cols="50" placeholder="Masukkan kesimpulan di sini..." class="form-control"></textarea>
+                                        <div class="col-sm-2 d-flex justify-content-start align-items-center ms-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                </form>
+                            </div>
+                        </form>
+                    </div>
             </div>
         </div>
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-    </form>
-</div>
-                </form>
-            </div>
         </div>
-    </div>
-</div>
 
-<div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+        <div class="card">
+            <div class="card-body">
+
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
                     <h5 class="card-title"><strong>XIV. Format Klasifikasi Data</strong></h5>
 
 
-       
-            <section class="section dashboard">
-     
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-                <!-- Bagian No. DX -->
+                    <section class="section dashboard">
 
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>DATA SUBJEKTIF</strong></label>
+                        <!-- General Form Elements -->
+                        <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-                        <div class="col-sm-9">
-                            <textarea name="nodx" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <!-- Bagian No. DX -->
 
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"><strong>DATA SUBJEKTIF</strong></label>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
+                                <div class="col-sm-9">
+                                    <textarea name="nodx" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+                                    <!-- comment -->
+                                    <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                </div>
+
+                                <div class="col-sm-1 d-flex align-items-start">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                    </div>
+                                </div>
                             </div>
-                         </div>
-                    </div> 
 
-                 
 
-                <!-- Bagian Implementasi -->
 
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>DATA OBJEKTIF</strong></label>
+                            <!-- Bagian Implementasi -->
 
-                        <div class="col-sm-9">
-                            <textarea name="implementasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"><strong>DATA OBJEKTIF</strong></label>
 
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentimplementasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
+                                <div class="col-sm-9">
+                                    <textarea name="implementasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
+                                    <!-- comment -->
+                                    <textarea class="form-control mt-2" id="commentimplementasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                </div>
+
+                                <div class="col-sm-1 d-flex align-items-start">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                    </div>
+                                </div>
                             </div>
-                         </div>
-                    </div> 
-                    
-                <!-- Bagian Button -->    
-                    <div class="row mb-3">
-                        <div class="col-sm-11 justify-content-end d-flex">
-                            <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div> 
 
-                    <h5 class="card-title mt-2"><strong>Format Klasifikasi Data</strong></h5>
+                            <!-- Bagian Button -->
+                            <div class="row mb-3">
+                                <div class="col-sm-11 justify-content-end d-flex">
+                                    <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </div>
 
-                    <style>
-                    .table-pemeriksaan {
-                        table-layout: fixed;
-                        width:100%
-                    }
+                            <h5 class="card-title mt-2"><strong>Format Klasifikasi Data</strong></h5>
 
-                    .table-pemeriksaan td,
-                    .table-pemeriksaan th {
-                        word-wrap: break-word;
-                        white-space: normal;
-                        vertical-align: top;
-                    }
-                    </style>
+                            <style>
+                                .table-pemeriksaan {
+                                    table-layout: fixed;
+                                    width: 100%
+                                }
 
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-center">DATA SUBJEKTIF </th>
-                                <th class="text-center">DATA OBJEKTIF</th>
-                        </tr>
-                        </thead>
+                                .table-pemeriksaan td,
+                                .table-pemeriksaan th {
+                                    word-wrap: break-word;
+                                    white-space: normal;
+                                    vertical-align: top;
+                                }
+                            </style>
 
-                    <tbody>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">DATA SUBJEKTIF </th>
+                                        <th class="text-center">DATA OBJEKTIF</th>
+                                    </tr>
+                                </thead>
 
-                    <?php
-                    if(!empty($data)){
-                        foreach($data as $row){
-                            echo "<tr>
-                            <td>".$row['DATA_SUBJEKTIF ']."</td>
-                            <td>".$row['DATA_OBJEKTIF']."</td>
+                                <tbody>
+
+                                    <?php
+                                    if (!empty($data)) {
+                                        foreach ($data as $row) {
+                                            echo "<tr>
+                            <td>" . $row['DATA_SUBJEKTIF '] . "</td>
+                            <td>" . $row['DATA_OBJEKTIF'] . "</td>
                             </tr>";
-                        }
-                    }
-                    ?>
-
-                    </tbody>
-                    </table>    
-        </div>
-    </div>
-</div>
-
-<section class="section dashboard">
-        <div class="card">
-            <div class="card-body">
-              <h5 class="card-title mb-1"><strong>XV. Analisa Data</strong></h5>
-
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                <!-- Bagian No. DX -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>No</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="no" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-
-                <!-- Bagian Hari/Tanggal -->
-
-                    <div class="row mb-3">
-                        <label for="hari_tgl" class="col-sm-2 col-form-label"><strong>DATA</strong></label>
-
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="DATA" name="DATA">
-                            
-                             <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenthari_tgl" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
-                <!-- Bagian Jam -->
-
-                    <div class="row mb-3">
-                        <label for="jam" class="col-sm-2 col-form-label"><strong>ETILOGI</strong></label>
-
-                        <div class="col-sm-9">
-                             <input type="text" class="form-control" id="ETILOGI" name="ETILOGI">
-                            
-                             <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentjam" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-
-                <!-- Bagian Implementasi -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>MASALAH</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="MASALAH" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentimplementasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-                    
-                <!-- Bagian Button -->    
-                    <div class="row mb-3">
-                        <div class="col-sm-11 justify-content-end d-flex">
-                            <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div> 
-
-                    <h5 class="card-title mt-2"><strong>Analisa Data</strong></h5>
-
-                    <style>
-                    .table-pemeriksaan {
-                        table-layout: fixed;
-                        width:100%
-                    }
-
-                    .table-pemeriksaan td,
-                    .table-pemeriksaan th {
-                        word-wrap: break-word;
-                        white-space: normal;
-                        vertical-align: top;
-                    }
-                    </style>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th class="text-center">DATA</th>
-                                <th class="text-center">ETILOGI</th>
-                                <th class="text-center">MASALAH</th>
-                        </tr>
-                        </thead>
-
-                    <tbody>
-
-                    <?php
-                    if(!empty($data)){
-                        foreach($data as $row){
-                            echo "<tr>
-                            <td>".$row['NO']."</td>
-                            <td>".$row['DATA']."</td>
-                            <td>".$row['ETILOGI']."</td>
-                            <td>".$row['MASALAH']."</td>
-                            </tr>";
-                        }
-                    }
-                    ?>
-
-                    </tbody>
-                    </table>    
-
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                    <h5 class="card-title"><strong>B. DIAGNOSA KEPERAWATAN PRIORITAS</strong></h5>
-
-
-
-       
-            <section class="section dashboard">
-     
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                <!-- Bagian No. DX -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>DIAGNOSA KEPERAWATAN PRIOROTAS</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="nodx" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-
-                 
-
-                
-                    
-                <!-- Bagian Button -->    
-                    <div class="row mb-3">
-                        <div class="col-sm-11 justify-content-end d-flex">
-                            <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div> 
-
-                    <h5 class="card-title mt-2"><strong>Format Klasifikasi Data</strong></h5>
-
-                    <style>
-                    .table-pemeriksaan {
-                        table-layout: fixed;
-                        width:100%
-                    }
-
-                    .table-pemeriksaan td,
-                    .table-pemeriksaan th {
-                        word-wrap: break-word;
-                        white-space: normal;
-                        vertical-align: top;
-                    }
-                    </style>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Diagnosa Keperawatan Priorotas </th>
-                        </tr>
-                        </thead>
-
-                    <tbody>
-
-                    <?php
-                    if(!empty($data)){
-                        foreach($data as $row){
-                            echo "<tr>
-                            <td>".$row['Diagnosa_Keperawatan_Priorotas ']."</td>
-                            </tr>";
-                        }
-                    }
-                    ?>
-
-                    </tbody>
-                    </table>    
-        </div>
-    </div>
-</div>
-
-
-      
-<div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                    <h5 class="card-title"><strong>C. RENCANAN KEPERAWATAN</strong></h5>
-
-
-
-        <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Nama Lansia</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="nama">
-                   
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
-                            </div>
-                         </div>
-                    </div>
-                     <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Umur</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="nama">
-                   
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
-                            </div>
-                         </div>
-                    </div>
- <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="nama">
-                   
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
-                            </div>
-                         </div>
-                    </div>
-       
-            
-
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                <!-- Bagian No. DX -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>No</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="no" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-
-                <!-- Bagian Hari/Tanggal -->
-
-                    <div class="row mb-3">
-                        <label for="Diagnosa_Keperawatan" class="col-sm-2 col-form-label"><strong>Diagnosa Keperawatan</strong></label>
-
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="hari_tgl" name="hari_tgl">
-                            
-                             <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenthari_tgl" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
-                <!-- Bagian Jam -->
-
-                    <div class="row mb-3">
-                        <label for="jam" class="col-sm-2 col-form-label"><strong>Tujuan & Kriteria Hasil</strong></label>
-
-                        <div class="col-sm-9">
-                             <input type="text" class="form-control" id="Tujuan_Kriteria Hasil" name="Tujuan_Kriteria Hasil">
-                            
-                             <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentjam" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-
-                <!-- Bagian Implementasi -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Intervensi</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="Intervensi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentimplementasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-                    
-                <!-- Bagian Button -->    
-                    <div class="row mb-3">
-                        <div class="col-sm-11 justify-content-end d-flex">
-                            <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div> 
-
-                    <h5 class="card-title mt-2"><strong>Implementasi Keperawatan</strong></h5>
-
-                    <style>
-                    .table-pemeriksaan {
-                        table-layout: fixed;
-                        width:100%
-                    }
-
-                    .table-pemeriksaan td,
-                    .table-pemeriksaan th {
-                        word-wrap: break-word;
-                        white-space: normal;
-                        vertical-align: top;
-                    }
-                    </style>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-center">No.</th>
-                                <th class="text-center">Diagnosa Keperawatan</th>
-                                <th class="text-center">Tujuan & Kriteria Hasil</th>
-                                <th class="text-center">Intervensi</th>
-                        </tr>
-                        </thead>
-
-                    <tbody>
-
-                    <?php
-                    if(!empty($data)){
-                        foreach($data as $row){
-                            echo "<tr>
-                            <td>".$row['no']."</td>
-                            <td>".$row['Diagnosa_Keperawatan']."</td>
-                            <td>".$row['Tujuan_Kriteria Hasil']."</td>
-                            <td>".$row['Intervensi']."</td>
-                            </tr>";
-                        }
-                    }
-                    ?>
-
-                    </tbody>
-                    </table>    
-        </div>
-    </div>
-
-    <div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                    <h5 class="card-title"><strong>D.	IMPLEMENTASI KEPERAWATAN</strong></h5>
-
-
-
-        <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Nama Lansia</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="nama">
-                   
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
-                            </div>
-                         </div>
-                    </div>
-                     <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Umur</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="nama">
-                   
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
-                            </div>
-                         </div>
-                    </div>
- <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="nama">
-                   
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
-                            </div>
-                         </div>
-                    </div>
-       
-            
-
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                <!-- Bagian No. DX -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>No. DX</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="nodx" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-
-                <!-- Bagian Hari/Tanggal -->
-
-                    <div class="row mb-3">
-                        <label for="hari_tgl" class="col-sm-2 col-form-label"><strong>Hari/Tanggal</strong></label>
-
-                        <div class="col-sm-9">
-                            <input type="datetime-local" class="form-control" id="hari_tgl" name="hari_tgl">
-                            
-                             <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenthari_tgl" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
-                <!-- Bagian Jam -->
-
-                    <div class="row mb-3">
-                        <label for="jam" class="col-sm-2 col-form-label"><strong>Jam</strong></label>
-
-                        <div class="col-sm-9">
-                             <input type="time" class="form-control" id="jam" name="jam">
-                            
-                             <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentjam" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-
-                <!-- Bagian Implementasi -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Implementasi</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="implementasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentimplementasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-                    
-                <!-- Bagian Button -->    
-                    <div class="row mb-3">
-                        <div class="col-sm-11 justify-content-end d-flex">
-                            <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div> 
-
-                    <h5 class="card-title mt-2"><strong>Implementasi Keperawatan</strong></h5>
-
-                    <style>
-                    .table-pemeriksaan {
-                        table-layout: fixed;
-                        width:100%
-                    }
-
-                    .table-pemeriksaan td,
-                    .table-pemeriksaan th {
-                        word-wrap: break-word;
-                        white-space: normal;
-                        vertical-align: top;
-                    }
-                    </style>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-center">No. Dx </th>
-                                <th class="text-center">Hari/Tanggal</th>
-                                <th class="text-center">Jam</th>
-                                <th class="text-center">Implementasi</th>
-                        </tr>
-                        </thead>
-
-                    <tbody>
-
-                    <?php
-                    if(!empty($data)){
-                        foreach($data as $row){
-                            echo "<tr>
-                            <td>".$row['no_dx']."</td>
-                            <td>".$row['hari_tgl']."</td>
-                            <td>".$row['jam']."</td>
-                            <td>".$row['implementasi']."</td>
-                            </tr>";
-                        }
-                    }
-                    ?>
-
-                    </tbody>
-                    </table>    
-        </div>
-    </div>
-</div>
-
-
-    <div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                    <h5 class="card-title"><strong>E. Evaluasi Keperawatan</strong></h5>
-
-
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                <!-- Bagian No. DX -->
-
-                 
-
-                <!-- Bagian Hari/Tanggal -->
-
-                    <div class="row mb-3">
-                        <label for="hari_tgl" class="col-sm-2 col-form-label"><strong>Hari/Tgl/Jam</strong></label>
-
-                        <div class="col-sm-9">
-                            <input type="datetime-local" class="form-control" id="hari_tgl" name="hari_tgl">
-                            
-                             <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenthari_tgl" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
-                <!-- Bagian Jam -->
-
-               
-
-                <!-- Bagian Implementasi -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>SOAP</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="implementasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentimplementasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-                    
-                <!-- Bagian Button -->    
-                    <div class="row mb-3">
-                        <div class="col-sm-11 justify-content-end d-flex">
-                            <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div> 
-
-                    <h5 class="card-title mt-2"><strong>Evaluasi Keperawatan</strong></h5>
-
-                    <style>
-                    .table-pemeriksaan {
-                        table-layout: fixed;
-                        width:100%
-                    }
-
-                    .table-pemeriksaan td,
-                    .table-pemeriksaan th {
-                        word-wrap: break-word;
-                        white-space: normal;
-                        vertical-align: top;
-                    }
-                    </style>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                
-                                <th class="text-center">Hari/Tanggal/Jam</th>
-                                <th class="text-center">SOAP</th>
-                        </tr>
-                        </thead>
-
-                    <tbody>
-
-                    <?php
-                    if(!empty($data)){
-                        foreach($data as $row){
-                            echo "<tr>
-                            <td>".$row['hari_tgl_Jam']."</td>
-                            <td>".$row['SOAP']."</td>
-                            </tr>";
-                        }
-                    }
-                    ?>
-
-                    </tbody>
-                    </table>    
-        </div>
-    </div>
-</div>
-<div class="container mt-4">
-    <div class="card shadow-sm border-0">
-        <div class="card-body"></div>
-        <h4 class="card-title"><strong>FORMAT SATUAN ACARA PENYULUHAN (SAP)</strong></h4>
-          
-        <!-- Input untuk informasi SAP -->
-        <table border="1">
-          <tr>
-    <td>Topik Penyuluhan</td>
-    <td>
-        <div class="d-flex justify-content-start align-items-center">
-            <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        }
+                                    }
+                                    ?>
+
+                                </tbody>
+                            </table>
             </div>
         </div>
-    </td>
-</tr>
-            
-            <tr>
-                <td>Waktu</td>
-                
-                <td><div class="d-flex justify-content-start align-items-center">
-            <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-            </div></td>
-            </tr>
-            <tr>
-                <td>Sasaran</td>
-                <td><div class="d-flex justify-content-start align-items-center">
-            <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-            </div></td>
-            </tr>
-            <tr>
-                <td>Lokasi</td>
-                <td><div class="d-flex justify-content-start align-items-center">
-            <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-            </div></td>
-            </tr>
-            <tr>
-                <td>Tanggal Pelaksanaan</td>
-                <td><div class="d-flex justify-content-start align-items-center">
-            <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-            </div></td>
-            </tr>
-            <tr>
-                <td>Tujuan Umum</td>
-                <td><div class="d-flex justify-content-start align-items-center">
-            <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-            </div></td>
-            </tr>
-            <tr>
-                <td>Tujuan Khusus</td>
-                <td><div class="d-flex justify-content-start align-items-center">
-            <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-            </div></td>
-            </tr>
-            <tr>
-                <td>Metode</td>
-                <td><div class="d-flex justify-content-start align-items-center">
-            <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-            </div></td>
-            </tr>
-            <tr>
-                <td>Media</td>
-                <td><div class="d-flex justify-content-start align-items-center">
-            <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-            </div></td>
-            </tr>
-            <tr>
-                <td>Kegiatan Belajar</td>
-               <td><div class="d-flex justify-content-start align-items-center">
-            <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-            </div></td>
-            </tr>
-        </table>
+        </div>
 
-        <!-- Tabel Kegiatan Penyuluhan -->
-        <h3>Kegiatan Penyuluhan</h3>
-        <table border="1" cellpadding="10">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Kegiatan Penyuluhan</th>
-                    <th>Kegiatan Penyuluh</th>
-                    <th>Kegiatan Peserta</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Membuka Penyuluhan (5 – 10%)</td>
-                    <td><input type="text" name="kegiatan_penyuluh_1" style="width: 200px;"></td>
-                    <td><input type="text" name="kegiatan_peserta_1" style="width: 200px;"></td>
-                    <td><div class="d-flex justify-content-start align-items-center">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-            </div></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Penyajian Materi (80 – 90%)</td>
-                    <td><input type="text" name="kegiatan_penyuluh_2" style="width: 200px;"></td>
-                    <td><input type="text" name="kegiatan_peserta_2" style="width: 200px;"></td>
-                    <td><div class="d-flex justify-content-start align-items-center">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-            </div></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Menutup Penyuluhan (5 – 10%)</td>
-                    <td><input type="text" name="kegiatan_penyuluh_3" style="width: 200px;"></td>
-                    <td><input type="text" name="kegiatan_peserta_3" style="width: 200px;"></td>
-                    <td><div class="d-flex justify-content-start align-items-center">
-            <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-            </div></td>
-                </tr>
-            </tbody>
-        </table>
+        <section class="section dashboard">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-1"><strong>XV. Analisa Data</strong></h5>
 
-        <!-- Evaluasi -->
-        <h3>Kriteria Evaluasi</h3>
-        <ul>
-            <li><input type="checkbox" name="evaluasi_struktur"> Evaluasi Struktur</li>
-            <li><input type="checkbox" name="evaluasi_proses"> Evaluasi Proses</li>
-            <li><input type="checkbox" name="evaluasi_hasil"> Evaluasi Hasil</li>
-        </ul>
+                    <!-- General Form Elements -->
+                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-        <!-- Uraian Tugas -->
-        <h3>Uraian Tugas</h3>
-        <textarea name="uraian_tugas" rows="4" style="width: 100%;"></textarea>
-         <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+                        <!-- Bagian No. DX -->
 
-        <!-- Setting -->
-        <h3>Setting</h3>
-        <textarea name="setting" rows="4" style="width: 100%;"></textarea>
-        <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-    </div>
-</div>
-<div class="container mt-4">
-    <div class="card shadow-sm border-0">
-        <div class="card-body"></div>
-        <h4 class="card-title"><strong>FORMAT MATERI PENYULUHAN</strong></h4>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>No</strong></label>
 
-        <table border="1" cellpadding="10" cellspacing="0" style="width:100%; margin-top: 20px;">
-            <tr>
-                <td>Topik</td>
-                <td><textarea name="topik" rows="4" style="width: 100%;"></textarea></td>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </tr>
-            <tr>
-                <td>Definisi</td>
-                <td><textarea name="definisi" rows="4" style="width: 100%;"></textarea></td>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </tr>
-            <tr>
-                <td>Etiologi</td>
-                <td><textarea name="etiologi" rows="4" style="width: 100%;"></textarea></td>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </tr>
-            <tr>
-                <td>Manifestasi Klinis</td>
-                <td><textarea name="manifestasi_klinis" rows="4" style="width: 100%;"></textarea></td>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </tr>
-            <tr>
-                <td>Penatalaksanaan</td>
-                <td><textarea name="penatalaksanaan" rows="4" style="width: 100%;"></textarea></td>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </tr>
-            <tr>
-                <td>Pencegahan</td>
-                <td><textarea name="pencegahan" rows="4" style="width: 100%;"></textarea></td>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </tr>
-            <tr>
-                <td>Sumber Rujukan</td>
-                <td><textarea name="sumber_rujukan" rows="4" style="width: 100%;"></textarea></td>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </tr>
-        </table>
-    </div>
-</div><div class="container mt-4">
-    <div class="card shadow-sm border-0">
-        <div class="card-body"></div>
-        <h4 class="card-title"><strong>FORMAT LAPORAN EVALUASI HASIL PENYULUHAN</strong></h4>
-    <p><strong>Topik:</strong> <input type="text" name="topik" style="width: 100%; margin-bottom: 10px;"></p>
-    <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+                            <div class="col-sm-9">
+                                <textarea name="no" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 
-<p><strong>Tanggal Pelaksanaan:</strong> <input type="text" name="tgl_pelaksanaan" style="width: 100%; margin-bottom: 10px;"></p>
-<tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
 
-<p><strong>Lokasi:</strong> <input type="text" name="lokasi" style="width: 100%; margin-bottom: 10px;"></p>
-<tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-        <p><strong>Evaluasi:</strong></p>
-        <textarea name="evaluasi" rows="4" style="width: 100%;"></textarea>
-        <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
+                        </div>
 
-        <p><strong>Evaluasi Struktur:</strong></p>
-        <textarea name="evaluasi_struktur" rows="4" style="width: 100%;"></textarea>
-        <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+                        <!-- Bagian Hari/Tanggal -->
 
-        <p><strong>Evaluasi Proses:</strong></p>
-        <textarea name="evaluasi_proses" rows="4" style="width: 100%;"></textarea>
-        <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+                        <div class="row mb-3">
+                            <label for="hari_tgl" class="col-sm-2 col-form-label"><strong>DATA</strong></label>
 
-        <p><strong>Evaluasi Hasil:</strong></p>
-        <textarea name="evaluasi_hasil" rows="4" style="width: 100%;"></textarea>
-        <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-    </div>
-</div>
-<div class="container mt-4">
-    <!-- Card wrapper untuk menampung semua konten form -->
-    <div class="card shadow-sm border-0">
-        <div class="card-body">
-            <!-- Judul bagian Pre Planning -->
-            <h4 class="card-title"><strong>Pre Planning</strong></h4>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="DATA" name="DATA">
 
-            <!-- Nama Kegiatan -->
-            <p><strong>Nama Kegiatan:</strong>
-                <input type="text" name="nama_kegiatan" style="width: 100%; margin-bottom: 10px;">
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commenthari_tgl" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
 
-            <!-- Tempat dan Lokasi Kegiatan -->
-            <p><strong>Tempat dan Lokasi Kegiatan:</strong>
-                <input type="text" name="tempat_lokasi_kegiatan" style="width: 100%; margin-bottom: 10px;">
-            </p>
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Bagian Jam -->
 
-            <!-- Latar Belakang -->
-            <h4>I. Latar Belakang</h4>
-            <textarea name="latar_belakang" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
-            <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+                        <div class="row mb-3">
+                            <label for="jam" class="col-sm-2 col-form-label"><strong>ETILOGI</strong></label>
 
-            <!-- Tujuan Umum -->
-            <h4>II. Tujuan Umum</h4>
-            <textarea name="tujuan_umum" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
-            <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="ETILOGI" name="ETILOGI">
 
-            <!-- Tujuan Khusus -->
-            <h4>III. Tujuan Khusus</h4>
-            <textarea name="tujuan_khusus" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
-            <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentjam" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
 
-            <!-- Sasaran dan Target -->
-            <h4>IV. Sasaran dan Target</h4>
-            <p><strong>Sasaran:</strong>
-                <textarea name="sasaran" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
-            <p><strong>Target:</strong>
-                <textarea name="target" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Strategi Pelaksanaan -->
-            <h4>V. Strategi Pelaksanaan</h4>
-            <p><strong>a. Metode:</strong>
-                <textarea name="metode" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
+                        <!-- Bagian Implementasi -->
 
-            <!-- Kriteria Evaluasi -->
-            <h4>b. Kriteria Evaluasi</h4>
-            <p><strong>Evaluasi Struktur:</strong>
-                <textarea name="evaluasi_struktur" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
-            <p><strong>Evaluasi Proses:</strong>
-                <textarea name="evaluasi_proses" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
-            <p><strong>Evaluasi Hasil:</strong>
-                <textarea name="evaluasi_hasil" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>MASALAH</strong></label>
 
-            <!-- Waktu dan Tempat -->
-            <p><strong>c. Waktu dan Tempat:</strong>
-                <textarea name="waktu_tempat" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
+                            <div class="col-sm-9">
+                                <textarea name="MASALAH" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 
-            <!-- Susunan Acara -->
-            <p><strong>d. Susunan Acara:</strong>
-                <textarea name="susunan_acara" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentimplementasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                            </div>
 
-            <!-- Uraian Tugas -->
-            <p><strong>e. Uraian Tugas:</strong>
-                <textarea name="uraian_tugas" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" disabled>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Setting -->
-            <p><strong>f. Setting:</strong>
-                <textarea name="setting" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
-        </div>
-    </div>
-</div>
-  
-<div class="container mt-4">
-    <!-- Card wrapper untuk menampung seluruh konten form -->
-    <div class="card shadow-sm border-0">
-        <div class="card-body">
-            <!-- Judul untuk Form Evaluasi Kegiatan -->
-            <h4 class="card-title"><strong>FORMAT EVALUASI KEGIATAN</strong></h4>
+                        <!-- Bagian Button -->
+                        <div class="row mb-3">
+                            <div class="col-sm-11 justify-content-end d-flex">
+                                <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </div>
 
-            <!-- Nama Kegiatan -->
-            <p><strong>Nama Kegiatan:</strong>
-                <input type="text" name="nama_kegiatan" style="width: 100%; margin-bottom: 10px;">
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
+                        <h5 class="card-title mt-2"><strong>Analisa Data</strong></h5>
 
-            <!-- Hari / Tanggal -->
-            <p><strong>Hari / Tanggal:</strong>
-                <input type="text" name="hari_tanggal" style="width: 100%; margin-bottom: 10px;">
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
+                        <style>
+                            .table-pemeriksaan {
+                                table-layout: fixed;
+                                width: 100%
+                            }
 
-            <!-- Pukul -->
-            <p><strong>Pukul:</strong>
-                <input type="text" name="pukul" style="width: 100%; margin-bottom: 10px;">
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
+                            .table-pemeriksaan td,
+                            .table-pemeriksaan th {
+                                word-wrap: break-word;
+                                white-space: normal;
+                                vertical-align: top;
+                            }
+                        </style>
 
-            <!-- Tempat -->
-            <p><strong>Tempat:</strong>
-                <input type="text" name="tempat" style="width: 100%; margin-bottom: 10px;">
-                <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-            </p>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th class="text-center">DATA</th>
+                                    <th class="text-center">ETILOGI</th>
+                                    <th class="text-center">MASALAH</th>
+                                </tr>
+                            </thead>
 
-            <!-- Bagian Persiapan -->
-            <h4>A. Persiapan</h4>
-            <textarea name="persiapan" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
-            <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+                            <tbody>
 
-            <!-- Bagian Pelaksanaan -->
-            <h4>B. Pelaksanaan</h4>
-            <textarea name="pelaksanaan" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
-            <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+                                <?php
+                                if (!empty($data)) {
+                                    foreach ($data as $row) {
+                                        echo "<tr>
+                            <td>" . $row['NO'] . "</td>
+                            <td>" . $row['DATA'] . "</td>
+                            <td>" . $row['ETILOGI'] . "</td>
+                            <td>" . $row['MASALAH'] . "</td>
+                            </tr>";
+                                    }
+                                }
+                                ?>
 
-            <!-- Bagian Evaluasi -->
-            <h4>C. Evaluasi</h4>
+                            </tbody>
+                        </table>
 
-            <!-- Evaluasi Struktur -->
-            <p><strong>a. Evaluasi Struktur:</strong></p>
-            <textarea name="evaluasi_struktur" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
-            <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+                        </tbody>
+                        </table>
+                </div>
+            </div>
 
-            <!-- Evaluasi Proses -->
-            <p><strong>b. Evaluasi Proses:</strong></p>
-            <textarea name="evaluasi_proses" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
-            <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
+            <div class="card">
+                <div class="card-body">
 
-            <!-- Evaluasi Hasil -->
-            <p><strong>c. Evaluasi Hasil:</strong></p>
-            <textarea name="evaluasi_hasil" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
-            <tr>
-        <td colspan="2">
-    <div class="d-flex justify-content-between align-items-center">
-        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
-        <div class="form-check ms-2">
-            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-        </div>
-    </div>
-</td>
-    </tr>
-        </div>
-    </div>
-</div>
-<div class="container mt-4">
-    <!-- Card wrapper untuk form Lembar Konsultasi -->
-    <div class="card shadow-sm border-0">
-        <div class="card-body">
-            <!-- Judul Lembar Konsultasi -->
-            <h4 class="card-title"><strong>Lembar Konsultasi Laporan Kasus Gerontik Binaan</strong></h4>
+                    <!-- General Form Elements -->
+                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-            <!-- Nama Mahasiswa -->
-            <p><strong>Nama Mahasiswa:</strong>
-                <input type="text" name="nama_mahasiswa" style="width: 300px; margin-bottom: 10px;">
-            </p>
+                        <h5 class="card-title"><strong>B. DIAGNOSA KEPERAWATAN PRIORITAS</strong></h5>
 
-            <!-- NIM -->
-            <p><strong>NIM:</strong>
-                <input type="text" name="nim" style="width: 300px; margin-bottom: 10px;">
-            </p>
 
-            <!-- Kelompok -->
-            <p><strong>Kelompok:</strong> 
-                RT <input type="text" name="rt" style="width: 50px;">
-                RW <input type="text" name="rw" style="width: 50px;">
-                Kel <input type="text" name="kel" style="width: 50px;">
-            </p>
 
-            <!-- Pembimbing -->
-            <p><strong>Pembimbing:</strong>
-                <input type="text" name="pembimbing" style="width: 300px; margin-bottom: 10px;">
-            </p>
 
-            <!-- Daftar Konsultasi -->
-            <h3>Daftar Konsultasi</h3>
+                        <section class="section dashboard">
 
-            <!-- Tabel Konsultasi -->
-            <table border="1" cellpadding="10" style="width: 100%;">
-                <thead>
+                            <!-- General Form Elements -->
+                            <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                                <!-- Bagian No. DX -->
+
+                                <div class="row mb-3">
+                                    <label class="col-sm-2 col-form-label"><strong>DIAGNOSA KEPERAWATAN PRIOROTAS</strong></label>
+
+                                    <div class="col-sm-9">
+                                        <textarea name="nodx" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+                                        <!-- comment -->
+                                        <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                    </div>
+
+                                    <div class="col-sm-1 d-flex align-items-start">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <!-- Bagian Button -->
+                                <div class="row mb-3">
+                                    <div class="col-sm-11 justify-content-end d-flex">
+                                        <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </div>
+
+                                <h5 class="card-title mt-2"><strong>Format Klasifikasi Data</strong></h5>
+
+                                <style>
+                                    .table-pemeriksaan {
+                                        table-layout: fixed;
+                                        width: 100%
+                                    }
+
+                                    .table-pemeriksaan td,
+                                    .table-pemeriksaan th {
+                                        word-wrap: break-word;
+                                        white-space: normal;
+                                        vertical-align: top;
+                                    }
+                                </style>
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Diagnosa Keperawatan Priorotas </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <?php
+                                        if (!empty($data)) {
+                                            foreach ($data as $row) {
+                                                echo "<tr>
+                            <td>" . $row['Diagnosa_Keperawatan_Priorotas '] . "</td>
+                            </tr>";
+                                            }
+                                        }
+                                        ?>
+
+                                    </tbody>
+                                </table>
+                </div>
+            </div>
+            </div>
+
+
+
+            <div class="card">
+                <div class="card-body">
+
+                    <!-- General Form Elements -->
+                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                        <h5 class="card-title"><strong>C. RENCANAN KEPERAWATAN</strong></h5>
+
+
+
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Nama Lansia</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="nama">
+
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Umur</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="nama">
+
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="nama">
+
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- General Form Elements -->
+                        <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                            <!-- Bagian No. DX -->
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"><strong>No</strong></label>
+
+                                <div class="col-sm-9">
+                                    <textarea name="no" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+                                    <!-- comment -->
+                                    <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                </div>
+
+                                <div class="col-sm-1 d-flex align-items-start">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bagian Hari/Tanggal -->
+
+                            <div class="row mb-3">
+                                <label for="Diagnosa_Keperawatan" class="col-sm-2 col-form-label"><strong>Diagnosa Keperawatan</strong></label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="hari_tgl" name="hari_tgl">
+
+                                    <!-- comment -->
+                                    <textarea class="form-control mt-2" id="commenthari_tgl" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                </div>
+
+                                <div class="col-sm-1 d-flex align-items-start">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bagian Jam -->
+
+                            <div class="row mb-3">
+                                <label for="jam" class="col-sm-2 col-form-label"><strong>Tujuan & Kriteria Hasil</strong></label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="Tujuan_Kriteria Hasil" name="Tujuan_Kriteria Hasil">
+
+                                    <!-- comment -->
+                                    <textarea class="form-control mt-2" id="commentjam" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                </div>
+
+                                <div class="col-sm-1 d-flex align-items-start">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bagian Implementasi -->
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"><strong>Intervensi</strong></label>
+
+                                <div class="col-sm-9">
+                                    <textarea name="Intervensi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+                                    <!-- comment -->
+                                    <textarea class="form-control mt-2" id="commentimplementasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                </div>
+
+                                <div class="col-sm-1 d-flex align-items-start">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bagian Button -->
+                            <div class="row mb-3">
+                                <div class="col-sm-11 justify-content-end d-flex">
+                                    <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </div>
+
+                            <h5 class="card-title mt-2"><strong>Implementasi Keperawatan</strong></h5>
+
+                            <style>
+                                .table-pemeriksaan {
+                                    table-layout: fixed;
+                                    width: 100%
+                                }
+
+                                .table-pemeriksaan td,
+                                .table-pemeriksaan th {
+                                    word-wrap: break-word;
+                                    white-space: normal;
+                                    vertical-align: top;
+                                }
+                            </style>
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">No.</th>
+                                        <th class="text-center">Diagnosa Keperawatan</th>
+                                        <th class="text-center">Tujuan & Kriteria Hasil</th>
+                                        <th class="text-center">Intervensi</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <?php
+                                    if (!empty($data)) {
+                                        foreach ($data as $row) {
+                                            echo "<tr>
+                            <td>" . $row['no'] . "</td>
+                            <td>" . $row['Diagnosa_Keperawatan'] . "</td>
+                            <td>" . $row['Tujuan_Kriteria Hasil'] . "</td>
+                            <td>" . $row['Intervensi'] . "</td>
+                            </tr>";
+                                        }
+                                    }
+                                    ?>
+
+                                </tbody>
+                            </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+
+                    <!-- General Form Elements -->
+                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                        <h5 class="card-title"><strong>D. IMPLEMENTASI KEPERAWATAN</strong></h5>
+
+
+
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Nama Lansia</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="nama">
+
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Umur</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="nama">
+
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="nama">
+
+                                <!-- comment -->
+                                <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
+                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            </div>
+
+                            <div class="col-sm-1 d-flex align-items-start">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <!-- General Form Elements -->
+                        <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                            <!-- Bagian No. DX -->
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"><strong>No. DX</strong></label>
+
+                                <div class="col-sm-9">
+                                    <textarea name="nodx" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+                                    <!-- comment -->
+                                    <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                </div>
+
+                                <div class="col-sm-1 d-flex align-items-start">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bagian Hari/Tanggal -->
+
+                            <div class="row mb-3">
+                                <label for="hari_tgl" class="col-sm-2 col-form-label"><strong>Hari/Tanggal</strong></label>
+
+                                <div class="col-sm-9">
+                                    <input type="datetime-local" class="form-control" id="hari_tgl" name="hari_tgl">
+
+                                    <!-- comment -->
+                                    <textarea class="form-control mt-2" id="commenthari_tgl" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                </div>
+
+                                <div class="col-sm-1 d-flex align-items-start">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bagian Jam -->
+
+                            <div class="row mb-3">
+                                <label for="jam" class="col-sm-2 col-form-label"><strong>Jam</strong></label>
+
+                                <div class="col-sm-9">
+                                    <input type="time" class="form-control" id="jam" name="jam">
+
+                                    <!-- comment -->
+                                    <textarea class="form-control mt-2" id="commentjam" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                </div>
+
+                                <div class="col-sm-1 d-flex align-items-start">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bagian Implementasi -->
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"><strong>Implementasi</strong></label>
+
+                                <div class="col-sm-9">
+                                    <textarea name="implementasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+                                    <!-- comment -->
+                                    <textarea class="form-control mt-2" id="commentimplementasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                </div>
+
+                                <div class="col-sm-1 d-flex align-items-start">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bagian Button -->
+                            <div class="row mb-3">
+                                <div class="col-sm-11 justify-content-end d-flex">
+                                    <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </div>
+
+                            <h5 class="card-title mt-2"><strong>Implementasi Keperawatan</strong></h5>
+
+                            <style>
+                                .table-pemeriksaan {
+                                    table-layout: fixed;
+                                    width: 100%
+                                }
+
+                                .table-pemeriksaan td,
+                                .table-pemeriksaan th {
+                                    word-wrap: break-word;
+                                    white-space: normal;
+                                    vertical-align: top;
+                                }
+                            </style>
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">No. Dx </th>
+                                        <th class="text-center">Hari/Tanggal</th>
+                                        <th class="text-center">Jam</th>
+                                        <th class="text-center">Implementasi</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <?php
+                                    if (!empty($data)) {
+                                        foreach ($data as $row) {
+                                            echo "<tr>
+                            <td>" . $row['no_dx'] . "</td>
+                            <td>" . $row['hari_tgl'] . "</td>
+                            <td>" . $row['jam'] . "</td>
+                            <td>" . $row['implementasi'] . "</td>
+                            </tr>";
+                                        }
+                                    }
+                                    ?>
+
+                                </tbody>
+                            </table>
+                </div>
+            </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body">
+
+                    <!-- General Form Elements -->
+                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                        <h5 class="card-title"><strong>E. Evaluasi Keperawatan</strong></h5>
+
+
+                        <!-- General Form Elements -->
+                        <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                            <!-- Bagian No. DX -->
+
+
+
+                            <!-- Bagian Hari/Tanggal -->
+
+                            <div class="row mb-3">
+                                <label for="hari_tgl" class="col-sm-2 col-form-label"><strong>Hari/Tgl/Jam</strong></label>
+
+                                <div class="col-sm-9">
+                                    <input type="datetime-local" class="form-control" id="hari_tgl" name="hari_tgl">
+
+                                    <!-- comment -->
+                                    <textarea class="form-control mt-2" id="commenthari_tgl" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                </div>
+
+                                <div class="col-sm-1 d-flex align-items-start">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Bagian Jam -->
+
+
+
+                            <!-- Bagian Implementasi -->
+
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"><strong>SOAP</strong></label>
+
+                                <div class="col-sm-9">
+                                    <textarea name="implementasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+                                    <!-- comment -->
+                                    <textarea class="form-control mt-2" id="commentimplementasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                                </div>
+
+                                <div class="col-sm-1 d-flex align-items-start">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Bagian Button -->
+                            <div class="row mb-3">
+                                <div class="col-sm-11 justify-content-end d-flex">
+                                    <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </div>
+
+                            <h5 class="card-title mt-2"><strong>Evaluasi Keperawatan</strong></h5>
+
+                            <style>
+                                .table-pemeriksaan {
+                                    table-layout: fixed;
+                                    width: 100%
+                                }
+
+                                .table-pemeriksaan td,
+                                .table-pemeriksaan th {
+                                    word-wrap: break-word;
+                                    white-space: normal;
+                                    vertical-align: top;
+                                }
+                            </style>
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+
+                                        <th class="text-center">Hari/Tanggal/Jam</th>
+                                        <th class="text-center">SOAP</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <?php
+                                    if (!empty($data)) {
+                                        foreach ($data as $row) {
+                                            echo "<tr>
+                            <td>" . $row['hari_tgl_Jam'] . "</td>
+                            <td>" . $row['SOAP'] . "</td>
+                            </tr>";
+                                        }
+                                    }
+                                    ?>
+
+                                </tbody>
+                            </table>
+                </div>
+            </div>
+            </div>
+            <div class="container mt-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body"></div>
+                    <h4 class="card-title"><strong>FORMAT SATUAN ACARA PENYULUHAN (SAP)</strong></h4>
+
+                    <!-- Input untuk informasi SAP -->
+                    <table border="1">
+                        <tr>
+                            <td>Topik Penyuluhan</td>
+                            <td>
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Waktu</td>
+
+                            <td>
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sasaran</td>
+                            <td>
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Lokasi</td>
+                            <td>
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tanggal Pelaksanaan</td>
+                            <td>
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tujuan Umum</td>
+                            <td>
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Tujuan Khusus</td>
+                            <td>
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Metode</td>
+                            <td>
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Media</td>
+                            <td>
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Kegiatan Belajar</td>
+                            <td>
+                                <div class="d-flex justify-content-start align-items-center">
+                                    <input type="text" name="topik_penyuluhan" style="width: 500px; margin-right: 10px;">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- Tabel Kegiatan Penyuluhan -->
+                    <h3>Kegiatan Penyuluhan</h3>
+                    <table border="1" cellpadding="10">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Kegiatan Penyuluhan</th>
+                                <th>Kegiatan Penyuluh</th>
+                                <th>Kegiatan Peserta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Membuka Penyuluhan (5 – 10%)</td>
+                                <td><input type="text" name="kegiatan_penyuluh_1" style="width: 200px;"></td>
+                                <td><input type="text" name="kegiatan_peserta_1" style="width: 200px;"></td>
+                                <td>
+                                    <div class="d-flex justify-content-start align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Penyajian Materi (80 – 90%)</td>
+                                <td><input type="text" name="kegiatan_penyuluh_2" style="width: 200px;"></td>
+                                <td><input type="text" name="kegiatan_peserta_2" style="width: 200px;"></td>
+                                <td>
+                                    <div class="d-flex justify-content-start align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Menutup Penyuluhan (5 – 10%)</td>
+                                <td><input type="text" name="kegiatan_penyuluh_3" style="width: 200px;"></td>
+                                <td><input type="text" name="kegiatan_peserta_3" style="width: 200px;"></td>
+                                <td>
+                                    <div class="d-flex justify-content-start align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly style="width: 250px; margin-right: 10px;"></textarea>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Evaluasi -->
+                    <h3>Kriteria Evaluasi</h3>
+                    <ul>
+                        <li><input type="checkbox" name="evaluasi_struktur"> Evaluasi Struktur</li>
+                        <li><input type="checkbox" name="evaluasi_proses"> Evaluasi Proses</li>
+                        <li><input type="checkbox" name="evaluasi_hasil"> Evaluasi Hasil</li>
+                    </ul>
+
+                    <!-- Uraian Tugas -->
+                    <h3>Uraian Tugas</h3>
+                    <textarea name="uraian_tugas" rows="4" style="width: 100%;"></textarea>
                     <tr>
-                        <th>No.</th>
-                        <th>Hari / Tanggal</th>
-                        <th>Kritik & Saran Pembimbing</th>
-                        <th>Paraf Pembimbing</th>
+                        <td colspan="2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                <div class="form-check ms-2">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <!-- Baris Konsultasi 1 -->
+
+                    <!-- Setting -->
+                    <h3>Setting</h3>
+                    <textarea name="setting" rows="4" style="width: 100%;"></textarea>
                     <tr>
-                        <td>1</td>
-                        <td><input type="date" name="hari_tanggal_1" style="width: 150px; margin-bottom: 10px;"></td>
-                        <td><textarea name="kritik_saran_1" rows="3" style="width: 200px; margin-bottom: 10px;"></textarea></td>
-                        <td><input type="text" name="paraf_pembimbing_1" style="width: 100px; margin-bottom: 10px;"></td>
+                        <td colspan="2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                <div class="form-check ms-2">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </td>
                     </tr>
-                    <!-- Baris Konsultasi 2 -->
+                </div>
+            </div>
+            <div class="container mt-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body"></div>
+                    <h4 class="card-title"><strong>FORMAT MATERI PENYULUHAN</strong></h4>
+
+                    <table border="1" cellpadding="10" cellspacing="0" style="width:100%; margin-top: 20px;">
+                        <tr>
+                            <td>Topik</td>
+                            <td><textarea name="topik" rows="4" style="width: 100%;"></textarea></td>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tr>
+                        <tr>
+                            <td>Definisi</td>
+                            <td><textarea name="definisi" rows="4" style="width: 100%;"></textarea></td>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tr>
+                        <tr>
+                            <td>Etiologi</td>
+                            <td><textarea name="etiologi" rows="4" style="width: 100%;"></textarea></td>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tr>
+                        <tr>
+                            <td>Manifestasi Klinis</td>
+                            <td><textarea name="manifestasi_klinis" rows="4" style="width: 100%;"></textarea></td>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tr>
+                        <tr>
+                            <td>Penatalaksanaan</td>
+                            <td><textarea name="penatalaksanaan" rows="4" style="width: 100%;"></textarea></td>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tr>
+                        <tr>
+                            <td>Pencegahan</td>
+                            <td><textarea name="pencegahan" rows="4" style="width: 100%;"></textarea></td>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tr>
+                        <tr>
+                            <td>Sumber Rujukan</td>
+                            <td><textarea name="sumber_rujukan" rows="4" style="width: 100%;"></textarea></td>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="container mt-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body"></div>
+                    <h4 class="card-title"><strong>FORMAT LAPORAN EVALUASI HASIL PENYULUHAN</strong></h4>
+                    <p><strong>Topik:</strong> <input type="text" name="topik" style="width: 100%; margin-bottom: 10px;"></p>
                     <tr>
-                        <td>2</td>
-                        <td><input type="date" name="hari_tanggal_2" style="width: 150px; margin-bottom: 10px;"></td>
-                        <td><textarea name="kritik_saran_2" rows="3" style="width: 200px; margin-bottom: 10px;"></textarea></td>
-                        <td><input type="text" name="paraf_pembimbing_2" style="width: 100px; margin-bottom: 10px;"></td>
+                        <td colspan="2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                <div class="form-check ms-2">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </td>
                     </tr>
-                    <!-- Baris Konsultasi 3 -->
+
+                    <p><strong>Tanggal Pelaksanaan:</strong> <input type="text" name="tgl_pelaksanaan" style="width: 100%; margin-bottom: 10px;"></p>
                     <tr>
-                        <td>3</td>
-                        <td><input type="date" name="hari_tanggal_3" style="width: 150px; margin-bottom: 10px;"></td>
-                        <td><textarea name="kritik_saran_3" rows="3" style="width: 200px; margin-bottom: 10px;"></textarea></td>
-                        <td><input type="text" name="paraf_pembimbing_3" style="width: 100px; margin-bottom: 10px;"></td>
+                        <td colspan="2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                <div class="form-check ms-2">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </td>
                     </tr>
-                    <!-- Baris-baris lainnya bisa ditambahkan jika diperlukan -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+
+                    <p><strong>Lokasi:</strong> <input type="text" name="lokasi" style="width: 100%; margin-bottom: 10px;"></p>
+                    <tr>
+                        <td colspan="2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                <div class="form-check ms-2">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <p><strong>Evaluasi:</strong></p>
+                    <textarea name="evaluasi" rows="4" style="width: 100%;"></textarea>
+                    <tr>
+                        <td colspan="2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                <div class="form-check ms-2">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <p><strong>Evaluasi Struktur:</strong></p>
+                    <textarea name="evaluasi_struktur" rows="4" style="width: 100%;"></textarea>
+                    <tr>
+                        <td colspan="2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                <div class="form-check ms-2">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <p><strong>Evaluasi Proses:</strong></p>
+                    <textarea name="evaluasi_proses" rows="4" style="width: 100%;"></textarea>
+                    <tr>
+                        <td colspan="2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                <div class="form-check ms-2">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <p><strong>Evaluasi Hasil:</strong></p>
+                    <textarea name="evaluasi_hasil" rows="4" style="width: 100%;"></textarea>
+                    <tr>
+                        <td colspan="2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                <div class="form-check ms-2">
+                                    <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </div>
+            </div>
+            <div class="container mt-4">
+                <!-- Card wrapper untuk menampung semua konten form -->
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <!-- Judul bagian Pre Planning -->
+                        <h4 class="card-title"><strong>Pre Planning</strong></h4>
+
+                        <!-- Nama Kegiatan -->
+                        <p><strong>Nama Kegiatan:</strong>
+                            <input type="text" name="nama_kegiatan" style="width: 100%; margin-bottom: 10px;">
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+
+                        <!-- Tempat dan Lokasi Kegiatan -->
+                        <p><strong>Tempat dan Lokasi Kegiatan:</strong>
+                            <input type="text" name="tempat_lokasi_kegiatan" style="width: 100%; margin-bottom: 10px;">
+                        </p>
+
+                        <!-- Latar Belakang -->
+                        <h4>I. Latar Belakang</h4>
+                        <textarea name="latar_belakang" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Tujuan Umum -->
+                        <h4>II. Tujuan Umum</h4>
+                        <textarea name="tujuan_umum" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Tujuan Khusus -->
+                        <h4>III. Tujuan Khusus</h4>
+                        <textarea name="tujuan_khusus" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Sasaran dan Target -->
+                        <h4>IV. Sasaran dan Target</h4>
+                        <p><strong>Sasaran:</strong>
+                            <textarea name="sasaran" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+                        <p><strong>Target:</strong>
+                            <textarea name="target" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+
+                        <!-- Strategi Pelaksanaan -->
+                        <h4>V. Strategi Pelaksanaan</h4>
+                        <p><strong>a. Metode:</strong>
+                            <textarea name="metode" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+
+                        <!-- Kriteria Evaluasi -->
+                        <h4>b. Kriteria Evaluasi</h4>
+                        <p><strong>Evaluasi Struktur:</strong>
+                            <textarea name="evaluasi_struktur" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+                        <p><strong>Evaluasi Proses:</strong>
+                            <textarea name="evaluasi_proses" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+                        <p><strong>Evaluasi Hasil:</strong>
+                            <textarea name="evaluasi_hasil" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+
+                        <!-- Waktu dan Tempat -->
+                        <p><strong>c. Waktu dan Tempat:</strong>
+                            <textarea name="waktu_tempat" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+
+                        <!-- Susunan Acara -->
+                        <p><strong>d. Susunan Acara:</strong>
+                            <textarea name="susunan_acara" rows="3" style="width: 100%; margin-bottom: 10px;"></textarea>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+
+                        <!-- Uraian Tugas -->
+                        <p><strong>e. Uraian Tugas:</strong>
+                            <textarea name="uraian_tugas" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+
+                        <!-- Setting -->
+                        <p><strong>f. Setting:</strong>
+                            <textarea name="setting" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mt-4">
+                <!-- Card wrapper untuk menampung seluruh konten form -->
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <!-- Judul untuk Form Evaluasi Kegiatan -->
+                        <h4 class="card-title"><strong>FORMAT EVALUASI KEGIATAN</strong></h4>
+
+                        <!-- Nama Kegiatan -->
+                        <p><strong>Nama Kegiatan:</strong>
+                            <input type="text" name="nama_kegiatan" style="width: 100%; margin-bottom: 10px;">
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+
+                        <!-- Hari / Tanggal -->
+                        <p><strong>Hari / Tanggal:</strong>
+                            <input type="text" name="hari_tanggal" style="width: 100%; margin-bottom: 10px;">
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+
+                        <!-- Pukul -->
+                        <p><strong>Pukul:</strong>
+                            <input type="text" name="pukul" style="width: 100%; margin-bottom: 10px;">
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+
+                        <!-- Tempat -->
+                        <p><strong>Tempat:</strong>
+                            <input type="text" name="tempat" style="width: 100%; margin-bottom: 10px;">
+                            <tr>
+                                <td colspan="2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                        <div class="form-check ms-2">
+                                            <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </p>
+
+                        <!-- Bagian Persiapan -->
+                        <h4>A. Persiapan</h4>
+                        <textarea name="persiapan" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Bagian Pelaksanaan -->
+                        <h4>B. Pelaksanaan</h4>
+                        <textarea name="pelaksanaan" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Bagian Evaluasi -->
+                        <h4>C. Evaluasi</h4>
+
+                        <!-- Evaluasi Struktur -->
+                        <p><strong>a. Evaluasi Struktur:</strong></p>
+                        <textarea name="evaluasi_struktur" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Evaluasi Proses -->
+                        <p><strong>b. Evaluasi Proses:</strong></p>
+                        <textarea name="evaluasi_proses" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Evaluasi Hasil -->
+                        <p><strong>c. Evaluasi Hasil:</strong></p>
+                        <textarea name="evaluasi_hasil" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
+                        <tr>
+                            <td colspan="2">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <textarea class="form-control mt-2" rows="2" placeholder="Ketikkan revisi jika tidak di ACC" readonly></textarea>
+                                    <div class="form-check ms-2">
+                                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-4">
+                <!-- Card wrapper untuk form Lembar Konsultasi -->
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <!-- Judul Lembar Konsultasi -->
+                        <h4 class="card-title"><strong>Lembar Konsultasi Laporan Kasus Gerontik Binaan</strong></h4>
+
+                        <!-- Nama Mahasiswa -->
+                        <p><strong>Nama Mahasiswa:</strong>
+                            <input type="text" name="nama_mahasiswa" style="width: 300px; margin-bottom: 10px;">
+                        </p>
+
+                        <!-- NIM -->
+                        <p><strong>NIM:</strong>
+                            <input type="text" name="nim" style="width: 300px; margin-bottom: 10px;">
+                        </p>
+
+                        <!-- Kelompok -->
+                        <p><strong>Kelompok:</strong>
+                            RT <input type="text" name="rt" style="width: 50px;">
+                            RW <input type="text" name="rw" style="width: 50px;">
+                            Kel <input type="text" name="kel" style="width: 50px;">
+                        </p>
+
+                        <!-- Pembimbing -->
+                        <p><strong>Pembimbing:</strong>
+                            <input type="text" name="pembimbing" style="width: 300px; margin-bottom: 10px;">
+                        </p>
+
+                        <!-- Daftar Konsultasi -->
+                        <h3>Daftar Konsultasi</h3>
+
+                        <!-- Tabel Konsultasi -->
+                        <table border="1" cellpadding="10" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Hari / Tanggal</th>
+                                    <th>Kritik & Saran Pembimbing</th>
+                                    <th>Paraf Pembimbing</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Baris Konsultasi 1 -->
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="date" name="hari_tanggal_1" style="width: 150px; margin-bottom: 10px;"></td>
+                                    <td><textarea name="kritik_saran_1" rows="3" style="width: 200px; margin-bottom: 10px;"></textarea></td>
+                                    <td><input type="text" name="paraf_pembimbing_1" style="width: 100px; margin-bottom: 10px;"></td>
+                                </tr>
+                                <!-- Baris Konsultasi 2 -->
+                                <tr>
+                                    <td>2</td>
+                                    <td><input type="date" name="hari_tanggal_2" style="width: 150px; margin-bottom: 10px;"></td>
+                                    <td><textarea name="kritik_saran_2" rows="3" style="width: 200px; margin-bottom: 10px;"></textarea></td>
+                                    <td><input type="text" name="paraf_pembimbing_2" style="width: 100px; margin-bottom: 10px;"></td>
+                                </tr>
+                                <!-- Baris Konsultasi 3 -->
+                                <tr>
+                                    <td>3</td>
+                                    <td><input type="date" name="hari_tanggal_3" style="width: 150px; margin-bottom: 10px;"></td>
+                                    <td><textarea name="kritik_saran_3" rows="3" style="width: 200px; margin-bottom: 10px;"></textarea></td>
+                                    <td><input type="text" name="paraf_pembimbing_3" style="width: 100px; margin-bottom: 10px;"></td>
+                                </tr>
+                                <!-- Baris-baris lainnya bisa ditambahkan jika diperlukan -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
 
-<?php include "tab_navigasi.php"; ?>
+            <?php include "tab_navigasi.php"; ?>

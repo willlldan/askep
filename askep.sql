@@ -49,7 +49,7 @@ CREATE TABLE icu_laporanpendahuluan (
     comment_penatalaksanaan TEXT,
 
     komplikasi TEXT,
-    comment_komplikasi TEXT,
+    comment_komplikasi TEXT
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -104,7 +104,7 @@ CREATE TABLE icu_pengkajian_umum (
     nadi VARCHAR(20),
     suhu VARCHAR(10),
     rr VARCHAR(20),
-    comment_tanda_vital TEXT,
+    comment_tanda_vital TEXT
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -197,7 +197,7 @@ CREATE TABLE icu_pengkajian_primary (
     jumlah TEXT,
     comment_jumlah TEXT,
 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -247,7 +247,7 @@ CREATE TABLE icu_pengkajian_secondary_b1 (
 
     bentuk_dada VARCHAR(20),
     lainnya_bentuk_dada TEXT,
-    comment_bentuk_dada TEXT,
+    comment_bentuk_dada TEXT
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -277,7 +277,7 @@ CREATE TABLE icu_pengkajian_secondary_b2 (
     edema VARCHAR(50),
     lainnya_edema TEXT,
     sebutkan_edema TEXT,
-    comment_edema TEXT,
+    comment_edema TEXT
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -351,7 +351,7 @@ CREATE TABLE icu_pengkajian_secondary_b3 (
     panas VARCHAR(20),
     dingin VARCHAR(20),
     tekan VARCHAR(20),
-    comment_perabaan TEXT,
+    comment_perabaan TEXT
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -389,7 +389,7 @@ CREATE TABLE icu_pengkajian_secondary_b4 (
 
     -- KELAINAN DALAM URINE
     kelainan_dalam_urine VARCHAR(20),
-    comment_kelainan_dalam_urine TEXT,
+    comment_kelainan_dalam_urine TEXT
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -463,7 +463,7 @@ CREATE TABLE icu_pengkajian_secondary_b5 (
     panas VARCHAR(20),
     dingin VARCHAR(20),
     tekan VARCHAR(20),
-    comment_perabaan TEXT,
+    comment_perabaan TEXT
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -584,7 +584,7 @@ CREATE TABLE icu_pengkajian_secondary_b6 (
 
     tgl_radiologi DATE,
     hasil_radiologi TEXT,
-    comment_radiologi TEXT,
+    comment_radiologi TEXT
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -612,7 +612,7 @@ CREATE TABLE icu_klasifikasi_data (
     dataobjektif TEXT,
     comment_dataobjektif TEXT,
 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -630,7 +630,7 @@ CREATE TABLE icu_analisa_data (
     masalah TEXT,
     comment_masalah TEXT,
 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -650,7 +650,7 @@ CREATE TABLE icu_diagnosa_keperawatan (
 
     paraf VARCHAR(5),
 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -670,7 +670,7 @@ CREATE TABLE icu_rencana_keperawatan (
 
     paraf VARCHAR,
 
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
@@ -698,7 +698,7 @@ CREATE TABLE icu_implementasi_keperawatan (
 
     paraf VARCHAR,
    
-   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 
     FOREIGN KEY (mahasiswa_id) REFERENCES mahasiswa(id)
 );
