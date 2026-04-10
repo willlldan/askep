@@ -40,6 +40,8 @@ function getAllDataPinjaman($mysqli) {
     // $data = array_merge($dataPinjaman['data'], $dataPinjamanPersonel['data']);
     // usort($data, function($a, $b) {
    //     return strtotime($b['tgl_kembali']) - strtotime($a['tgl_kembali']);
+
+   return $dataPinjaman;
     };
 
    // $count = $dataPinjaman['count'] + $dataPinjamanPersonel['count'];
@@ -47,7 +49,7 @@ function getAllDataPinjaman($mysqli) {
    // $result['count'] = $count;
    // $result['data'] = $data;
 
-    return $result;
+    // return $result;
 
 
 function getDataPinjaman($mysqli) {

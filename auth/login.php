@@ -12,6 +12,8 @@ if (isset($_POST['submit'])) {
             $_SESSION['nama'] = $user['nama'];
             $_SESSION['id_user'] = $user['id_user'];
             $_SESSION['level'] = $user['level'];
+            $_SESSION['username'] = $user['username'];
+
             header('Location: index.php');
         } else echo "<script>alert('Username atau Password Salah!');</script>";
     } else echo "Error: " . $sql . "<br>" . $mysqli->error;

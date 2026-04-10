@@ -22,34 +22,21 @@
 
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number"><?= $data_notif['count'] ?> </span>
+            <span class="badge bg-primary badge-number"> 1 </span>
+                        <!-- <span class="badge bg-primary badge-number"><?= $data_notif['count'] ?> </span> -->
           </a><!-- End Notification Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
             <li class="dropdown-header">
-              You have <?= $data_notif['count'] ?> new notifications
+              You have 5 new notifications
               <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <?php 
-            $data_notif['count'] = $data_notif['count'] > 4 ? 4 : $data_notif['count']; 
-            for ($i=0; $i < $data_notif['count'] ; $i++) : ?>
-            <a href="<?= getUrlDetailPeminjaman($data_notif['data'][$i]['type'], $data_notif['data'][$i]['id']) ?>">
-              <li class="notification-item">
-                <i class="bi bi-exclamation-circle text-warning"></i>
-                <div>
-                  <h4>Waktu pinjaman <?= $data_notif['data'][$i]['nama_peminjam'] ?> hampir berakhir</h4>
-                  <p>Pinjaman <b><?= $data_notif['data'][$i]['nama_peminjam'] ?> </b> berakhir pada <b> <?= dateFormatter($data_notif['data'][$i]['tgl_kembali']) ?> </b></p>
-                  <p><?= $data_notif['data'][$i]['type'] ?> </p>
-                </div>
-              </li>
-              <li>
-            </a>
               <hr class="dropdown-divider">
             </li>
-            <?php endfor ?>
+            <?php //endfor ?>
 
             
             <li class="dropdown-footer">

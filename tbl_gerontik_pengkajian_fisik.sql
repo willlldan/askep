@@ -1,0 +1,37 @@
+-- Tabel untuk menyimpan hasil pengkajian fisik gerontik
+CREATE TABLE tbl_gerontik_pengkajian_fisik (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_identitas INT NOT NULL,
+    td VARCHAR(50),
+    nadi VARCHAR(50),
+    rr VARCHAR(50),
+    suhu VARCHAR(50),
+    tingkat_kesadaran VARCHAR(100),
+    sakit_kepala VARCHAR(10),
+    trauma_kepala_masa_lalu VARCHAR(10),
+    gatal_kulit_kepala VARCHAR(10),
+    kulit_rambut_bersih VARCHAR(10),
+    rambut_rontok VARCHAR(10),
+    penurunan_penglihatan VARCHAR(10),
+    penglihatan_kabur VARCHAR(10),
+    kekeruhan_lensa VARCHAR(10),
+    kacamata_lensa_kontak VARCHAR(10),
+    nyeri_mata VARCHAR(10),
+    pruritus VARCHAR(10),
+    bengkak_mata VARCHAR(10),
+    floater VARCHAR(10),
+    diplopia VARCHAR(10),
+    penurunan_pendengaran VARCHAR(10),
+    alat_bantu_pendengaran VARCHAR(10),
+    rinorea VARCHAR(10),
+    rabas_hidung VARCHAR(10),
+    riwayat_epitaksis VARCHAR(10),
+    mendengkur_tidur VARCHAR(10),
+    nyeri_sinus VARCHAR(10),
+    pernapasan_cuping_hidung VARCHAR(10),
+    created_at DATETIME,
+    created_by VARCHAR(100),
+    CONSTRAINT fk_identitas_fisik FOREIGN KEY (id_identitas)
+        REFERENCES tbl_gerontik_identitas(id)
+        ON DELETE CASCADE
+);
