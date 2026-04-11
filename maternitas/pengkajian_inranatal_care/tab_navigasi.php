@@ -1,6 +1,8 @@
 <?php
 
 $tabs = [
+    "umum",
+    "riwayatpersalinan",
     "laporanpersalinan",
     "diagnosa_keperawatan",
     "intervensi_keperawatan",
