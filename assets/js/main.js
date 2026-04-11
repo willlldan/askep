@@ -316,11 +316,34 @@
     }, 200);
   }
 
-  // Reset all forms on page load
+  // // Reset all forms on page load
   window.addEventListener('load', function () {
     document.querySelectorAll('form').forEach(form => form.reset());
-  });
 
+    if (typeof existingData !== 'undefined' && existingData !== null) {
+      // Parse kalau masih string
+      const data = typeof existingData === 'string'
+        ? JSON.parse(existingData)
+        : existingData;
+
+      Object.keys(data).forEach(key => {
+        const el = document.querySelector(`[name="${key}"]`);
+        if (el) {
+          if (el.tagName === 'TEXTAREA') {
+            el.value = data[key];
+          } else if (el.type === 'checkbox') {
+            el.checked = data[key] === '1';
+          } else if (el.type === 'radio') {
+            document.querySelectorAll(`[name="${key}"]`).forEach(radio => {
+              radio.checked = radio.value === data[key];
+            });
+          } else {
+            el.value = data[key];
+          }
+        }
+      });
+    }
+  });
 
   // window.addEventListener('DOMContentLoaded', function () {
   //   document.querySelectorAll(

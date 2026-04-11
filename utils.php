@@ -270,3 +270,183 @@ const HARI_DALAM_INDONESIA = [
     "Jumat",
     "Sabtu"
 ];
+
+
+// Buat Askep
+
+/**
+ * =============================================
+ * UTILS.PHP
+ * Helper functions untuk form pengkajian
+ * =============================================
+ */
+
+/**
+ * Ambil submission existing berdasarkan user & form
+ * Return array submission atau false jika belum ada
+ */
+function getSubmission($user_id, $form_id, $mysqli) {
+    $stmt = $mysqli->prepare("
+        SELECT id, status, tanggal_pengkajian, rs_ruangan 
+        FROM submissions 
+        WHERE user_id = ? AND form_id = ?
+    ");
+    $stmt->bind_param("ii", $user_id, $form_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
+/**
+ * Ambil data JSON section existing
+ * Return array data atau [] jika belum ada
+ */
+function getSectionData($submission_id, $section_name, $mysqli) {
+    $stmt = $mysqli->prepare("
+        SELECT data 
+        FROM submission_sections 
+        WHERE submission_id = ? AND section_name = ?
+    ");
+    $stmt->bind_param("is", $submission_id, $section_name);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $section = $result->fetch_assoc();
+    return $section ? json_decode($section['data'], true) : [];
+}
+
+/**
+ * Ambil status section tertentu
+ * Return status string atau null jika belum ada
+ */
+function getSectionStatus($submission_id, $section_name, $mysqli) {
+    $stmt = $mysqli->prepare("
+        SELECT status 
+        FROM submission_sections 
+        WHERE submission_id = ? AND section_name = ?
+    ");
+    $stmt->bind_param("is", $submission_id, $section_name);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $section = $result->fetch_assoc();
+    return $section ? $section['status'] : null;
+}
+
+/**
+ * Insert atau update data section
+ */
+function saveSection($submission_id, $section_name, $section_label, $data, $mysqli) {
+    $json_data = json_encode($data);
+    $stmt = $mysqli->prepare("
+        INSERT INTO submission_sections (submission_id, section_name, section_label, data, status)
+        VALUES (?, ?, ?, ?, 'draft')
+        ON DUPLICATE KEY UPDATE 
+            data = VALUES(data), 
+            updated_at = NOW()
+    ");
+    $stmt->bind_param("isss", $submission_id, $section_name, $section_label, $json_data);
+    $stmt->execute();
+}
+
+/**
+ * Insert submission baru
+ * Return id submission yang baru dibuat
+ */
+function createSubmission($user_id, $form_id, $tanggal_pengkajian, $rs_ruangan, $mysqli) {
+    $stmt = $mysqli->prepare("
+        INSERT INTO submissions (user_id, form_id, tanggal_pengkajian, rs_ruangan, status) 
+        VALUES (?, ?, ?, ?, 'draft')
+    ");
+    $stmt->bind_param("iiss", $user_id, $form_id, $tanggal_pengkajian, $rs_ruangan);
+    $stmt->execute();
+    return $mysqli->insert_id;
+}
+
+/**
+ * Update tanggal_pengkajian & rs_ruangan di submissions
+ * Dipanggil saat mahasiswa update section 1
+ */
+function updateSubmissionHeader($submission_id, $tanggal_pengkajian, $rs_ruangan, $mysqli) {
+    $stmt = $mysqli->prepare("
+        UPDATE submissions 
+        SET tanggal_pengkajian = ?, rs_ruangan = ?, updated_at = NOW()
+        WHERE id = ?
+    ");
+    $stmt->bind_param("ssi", $tanggal_pengkajian, $rs_ruangan, $submission_id);
+    $stmt->execute();
+}
+
+/**
+ * Cek apakah form sedang terkunci (tidak bisa diedit)
+ * Locked jika status submitted atau approved
+ */
+function isLocked($submission) {
+    if (!$submission) return false;
+    return in_array($submission['status'], ['submitted', 'approved']);
+}
+
+/**
+ * Update status submission secara otomatis
+ * draft     → belum semua section diisi
+ * submitted → semua section diisi, menunggu review
+ * approved  → semua section approved oleh dosen
+ */
+function updateSubmissionStatus($submission_id, $form_id, $mysqli) {
+    // Ambil count_section dari form
+    $stmt = $mysqli->prepare("SELECT count_section FROM forms WHERE id = ?");
+    $stmt->bind_param("i", $form_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $count_section = $result->fetch_assoc()['count_section'];
+
+    // Hitung section yang sudah diisi
+    $stmt = $mysqli->prepare("
+        SELECT COUNT(*) as filled 
+        FROM submission_sections 
+        WHERE submission_id = ?
+    ");
+    $stmt->bind_param("i", $submission_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $filled = $result->fetch_assoc()['filled'];
+
+    // Hitung section yang sudah approved
+    $stmt = $mysqli->prepare("
+        SELECT COUNT(*) as approved 
+        FROM submission_sections 
+        WHERE submission_id = ? AND status = 'approved'
+    ");
+    $stmt->bind_param("i", $submission_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $approved = $result->fetch_assoc()['approved'];
+
+    // Tentukan status baru
+    if ($filled < $count_section) {
+        $new_status = 'draft';
+    } elseif ($approved == $count_section) {
+        $new_status = 'approved';
+    } else {
+        $new_status = 'submitted';
+    }
+
+    $stmt = $mysqli->prepare("UPDATE submissions SET status = ? WHERE id = ?");
+    $stmt->bind_param("si", $new_status, $submission_id);
+    $stmt->execute();
+}
+
+/**
+ * Ambil existing value untuk ditampilin di form HTML
+ * Otomatis escape HTML untuk keamanan
+ */
+function val($key, $existing_data) {
+    return htmlspecialchars($existing_data[$key] ?? '');
+}
+
+/**
+ * Redirect dengan pesan session
+ */
+function redirectWithMessage($url, $type, $message) {
+    $_SESSION[$type] = $message;
+    echo "<script>window.location.href = '$url';</script>";
+    exit;
+}

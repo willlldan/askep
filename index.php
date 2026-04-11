@@ -13,7 +13,7 @@ if (isset($_SESSION['id_user'])) {
     // =====================
     // ADMIN
     // =====================
-    if ($_SESSION['level'] == 'Admin') {
+    if ($_SESSION['level'] == 'Mahasiswa') {
 
         include_once "sidebar_mhs.php";
 
@@ -31,12 +31,32 @@ if (isset($_SESSION['id_user'])) {
 
                 switch ($tab) {
 
+                    case 'data_demografi':
+                        include "maternitas/pengkajian_antenatal_care/halm_data_demografi.php";
+                        break;
+
+                    case 'riwayat_kelahiran_persalinan':
+                        include "maternitas/pengkajian_antenatal_care/halm_data_riwayat_kelahiran_persalinan.php";
+                    break;
+
+                    case 'pengkajian_fisik':
+                        include "maternitas/pengkajian_antenatal_care/halm_data_pengkajian_fisik.php";
+                    break;
+
+                    case 'terapi_lab':
+                        include "maternitas/pengkajian_antenatal_care/halm_data_terapi_lab.php";
+                    break;
+
+                    case 'analisa_data':
+                        include "maternitas/pengkajian_antenatal_care/halm_analisa_data.php";
+                    break;
+
                     case 'pengkajian':
                         include "maternitas/pengkajian_antenatal_care/halm_tambah_pengkajian.php";
                         break;
 
-                    case 'diagnosa_keperawatan':
-                        include "maternitas/pengkajian_antenatal_care/halm_tambah_diagnosa.php";
+                    case 'catatan_keperawatan':
+                        include "maternitas/pengkajian_antenatal_care/halm_catatan_keperawatan.php";
                         break;
 
                     case 'intervensi_keperawatan':
@@ -52,7 +72,7 @@ if (isset($_SESSION['id_user'])) {
                         break;
 
                     default:
-                        include "maternitas/pengkajian_antenatal_care/halm_tambah_demografi.php";
+                        include "maternitas/pengkajian_antenatal_care/halm_data_demografi.php";
                 }
 
                 break;

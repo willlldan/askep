@@ -1,14 +1,15 @@
 <?php
 
 $tabs = [
-    "pengkajian",
-    "diagnosa_keperawatan",
-    "intervensi_keperawatan",
-    "implementasi_keperawatan",
-    "evaluasi_keperawatan"
+    "data_demografi",
+    "riwayat_kelahiran_persalinan",
+    "pengkajian_fisik",
+    "terapi_lab",
+    "analisa_data",
+    "catatan_keperawatan",
 ];
 
-$currentTab = $_GET['tab'] ?? 'pengkajian';
+$currentTab = $_GET['tab'] ?? 'data_demografi';
 
 $index = array_search($currentTab, $tabs);
 
