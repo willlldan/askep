@@ -9,7 +9,7 @@
                 <span>Dashboard</span>
             </a>
         </li>
-        
+
         <!-- Tampil Maternitas -->
         <li class="nav-item">
 
@@ -21,15 +21,17 @@
 
             <ul id="maternitas-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
 
-                <li>
-                    <a href="index.php?page=maternitas/pengkajian_antenatal_care">
-                        <i class="bi bi-circle-fill"></i>
-                        <span>Input Maternitas</span>
-                    </a>
-                </li>
+                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
+                    <li>
+                        <a href="index.php?page=maternitas/pengkajian_antenatal_care">
+                            <i class="bi bi-circle-fill"></i>
+                            <span>Input Maternitas</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
 
                 <li>
-                    <a href="index.php?page=maternitas/detail/pengkajian_antenatal_care">
+                    <a href="index.php?page=maternitas/detail">
                         <i class="bi bi-circle"></i>
                         <span>Data Maternitas</span>
                     </a>
@@ -46,11 +48,13 @@
                 <i class="bi bi-people"></i><span>Keluarga</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="keluarga-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
                 <li>
                     <a href="index.php?page=keluarga">
                         <i class="bi bi-circle-fill"></i><span>Input Keluarga</span>
                     </a>
                 </li>
+                <?php endif; ?>
                 <li>
                     <a href="index.php?page=keluarga/detail">
                         <i class="bi bi-circle"></i><span>Data Keluarga</span>
@@ -71,12 +75,14 @@
 
             <ul id="kmb-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
 
+                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
                 <li>
                     <a href="index.php?page=kmb/format_hd_kmb">
                         <i class="bi bi-circle-fill"></i>
                         <span>Input KMB</span>
                     </a>
                 </li>
+                <?php endif; ?>
 
                 <li>
                     <a href="index.php?page=kmb/detail/format_hd_kmb">
@@ -99,12 +105,14 @@
 
             <ul id="gadar-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
 
+                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
                 <li>
                     <a href="index.php?page=gadar/icu">
                         <i class="bi bi-circle-fill"></i>
                         <span>Input Gawat Darurat</span>
                     </a>
                 </li>
+                <?php endif; ?>
 
                 <li>
                     <a href="index.php?page=gadar/detail/icu">
@@ -123,11 +131,13 @@
                 <i class="bi bi-heart"></i><span>Gerontik</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="gerontik-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
                 <li>
                     <a href="index.php?page=gerontik">
                         <i class="bi bi-circle-fill"></i><span>Input Gerontik</span>
                     </a>
                 </li>
+                <?php endif; ?>
                 <li>
                     <a href="index.php?page=gerontik/detail">
                         <i class="bi bi-circle"></i><span>Data Gerontik</span>
@@ -148,12 +158,14 @@
 
             <ul id="anak-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
 
+                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
                 <li>
                     <a href="index.php?page=anak/format_anggrek">
                         <i class="bi bi-circle-fill"></i>
                         <span>Input Anak</span>
                     </a>
                 </li>
+                <?php endif; ?>
 
                 <li>
                     <a href="index.php?page=anak/detail/format_anggrek">
@@ -176,12 +188,14 @@
 
             <ul id="jiwa-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
 
+                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
                 <li>
                     <a href="index.php?page=jiwa/jiwa_rsud">
                         <i class="bi bi-circle-fill"></i>
                         <span>Input Jiwa</span>
                     </a>
                 </li>
+                <?php endif; ?>
 
                 <li>
                     <a href="index.php?page=jiwa/detail/jiwa_rsud">
@@ -194,6 +208,5 @@
         </li>
 
     </ul>
-    
-</aside><!-- End Sidebar-->
 
+</aside><!-- End Sidebar-->

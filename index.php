@@ -13,7 +13,7 @@ if (isset($_SESSION['id_user'])) {
     // =====================
     // ADMIN
     // =====================
-    if ($_SESSION['level'] == 'Mahasiswa') {
+    if ($_SESSION['level'] == 'Mahasiswa' || $_SESSION['level'] == 'Dosen') {
 
         include_once "sidebar_mhs.php";
 
@@ -21,6 +21,10 @@ if (isset($_SESSION['id_user'])) {
             . ($tab ? " - $tab" : "")
             . "</H1>";
         switch ($page) {
+
+            case 'maternitas/detail':
+                include "maternitas/halm_data_maternitas.php";
+                break;
 
             // =====================
             // MATERNITAS ANTENATAL
@@ -37,22 +41,18 @@ if (isset($_SESSION['id_user'])) {
 
                     case 'riwayat_kelahiran_persalinan':
                         include "maternitas/pengkajian_antenatal_care/halm_data_riwayat_kelahiran_persalinan.php";
-                    break;
+                        break;
 
                     case 'pengkajian_fisik':
                         include "maternitas/pengkajian_antenatal_care/halm_data_pengkajian_fisik.php";
-                    break;
+                        break;
 
                     case 'terapi_lab':
                         include "maternitas/pengkajian_antenatal_care/halm_data_terapi_lab.php";
-                    break;
+                        break;
 
                     case 'analisa_data':
                         include "maternitas/pengkajian_antenatal_care/halm_analisa_data.php";
-                    break;
-
-                    case 'pengkajian':
-                        include "maternitas/pengkajian_antenatal_care/halm_tambah_pengkajian.php";
                         break;
 
                     case 'catatan_keperawatan':
@@ -352,7 +352,7 @@ if (isset($_SESSION['id_user'])) {
                     case 'pengkajian-riwayat':
                         include "gerontik/halm_tambah_pengkajian_riwayat.php";
                         break;
-                    
+
                     case 'pengkajian-fisik':
                         include "gerontik/halm_tambah_pengkajian_fisik.php";
                         break;
