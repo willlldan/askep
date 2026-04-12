@@ -62,13 +62,11 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/pengkajian_pascapartum':
 
-                $tab = $tab ?: 'pemeriksaanfisik';
+                $tab = $tab ?: 'identitas';
 
                 switch ($tab) {
 
-                    case 'pemeriksaanfisik':
-                        include "maternitas/pengkajian_pascapartum/halm_tambah_pemeriksaanfisik.php";
-                        break;
+                    
 
                         case 'identitas':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_identitas.php";
@@ -108,7 +106,7 @@ if (isset($_SESSION['id_user'])) {
                         break;
 
                     default:
-                        include "maternitas/pengkajian_pascapartum/halm_tambah_umum.php";
+                        include "maternitas/pengkajian_pascapartum/identitas.php";
                 }
 
                 break;

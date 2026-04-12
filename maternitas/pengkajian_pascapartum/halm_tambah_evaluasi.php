@@ -112,8 +112,8 @@ if (isset($_POST['submit'])) {
 
                         <div class="col-sm-9">
                             <input type="time" class="form-control" id="jam" name="jam">
-nput class="form-check-input" type="checkbox" disabled>
-                            </div>
+
+ 
                          </div>
                     </div>  
 
