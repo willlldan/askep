@@ -30,6 +30,9 @@ if (isset($_SESSION['id_user'])) {
                 $tab = $tab ?: 'pengkajian';
 
                 switch ($tab) {
+                    case 'identitas':
+                        include "maternitas/pengkajian_antenatal_care/halm_tambah_identitas.php";
+                        break;
 
                     case 'pengkajian':
                         include "maternitas/pengkajian_antenatal_care/halm_tambah_pengkajian.php";
