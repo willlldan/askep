@@ -1,5 +1,5 @@
 <?php
-$mysqli = new mysqli("localhost","root","root","arsip");
+$mysqli = new mysqli("localhost","root","","1");
 
 // Check connection
 if ($mysqli -> connect_errno) {
