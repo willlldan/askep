@@ -1,7 +1,11 @@
 <?php
 
 $tabs = [
-    "pengkajian",
+    "identitas",
+    "pengkajian_anamnesa",
+    "pengkajian_tanda_vital",
+    "pemeriksaan_fisik",
+    "program_terapi",
     "diagnosa_keperawatan",
     "intervensi_keperawatan",
     "implementasi_keperawatan",
