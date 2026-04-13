@@ -30,6 +30,9 @@ if (isset($_SESSION['id_user'])) {
                 $tab = $tab ?: 'pengkajian';
 
                 switch ($tab) {
+                    case 'identitas':
+                        include "maternitas/pengkajian_antenatal_care/halm_tambah_identitas.php";
+                        break;
 
                     case 'pengkajian':
                         include "maternitas/pengkajian_antenatal_care/halm_tambah_pengkajian.php";
@@ -62,13 +65,32 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/pengkajian_pascapartum':
 
-                $tab = $tab ?: 'pemeriksaanfisik';
+                $tab = $tab ?: 'identitas';
 
                 switch ($tab) {
 
-                    case 'pemeriksaanfisik':
-                        include "maternitas/pengkajian_pascapartum/halm_tambah_pemeriksaanfisik.php";
+                    
+
+                        case 'identitas':
+                        include "maternitas/pengkajian_pascapartum/halm_tambah_identitas.php";
                         break;
+                        case 'data_biologis':
+                        include "maternitas/pengkajian_pascapartum/halm_tambah_data_biologis.php";
+                        break;
+                         case 'pemeriksaan_fisik1':
+                        include "maternitas/pengkajian_pascapartum/halm_tambah_pemeriksaan_fisik1.php";
+                        break;
+                        case 'pemeriksaan_fisik2':
+                        include "maternitas/pengkajian_pascapartum/halm_tambah_pemeriksaan_fisik2.php";
+                        break;
+                        case 'pemeriksaan_fisik3':
+                        include "maternitas/pengkajian_pascapartum/halm_tambah_pemeriksaan_fisik3.php";
+                        break;
+
+                        case 'riwayat_kehamilan':
+                        include "maternitas/pengkajian_pascapartum/halm_tambah_riwayat_kehamilan.php";
+                        break;
+
 
                     case 'diagnosa_keperawatan':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_diagnosa.php";
@@ -87,7 +109,7 @@ if (isset($_SESSION['id_user'])) {
                         break;
 
                     default:
-                        include "maternitas/pengkajian_pascapartum/halm_tambah_umum.php";
+                        include "maternitas/pengkajian_pascapartum/identitas.php";
                 }
 
                 break;

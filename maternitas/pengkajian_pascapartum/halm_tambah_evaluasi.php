@@ -72,81 +72,8 @@ if (isset($_POST['submit'])) {
 ?>
 
 <main id="main" class="main">
-    <div class="pagetitle">
-        <h1><strong>Pengkajian Post Partum</strong></h1>
-        <!-- <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-        </nav> -->
-    </div><!-- End Page Title -->
-    <br>
+        <?php include "navbar_maternitas.php"; ?>
 
-    <ul class="nav nav-tabs custom-tabs">
-        
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pemeriksaanfisik' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_pascapartum&tab=pemeriksaanfisik">
-        Pemeriksaan Fisik
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_pascapartum&tab=diagnosa_keperawatan">
-        Diagnosa keperawatan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'intervensi_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_pascapartum&tab=intervensi_keperawatan">
-        Intervensi keperawatan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_pascapartum&tab=implementasi_keperawatan">
-        Implementasi keperawatan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_pascapartum&tab=evaluasi_keperawatan">
-        Evaluasi keperawatan
-        </a>
-    </li>
-
-    </ul>
-
-        <style>
-        .custom-tabs {
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .custom-tabs .nav-link {
-            border: none;
-            background: transparent;
-            color: #f6f9ff;
-            font-weight: 500;
-            padding: 10px 20px;
-        }
-
-        .custom-tabs .nav-link:hover {
-            color: #4154f1;
-        }
-
-        .custom-tabs .nav-link.active {
-            border: none;
-            border-bottom: 3px solid #4154f1;
-            color: #4154f1;
-            font-weight: 600;
-            background: transparent;
-        }
-        </style>
 
     <section class="section dashboard">
         <div class="card">
@@ -163,16 +90,7 @@ if (isset($_POST['submit'])) {
 
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="nodx">
-                            
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
                          </div>
                     </div> 
 
@@ -183,16 +101,7 @@ if (isset($_POST['submit'])) {
 
                         <div class="col-sm-9">
                             <input type="datetime-local" class="form-control" id="hari_tgl" name="hari_tgl">
-                             
-                            <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenthari_tgl" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
                          </div>
                     </div>
 
@@ -203,16 +112,8 @@ if (isset($_POST['submit'])) {
 
                         <div class="col-sm-9">
                             <input type="time" class="form-control" id="jam" name="jam">
-                            
-                        <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentjam" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
+ 
                          </div>
                     </div>  
 
@@ -267,17 +168,6 @@ if (isset($_POST['submit'])) {
                         </div>
                     </div>
 
-                     <!-- comment -->
-                      <div class="row mb-3">
-                        <div class="offset-sm-2 col-sm-9">
-                            <textarea class="form-control mt-2" name="commentevaluasi" id="commentevaluasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
                          </div>
                     </div>
                    

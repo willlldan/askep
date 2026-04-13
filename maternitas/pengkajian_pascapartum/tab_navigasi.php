@@ -1,7 +1,12 @@
 <?php
 
 $tabs = [
-    "pemeriksaanfisik",
+    "identitas",
+    "riwayat_kehamilan",
+    "data_biologis",
+    "pemeriksaan_fisik1",
+    "pemeriksaan_fisik2",
+    "pemeriksaan_fisik3",
     "diagnosa_keperawatan",
     "intervensi_keperawatan",
     "implementasi_keperawatan",
