@@ -77,7 +77,7 @@ if (isset($_POST['submit'])) {
 
      <div class="card">
             <div class="card-body">
-    <h5 class="card-title"><strong>DATA MAHASISWA</strong></h5>
+    <h5 class="card-title"><strong>DATA MAHASISWA poltek</strong></h5>
 
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">

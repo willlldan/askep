@@ -85,7 +85,7 @@ if (isset($_POST['submit'])) {
                 <!-- Bagian Inisial Pasien -->
                 <div class="row mb-3">
                     <label for="namamahasiswa" class="col-sm-2 col-form-label"><strong>Nama Mahasiswa</strong></label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-10">
                         <input type="text" class="form-control" name="namamahasiswa" required>
                         <div class="invalid-feedback">
                             Harap isi Nama Mahasiswa.
@@ -96,7 +96,7 @@ if (isset($_POST['submit'])) {
                 <!-- Bagian NPM -->
                 <div class="row mb-3">
                     <label for="npm" class="col-sm-2 col-form-label"><strong>NPM</strong></label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-10">
                         <input type="text" class="form-control" name="npm" required>
                         <div class="invalid-feedback">
                             Harap isi NPM.
@@ -107,7 +107,7 @@ if (isset($_POST['submit'])) {
                 <!-- Bagian Tanggal Pengkajian -->
                 <div class="row mb-3">
                     <label for="tglpengkajian" class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-10">
                         <input type="datetime-local" class="form-control" id="tglpengkajian" name="tglpengkajian" required>
                         <div class="invalid-feedback">
                             Harap isi Tanggal Pengkajian.
@@ -118,7 +118,7 @@ if (isset($_POST['submit'])) {
                 <!-- Bagian RS/Ruangan -->
                 <div class="row mb-3">
                     <label for="rsruangan" class="col-sm-2 col-form-label"><strong>RS/Ruangan</strong></label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-10">
                         <input type="text" class="form-control" name="rsruangan" required>
                         <div class="invalid-feedback">
                             Harap isi RS/Ruangan.
@@ -134,7 +134,7 @@ if (isset($_POST['submit'])) {
 
                 <div class="row mb-3">
                     <label for="jenismaternitas" class="col-sm-2 col-form-label"><strong>Maternitas</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
 
                                 <select class="form-select" name="jenismaternitas"
                         onchange="window.location=this.value" required>
