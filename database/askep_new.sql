@@ -19,6 +19,25 @@
 CREATE DATABASE IF NOT EXISTS `askep_new` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `askep_new`;
 
+-- Dumping structure for table askep_new.tbl_user
+CREATE TABLE IF NOT EXISTS `tbl_user` (
+  `id_user` int NOT NULL AUTO_INCREMENT,
+  `nama` varchar(50) NOT NULL,
+  `npm` varchar(50) DEFAULT NULL,
+  `username` varchar(15) NOT NULL,
+  `password` varchar(10) NOT NULL,
+  `level` enum('Admin','Dosen','Mahasiswa') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Dumping data for table askep_new.tbl_user: ~4 rows (approximately)
+INSERT INTO `tbl_user` (`id_user`, `nama`, `npm`, `username`, `password`, `level`) VALUES
+	(3, 'admin', NULL, 'admin', 'admin', 'Admin'),
+	(4, 'mahasiswa', '123123111', 'mahasiswa', 'mahasiswa', 'Mahasiswa'),
+	(7, 'Bambang', NULL, 'dosen', 'dosen', 'Dosen'),
+	(8, 'tasha', '173040071', 'tasha', 'tasha', 'Mahasiswa');
+
+
 -- Dumping structure for table askep_new.forms
 CREATE TABLE IF NOT EXISTS `forms` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -115,24 +134,6 @@ INSERT INTO `submission_sections` (`id`, `submission_id`, `section_name`, `secti
 	(36, 9, 'program_terapi_lab', 'Program Terapi dan Laboratorium', '{"lab": [{"hasil": "Normal", "pemeriksaan": "Test Darah", "nilai_normal": "Normal"}], "obat": [{"dosis": "20mg", "kegunaan": "Pereda Nyeri", "jenis_obat": "Amoxiling", "cara_pemberian": "Diminum"}]}', 'approved', '2026-04-12 13:12:03'),
 	(37, 9, 'analisa_data', 'Analisa Data', '{"analisa": [{"ds_do": "DS/DO", "masalah": "Masalh", "etiologi": "ETiologi"}], "klasifikasi": [{"do": "DO", "ds": "DS"}]}', 'approved', '2026-04-12 13:12:09'),
 	(38, 9, 'catatan_keperawatan', 'Catatan Keperawatan', '{"diagnosa": [{"diagnosa": "asdas", "tgl_teratasi": "2026-04-07", "tgl_ditemukan": "2026-04-22"}], "evaluasi": [{"jam": "00:11", "no_dx": "1", "hari_tgl": "2026-04-12", "evaluasi_a": "asd", "evaluasi_o": "asd", "evaluasi_p": "asd", "evaluasi_s": "asdsad"}], "intervensi": [{"diagnosa": "asdasd", "intervensi": "asdas", "tujuan_kriteria": "asdas"}], "implementasi": [{"jam": "20:08", "no_dx": "1", "hari_tgl": "2026-04-12", "implementasi": "asdas"}]}', 'approved', '2026-04-12 13:12:43');
-
--- Dumping structure for table askep_new.tbl_user
-CREATE TABLE IF NOT EXISTS `tbl_user` (
-  `id_user` int NOT NULL AUTO_INCREMENT,
-  `nama` varchar(50) NOT NULL,
-  `npm` varchar(50) DEFAULT NULL,
-  `username` varchar(15) NOT NULL,
-  `password` varchar(10) NOT NULL,
-  `level` enum('Admin','Dosen','Mahasiswa') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Dumping data for table askep_new.tbl_user: ~4 rows (approximately)
-INSERT INTO `tbl_user` (`id_user`, `nama`, `npm`, `username`, `password`, `level`) VALUES
-	(3, 'admin', NULL, 'admin', 'admin', 'Admin'),
-	(4, 'mahasiswa', '123123111', 'mahasiswa', 'mahasiswa', 'Mahasiswa'),
-	(7, 'Bambang', NULL, 'dosen', 'dosen', 'Dosen'),
-	(8, 'tasha', '173040071', 'tasha', 'tasha', 'Mahasiswa');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
