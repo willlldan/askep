@@ -86,6 +86,20 @@ if (isset($_POST['submit'])) {
     <ul class="nav nav-tabs custom-tabs">
 
     <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? 'umum') == 'umum' ? 'active' : '' ?>"
+        href="?page=maternitas/pengkajian_inranatal_care&tab=umum">
+        Data Umum
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? 'riwayatpersalinan') == 'riwayatpersalinan' ? 'active' : '' ?>"
+        href="?page=maternitas/pengkajian_inranatal_care&tab=riwayatpersalinan">
+        Riwayat Persalinan
+        </a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'laporanpersalinan' ? 'active' : '' ?>"
         href="?page=maternitas/pengkajian_inranatal_care&tab=laporanpersalinan">
         Laporan Persalinan
@@ -125,6 +139,13 @@ if (isset($_POST['submit'])) {
         <style>
         .custom-tabs {
             border-bottom: 1px solid #dee2e6;
+            display: flex;
+            width: 100%;
+        }
+
+        .custom-tabs .nav-item {
+            flex: 1;
+            display: flex;
         }
 
         .custom-tabs .nav-link {
@@ -132,7 +153,15 @@ if (isset($_POST['submit'])) {
             background: transparent;
             color: #f6f9ff;
             font-weight: 500;
-            padding: 10px 20px;
+            padding: 10px 15px;
+            
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            width: 100%;
+            height: 100%;
+            text-align: left;
         }
 
         .custom-tabs .nav-link:hover {
@@ -147,7 +176,7 @@ if (isset($_POST['submit'])) {
             background: transparent;
         }
         </style>
-
+        
     <section class="section dashboard">
         <div class="card">
             <div class="card-body">
@@ -161,18 +190,8 @@ if (isset($_POST['submit'])) {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Diagnosa</strong></label>
 
-                        <div class="col-sm-9">
-                           <textarea name="diagnona" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentdiagnosa" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
+                        <div class="col-sm-10">
+                           <textarea name="diagnosa" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
                          </div>
                     </div> 
 
@@ -180,18 +199,8 @@ if (isset($_POST['submit'])) {
                     <div class="row mb-3">
                         <label for="tgl_ditemukan" class="col-sm-2 col-form-label"><strong>Tanggal Ditemukan</strong></label>
 
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="datetime-local" class="form-control" id="tgl_ditemukan" name="tgl_ditemukan">
-                             
-                            <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenttgl_ditemukan" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
                          </div>
                     </div>
 
@@ -199,24 +208,14 @@ if (isset($_POST['submit'])) {
                     <div class="row mb-3">
                         <label for="tgl_teratasi" class="col-sm-2 col-form-label"><strong>Tanggal Teratasi</strong></label>
 
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="datetime-local" class="form-control" id="tgl_teratasi" name="tgl_teratasi">
-                            
-                             <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenttfl_teratasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
                          </div>
                     </div>
 
                     <!-- Bagian Button -->    
                     <div class="row mb-3">
-                        <div class="col-sm-11 justify-content-end d-flex">
+                        <div class="col-sm-12 justify-content-end d-flex">
                             <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </div> 
@@ -237,7 +236,7 @@ if (isset($_POST['submit'])) {
                     }
                     </style>
 
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" style="table-layout: fixed; width: 100%;">
                         <thead>
                             <tr>
                                 <th class="text-center">Diagnosa</th>
