@@ -1,10 +1,6 @@
 <?php
   require_once "koneksi.php";
   require_once "utils.php";
-
-  $data_notif = getAllDataPinjaman($mysqli);
-  getUrlDetailPeminjaman("Peminjaman", 1);
-
 ?>
 
 <header id="header" class="header fixed-top d-flex align-items-center">
@@ -23,7 +19,6 @@
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-bell"></i>
             <span class="badge bg-primary badge-number"> 1 </span>
-                        <!-- <span class="badge bg-primary badge-number"><?= $data_notif['count'] ?> </span> -->
           </a><!-- End Notification Icon -->
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
