@@ -1,16 +1,17 @@
 <?php
 
 $tabs = [
+    "demografi",
     "format_askep",
     "klasifikasi_data",
     "analisa",
     "diagnosa_keperawatan",
     "rencana",
-    "implementasi",
-    "evaluasi",
+    "implementasi_keperawatan",
+    "evaluasi_keperawatan",
 ];
 
-$currentTab = $_GET['tab'] ?? 'format_askep';
+$currentTab = $_GET['tab'] ?? 'demografi';
 
 $index = array_search($currentTab, $tabs);
 

@@ -239,7 +239,7 @@ if (isset($_POST['submit'])) {
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th class="text-center">Diagnosa</th>
+                                <th class="text-center">Diagnosa Keperawatan</th>
                                 <th class="text-center">Tujuan dan Kriteria Hasil</th>
                                 <th class="text-center">Intervensi</th>
                         </tr>

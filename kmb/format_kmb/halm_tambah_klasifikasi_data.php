@@ -72,80 +72,7 @@ if (isset($_POST['submit'])) {
 ?>
 
 <main id="main" class="main">
-    <div class="pagetitle">
-        <h1><strong>KEPERAWATAN MEDIKAL BEDAH </strong></h1>
-        <!-- <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-        </nav> -->
-    </div><!-- End Page Title -->
-    <br>
-
-   <ul class="nav nav-tabs custom-tabs">
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'demografi' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_kmb&tab=demografi"> Format Laporan Pendahuluan (LP) Keperawatan Medikal Bedah  </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'format_askep' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_kmb&tab=format_askep"> Format Askep KMB </a>
-    </li>
-        <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'klasifikasi_data' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_kmb&tab=klasifikasi_data"> Klasifikasi Data </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_kmb&tab=analisa"> Analisa Data </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa_keperawatan' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_kmb&tab=diagnosa_keperawatan"> Diagnosa Keperawatan </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'rencana' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_kmb&tab=rencana"> Rencana Keperawatan </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi_keperawatan' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_kmb&tab=implementasi_keperawatan"> Implementasi Keperawatan </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi_keperawatan' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_kmb&tab=evaluasi_keperawatan"> Evaluasi Keperawatan </a>
-    </li>
-    </ul>
-
-        <style>
-        .custom-tabs {
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .custom-tabs .nav-link {
-            border: none;
-            background: transparent;
-            color: #f6f9ff;
-            font-weight: 500;
-            padding: 10px 20px;
-        }
-
-        .custom-tabs .nav-link:hover {
-            color: #4154f1;
-        }
-
-        .custom-tabs .nav-link.active {
-            border: none;
-            border-bottom: 3px solid #4154f1;
-            color: #4154f1;
-            font-weight: 600;
-            background: transparent;
-        }
-        </style>
-
+            <?php include "kmb/format_kmb/tab.php"; ?>
     <section class="section dashboard">
                         <div class="card">
             <div class="card-body">
@@ -163,15 +90,6 @@ if (isset($_POST['submit'])) {
                     <div class="col-sm-9">
                         <textarea name="datasubjektif" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentdatasubjektif" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
                          </div>
                     </div> 
 
@@ -181,15 +99,6 @@ if (isset($_POST['submit'])) {
                     <div class="col-sm-9">
                         <textarea name="dataobjektif" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentdataobjektif" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
                          </div>
                     </div>  
 

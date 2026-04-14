@@ -245,7 +245,7 @@ if (isset($_POST['submit'])) {
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th class="text-center">Do/Ds</th>
+                                <th class="text-center">Diagnosa Keperawatan</th>
                                 <th class="text-center">Tanggal Ditemukan</th>
                                 <th class="text-center">Tanggal Teratasi</th>
                         </tr>
