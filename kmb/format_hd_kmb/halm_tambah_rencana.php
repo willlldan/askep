@@ -103,12 +103,7 @@ Format Hermodalisa (HD) </a>
         Format Resume Ruang HD
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=analisa">
-        Analisa Keperawatan
-        </a>
-    </li>
+    
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa' ? 'active' : '' ?>"
         href="index.php?page=kmb/format_hd_kmb&tab=diagnosa">
@@ -175,23 +170,7 @@ Rencana Keperawatan        </a>
 
                     <!-- Bagian No -->
 
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>No</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="diagnosa" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentdiagnosa" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
+                 
                 <!-- Bagian Diagnosa -->
 
                     <div class="row mb-3">
