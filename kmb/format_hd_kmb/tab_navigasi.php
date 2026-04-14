@@ -4,14 +4,14 @@ $tabs = [
     "lp_ruanghd",
     "format_hd",
     "resume",
-    "analisa",
+//    "analisa",
     "diagnosa",
     "rencana",
     "implementasi",
     "evaluasi",
 ];
 
-$currentTab = $_GET['tab'] ?? 'lp_ruanghd';
+$currentTab = $_GET['tab'] ?? 'demografi';
 
 $index = array_search($currentTab, $tabs);
 

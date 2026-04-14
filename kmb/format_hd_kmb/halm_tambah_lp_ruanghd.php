@@ -73,468 +73,204 @@ if (isset($_POST['submit'])) {
 
 <main id="main" class="main">
 
-   <!-- Card Identitas -->
-
-     <div class="card">
-            <div class="card-body">
-    <h5 class="card-title"><strong>DATA MAHASISWA</strong></h5>
-
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-                
-                <!-- Bagian Nama Mahasiswa -->
-                <div class="row mb-3">
-                    <label for="namamahasiswa" class="col-sm-2 col-form-label"><strong>Nama Mahasiswa</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="namamahasiswa" required>
-                        <div class="invalid-feedback">
-                            Harap isi Nama Mahasiswa.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bagian NPM -->
-                <div class="row mb-3">
-                    <label for="npm" class="col-sm-2 col-form-label"><strong>NPM</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="npm" required>
-                        <div class="invalid-feedback">
-                            Harap isi NPM.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bagian Tanggal Pengkajian -->
-                <div class="row mb-3">
-                    <label for="tglpengkajian" class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
-                    <div class="col-sm-9">
-                        <input type="datetime-local" class="form-control" id="tglpengkajian" name="tglpengkajian" required>
-                        <div class="invalid-feedback">
-                            Harap isi Tanggal Pengkajian.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bagian RS/Ruangan -->
-                <div class="row mb-3">
-                    <label for="rsruangan" class="col-sm-2 col-form-label"><strong>RS/Ruangan</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="rsruangan" required>
-                        <div class="invalid-feedback">
-                            Harap isi RS/Ruangan.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Jenis Maternitas -->
-
-                <!-- Jenis KMB -->
-
-                <?php
-                    $jenismaternitas = $_GET['jeniskmb'] ?? 'hd';
-                   
-                ?>
-
-                <div class="row mb-3">
-                    <label for="jeniskmb" class="col-sm-2 col-form-label"><strong>Keperawatan Medikal Bedah</strong></label>
-                        <div class="col-sm-9">
-
-                                <select class="form-select" name="jeniskmb"
-                        onchange="window.location=this.value" required>
-
-                        <option value="">Pilih</option>
-
-                        <option value="index.php?page=kmb/pengkajian_ruang_ok&tab=pengkajian&jeniskmb=ok"
-                        <?= $jenismaternitas == 'ok' ? 'selected' : '' ?>>
-                        Pengkajian Askep Ruang OK
-                        </option>
-
-                        <option value="index.php?page=kmb/format_kmb&tab=demografi&jeniskmb=kmb"
-                        <?= $jenismaternitas == 'kmb' ? 'selected' : '' ?>>
-                        Format KMB
-                        </option>
-
-                        <option value="index.php?page=kmb/format_hd_kmb&tab=demografi&jeniskmb=hd"
-                        <?= $jenismaternitas == 'hd' ? 'selected' : '' ?>>
-                        Format HD KMB
-                        </option>
-
-                        </select>
-                        <div class="invalid-feedback">
-                            Harap isi Jenis KMB.
-                        </div>
-                    </div>
-                </div>
-
-             </div>
-    </div>
-
-    <div class="pagetitle">
-        <h1><strong>Format HD</strong></h1>
-    </div><!-- End Page Title -->
-    <br>
-
-   <ul class="nav nav-tabs custom-tabs">
-
-   <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'lp_ruanghd') == 'lp_ruanghd' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=lp_ruanghd">
-            Format Laporan Pendahuluan Ruang HD</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'format_hd' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=format_hd">
-Format Hermodalisa (HD) </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'resume' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=resume">
-        Format Resume Ruang HD
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=analisa">
-        Analisa Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=diagnosa">
-        Diagnosa Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'rencana' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=rencana">
-Rencana Keperawatan        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=implementasi">
-        Implementasi Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=evaluasi">
-        Evaluasi Keperawatan
-        </a>
-    </li>
-    
-    </ul>
-
-    <style>
-    .custom-tabs {
-        border-bottom: 1px solid #dee2e6;
-    }
-
-    .custom-tabs .nav-link {
-        border: none;
-        background: transparent;
-        color: #f6f9ff;
-        font-weight: 500;
-        padding: 10px 20px;
-    }
-
-    .custom-tabs .nav-link:hover {
-        color: #4154f1;
-    }
-
-    .custom-tabs .nav-link.active {
-        border: none;
-        border-bottom: 3px solid #4154f1;
-        color: #4154f1;
-        font-weight: 600;
-        background: transparent;
-    }
-    </style>
 
     <section class="section dashboard">
+        <?php include "kmb/format_hd_kmb/tab.php"; ?>
        
 <div class="card">
              <div class="card-body">
                                 
                      <!-- General Form Elements -->
                     <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+                         <div class="row mb-3 mt-3">
+                        <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" name="tglpengkajian">
+                               
+                        </div>
+                    </div>
 
-                    <h5 class="card-title"><strong> FORMAT LAPORAN PENDAHULUAN RUANG HD</strong></h5>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>RS/Ruangan</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="rsruangan">
+                                
+                        </div>
+                    </div>
+
+                    <h5 class="card-title"><strong>A.  Konsep Dasar Penyakit (Chronic Kidney Disease (CKD))</strong></h5>
                                  <!-- A KONSEP DASAR MEDIS -->
-<div class="row mb-2">
-<label class="col-sm-12 text-primary">
-<strong>A.  Konsep Dasar Penyakit (Chronic Kidney Disease (CKD))</strong>
-</label>
+
+                            <div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>1. Definisi</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="definisi">
+        </div>
+       
 </div>
 
-<!-- 1 PENGERTIAN -->
+                    <div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>2. Klasifikasi</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="klasifikasi">
+</div>
+</div>
+
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>1. Definisi </strong></label>
+    <div class="col-sm-2 col-form-label">
+        <strong>3. Etiologi</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="etiologi">
+  
+        </div>
+        </div>
 
-<div class="col-sm-9">
-<textarea class="form-control" rows="4" name="pengertian"></textarea>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
-
-<!-- 2 ETIOLOGI -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>2. Klasifikasi</strong></label>
+    <div class="col-sm-2 col-form-label">
+        <strong>4. Manifestasi Klinik</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="manifestasi_klinik">
+    
+         </div>
+        </div>
 
-<div class="col-sm-9">
-<textarea class="form-control" rows="4" name="etiologi"></textarea>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
-
-<!-- 2 ETIOLOGI -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>3. Etiologi</strong></label>
+    <div class="col-sm-2 col-form-label">
+        <strong>5. Patofisiologi</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="patofisiologi">
+   
+         </div>
+        </div>
 
-<div class="col-sm-9">
-<textarea class="form-control" rows="4" name="etiologi"></textarea>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
-
-<!-- 3 PATOFISIOLOGI -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>4. Manifestasi Klinik </strong></label>
+    <div class="col-sm-2 col-form-label">
+        <strong>6. Pemeriksaan penunjang</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="pemeriksaan_penunjang">
+   
+         </div>
+        </div>
 
-<div class="col-sm-9">
-<textarea class="form-control" rows="4" name="manifestasi_klinik"></textarea>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
-
-<!-- 4 MANIFESTASI KLINIK -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>5. Patofisiologi </strong></label>
+    <div class="col-sm-2 col-form-label">
+        <strong>7. Penatalaksanaan</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="penatalaksanaan">
+     
+         </div>
+        </div>
 
-<div class="col-sm-9">
-<textarea class="form-control" rows="4" name="patofisiologi"></textarea>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
-
-<!-- 5 PEMERIKSAAN DIAGNOSTIC -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>6. Pemeriksaan penunjang</strong></label>
-
-<div class="col-sm-9">
-<textarea class="form-control" rows="4" name="pemeriksaan_penunjang"></textarea>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
+    <div class="col-sm-2 col-form-label">
+        <strong>8. Komplikasi</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="komplikasi">
+     
+         </div>
+        </div>
+  
+        </div>
+        </div>
+        </div>
 </div>
-
-<div class="col-sm-1">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
-
-<!-- 6 PENATALAKSANAAN -->
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>7. Penatalaksanaan</strong></label>
-
-<div class="col-sm-9">
-<textarea class="form-control" rows="4" name="penatalaksanaan"></textarea>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>8. Komplikasi</strong></label>
-
-<div class="col-sm-9">
-<textarea class="form-control" rows="4" name="komplikasi"></textarea>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
+</section>
+        
+        
+                <div class="card">
+             <div class="card-body">
                     <div class="row mb-2">
                         <label class="col-sm-4 col-form-label text-primary">
                             <strong>B.  Konsep Dasar Hemodialisa</strong>
                     </div>
-
-            <!-- Bagian Pengertian -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>1. Pengertian</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="Pengertian" required>
-                      <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
-                            </div>
-                         </div>
-                    </div>
-
-            <!-- Bagian Etiologi -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>2. Tujuan</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="Etiologi" required>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bagian Patofisiologi -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>3. Proses Hemodialisa</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="Patofisiolog" required>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bagian Manifestasi Klinik -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>4. Alasan dilakukan Hemodialisa</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="Manifestasi_Klinik" required>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bagian Pemeriksaan Diagnostic -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>5. Indikasi Hemodialisa</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="Pemeriksaan_diagnostic" required>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bagian Penatalaksanaan -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>6. Kontraindikasi Hemodialisa</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="Penatalaksanaan" required>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-                </div>
-                  <!-- Bagian Penatalaksanaan -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>7.   Frekuensi Hemodialisa</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="Penatalaksanaan" required>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-                </div>
-                  <!-- Bagian Penatalaksanaan -->
-            <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>8.   Komplikasi Hemodialisa</strong></label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="Penatalaksanaan" required>
-                    <textarea class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-                </div>
-                <div class="col-sm-1 d-flex align-items-start">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentusiaistri').style.display = this.checked ? 'none' : 'block'">
-                    </div>
-                </div>
-                </div>
-
-                    <?php include "tab_navigasi.php"; ?>
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>1. Pengertian</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="pengertian">
+        
+         </div>
+        </div>
+            
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>2. Tujuan</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="tujuan">
+      
+         </div>
+        </div>
+          
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>3. Proses Hemodialisa</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="proses_hemodialisa">
+       
+         </div>
+        </div>
+          
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>4. Alasan dilakukan Hemodialisa</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="alasan_hemodialisa">
+       
+         </div>
+        </div>
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>5. Indikasi Hemodialisa</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="indikasi_hemodialisa">
+      
+         </div>
+        </div>
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>6. Kontraindikasi Hemodialisa</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="kontraindikasi_hemodialisa">
+       
+          </div>
+        </div>
+                <div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>7.   Frekuensi Hemodialisa</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="frekuensi_hemodialisa">
+        
+          </div>
+        </div>
+                <div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>8.   Komplikasi Hemodialisa</strong>
+    </div>
+    <div class="col-sm-9">
+        <input type="text" class="form-control" name="komplikasi">
+       
+         </div>
+        </div>
+        </div>
+        </div>
+</section>            <?php include "tab_navigasi.php"; ?>
 
 </main>
 
