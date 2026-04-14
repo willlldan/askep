@@ -89,7 +89,7 @@ if (isset($_POST['submit'])) {
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lp_ruangok' ? 'active' : '' ?>"
         href="index.php?page=kmb/pengkajian_ruang_ok&tab=lp_ruangok">
-        Format Laporan Pendahuluan Ruang OK</a>
+        Format Laporan Pendahuluan Ruang Ok</a>
     </li>
 
     <li class="nav-item">
@@ -101,7 +101,7 @@ if (isset($_POST['submit'])) {
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'resume' ? 'active' : '' ?>"
        href="index.php?page=kmb/pengkajian_ruang_ok&tab=resume">
-        Format Resume Ruang OK
+        Format Resume Ruang Ok
         </a>
     </li>
    
