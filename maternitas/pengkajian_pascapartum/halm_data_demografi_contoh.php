@@ -119,7 +119,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <main id="main" class="main">
 
-    <?php include "maternitas/pengkajian_antenatal_care/tab.php"; ?>
+    <?php include "navbar_maternitas.php"; ?>
 
     <section class="section dashboard">
 

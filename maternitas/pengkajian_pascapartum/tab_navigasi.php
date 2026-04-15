@@ -2,15 +2,16 @@
 
 $tabs = [
     "identitas",
-    "riwayat_kehamilan",
     "data_biologis",
     "pemeriksaan_fisik1",
     "pemeriksaan_fisik2",
     "pemeriksaan_fisik3",
-    "diagnosa_keperawatan",
-    "intervensi_keperawatan",
-    "implementasi_keperawatan",
-    "evaluasi_keperawatan"
+    "terapi_lab",
+     "riwayat_kehamilan",
+    "lainnya",
+    // "intervensi_keperawatan",
+    // "implementasi_keperawatan",
+    // "evaluasi_keperawatan"
 ];
 
 $currentTab = $_GET['tab'] ?? 'pemeriksaanfisik';
