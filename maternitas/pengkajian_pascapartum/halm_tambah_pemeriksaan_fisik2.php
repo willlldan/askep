@@ -1,62 +1,171 @@
 <?php
 require_once "koneksi.php";
 require_once "utils.php";
-// Inisialisasi variabel form agar tidak undefined/null
-$nama = $nama ?? '';
-$tempat_lahir = $tempat_lahir ?? '';
-$tgl_lahir = $tgl_lahir ?? '';
-$jenis_kelamin = $jenis_kelamin ?? '';
-$status_perkawinan = $status_perkawinan ?? '';
-$agama = $agama ?? '';
-$pendidikan = $pendidikan ?? '';
-$pekerjaan_sekarang = $pekerjaan_sekarang ?? '';
-$pekerjaan_sebelumnya = $pekerjaan_sebelumnya ?? '';
-$tgl_pengkajian = $tgl_pengkajian ?? '';
-$alamat = $alamat ?? '';
+$form_id       = 3;
+$level         = $_SESSION['level'];
+$user_id       = $_SESSION['id_user'];
+$section_name  = 'pemeriksaan_fisik2';
+$section_label = 'Pemeriksaan Fisik2';
 
-// Handle form submission
-$alert = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect form data
-    $nama = $_POST['nama'] ?? '';
-    $tempat_lahir = $_POST['tempat_lahir'] ?? '';
-    $tgl_lahir = $_POST['tgl_lahir'] ?? '';
-    $jenis_kelamin = $_POST['jenis_kelamin'] ?? '';
-    $status_perkawinan = $_POST['status_perkawinan'] ?? '';
-    $agama = $_POST['agama'] ?? '';
-    $pendidikan = $_POST['pendidikan'] ?? '';
-    $pekerjaan_sekarang = $_POST['pekerjaan_sekarang'] ?? '';
-    $pekerjaan_sebelumnya = $_POST['pekerjaan_sebelumnya'] ?? '';
-    $tgl_pengkajian = $_POST['tgl_pengkajian'] ?? '';
-    $alamat = $_POST['alamat'] ?? '';
-
-    // Audit fields
-    $created_at = date('Y-m-d H:i:s');
-    $updated_at = $created_at;
-    // You may want to get this from session or auth system
-    $created_by = isset($_SESSION['username']) ? $_SESSION['username'] : 'system';
-    $updated_by = $created_by;
-
-    // Insert into database
-    $sql = "INSERT INTO tbl_gerontik_identitas (nama, tempat_lahir, tgl_lahir, jenis_kelamin, status_perkawinan, agama, pendidikan, pekerjaan_sekarang, pekerjaan_sebelumnya, tgl_pengkajian, alamat, created_at, created_by, updated_at, updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $mysqli->prepare($sql);
-    if ($stmt) {
-        $stmt->bind_param('sssssssssssssss', $nama, $tempat_lahir, $tgl_lahir, $jenis_kelamin, $status_perkawinan, $agama, $pendidikan, $pekerjaan_sekarang, $pekerjaan_sebelumnya, $tgl_pengkajian, $alamat, $created_at, $created_by, $updated_at, $updated_by);
-        if ($stmt->execute()) {
-            $new_id = $stmt->insert_id ? $stmt->insert_id : $mysqli->insert_id;
-            echo "<script>window.location.href = 'index.php?page=gerontik&tab=pengkajian-riwayat&idpasien=" . urlencode($new_id) . "';</script>";
-            exit;
-        } else {
-            $alert = '<div class="alert alert-danger">Gagal menyimpan data: ' . htmlspecialchars($stmt->error) . '</div>';
-        }
-        $stmt->close();
-    } else {
-        $alert = '<div class="alert alert-danger">Gagal menyiapkan statement: ' . htmlspecialchars($mysqli->error) . '</div>';
+// =============================================
+// DOSEN: ambil submission berdasarkan ?submission_id=
+// MAHASISWA: ambil submission milik sendiri
+// =============================================
+if ($level === 'Dosen') {
+    $submission_id_param = $_GET['submission_id'] ?? null;
+    if (!$submission_id_param) {
+        echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
+        exit;
     }
-} ?>
+    $stmt = $mysqli->prepare("
+        SELECT s.*, r.nama as dosen_name
+        FROM submissions s
+        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
+        WHERE s.id = ?
+    ");
+    $stmt->bind_param("i", $submission_id_param);
+    $stmt->execute();
+    $submission = $stmt->get_result()->fetch_assoc();
+} else {
+    $submission = getSubmission($user_id, $form_id, $mysqli);
+}
+
+$existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
+$section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
+$tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
+$rs_ruangan     = $submission['rs_ruangan'] ?? '';
+
+// =============================================
+// HANDLE POST - MAHASISWA SIMPAN DATA
+// =============================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
+
+    if (isLocked($submission)) {
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
+    }
+
+    $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
+    $rs_ruangan     = $_POST['rsruangan'] ?? '';
+
+    $data = [
+         'bunyinapas'                => $_POST['bunyinapas'] ?? '',
+        'suarajantung'              => $_POST['suarajantung'] ?? '',
+        'masalah_khusus_dada'       => $_POST['masalahkhususdada'] ?? '',
+        'inspeksi_bentuk'           => $_POST['inspeksibentuk'] ?? '',
+        'inspeksi_colostum'         => $_POST['inspeksicolostum'] ?? '',
+        'inspeksi_puting'           => $_POST['inspeksiputing'] ?? '',
+        'inspeksi_pembengkakan'     => $_POST['inspeksipembengkakan'] ?? '',
+        'palpasi_raba'              => $_POST['palpasiraba'] ?? '',
+        'palpasi_benjolan'          => $_POST['palpasibenjolan'] ?? '',
+        'masalah'                   => $_POST['masalah'] ?? '',
+        'inspeksiabdomen'           => $_POST['inspeksiabdomen'] ?? '',
+        'auskultasi_bising_usus'    => $_POST['auskultasibisingusus'] ?? '',
+        'perkusi'                   => $_POST['perkusi'] ?? '',
+        'palpasi_involusi'          => $_POST['palpasiinvolusi'] ?? '',
+        'palpasi_kandung_kemih'     => $_POST['palpasikandungkemih'] ?? '',
+        'masalah_khusus_abdomen'    => $_POST['masalahkhususabdomen'] ?? '',
+        'vagina'                    => $_POST['vagina'] ?? '',
+        'perineum'                  => $_POST['perineum'] ?? '',
+        'redness'                   => $_POST['redness'] ?? '',
+        'edema'                     => $_POST['edema'] ?? '',
+        'echimosis'                 => $_POST['echimosis'] ?? '',
+        'discharge'                 => $_POST['discharge'] ?? '',
+        'aprroximate'               => $_POST['aprroximate'] ?? '',
+        'lochea'                    => $_POST['lochea'] ?? '',
+        'jumlah'                    => $_POST['jumlah'] ?? '',
+        'jenis_warna'               => $_POST['jeniswarna'] ?? '',
+        'konsistensi'               => $_POST['konsistensi'] ?? '',
+        'bau'                       => $_POST['bau'] ?? '',
+        'hemorrhoid'                => $_POST['hemorrhoid'] ?? '',
+        'data_tambahan'             => $_POST['datatambahan'] ?? '',
+        'inspeksi_ekstremitas_atas' => $_POST['inspeksiekstremitasatas'] ?? '',
+        'inspeksi_ekstremitas_bawah'=> $_POST['inspeksiekstremitasbawah'] ?? '',
+        'masalah_khusus_eksremitas' => $_POST['masalahkhususekstremitas'] ?? '',
+        'inspeksi_integumen'        => $_POST['inspeksiintegumen'] ?? '',
+        'palpasi_integumen'         => $_POST['palpasiintegumen'] ?? '',
+        'inspeksi_bak'              => $_POST['inspeksibak'] ?? '',
+        'inspeksi_bab'              => $_POST['inspeksibab'] ?? '',
+        'masalah_khusus_eliminasi'  => $_POST['masalahkhususeliminasi'] ?? '',
+    ];
+
+    if (!$submission) {
+        $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+    } else {
+        $submission_id = $submission['id'];
+        updateSubmissionHeader($submission_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+    }
+
+
+    saveSection($submission_id, $section_name, $section_label, $data, $mysqli);
+    updateSubmissionStatus($submission_id, $form_id, $mysqli);
+    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
+}
+
+// =============================================
+// HANDLE POST - DOSEN APPROVE / REVISI / KOMENTAR
+// =============================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
+    $submission_id = $submission['id'];
+    $dosen_id      = $user_id;
+    $action        = $_POST['action'] ?? '';
+    $comment       = $_POST['comment'] ?? '';
+
+    if ($action === 'approve') {
+        updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
+        if (!empty($comment)) {
+            saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
+        }
+    } elseif ($action === 'revision') {
+        if (empty($comment)) {
+            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
+        }
+        updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
+        saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
+    }
+
+    updateReviewer($submission_id, $dosen_id, $mysqli);
+    updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
+    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
+}
+
+// Load komentar section (untuk dosen & mahasiswa)
+$comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
+
+// Readonly jika mahasiswa + locked, atau jika dosen
+$is_dosen    = $level === 'Dosen';
+$is_readonly = $is_dosen || isLocked($submission);
+$ro          = $is_readonly ? 'readonly' : '';
+$ro_select   = $is_readonly ? 'disabled' : '';
+?>
 
 <main id="main" class="main">
     <?php include "navbar_maternitas.php"; ?>
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success"><?= $_SESSION['success'];
+                                                unset($_SESSION['success']); ?></div>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger"><?= $_SESSION['error'];
+                                            unset($_SESSION['error']); ?></div>
+        <?php endif; ?>
+
+        <!-- Info status section (untuk dosen) -->
+        <?php if  ($section_status): ?>
+            <?php
+            $badge = [
+                'draft'     => 'secondary',
+                'submitted' => 'primary',
+                'revision'  => 'warning',
+                'approved'  => 'success',
+            ];
+            ?>
+
+             <div class="alert alert-<?= $badge[$section_status] ?>">
+                Status: <strong><?= ucfirst($section_status) ?></strong>
+                    | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>       
+            </div>
+        <?php endif; ?>
+
     </style>
     <section class="section dashboard">
         <div class="card">
@@ -67,6 +176,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="card-body"> 
 
               <h5 class="card-title mb-1"><strong>Pengkajian</strong></h5>
+              <form class="needs-validation" novalidate action="" method="POST">
               <div class="row mb-2">
                         <label class="col-sm-8 col-form-label text-primary">
                             <strong>Dada; Sistem Pernapasan dan Kardiovaskuler</strong>
@@ -79,7 +189,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Bunyi Napas. Hasil:</small>
-                            <textarea name="bunyinapas" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="bunyinapas" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('bunyinapas', $existing_data) ?></textarea>
 
                          </div>
                     </div> 
@@ -90,7 +201,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Suara Jantung (Apakah ada mur-mur dan gallop). Hasil:</small>
-                            <textarea name="suarajantung" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="suarajantung" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('suarajantung', $existing_data) ?></textarea>
 
                    
                          </div>
@@ -102,7 +214,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
 
                             <div class="col-sm-9">
-                                <textarea name="masalahkhususdada" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                                <textarea name="masalahkhususdada" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('masalah_khusus_dada', $existing_data) ?></textarea>
 
                          </div>
                     </div>
@@ -120,7 +233,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Bentuk, Lesi, Kebersihan. Hasil:</small>
-                            <textarea name="inspeksibentuk" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="inspeksibentuk" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('inspeksi_bentuk', $existing_data) ?></textarea>
 
                          </div>
                     </div> 
@@ -131,7 +245,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Colostim dan ASI (Ada atau tidak). Hasil:</small>
-                            <textarea name="inspeksicolostum" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="inspeksicolostum" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('inspeksi_colostum', $existing_data) ?></textarea>
 
                     
                          </div>
@@ -143,7 +258,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Eksverted/Inverted/Plat nipple. Hasil:</small>
-                            <textarea name="inspeksiputing" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="inspeksiputing" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('inspeksi_puting', $existing_data) ?></textarea>
 
                    
                          </div>
@@ -155,7 +271,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Tanda Pembengkakan: Ya/Tidak. Hasil:</small>
-                            <textarea name="inspeksipembengkakan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="inspeksipembengkakan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('inspeksi_pembengkakan', $existing_data) ?></textarea>
 
                    
                          </div>
@@ -167,9 +284,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Teraba hangat: Ya/Tidak. Hasil:</small>
-                            <select class="form-select" name="palpasiraba" required>
-                                <option value="Ya">Ya</option>
-                                <option value="Tidak">Tidak</option>
+                            <select class="form-select" name="palpasiraba" required <?= $ro ?>>
+                                <option value="Ya" <?= val('palpasi_raba', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
+                                <option value="Tidak" <?= val('palpasi_raba', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option>
                             </select> 
 
                   
@@ -182,9 +299,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Ada/Tidak Ada. Hasil:</small>
-                            <select class="form-select" name="palpasibenjolan" required>
-                                <option value="Ada">Ada</option>
-                                <option value="Tidak Ada">Tidak Ada</option>
+                            <select class="form-select" name="palpasibenjolan" required <?= $ro ?>>
+                                <option value="Ada" <?= val('palpasi_benjolan', $existing_data) === 'Ada' ? 'selected' : '' ?>>Ada</option>
+                                <option value="Tidak Ada"<?= val('palpasi_benjolan', $existing_data) === 'Tidak Ada' ? 'selected' : '' ?>>Tidak Ada</option>
                             </select>
                         
                          </div>
@@ -195,9 +312,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
 
                             <div class="col-sm-9">
-                                <textarea name="masalahkhususpayudadra" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-                        
-                      
+                                <textarea name="masalah" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('masalah', $existing_data) ?></textarea>
                          </div>
                     </div>
                             
@@ -215,7 +331,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Bentuk, Warna Kulit, Jaringan Perut (ada/tidak), Strie (ada/tidak), Luka (ada/tidak). Hasil:</small>
-                            <textarea name="inspeksiabdomen" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="inspeksiabdomen" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('inspeksiabdomen', $existing_data) ?></textarea>
 
                     
                          </div>
@@ -227,7 +344,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Bising Usus. Hasil:</small>
-                            <textarea name="auskultasibisingusus" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="auskultasibisingusus" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('auskultasi_bising_usus', $existing_data) ?></textarea>
 
                      
                          </div>
@@ -239,7 +357,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Bunyi (Pekak, redup, sonor, hipersonor, timpani). Hasil:</small>
-                            <textarea name="perkusi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="perkusi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('perkusi', $existing_data) ?></textarea>
 
                     
                          </div>
@@ -252,7 +371,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Involusi Uterus: Tinggi Fundus dan Kontraksi. Hasil:</small>
-                            <textarea name="palpasiinvolusi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="palpasiinvolusi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('palpasi_involusi', $existing_data) ?></textarea></textarea>
 
                   
                          </div>
@@ -264,7 +384,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Kandung Kemih: teraba/tidak, penuh/tidak. Hasil:</small>
-                            <textarea name="palpasikandungkemih" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="palpasikandungkemih" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('palpasi_kandung_kemih', $existing_data) ?></textarea></textarea>
 
                    
                          </div>
@@ -275,7 +396,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
 
                             <div class="col-sm-9">
-                               <textarea name="masalahkhususabdomen" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                               <textarea name="masalahkhususabdomen" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('masalah_khusus_abdomen', $existing_data) ?></textarea></textarea>
 
                      
                          </div>
@@ -294,7 +416,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Vagina: Integritas kulit, edema (ya/tidak), memar (ya/tidak), dan hematom (ya/tidak). Hasil:</small>
-                            <textarea name="vagina" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="vagina" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('vagina', $existing_data) ?></textarea>
 
                          </div>
                     </div> 
@@ -305,12 +428,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Perineum: Utuh/Episiotomi/Ruptur. Hasil:</small>
-                            <textarea name="perineum" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                    
+                            <textarea name="perineum" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('perineum', $existing_data) ?></textarea>
                          </div>
                     </div> 
-
+        
                     <!-- Tanda REEDA R-->
 
                     <div class="row mb-3">
@@ -318,9 +440,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">R: Redness Kemerahan</small>
-                            <select class="form-select" name="redness" required>
-                                <option value="Ya">Ya</option>
-                                <option value="Tidak">Tidak</option>
+                            <select class="form-select" name="redness" required<?= $ro_select ?>>
+                                <option value="Ya" <?= val('redness', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
+                                <option value="Tidak" <?= val('redness', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
                             </select> 
 
                      
@@ -333,9 +455,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">E: Edema</small>
-                          <select class="form-select" name="edema" required>
-                                <option value="Ya">Ya</option>
-                                <option value="Tidak">Tidak</option>
+                          <select class="form-select" name="edema" required<?= $ro_select ?>>
+                                <option value="Ya" <?= val('edema', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
+                                <option value="Tidak" <?= val('edema', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
                             </select> 
 
                     
@@ -348,22 +470,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">E: Echimosis</small>
-                          <select class="form-select" name="echimosis" required>
-                                <option value="Ya">Ya</option>
-                                <option value="Tidak">Tidak</option>
+                          <select class="form-select" name="echimosis" required <?= $ro_select ?>>
+                                <option value="Ya" <?= val('echimosis', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
+                                <option value="Tidak" <?= val('echimosis', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
                             </select> 
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentechimosisi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                        </div>
                         </div>
 
-                        <div class="col-sm-1 mt-4 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
+                  
 
                     <!-- D -->
                     <div class="row mb-3">
@@ -371,24 +485,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">D: Discharge/Pelepasan</small>
-                          <select class="form-select" name="discharge" required>
-                                <option value="Serum">Serum</option>
-                                <option value="Pus">Pus</option>
-                                <option value="Darah">Darah</option>
-                                <option value="Tidak Ada">Tidak Ada</option>
+                          <select class="form-select" name="discharge" required <?= $ro_select ?>>
+                                <option value="" <?= val('discharge', $existing_data) === 'Serum' ? 'selected' : '' ?>>Serum</option>
+                                <option value="Pus" <?= val('discharge', $existing_data) === 'Pus' ? 'selected' : '' ?>>Pus</option>
+                                <option value="Darah" <?= val('discharge', $existing_data) === 'Darah' ? 'selected' : '' ?>>Darah</option>
+                                <option value="Tidak Ada" <?= val('discharge', $existing_data) === 'Tidak Ada' ? 'selected' : '' ?>>Tidak Ada</option>
                             </select> 
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentdischarge" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                        </div>
                         </div>
 
-                        <div class="col-sm-1 mt-4 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
+                   
 
                     <!-- A -->
                     <div class="row mb-3">
@@ -396,9 +502,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">A: Approximate/Perkiraan</small>
-                          <select class="form-select" name="aprroximate" required>
-                                <option value="Baik">Baik</option>
-                                <option value="ti">Tidak</option>
+                          <select class="form-select" name="aprroximate" required <?= $ro_select ?>>
+                                <option value="baik" <?= val('aprroximate', $existing_data) === 'baik' ? 'selected' : '' ?>>Baik</option>
+                                <option value="tidak" <?= val('aprroximate', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
                             </select> 
                          </div>
                     </div>
@@ -410,7 +516,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Lochea</small>
-                            <textarea name="lochea" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea></div>
+                            <textarea name="lochea" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('lochea', $existing_data) ?></textarea></div>
 
                       
                          </div>
@@ -422,7 +529,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label class="col-sm-2 col-form-label"></label>
                         <div class="col-sm-3">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="jumlah">
+                                <input type="text" class="form-control" name="jumlah" value="<?= val('jumlah', $existing_data) ?>" <?= $ro ?>>
                                 <span class="input-group-text">Jumlah</span>
                         </div>    
                     </div>
@@ -431,7 +538,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-3">
                         <div class="input-group">
-                                <input type="text" class="form-control" name="jeniswarna">
+                                <input type="text" class="form-control" name="jeniswarna" value="<?= val('jenis_warna', $existing_data) ?>" <?= $ro ?>>
                                 <span class="input-group-text">Jenis Warna</span>
                         </div> 
                     </div>
@@ -442,7 +549,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-3">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="konsistensi">
+                                    <input type="text" class="form-control" name="konsistensi" value="<?= val('konsistensi', $existing_data) ?>" <?= $ro ?>>
                                     <span class="input-group-text">Konsistensi</span>
                             </div>    
                         </div>
@@ -451,7 +558,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label class="col-sm-2 col-form-label"></label>
                     <div class="col-sm-3">
                         <div class="input-group">
-                                <input type="text" class="form-control" name="bau">
+                                <input type="text" class="form-control" name="bau"value="<?= val('bau', $existing_data) ?>" <?= $ro ?>>
                                 <span class="input-group-text">Bau</span>
                         </div> 
                     </div>
@@ -465,9 +572,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label class="col-sm-2 col-form-label"><strong>Hemorrhoid</strong></label>
 
                         <div class="col-sm-9">
-                            <select class="form-select" name="hemorrhoid" required>
-                                <option value="Ya">Ya</option>
-                                <option value="Tidak">Tidak</option>
+                            <select class="form-select" name="hemorrhoid" required <?= $ro_select ?>>
+                                <option value="ya"<?= val('hemorrhoid', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
+                                <option value="tidak"<?= val('hemorrhoid', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
                             </select> 
 
                    
@@ -480,7 +587,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <label class="col-sm-2 col-form-label"><strong>Data Tambahan</strong></label>
 
                         <div class="col-sm-9">
-                            <textarea name="datatambahan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="datatambahan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('data_tambahan', $existing_data) ?></textarea></textarea>
 
                     
                          </div>
@@ -499,7 +607,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Apakah terdapat edema (Ya/Tidak), rasa kesemutan/baal (Ya/Tidak), Kekuatan otot. Hasil:</small>
-                            <textarea name="inspeksiekstremitasatas" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="inspeksiekstremitasatas" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('inspeksi_ekstremitas_atas', $existing_data) ?></textarea></textarea>
 
                     
                          </div>
@@ -513,18 +622,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <small class="form-text" style="color: red;">Apakah terdapat edema (Ya/Tidak), Varises (Ya/Tidak), Tanda
                                 Homan untuk melihat adanya tromboflebitis (+/-), Refleks Patella (+/-), apakah terdapat
                                 kekakuan sendi, dan kekuatan otot. Hasil:</small>
-                           <textarea name="inspeksiekstremitasbawah" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                           <textarea name="inspeksiekstremitasbawah" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        
+                           <?= $ro ?>><?= val('inspeksi_ekstremitas_bawah', $existing_data) ?></textarea>
 
                    
                          </div>
                     </div> 
 
                     <!-- Masalah Khusus -->
+                  
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
 
                             <div class="col-sm-9">
-                                <textarea name="masalahkhususekstremitas" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                               <textarea name="masalahkhususekstremitas" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('masalah_khusus_eksremitas', $existing_data) ?></textarea>
 
                     
                          </div>
@@ -543,7 +655,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Warna, turgor, elastisitas, ulkus. Hasil:</small>
-                            <textarea name="inspeksiintegumen" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="inspeksiintegumen" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('inspeksi_integumen', $existing_data) ?></textarea>
 
                      
                          </div>
@@ -555,7 +668,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Akral, CRT, dan Nyeri. Hasil:</small>
-                           <textarea name="palpasiintegumen" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                           <textarea name="palpasiintegumen" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('palpasi_integumen', $existing_data) ?></textarea>
 
                      
                          </div>
@@ -574,7 +688,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">BAK saat ini: nyeri (ya/tidak), frekuensi, jumlah. Hasil:</small>
-                            <textarea name="inspeksibak" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="inspeksibak" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('inspeksi_bak', $existing_data) ?></textarea>
 
                      </div>
                     </div> 
@@ -585,7 +700,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">BAB saat ini: Konstipasi (Ya/Tidak), Frekuensi. Hasil:</small>
-                            <textarea name="inspeksibab" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="inspeksibab" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('inspeksi_bab', $existing_data) ?></textarea></textarea>
 
                      
                          </div>
@@ -596,10 +712,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
 
                             <div class="col-sm-9">
-                                <textarea name="masalahkhususeliminasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                                <textarea name="masalahkhususeliminasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('masalah_khusus_eliminasi', $existing_data) ?></textarea></textarea>
 
                      
                          </div>
                     </div> 
-                    </section><?php include "tab_navigasi.php"; ?>
+                    <!-- TOMBOL SUBMIT -->
+                    <?php if (!$is_dosen): ?>
+                    <div class="row mb-3">
+                        <div class="col-sm-11 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </form>
+            </div>
+        </div>
+
+        <!-- ================================ -->
+        <!-- SECTION KOMENTAR & ACTION DOSEN -->
+        <!-- ================================ -->
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5 class="card-title"><strong>Komentar</strong></h5>
+
+                <!-- List komentar -->
+                <?php if (!empty($comments)): ?>
+                    <?php foreach ($comments as $cmt): ?>
+                        <div class="alert alert-warning">
+                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
+                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
+                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="text-muted">Belum ada komentar.</p>
+                <?php endif; ?>
+
+                <!-- Form komentar + action (khusus dosen) -->
+                <?php if ($is_dosen && $section_status !== 'approved'): ?>
+                    <form action="" method="POST">
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
+                            <div class="col-sm-9">
+                                <textarea name="comment" class="form-control" rows="3"
+                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-11 d-flex justify-content-end gap-2">
+                                <button type="submit" name="action" value="revision" class="btn btn-warning">
+                                    Minta Revisi
+                                </button>
+                                <button type="submit" name="action" value="approve" class="btn btn-success">
+                                    Approve
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
+                    <div class="alert alert-success">
+                        Section ini sudah di-approve.
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <?php include "tab_navigasi.php"; ?>
+
+    </section>
 </main>
