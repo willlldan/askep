@@ -182,7 +182,7 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/resume_antenatal_care':
 
-                $tab = $tab ?: 'pengkajian';
+                $tab = $tab ?: 'identitas';
 
                 switch ($tab) {
                     case 'identitas':
@@ -203,6 +203,13 @@ if (isset($_SESSION['id_user'])) {
                     case 'program_terapi':
                         include "maternitas/resume_antenatal_care/halm_tambah_program_terapi.php";
                         break;
+
+                    case 'terapi_lab':
+                    include "maternitas/resume_antenatal_care/halm_data_terapi_lab.php";
+                    break;
+                    case 'lainnya':
+                    include "maternitas/resume_antenatal_care/halm_tambah_lainnya.php";
+                    break; 
 
                     case 'pengkajian':
                         include "maternitas/resume_antenatal_care/halm_tambah_pengkajian.php";
@@ -225,7 +232,7 @@ if (isset($_SESSION['id_user'])) {
                         break;
 
                     default:
-                        include "maternitas/resume_antenatal_care/halm_tambah_demografi.php";
+                        include "maternitas/resume_antenatal_care/halm_tambah_identitas.php";
                 }
 
                 break;

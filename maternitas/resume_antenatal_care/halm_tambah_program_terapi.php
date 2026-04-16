@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <main id="main" class="main">
-    <?php include "navbar_resume_antenatal_care.php"; ?>
+    <?php include "maternitas/resume_antenatal_care/tab.php"; ?>
     <section class="section dashboard">
  <div class="card">
             <div class="card-body">
