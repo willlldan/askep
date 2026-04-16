@@ -5,12 +5,12 @@ $tabs = [
     "pengkajian_anamnesa",
     "pengkajian_tanda_vital",
     "pemeriksaan_fisik",
-    "program_terapi",
-    "diagnosa_keperawatan",
-    "intervensi_keperawatan",
-    "implementasi_keperawatan",
-    "evaluasi_keperawatan"
-];
+    "terapi_lab",
+    "lainnya",
+//     "intervensi_keperawatan",
+//     "implementasi_keperawatan",
+//     "evaluasi_keperawatan"
+ ];
 
 $currentTab = $_GET['tab'] ?? 'pengkajian';
 
