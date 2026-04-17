@@ -73,201 +73,34 @@ if (isset($_POST['submit'])) {
 
 <main id="main" class="main">
 
-   <!-- Card Identitas -->
-
-     <div class="card">
-            <div class="card-body">
-    <h5 class="card-title"><strong>DATA MAHASISWA</strong></h5>
-
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-                
-                <!-- Bagian Nama Mahasiswa -->
-                <div class="row mb-3">
-                    <label for="namamahasiswa" class="col-sm-2 col-form-label"><strong>Nama Mahasiswa</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="namamahasiswa" required>
-                        <div class="invalid-feedback">
-                            Harap isi Nama Mahasiswa.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bagian NPM -->
-                <div class="row mb-3">
-                    <label for="npm" class="col-sm-2 col-form-label"><strong>NPM</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="npm" required>
-                        <div class="invalid-feedback">
-                            Harap isi NPM.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bagian Tanggal Pengkajian -->
-                <div class="row mb-3">
-                    <label for="tglpengkajian" class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
-                    <div class="col-sm-9">
-                        <input type="datetime-local" class="form-control" id="tglpengkajian" name="tglpengkajian" required>
-                        <div class="invalid-feedback">
-                            Harap isi Tanggal Pengkajian.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bagian RS/Ruangan -->
-                <div class="row mb-3">
-                    <label for="rsruangan" class="col-sm-2 col-form-label"><strong>RS/Ruangan</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="rsruangan" required>
-                        <div class="invalid-feedback">
-                            Harap isi RS/Ruangan.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Jenis KMB -->
-
-                <?php
-                    $jenismaternitas = $_GET['jeniskmb'] ?? 'ok';
-                   
-                ?>
-
-                <div class="row mb-3">
-                    <label for="jeniskmb" class="col-sm-2 col-form-label"><strong>Keperawatan Medikal Bedah</strong></label>
-                        <div class="col-sm-9">
-
-                                <select class="form-select" name="jeniskmb"
-                        onchange="window.location=this.value" required>
-
-                        <option value="">Pilih</option>
-
-                        <option value="index.php?page=kmb/pengkajian_ruang_ok&tab=pengkajian&jeniskmb=ok"
-                        <?= $jenismaternitas == 'ok' ? 'selected' : '' ?>>
-                        Pengkajian Askep Ruang OK
-                        </option>
-
-                        <option value="index.php?page=kmb/format_kmb&tab=demografi&jeniskmb=kmb"
-                        <?= $jenismaternitas == 'kmb' ? 'selected' : '' ?>>
-                        Format KMB
-                        </option>
-
-                        <option value="index.php?page=kmb/format_hd_kmb&tab=demografi&jeniskmb=hd"
-                        <?= $jenismaternitas == 'hd' ? 'selected' : '' ?>>
-                        Format HD KMB
-                        </option>
-
-                        </select>
-                        <div class="invalid-feedback">
-                            Harap isi Jenis KMB.
-                        </div>
-                    </div>
-                </div>
-
-             </div>
-    </div>
-
-    <div class="pagetitle">
-        <h1><strong>Pengkajian  Ruang OK</strong></h1>
-    </div><!-- End Page Title -->
-    <br>
+             <?php include "kmb/pengkajian_ruang_ok/tab.php"; ?>
 
 
-    <ul class="nav nav-tabs custom-tabs">
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lp_ruangok' ? 'active' : '' ?>"
-        href="index.php?page=kmb/pengkajian_ruang_ok&tab=lp_ruangok">
-        Format Laporan Pendahuluan Ruang OK</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'ruang_operasi' ? 'active' : '' ?>"
-        href="index.php?page=kmb/pengkajian_ruang_ok&tab=ruang_operasi">
-        Laporan Ruang Operasi
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'resume' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=resume">
-        Format Resume Ruang OK
-        </a>
-    </li>
-   
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=analisa">
-        Analisa Data        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=diagnosa">
-        Diagnosa Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'rencana' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=rencana">
-        Rencana Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=implementasi">
-        Implementasi Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=evaluasi">
-        Evaluasi Keperawatan
-        </a>
-    </li>
-
-    </ul>
-
-    <style>
-    .custom-tabs {
-        border-bottom: 1px solid #dee2e6;
-    }
-
-    .custom-tabs .nav-link {
-        border: none;
-        background: transparent;
-        color: #f6f9ff;
-        font-weight: 500;
-        padding: 10px 20px;
-    }
-
-    .custom-tabs .nav-link:hover {
-        color: #4154f1;
-    }
-
-    .custom-tabs .nav-link.active {
-        border: none;
-        border-bottom: 3px solid #4154f1;
-        color: #4154f1;
-        font-weight: 600;
-        background: transparent;
-    }
-    </style>
-
+                      
     <section class="section dashboard">
         <div class="card">
             <div class="card-body">
             
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                <h5 class="card-title"><strong>FORMAT LAPORAN PENDAHULUAN RUANG OK</strong></h5>
-
-                <!-- Bagian Identitas -->
-
-                    <div class="row mb-2">
-                        <label class="col-sm-5 col-form-label text-primary">
-                            <strong> A.	KONSEP DASAR KAMAR BEDAH</strong>
+  <div class="row mb-3 mt-3">
+    <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" name="tglpengkajian">
+                               
+                        </div>
                     </div>
 
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>RS/Ruangan</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="rsruangan">
+                                
+                        </div>
+                    </div>
+                <h5 class="card-title"><strong>A.	KONSEP DASAR KAMAR BEDAH</strong></h5>
+
+               
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
                 
@@ -277,17 +110,9 @@ if (isset($_POST['submit'])) {
                         <label class="col-sm-2 col-form-label"><strong>1.	Pengertian Kamar Operasi</strong></label>
 
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="inisialpasien">
+                            <input type="text" class="form-control" name="pengertian_kamar_operasi">
 
-                            <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentinisialpasien" rows="2" placeholder="Jika ada revisi atau saran dari Ibu/Bapak Dosen, silakan diketik di sini. Terima kasih." style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" onchange="document.getElementById('commentinisialpasien'). style.display= this.checked ? 'none' : 'block'">
-                            </div>
+                          
                          </div>
                     </div>
 
@@ -295,35 +120,18 @@ if (isset($_POST['submit'])) {
                 <div class="row mb-3">
                     <label for="usiaistri" class="col-sm-2 col-form-label"><strong>2.	Pembagian Ruangan Kamar Operasi</strong></label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" name="usiaistri">
+                        <input type="text" class="form-control" name="ruang_kamar_operasi">
 
-                        <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentusiaistri" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
+                     
                     </div>
 
                 <!-- Bagian Pekerjaan -->
                 <div class="row mb-3">
                     <label for="pekerjaanistri" class="col-sm-2 col-form-label "><strong>3.	Bagian-Bagian Kamar Operasi</strong></label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" name="pekerjaanistri">
+                        <input type="text" class="form-control" name="kamar_operasi">
 
-                        <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentpekerjaanistri" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
+                        
                          </div>
                     </div>
 
@@ -331,83 +139,55 @@ if (isset($_POST['submit'])) {
                 <div class="row mb-3">
                     <label for="pendidikanterakhiristri" class="col-sm-2 col-form-label"><strong>4.	Persyaratan Kamar Operasi</strong></label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" name="pendidikanterakhiristri">
+                        <input type="text" class="form-control" name="persyaratan">
 
-                        <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentpendidikanterakhiristri" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
-
-                <!-- Bagian Agama -->
-                 <div class="row mb-2">
-                        <label class="col-sm-7 col-form-label text-primary">
-                            <strong> B.	TATA CARA KERJA DAN PENGELOLAAN KAMAR OPERASI</strong>
-                    </div>
-                <div class="row mb-3">
-                    <label for="agamaistri" class="col-sm-2 col-form-label"><strong></strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="agamaistri">
-
-                       <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentagamaistri" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
-
-                <!-- Bagian Suku Bangsa -->
-                 <div class="row mb-2">
-                        <label class="col-sm-5 col-form-label text-primary">
-                            <strong> C.	DENAH RUANGAN KAMAR OPERASI</strong>
-                    </div>
-                <div class="row mb-3">
-                    <label for="sukubangsa" class="col-sm-2 col-form-label"><strong></strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="sukubangsa">
                         
-                        <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentsukubangsa" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
                          </div>
                     </div>
-
-                <!-- Bagian Status Perkawinan -->
-                 <div class="row mb-2">
-                        <label class="col-sm-5 col-form-label text-primary">
-                            <strong> D.	DAFTAR PUSTAKA</strong>
+                    </form>
+                    </form>
                     </div>
+                    </div>
+ <div class="card">
+            <div class="card-body">
+             
+              <h5 class="card-title mb-1"><strong>B.	TATA CARA KERJA DAN PENGELOLAAN KAMAR OPERASI</strong></h5>
+               
                 <div class="row mb-3">
-                    <label for="statusperkawinan" class="col-sm-2 col-form-label"><strong></strong></label>
+                    <label for="agamaistri" class="col-sm-2 col-form-label"><strong>Tata Cara Kerja Dan Pengelolaan Kamar Operasi</strong></label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" name="statusperkawinan">
-                        
-                        <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentstatusperkawinan" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
+                        <input type="text" class="form-control" name="tata_cara">
 
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
+                         </div>
+                    </div>
+                    </div>
+                    </div>
+  <div class="card">
+            <div class="card-body">
+             
+              <h5 class="card-title mb-1">
+                            <strong> C.	DENAH RUANGAN KAMAR OPERASI</strong></h5>
+                <div class="row mb-3">
+                    <label for="sukubangsa" class="col-sm-2 col-form-label"><strong>Denah Ruangan Kamar Operasi</strong></label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="denah">
+                        
+                       
+                         </div>
+                    </div>
+                    </div>
+                    </div>
+ <div class="card">
+            <div class="card-body">
+             
+              <h5 class="card-title mb-1">
+                            <strong> D.	DAFTAR PUSTAKA</strong></h5>
+                <div class="row mb-3">
+                    <label for="statusperkawinan" class="col-sm-2 col-form-label"><strong>Daftar Pustaka</strong></label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="daftar_pustaka">
+                        
+                       
                          </div>
                     </div>
                 </form>
