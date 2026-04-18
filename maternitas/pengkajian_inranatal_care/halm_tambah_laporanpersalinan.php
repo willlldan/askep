@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'klasifikasi'                       => $klasifikasi,
         'analisa'                           => $analisa,
         'mulai_persalinan_dan_akhir'        => $_POST['mulaipersalinandanakhir'] ?? '',
-        'tanda_dan_gejala'                  => $_POST['tandadangejala'] ?? '',
+        'tanda_dan_gejala1'                  => $_POST['tandadangejala1'] ?? '',
         'tekanan_darah'                     => $_POST['tekanandarah'] ?? '',
         'nadi'                              => $_POST['nadi'] ?? '',
         'suhu'                              => $_POST['suhu'] ?? '',
@@ -154,7 +154,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'jumlah_pengeluaran_darah'           => $_POST['jumlahpengeluarandarah'] ?? '',
         'karakteristik_darah'                => $_POST['karakteristikdarah'] ?? '',
         'tindakan_kebutuhan_khusus'          => $_POST['tindakankebutuhankhusus'] ?? '',
-        'pengobatan'                         => $_POST['pengobatan'] ?? '',
+        'pengobatan1'                         => $_POST['pengobatan1'] ?? '',
         'kalaiv'                             => $_POST['kalaiv'] ?? '',
         'tekanandarah4'                      => $_POST['tekanandarah4'] ?? '',
         'nadi4'                              => $_POST['nadi4'] ?? '',
@@ -162,10 +162,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'rr4'                                => $_POST['rr4'] ?? '',
         'tanda_dan_gejalaiv'                 => $_POST['tandadangejalaiv'] ?? '',
         'keluhan'                            => $_POST['keluhan'] ?? '',
-        'jumlah_pengeluaran_darah'           => $_POST['jumlahpengeluarandarah'] ?? '',
-        'karakteristik_darah'                => $_POST['karakteristikdarah'] ?? '',
+        'jumlah_pengeluaran_darah1'           => $_POST['jumlahpengeluarandarah1'] ?? '',
+        'karakteristik_darah1'                => $_POST['karakteristikdarah1'] ?? '',
         'bonding_ibu_dan_bayi1'              => $_POST['bondingibudanbayi1'] ?? '',
-        'tindakan_kebutuhankhusus'           => $_POST['tindakankebutuhankhusus'] ?? '',
+        'tindakan_kebutuhankhusus1'           => $_POST['tindakankebutuhankhusus1'] ?? '',
         'ukuran'           => $_POST['ukuran'] ?? '',
     ];
 
@@ -276,8 +276,8 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
                         <div class="col-sm-10">
                             <small class="form-text" style="color: red;">Tanda dan Gejala (Keluhan mules-mules, ada darah keluar dan lendir tapi baru sedikit melalui kemaluan). Hasil:</small>
-                            <textarea name="tandadangejala" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('tanda_dan_gejala', $existing_data) ?></textarea>
+                            <textarea name="tandadangejala1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('tanda_dan_gejala1', $existing_data) ?></textarea>
                          </div>
                     </div>
                     
@@ -713,8 +713,8 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <label class="col-sm-2 col-form-label"><strong>Pengobatan</strong></label>
 
                         <div class="col-sm-10">
-                            <textarea name="pengobatan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('pengobatan', $existing_data) ?></textarea>
+                            <textarea name="pengobatan1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('pengobatan1', $existing_data) ?></textarea>
                          </div>
                     </div>
                 </div>
@@ -818,7 +818,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="jumlahpengeluarandarah" value="<?= val('jumlah_pengeluaran_darah', $existing_data) ?>" <?= $ro ?>>
+                                <input type="text" class="form-control" name="jumlahpengeluarandarah1" value="<?= val('jumlah_pengeluaran_darah1', $existing_data) ?>" <?= $ro ?>>
                                 <span class="input-group-text">ml</span>
                         </div>  
                          </div>
@@ -829,8 +829,8 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <label class="col-sm-2 col-form-label"><strong>Karakteristik Darah</strong></label>
 
                         <div class="col-sm-10">
-                            <textarea name="karakteristikdarah" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('karakteristik_darah', $existing_data) ?></textarea></textarea>
+                            <textarea name="karakteristikdarah1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('karakteristik_darah1', $existing_data) ?></textarea></textarea>
                          </div>
                     </div> 
 
@@ -850,8 +850,8 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
                         <div class="col-sm-10">
                             <small class="form-text" style="color: red;">Hasil:</small>
-                            <textarea name="tindakankebutuhankhusus" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('tindakan_kebutuhankhusus', $existing_data) ?></textarea>
+                            <textarea name="tindakankebutuhankhusus1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('tindakan_kebutuhankhusus1', $existing_data) ?></textarea>
                          </div>
                     </div> 
 
