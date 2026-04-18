@@ -11,16 +11,20 @@ if (isset($_SESSION['id_user'])) {
     $tab  = $_GET['tab'] ?? '';
 
     // =====================
-    // ADMIN
+    // Mahasiswa & Dosen
     // =====================
     if ($_SESSION['level'] == 'Mahasiswa' || $_SESSION['level'] == 'Dosen') {
 
         include_once "sidebar_mhs.php";
 
-        echo "<H1> ini adalah page $page"
-            . ($tab ? " - $tab" : "")
-            . "</H1>";
         switch ($page) {
+
+            case 'dashboard':
+                include "halaman_dashboard.php";
+                break;
+            case 'dashboard/detail_mahasiswa':
+                include "halaman_detail_mahasiswa.php";
+                break;
 
             case 'maternitas/detail':
                 include "maternitas/halm_data_maternitas.php";
@@ -34,7 +38,7 @@ if (isset($_SESSION['id_user'])) {
                 $tab = $tab ?: 'pengkajian';
 
                 switch ($tab) {
-                    
+
 
                     case 'data_demografi':
                         include "maternitas/pengkajian_antenatal_care/halm_data_demografi.php";
@@ -71,6 +75,9 @@ if (isset($_SESSION['id_user'])) {
                     case 'evaluasi_keperawatan':
                         include "maternitas/pengkajian_antenatal_care/halm_tambah_evaluasi.php";
                         break;
+                    // case 'cetak':       
+                    //     include "maternitas/cetak.php";
+                    //     break;
 
                     default:
                         include "maternitas/pengkajian_antenatal_care/halm_data_demografi.php";
@@ -87,25 +94,25 @@ if (isset($_SESSION['id_user'])) {
 
                 switch ($tab) {
 
-                    
 
-                        case 'identitas':
+
+                    case 'identitas':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_identitas.php";
                         break;
-                        case 'data_biologis':
+                    case 'data_biologis':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_data_biologis.php";
                         break;
-                         case 'pemeriksaan_fisik1':
+                    case 'pemeriksaan_fisik1':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_pemeriksaan_fisik1.php";
                         break;
-                        case 'pemeriksaan_fisik2':
+                    case 'pemeriksaan_fisik2':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_pemeriksaan_fisik2.php";
                         break;
-                        case 'pemeriksaan_fisik3':
+                    case 'pemeriksaan_fisik3':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_pemeriksaan_fisik3.php";
                         break;
 
-                        case 'riwayat_kehamilan':
+                    case 'riwayat_kehamilan':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_riwayat_kehamilan.php";
                         break;
 
@@ -180,20 +187,20 @@ if (isset($_SESSION['id_user'])) {
                         include "maternitas/resume_antenatal_care/halm_tambah_identitas.php";
                         break;
                     case 'pengkajian_anamnesa':
-                    include "maternitas/resume_antenatal_care/halm_tambah_pengkajian_anamnesa.php";
-                    break;
+                        include "maternitas/resume_antenatal_care/halm_tambah_pengkajian_anamnesa.php";
+                        break;
 
                     case 'pengkajian_tanda_vital':
-                    include "maternitas/resume_antenatal_care/halm_tambah_pengkajian_tanda_vital.php";
-                    break;
+                        include "maternitas/resume_antenatal_care/halm_tambah_pengkajian_tanda_vital.php";
+                        break;
 
                     case 'pemeriksaan_fisik':
-                    include "maternitas/resume_antenatal_care/halm_tambah_pemeriksaan_fisik.php";
-                    break; 
+                        include "maternitas/resume_antenatal_care/halm_tambah_pemeriksaan_fisik.php";
+                        break;
 
                     case 'program_terapi':
-                    include "maternitas/resume_antenatal_care/halm_tambah_program_terapi.php";
-                    break; 
+                        include "maternitas/resume_antenatal_care/halm_tambah_program_terapi.php";
+                        break;
 
                     case 'pengkajian':
                         include "maternitas/resume_antenatal_care/halm_tambah_pengkajian.php";
