@@ -49,60 +49,110 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     $rs_ruangan     = $_POST['rsruangan'] ?? '';
 
     $data = [
-        'mulai_persalinan_dan_akhir'        => $_POST['mulaipersalinandanakhir'] ?? '',
-        'tanda_dan_gejala'                  => $_POST['tandadangejala'] ?? '',
-        'tekanan_darah'                     => $_POST['tekanandarah'] ?? '',
-        'nadi'                              => $_POST['nadi'] ?? '',
-        'suhu'                              => $_POST['suhu'] ?? '',
-        'rr'                                => $_POST['rr'] ?? '',
-        'keluhan_lain'                      => $_POST['keluhanlain'] ?? '',
-        'lama_kalai'                        => $_POST['lamakalai'] ?? '',
-        'tindakan_khusus'                   => $_POST['tindakankhusus'] ?? '',
-        'pemeriksaan_ke'                    => $_POST['pemeriksaanke'] ?? '',
-        'jam'                               => $_POST['jam'] ?? '',
-        'hasil'                             => $_POST['hasil'] ?? '',
-        'observasi'                         => $_POST['observasi'] ?? '',
-        'tanggal_jam'                       => $_POST['tanggaljam'] ?? '',
-        'kontraksi_uterus'                  => $_POST['kontraksiuterus'] ?? '',
-        'keterangan'                        => $_POST['keterangan'] ?? '',
-        'mulai_persalinan_dan_akhir1'        => $_POST['mulaipersalinandanakhir1'] ?? '',
-        'tekanan_darah2'                    => $_POST['tekanandarah2'] ?? '',
-        'nadi2'                             => $_POST['nadi2'] ?? '',
-        'suhu2'                             => $_POST['suhu2'] ?? '',
-        'rr2'                               => $_POST['rr2'] ?? '',
-        'tanda_dan_gejalaII'                => $_POST['tandadangejalaII'] ?? '',
-        'keluhan_tambahan'                  => $_POST['keluhantambahan'] ?? '',
-        'tanda_mengejan'                    => $_POST['tandamengejan'] ?? '',
-        'kebutuhan_atau_keluhan'            => $_POST['kebutuhanataukeluhan'] ?? '',
-        'tanda_dan_gejala'                  => $_POST['tandadangejala'] ?? '',
-        'lahir_jam_berapa'                  => $_POST['lahirjamberapa'] ?? '',
-        'nilai_apgar'                       => $_POST['nilaiapgar'] ?? '',
-        'nilai_apgarv'                      => $_POST['nilaiapgarv'] ?? '',
-        'bonding_ibu_dan_bayi'              => $_POST['bondingibudanbayi'] ?? '',
-        'pengobatan'                        => $_POST['pengobatan'] ?? '',
+        // Kepala & Rambut
+        'inspeksi_kepala'           => $_POST['inspeksikepala'] ?? '',
+        'palpasi_kepala'            => $_POST['palpasiikepala'] ?? '',
+        'masalah_kepala'            => $_POST['masalahkhususkepala'] ?? '',
+        // Wajah
+        'inspeksi_wajah'            => $_POST['inspeksiwajah'] ?? '',
+        'palpasi_wajah'             => $_POST['palpasiwajah'] ?? '',
+        'masalah_wajah'             => $_POST['masalahkhususwajah'] ?? '',
+        // Mata
+        'inspeksik_konjung_tiva'     => $_POST['inspeksikkonjungtiva'] ?? '',
+       
+        'inspeksi_sklera'           => $_POST['inspeksisklera'] ?? '',
+        'palpasi_kelopak_mata'      => $_POST['palpasikelopakmata'] ?? '',
+        'masalah_mata'              => $_POST['masalahkhususmata'] ?? '',
+        // Hidung
+        'inspeksi_hidung'           => $_POST['inspeksihidung'] ?? '',
+        'palpasi_hidung'            => $_POST['palpasihidung'] ?? '',
+        'masalah_hidung'            => $_POST['masalahkhusushidung'] ?? '',
+        // Mulut
+        'inspeksi_bibir'            => $_POST['inspeksibibir'] ?? '',
+        'inspeksi_gigi'             => $_POST['inspeksigigi'] ?? '',
+        'inspeksi_gusi'             => $_POST['inspeksigusi'] ?? '',
+        'inspeksi_lidah'            => $_POST['inspeksilidah'] ?? '',
+        'inspeksi_bau_mulut'        => $_POST['inspeksibaumulut'] ?? '',
+        'palpasi_mulut'             => $_POST['palpasimulut'] ?? '',
+        'masalah_mulut'             => $_POST['masalahkhususmulut'] ?? '',
+        // Telinga
+        'inspeksi_telinga'          => $_POST['inspeksitelinga'] ?? '',
+        'palpasi_nyeri_tekan'       => $_POST['palpasinyeritekan'] ?? '',
+        'palpasi_gangguan'          => $_POST['palpasigangguan'] ?? '',
+        'masalah_telinga'           => $_POST['masalahkhusustelinga'] ?? '',
+        // Leher
+        'inspeksi_leher'            => $_POST['inspeksileher'] ?? '',
+        'palpasi_kelenjar'          => $_POST['palpasikelenjar'] ?? '',
+        'palpasi_trakea'            => $_POST['palpasitrakea'] ?? '',
+        'palpasi_nyeri_menelan'     => $_POST['palpasinyerimenelan'] ?? '',
+        'masalah_leher'             => $_POST['masalahkhususleher'] ?? '',
+        // Axila
+        'inspeksi_axila'            => $_POST['inspeksiaxilia'] ?? '',
+        'palpasi_axila'             => $_POST['palpasiaxilia'] ?? '',
+        'masalah_axila'             => $_POST['masalahkhususaxilia'] ?? '',
+        // Dada
+        'inspeksi_dada'               => $_POST['inspeksidada'] ?? '',
+        'palpasi_dada'             => $_POST['palpasidada'] ?? '',
+        
+        // Auskultasi
+        'auskultasi_dada'  => $_POST['auskultasidada'] ?? '',
+        'masalah_khusus_dada'              => $_POST['masalahkhususdada'] ?? '',
 
-        'placenta'                           => $_POST['placenta'] ?? '',
-        'tanda_dan_gejalaiii'                => $_POST['tandadangejalaiii'] ?? '',
-        'keluhan_lain'                       => $_POST['keluhanlain'] ?? '',
-        'ukuran'                       => $_POST['ukuran'] ?? '',
-        'panjang_tali_pusat'                 => $_POST['panjangtalipusat'] ?? '',
-        'jumlah_pengeluaran_darah'           => $_POST['jumlahpengeluarandarah'] ?? '',
-        'karakteristik_darah'                => $_POST['karakteristikdarah'] ?? '',
-        'tindakan_kebutuhan_khusus'          => $_POST['tindakankebutuhankhusus'] ?? '',
-        'pengobatan'                         => $_POST['pengobatan'] ?? '',
-        'kalaiv'                             => $_POST['kalaiv'] ?? '',
-        'tekanandarah4'                      => $_POST['tekanandarah4'] ?? '',
-        'nadi4'                              => $_POST['nadi4'] ?? '',
-        'suhu4'                              => $_POST['suhu4'] ?? '',
-        'rr4'                                => $_POST['rr4'] ?? '',
-        'tanda_dan_gejalaiv'                 => $_POST['tandadangejalaiv'] ?? '',
-        'keluhan'                            => $_POST['keluhan'] ?? '',
-        'jumlah_pengeluaran_darah'           => $_POST['jumlahpengeluarandarah'] ?? '',
-        'karakteristik_darah'                => $_POST['karakteristikdarah'] ?? '',
-        'bonding_ibu_dan_bayi1'              => $_POST['bondingibudanbayi1'] ?? '',
-        'tindakan_kebutuhankhusus'           => $_POST['tindakankebutuhankhusus'] ?? '',
-    
-     
+        // Inspeksi dan Palpasi 
+        'inspeksi_dan_palpasi_sistem'           => $_POST['inspeksidanpalpasisistem'] ?? '',
+        'palpasi_dada1'              => $_POST['palpasidada1'] ?? '',
+        'masalahkhususdada'          => $_POST['palpasibenjolan'] ?? '',
+        'masalah_khusus_dada1'          => $_POST['masalahkhususdada1'] ?? '',
+        
+        'auskultasi_sistem'                       => $_POST['auskultasisistem'] ?? '',
+        'auskultasi_sistem1'                 => $_POST['auskultasisistem1'] ?? '',
+        'masalah_khusus_sistem'                 => $_POST['masalahkhusussistem'] ?? '',
+        // payudara
+        'inspeksi_bentuk'          => $_POST['inspeksibentuk'] ?? '',
+        'inspeksi_pengeluaran_cairan'           => $_POST['inspeksipengeluarancairan'] ?? '',
+        'inspeksi_pembengkakan'               => $_POST['inspeksipembengkakan'] ?? '',
+        'palpasi_raba'                => $_POST['palpasiraba'] ?? '',
+        'palpasi_benjolan'                       => $_POST['palpasibenjolan'] ?? '',
+        'masalah_khusus_payudadra'                => $_POST['masalahkhususpayudadra'] ?? '',
+        'inspeksi_abdomen'               => $_POST['inspeksiabdomen'] ?? '',
+        'auskultasi_bising_usus'               => $_POST['auskultasibisingusus'] ?? '',
+        'perkusi'                    => $_POST['perkusi'] ?? '',
+        'palpasi_involusi'         => $_POST['palpasiinvolusi'] ?? '',
+        'palpasi_kandung_kemih'               => $_POST['palpasikandungkemih'] ?? '',
+        'masalah_khusus__abdomen'           => $_POST['masalahkhususabdomen'] ?? '',
+        // Perineum & Genitalia
+        'pendarahan'                    => $_POST['pendarahan'] ?? '',
+        'hemoroid'                 => $_POST['hemoroid'] ?? '',
+        'keputihan'                  => $_POST['keputihan'] ?? '',
+        'masalah_khusus_genetalia'          => $_POST['masalahkhususgenetalia'] ?? '',
+        // Ekstremitas
+        'inspeksi_ekstremitas_atas'          => $_POST['inspeksiekstremitasatas'] ?? '',
+        'inspeksi_ekstremitas_bawah'         => $_POST['inspeksiekstremitasbawah'] ?? '',
+        'masalah_khusus_ekstremitas'       => $_POST['masalahkhususekstremitas'] ?? '',
+        // Integumen
+        'inspeksi_integumen'        => $_POST['inspeksiintegumen'] ?? '',
+        'palpasi_integumen'         => $_POST['palpasiintegumen'] ?? '',
+        // Eliminasi
+        'bak'                       => $_POST['inspeksibak'] ?? '',
+        'masalah_khusus_bak'                       => $_POST['masalahkhususbak'] ?? '',
+        'inspeksi_bab'         => $_POST['inspeksibab'] ?? '',
+        'masalah_khusus_bab'         => $_POST['masalahkhususbab'] ?? '',
+        // Istirahat & Kenyamanan
+        'pola_tidur'                => $_POST['inspeksiistirahat'] ?? '',
+        'kenyamanan'                => $_POST['inspeksikenyamanan'] ?? '',
+        'masalah_istirahat'         => $_POST['masalahkhususistirahat'] ?? '',
+        // Mobilisasi & Latihan
+        'tingkat_mobilisasi'        => $_POST['inspeksimobilisasi'] ?? '',
+        'masalah_mobilisasi'        => $_POST['masalahkhususmobilisasi'] ?? '',
+        // Nutrisi & Cairan
+        'jenis_makanan'            => $_POST['jenismakanan'] ?? '',
+        'frekuensi'             => $_POST['frekuensi'] ?? '',
+        'konsumsi_snack'           => $_POST['konsumsisnack'] ?? '',
+        'nafsu_makan'           => $_POST['nafsumakan'] ?? '',
+        // Pengetahuan
+        'pola_minum'          => $_POST['polaminum'] ?? '',
+        'frekuensi2'          => $_POST['frekuensi2'] ?? '',
+        'pantangan_makanan'             => $_POST['pantanganmakanan'] ?? '',
         
       
         

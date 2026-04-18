@@ -271,6 +271,12 @@ if (isset($_SESSION['id_user'])) {
                     case 'pengkajianfungsional':
                         include "maternitas/pengkajian_ginekologi/halm_tambah_pengkajianfungsional.php";
                         break;
+                    case 'terapi_lab':
+                        include "maternitas/pengkajian_ginekologi/halm_data_terapi_lab.php";
+                        break;
+                    case 'lainnya':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_lainnya.php";
+                        break;
 
                     case 'diagnosa_keperawatan':
                         include "maternitas/pengkajian_ginekologi/halm_tambah_diagnosa.php";
