@@ -15,15 +15,28 @@ if (isset($_SESSION['id_user'])) {
     // =====================
     if ($_SESSION['level'] == 'Mahasiswa' || $_SESSION['level'] == 'Dosen') {
 
-        include_once "sidebar_mhs.php";
+        if ($_SESSION['level'] == 'Dosen') {
+            include_once "sidebar_dosen.php";
 
+            switch ($page) {
+                case 'dashboard':
+                    include "halaman_dashboard.php";
+                    break;
+                case 'dashboard/detail_mahasiswa':
+                    include "halaman_detail_mahasiswa.php";
+                    break;
+
+                default:
+                    include "halaman_dashboard.php";
+                    break;
+            }
+        } else {
+            include_once "sidebar_mhs.php";
+        }
         switch ($page) {
 
             case 'dashboard':
-                include "halaman_dashboard.php";
-                break;
-            case 'dashboard/detail_mahasiswa':
-                include "halaman_detail_mahasiswa.php";
+                include "halaman_dashboard_mahasiswa.php.php";
                 break;
 
             case 'maternitas/detail':
@@ -111,7 +124,7 @@ if (isset($_SESSION['id_user'])) {
                     case 'pemeriksaan_fisik3':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_pemeriksaan_fisik3.php";
                         break;
-                        case 'terapi_lab':
+                    case 'terapi_lab':
                         include "maternitas/pengkajian_pascapartum/halm_data_terapi_lab.php";
                         break;
 
@@ -131,7 +144,7 @@ if (isset($_SESSION['id_user'])) {
                     case 'implementasi_keperawatan':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_implementasi.php";
                         break;
-                        case 'lainnya':
+                    case 'lainnya':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_lainnya.php";
                         break;
 
@@ -209,11 +222,11 @@ if (isset($_SESSION['id_user'])) {
                         break;
 
                     case 'terapi_lab':
-                    include "maternitas/resume_antenatal_care/halm_data_terapi_lab.php";
-                    break;
+                        include "maternitas/resume_antenatal_care/halm_data_terapi_lab.php";
+                        break;
                     case 'lainnya':
-                    include "maternitas/resume_antenatal_care/halm_tambah_lainnya.php";
-                    break; 
+                        include "maternitas/resume_antenatal_care/halm_tambah_lainnya.php";
+                        break;
 
                     case 'pengkajian':
                         include "maternitas/resume_antenatal_care/halm_tambah_pengkajian.php";
@@ -767,17 +780,16 @@ if (isset($_SESSION['id_user'])) {
                 break;
 
             default:
-                include "halaman_dashboard.php";
+                include "halaman_dashboard_mahasiswa.php";
         }
     }
 
     // =====================
     // STAFF DOKTER
     // =====================
-    elseif ($_SESSION['level'] == 'Staff-Dokter') {
+    elseif ($_SESSION['level'] == 'Admin') {
 
-        include_once "navbar_staff.php";
-        include_once "sidebar_staff.php";
+        include_once "sidebar_admin.php";
 
         switch ($page) {
 
@@ -789,8 +801,19 @@ if (isset($_SESSION['id_user'])) {
                 include "halaman_ganti_password.php";
                 break;
 
+            case 'dashboard':
+                include "halaman_manage_user.php.php";
+                break;
+            case 'manage_user':
+                include 'halaman_manage_user.php';
+                break;
+
+            case 'form_user':
+                include 'halaman_form_user.php';
+                break;
+
             default:
-                include "arsip/halm_cari_arsip.php";
+                include "halaman_manage_user.php";
         }
     }
 } else {
