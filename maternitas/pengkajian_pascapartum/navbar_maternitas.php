@@ -67,14 +67,14 @@ $titles = [
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'identitas' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_pascapartum&tab=identitas<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_pascapartum&jenismaternitas=<?= $jenismaternitas ?>&tab=identitas<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Identitas
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'data_biologis' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_pascapartum&tab=data_biologis<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_pascapartum&jenismaternitas=<?= $jenismaternitas ?>&tab=data_biologis<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Data Biologis
         </a>
     </li>
@@ -82,38 +82,38 @@ $titles = [
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pemeriksaan_fisik1' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_pascapartum&tab=pemeriksaan_fisik1<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_pascapartum&jenismaternitas=<?= $jenismaternitas ?>&tab=pemeriksaan_fisik1<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Pemeriksaan Fisik
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pemeriksaan_fisik2' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_pascapartum&tab=pemeriksaan_fisik2<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_pascapartum&jenismaternitas=<?= $jenismaternitas ?>&tab=pemeriksaan_fisik2<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Pemeriksaan Fisik Lanjut
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pemeriksaan_fisik3' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_pascapartum&tab=pemeriksaan_fisik3<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_pascapartum&jenismaternitas=<?= $jenismaternitas ?>&tab=pemeriksaan_fisik3<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Pemeriksaan Lanjut 1
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'terapi_lab' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_pascapartum&tab=terapi_lab<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_pascapartum&jenismaternitas=<?= $jenismaternitas ?>&tab=terapi_lab<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Terapi Lab
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'riwayat_kehamilan' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_pascapartum&tab=riwayat_kehamilan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_pascapartum&jenismaternitas=<?= $jenismaternitas ?>&tab=riwayat_kehamilan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Riwayat Kehamilan
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_pascapartum&tab=lainnya<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_pascapartum&jenismaternitas=<?= $jenismaternitas ?>&tab=lainnya<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Lainnya
         </a>
     </li>

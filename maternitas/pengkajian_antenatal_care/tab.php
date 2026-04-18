@@ -67,42 +67,42 @@ $titles = [
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'data_demografi' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_antenatal_care&tab=data_demografi<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=data_demografi<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Data Demografi
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'riwayat_kelahiran_persalinan' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_antenatal_care&tab=riwayat_kelahiran_persalinan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=riwayat_kelahiran_persalinan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Riwayat Kelahiran dan Persalinan
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian_fisik' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_antenatal_care&tab=pengkajian_fisik<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=pengkajian_fisik<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Pengkajian Fisik
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'terapi_lab' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_antenatal_care&tab=terapi_lab<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=terapi_lab<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Terapi Lab
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa_data' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_antenatal_care&tab=analisa_data<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>  ">
+            href="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=analisa_data<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>  ">
             Analisa Data
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'catatan_keperawatan' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_antenatal_care&tab=catatan_keperawatan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+            href="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=catatan_keperawatan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Catatan Keperawatan
         </a>
     </li>
