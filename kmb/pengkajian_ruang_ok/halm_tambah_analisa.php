@@ -68,100 +68,28 @@ if (isset($_POST['submit'])) {
         echo "Error: " . $sql . "<br>" . $mysqli->error;
     }
 }
+if (isset($_POST['submit'])) {
+    $data = $_POST['DATA'];
+    $etiologi = $_POST['ETILOGI'];
+    $masalah = $_POST['MASALAH'];
+
+    // Koneksi database dan simpan data ke tabel (pastikan Anda sudah melakukan koneksi database)
+    $sql = "INSERT INTO tbl_analisa_data (data, etiologi, masalah) VALUES ('$data', '$etiologi', '$masalah')";
+    if ($mysqli->query($sql) === TRUE) {
+        echo "<script>alert('Data berhasil disimpan.')</script>";
+    } else {
+        echo "Terjadi kesalahan: " . $mysqli->error;
+    }
+}
+
+?>
 
 ?>
 
 <main id="main" class="main">
 
-    <div class="pagetitle">
-        <h1><strong>Pengkajian Ruang OK</strong></h1>
-        <!-- <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-        </nav> -->
-    </div><!-- End Page Title -->
-    <br>
+                 <?php include "kmb/pengkajian_ruang_ok/tab.php"; ?>
 
-    <ul class="nav nav-tabs custom-tabs">
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lp_ruangok' ? 'active' : '' ?>"
-        href="index.php?page=kmb/pengkajian_ruang_ok&tab=lp_ruangok">
-        Format Laporan Pendahuluan Ruang OK</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'ruang_operasi' ? 'active' : '' ?>"
-        href="index.php?page=kmb/pengkajian_ruang_ok&tab=ruang_operasi">
-        Laporan Ruang Operasi
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'resume' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=resume">
-        Format Resume Ruang OK
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=analisa">
-        Analisa Data        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=diagnosa">
-        Diagnosa Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'rencana' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=rencana">
-        Rencana Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=implementasi">
-        Implementasi Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=evaluasi">
-        Evaluasi Keperawatan
-        </a>
-    </li>
-
-
-    </ul>
-
-        <style>
-        .custom-tabs {
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .custom-tabs .nav-link {
-            border: none;
-            background: transparent;
-            color: #f6f9ff;
-            font-weight: 500;
-            padding: 10px 20px;
-        }
-
-        .custom-tabs .nav-link:hover {
-            color: #4154f1;
-        }
-
-        .custom-tabs .nav-link.active {
-            border: none;
-            border-bottom: 3px solid #4154f1;
-            color: #4154f1;
-            font-weight: 600;
-            background: transparent;
-        }
-        </style>
 
     <section class="section dashboard">
         <div class="card">
@@ -174,25 +102,7 @@ if (isset($_POST['submit'])) {
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-                <!-- Bagian No. DX -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>No</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="no" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
+              
 
                 <!-- Bagian Hari/Tanggal -->
 
@@ -202,15 +112,7 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="DATA" name="DATA">
                             
-                             <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenthari_tgl" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
+                           
                          </div>
                     </div>
                 <!-- Bagian Jam -->
@@ -220,16 +122,7 @@ if (isset($_POST['submit'])) {
 
                         <div class="col-sm-9">
                              <input type="text" class="form-control" id="ETILOGI" name="ETILOGI">
-                            
-                             <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentjam" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
+                          
                          </div>
                     </div> 
 
@@ -241,15 +134,6 @@ if (isset($_POST['submit'])) {
                         <div class="col-sm-9">
                             <textarea name="MASALAH" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentimplementasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
                          </div>
                     </div> 
                     

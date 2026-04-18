@@ -195,7 +195,7 @@ require_once "utils.php";
 
 <main id="main" class="main">
 
-                 <?php include "kmb/format_hd_kmb/tab.php"; ?>
+                 <?php include "kmb/format_kmb/tab.php"; ?>
 
 
     <section class="section dashboard">

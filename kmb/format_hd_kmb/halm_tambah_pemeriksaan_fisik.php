@@ -72,16 +72,13 @@ if (isset($_POST['submit'])) {
 ?>
 
 <main id="main" class="main">
- <?php include "kmb/format_kmb/tab.php"; ?>
+<?php include "kmb/format_hd_kmb/tab.php"; ?>
 
-
-    <section class="section dashboard">
-        
 <div class="card">
     <div class="card-body">
         <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-            <h5 class="card-title"><strong>5. Data Biologis</strong></h5>
+            <h5 class="card-title"><strong>4. Pemeriksaan fisik</strong></h5>
 <div class="row mb-2">
     <label class="col-sm-12 text-primary"><strong>a. Kepala</strong></label>
 </div>
@@ -92,7 +89,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="bentuk_kepala">
-     
+    
     </div>
 </div>
 
@@ -169,8 +166,7 @@ if (isset($_POST['submit'])) {
         <strong>Warna</strong>
     </div>
     <div class="col-sm-9">
-        <input type="text" class="form-control" name="warna_rambut">
-     
+      
     </div>
 </div>
    
@@ -200,7 +196,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="kelainan_rambut">
-
+        
 </div>
 </div>
         
@@ -215,7 +211,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="ekspresi_wajah">
-      
+       
 </div>
 </div>
                         <!-- Nyeri Dada -->
@@ -267,9 +263,7 @@ if (isset($_POST['submit'])) {
         
 </div>
 </div>
-      
-                   
-                
+           
                 
 <div class="row mb-2">
                 <label class="col-sm-12 text-primary"><strong>d. Mata</strong></label>
@@ -333,7 +327,7 @@ if (isset($_POST['submit'])) {
                         
                     </div>
 
-                       
+                        
                          </div>
 
                     </div>
@@ -346,7 +340,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="lapang_pandang">
-        
+       
         </div>
 </div>
 <div class="row mb-3">
@@ -355,7 +349,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="Keadaan Mata">
-        
+    
         </div>
 </div>
                 <div class="row mb-2">
@@ -448,7 +442,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="kelainan_mata">
-        
+      
 </div>
 </div>
 
@@ -554,7 +548,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="kelainan_telinga">
-        
+
 </div>
 </div>
                     
@@ -590,10 +584,14 @@ if (isset($_POST['submit'])) {
                     <label class="col-sm-2 col-form-label"><strong>Warna</strong></label>
                     <div class="col-sm-3">
                         <input type="text" class="form-control" name="warna">
-                    </div>    
+                      
 
                     
-                </div> 
+                    </div>   
+                </div>
+
+                
+                    
               
                     <div class="row mb-3">
     <div class="col-sm-2 col-form-label">
@@ -601,7 +599,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="mukosa_hidung">
-        
+   
         </div>
 </div>
 
@@ -649,7 +647,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="kelainan_hidung">
-       
+        
 </div>
 </div>
             
@@ -665,9 +663,8 @@ if (isset($_POST['submit'])) {
                                 <div class="input-group">
                                     <input type="text" class="form-control" name="bibir">
                                     <span class="input-group-text">Warna</span>
-                            </div>
-
-                              
+                                    </div>
+                           
                                     </div>
                                 </div>  
 
@@ -755,7 +752,7 @@ if (isset($_POST['submit'])) {
                                 <label><strong>Jumlah</strong></label>
                                 <input type="text" class="form-control" name="jumlah_gigi">
 
-                                
+                               
                                     </div>
                                 </div> 
                                                     <div class="row mb-3">
@@ -764,7 +761,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="warna">
-       
+  
 </div>
 </div>
 
@@ -786,6 +783,8 @@ if (isset($_POST['submit'])) {
     </div>
 </div>
 
+
+
    <!-- Frekuensi -->
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label"><strong>Lidah</strong></label>
@@ -795,6 +794,8 @@ if (isset($_POST['submit'])) {
                                     <input type="text" class="form-control" name="lidah">
                                     <span class="input-group-text">Warna</span>
                             </div>
+
+                              
                                     </div>
                                 </div>  
                                 
@@ -1010,13 +1011,14 @@ if (isset($_POST['submit'])) {
                             <div class="col-sm-9">
                                 <label><strong>Warna</strong></label>
                                 <input type="text" class="form-control" name="warna">
+
                                     </div>
                                 </div> 
 
 
 
 <div>
-                <label class="col-sm-12 text-primary"><strong>h. Leher</strong></label>
+<label class="col-sm-12 text-primary"><strong>h. Leher</strong></label>
             </div>
             <div class="row mb-2">
                         <div class="col-sm-2"><strong>Bentuk Simetris</strong>
@@ -1098,6 +1100,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="kelainan_leher">
+        
 </div>
 </div>
                     
@@ -1111,6 +1114,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="bentuk_dada">
+       
 </div>
 </div>
                     <div class="row mb-3">
@@ -1119,6 +1123,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="pengembangan_dada">
+       
 </div>
 </div>
 <div class="row mb-3">
@@ -1127,7 +1132,8 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="perbandingan_dada">
- </div>
+      
+</div>
 </div>
 <div class="row mb-2">
                         <div class="col-sm-2"><strong>Penggunaan Otot Pernafasan Tambahan</strong>
@@ -1223,6 +1229,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="taktil_fremitus">
+    
 </div>
 </div>
 <div class="row mb-3">
@@ -1231,6 +1238,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="perkusi_paru">
+       
 </div>
 </div>
                        
@@ -1297,7 +1305,8 @@ if (isset($_POST['submit'])) {
                             <div class="col-sm-9">
                                 <label><strong>Lainnya</strong></label>
                                 <input type="text" class="form-control" name="abnormal">
-                                    </div>
+
+                                
                                 </div> 
 <div class="row mb-2">
                 <label class="col-sm-12 text-primary"><strong>k. Jantung</strong></label>
@@ -1308,7 +1317,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="s1_jantung">
-
+      
 </div>
 </div>
                                 <div class="row mb-3">
@@ -1317,7 +1326,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="s2_jantung">
-
+     
 </div>
 </div>
 <div class="row mb-2">
@@ -1532,6 +1541,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="kelainan_abdomen">
+
 </div>
 </div>
   
@@ -1659,6 +1669,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="kelainan_genetalia">
+       
 </div>
 </div>
 
@@ -1883,15 +1894,15 @@ if (isset($_POST['submit'])) {
 
                         
                     </div>
-                         </div>
-
                     </div>
-                                        <div class="row mb-3">
+
+     <div class="row mb-3">
     <div class="col-sm-2 col-form-label">
         <strong>Kelainan</strong>
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="kelainan_genetalia">
+  
 </div>
 </div>
     
@@ -2111,7 +2122,8 @@ if (isset($_POST['submit'])) {
                 <input type="text" class="form-control" name="kiri">
             </div>
         </div>
-
+     
+    </div>
 </div>
 
 <!-- Kelainan -->
@@ -2119,9 +2131,10 @@ if (isset($_POST['submit'])) {
     <div class="col-sm-2 col-form-label"><strong>Kelainan</strong></div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="kelainan_genetalia">
+    
     </div>
 </div>
-           
+            
             <div class="row mb-2">
                 <label class="col-sm-12 text-primary"><strong>o. Kulit</strong></label>
             </div>
@@ -2131,6 +2144,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="warna_kulit">
+       
 </div>
 </div>
                         <div class="row mb-2">
@@ -2261,7 +2275,6 @@ if (isset($_POST['submit'])) {
         <input type="text" class="form-control" name="kelainan_kulit">
 
 </div>
-</div>
 <div class="row mb-2">
                 <label class="col-sm-12 text-primary"><strong>p. Kuku</strong></label>
             </div>
@@ -2298,15 +2311,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="keadaan_kuku">
-        <textarea class="form-control mt-2" rows="2" name="comment_keadaan_kuku" id="comment_keadaan_kuku" 
-                style="display:block; overflow:hidden; resize: none;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-    </div>
-    <div class="col-sm-1 d-flex align-items-center justify-content-center">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox">
-        </div>
+
 </div>
 </div>
 
@@ -2327,7 +2332,6 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="nervus1_penciuman">
-
 </div>
 </div>
 
@@ -2352,17 +2356,20 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="konstriksi_pupil">
+ 
 </div>
 </div>
 
                  
                                         <div class="row mb-3">
     <div class="col-sm-2 col-form-label">
+
         <strong>                        <label class="col-sm-11 col-form-label"><strong>Gerakan Kelopak Mata</strong></label>
 </strong>
     </div>
     <div class="col-sm-9">
-        <input type="text" class="form-control" name="gerakan_kelopak">
+        <textarea name="gerakan_kelopak" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+       
 </div>
 </div>
 
@@ -2372,6 +2379,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="gerakan_bola_mata">
+
 </div>
 </div>
 
@@ -2381,6 +2389,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="gerakan_mata_bawah">
+
 </div>
 </div>
 
@@ -2395,6 +2404,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="refleks_dagu">
+
 </div>
 </div>
 
@@ -2405,6 +2415,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="refleks_cornea">
+
 </div>
 </div>
 
@@ -2418,6 +2429,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="pengecapan_depan">
+
 </div>
 </div>
 
@@ -2431,6 +2443,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="fungsi_pendengaran">
+
 </div>
 </div>
 
@@ -2454,6 +2467,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="refleks_muntah">
+ 
 </div>
                     </div>
                                         <div class="row mb-3">
@@ -2462,6 +2476,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="pengecapan_belakang">
+
 </div>
 </div>
 
@@ -2471,7 +2486,8 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="suara_pasien">
- </div>
+
+</div>
 </div>
 
 
@@ -2484,6 +2500,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="gerakan_kepala">
+
 </div>
 </div>
 
@@ -2493,6 +2510,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="angkat_bahu">
+
 </div>
 </div>
 
@@ -2506,6 +2524,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="deviasi_lidah">
+
 </div>
 </div>
 
@@ -2518,6 +2537,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="kaku_kuduk">
+
 </div>
 </div>
 
@@ -2527,6 +2547,7 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="kernig_sign">
+
 </div>
 </div>
 
@@ -2536,214 +2557,10 @@ if (isset($_POST['submit'])) {
     </div>
     <div class="col-sm-9">
         <input type="text" class="form-control" name="refleks_brudzinski">
-
 </div>
 </div>
-
-
-            <div class="row mb-2">
-                <label class="col-sm-12 text-primary"><strong>b. Data Psikologis</strong></label>
-            </div>
-                                <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>1) Apakah yang diharapkan klien saat ini</strong>
-    </div>
-    <div class="col-sm-9">
-         <textarea class="form-control" rows="3" cols="30"  name="harapan_klien"style="display:block; overflow:hidden; resize: none;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ></textarea>
+</div>
+</form>
 </div>
 </div>
-                    <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>2) Apakah klien merasa rendah diri dengan keadaannya saat ini</strong>
-    </div>
-    <div class="col-sm-9">
-         <textarea class="form-control" rows="4" cols="30"  name="rendah_diri"style="display:block; overflow:hidden; resize: none;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ></textarea>
-</div>
-</div>
-
-                                        <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>3) Bagaimana menurut klien dengan keadaannya saat ini</strong>
-    </div>
-    <div class="col-sm-9">
-         <textarea class="form-control" rows="5" cols="30"  name="pendapat_keadaan"style="display:block; overflow:hidden; resize: none;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ></textarea>
-</div>
-</div>
-
-                                        <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>4) Apakah klien tinggal di rumah sendiri atau rumah kontrakan</strong>
-    </div>
-    <div class="col-sm-9">
-         <textarea class="form-control" rows="5" cols="30"  name="status_rumah"style="display:block; overflow:hidden; resize: none;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ></textarea>
-</div>
-</div>
-
-                                        <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>5) Apakah hubungan antar keluarga harmonis atau berjauhan</strong>
-    </div>
-    <div class="col-sm-9">
-         <textarea class="form-control" rows="5" cols="30"  name="hubungan_keluarga"style="display:block; overflow:hidden; resize: none;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ></textarea>
-</div>
-</div>
-
-                                        <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>6) Siapakah yang mengambil keputusan dalam keluarga</strong>
-    </div>
-    <div class="col-sm-9">
-         <textarea class="form-control" rows="4" cols="30"  name="pengambil_keputusan"style="display:block; overflow:hidden; resize: none;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ></textarea>
-</div>
-</div>
-
-                                        <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>7) Apakah klien merasa cukup dengan keadaan ekonomi keluarganya saat ini</strong>
-    </div>
-    <div class="col-sm-9">
-         <textarea class="form-control" rows="5" cols="30"  name="ekonomi_cukup"style="display:block; overflow:hidden; resize: none;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ></textarea>
-</div>
-</div>
-
-                                        <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>8) Apakah hubungan antar keluarga baik</strong>
-    </div>
-    <div class="col-sm-9">
-         <textarea class="form-control" rows="3" cols="30"  name="hubungan_keluarga_baik"style="display:block; overflow:hidden; resize: none;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ></textarea>
-</div>
-</div>
-
-                                        <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        
-        <strong>9) Apakah klien aktif mengikuti kegiatan kemasyarakatan di sekitar tempat tinggalnya</strong>
-    </div>
-    <div class="col-sm-9">
-         <textarea class="form-control" rows="7" cols="30"  name="kelainan_mata"style="display:block; overflow:hidden; resize: none;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ></textarea>
-</div>
-</div>
-
-                 
-
-<div class="row mb-2 mt-4">
-    <label class="col-sm-12 text-primary"><strong>c. Data Penunjang</strong></label>
-</div>
-
-<div class="row mb-3">
-    <label class="col-sm-3 col-form-label"><strong>1) Laboratorium </strong></label>
-</div>
-                    <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>Tanggal Pemeriksaan</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="date" class="form-control" name="tanggal_pemeriksaan">
-</div>
-</div>
-                         <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>Nama Pemeriksaan</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="nama_pemeriksaan">
-</div>
-</div>
-                                  <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>Hasil</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="hasil">
-</div>
-</div>
-                     <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>Satuan</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="satuan">
-</div>
-</div>
- <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>Nilai Rujukan</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="nilai_rujukan">
-</div>
-</div>
- 
-
-                <!-- Bagian Button -->    
-                <div class="row mb-3">
-                    <div class="col-sm-11 justify-content-end d-flex">
-                        <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </div>
-                
-                <h5 class="card-title"><strong>1) Laboratorium</strong></h5>
-                
-                <style>
-                    .table-laboratorium {
-                        table-layout: fixed;
-                        width:100%
-                    }
-
-                    .table-laboratorium td,
-                    .table-laboratorium th {
-                        word-wrap: break-word;
-                        white-space: normal;
-                        vertical-align: top;
-                    }
-                    </style>
-
-                    <table class="table table-bordered table-laboratorium">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Nama Pemeriksaan</th>
-                                <th class="text-center">Hasil</th>
-                                <th class="text-center">Satuan</th>
-                                <th class="text-center">Nilai Rujukan</th>
-                        </tr>
-                        </thead>
-                        </table>
-                        </form>
- <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>2) Radiologi (Tgl Pemeriksaan & Hasil)</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="radiologi">
-</div>
-</div>
-
- <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>3) Lainnya (USG, CT Scan, dll)</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="data_penunjang_lain">
-</div>
-</div>
-
-    </div>
-</div></div>
-    </form>
-    </div>                 
-                    <?php include "tab_navigasi.php"; ?>
-
-</section>              
-</main>
-                
-                 
+</section>
