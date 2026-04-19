@@ -30,6 +30,13 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <!-- 1. jQuery dulu -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+  <!-- 2. Baru DataTables -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.2.0
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/

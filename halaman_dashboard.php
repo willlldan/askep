@@ -67,6 +67,7 @@ while ($row = $result->fetch_assoc()) {
 <script>
     $(document).ready(function () {
         $('#tabelMahasiswa').DataTable({
+            pageLength: 50,
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/id.json' // Bahasa Indonesia
             },

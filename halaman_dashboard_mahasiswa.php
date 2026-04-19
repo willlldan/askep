@@ -44,7 +44,7 @@ while ($row = $result->fetch_assoc()) {
                                     <th>Department</th>
                                     <th>Form</th>
                                     <th width="130">Status</th>
-                                    <th class="text-center" width="150">Aksi</th>
+                                    <th class="text-center" width="250">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -53,7 +53,7 @@ while ($row = $result->fetch_assoc()) {
                                         <td><?= $index + 1 ?></td>
                                         <td><?= htmlspecialchars($form['department']) ?></td>
                                         <td><?= htmlspecialchars($form['form_name']) ?></td>
-                                        <td>
+                                        <td class="text-center">
                                             <?php
                                             $statusMap = [
                                                 'draft'     => ['label' => 'Draft',     'class' => 'secondary'],
@@ -82,6 +82,13 @@ while ($row = $result->fetch_assoc()) {
                                                 <i class="<?= $isApproved ? 'ri-eye-line' : 'ri-edit-line' ?> me-1"></i>
                                                 <?= $isApproved ? 'Lihat' : 'Isi Form' ?>
                                             </a>
+
+                                            <a href="cetak_form/cetak.php?submission_id=<?= $form['submission_id'] ?>"
+                                                class="btn btn-sm btn-success<?= ($form['status'] !== 'approved' ? ' disabled' : '') ?>"
+                                                target="_blank"
+                                                <?= ($form['status'] !== 'approved' ? 'tabindex="-1" aria-disabled="true" onclick="return false;"' : '') ?>>
+                                                <i class="ri-printer-line me-1"></i> Cetak
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -103,14 +110,15 @@ while ($row = $result->fetch_assoc()) {
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#tabelForm').DataTable({
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
             },
-            columnDefs: [
-                { orderable: false, targets: [3, 4] }
-            ]
+            columnDefs: [{
+                orderable: false,
+                targets: [3, 4]
+            }]
         });
     });
 </script>

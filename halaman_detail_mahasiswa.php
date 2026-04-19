@@ -154,6 +154,7 @@ while ($row = $result->fetch_assoc()) {
 <script>
     $(document).ready(function () {
         $('#tabelSubmissions').DataTable({
+            pageLength: 20,
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
             },
