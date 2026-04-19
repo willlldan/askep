@@ -29,8 +29,9 @@ $section_status = $submission ? getSectionStatus($submission['id'], $section_nam
 
 $existing_obat        = $existing_data['obat'] ?? [];
 $existing_lab         = $existing_data['lab'] ?? [];
+// Load existing dynamic rows
 $existing_klasifikasi = $existing_data['klasifikasi'] ?? [];
-$existing_analisa     = $existing_data['analisa'] ?? [];
+$existing_analisa     = $existing_data['analisa']     ?? [];
 
 $is_dosen    = $level === 'Dosen';
 $is_readonly = $is_dosen || isLocked($submission);

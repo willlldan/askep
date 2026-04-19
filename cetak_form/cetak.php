@@ -55,6 +55,10 @@ switch ($form_name) {
     case 'pengkajian_postpartum':
          include 'template_pdf_postpartum.php';
          break;
+    case 'pengkajian_ginekologi':
+        include 'template_pdf_ginekologi.php'; // Template untuk ginekologi
+        break;
+
     default:
         include 'template_pdf_postpartum.php';
         break;

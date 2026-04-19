@@ -5,8 +5,8 @@ require_once "utils.php";
 $form_id       = 6;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'data_demografi';
-$section_label = 'Data Demografi';
+$section_name  = 'pengkajian_fisik';
+$section_label = 'Pengkajian Fisik';
 
 // =============================================
 // DOSEN: ambil submission berdasarkan ?submission_id=
@@ -1014,6 +1014,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                            <?= $ro ?>><?= val('palpasi_integumen', $existing_data) ?></textarea>
                          </div>
                     </div> 
+                    
                     <!-- Bagian Eliminasi -->
 
                     <div class="row mb-2">
