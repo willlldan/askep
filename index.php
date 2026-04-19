@@ -286,9 +286,7 @@ if (isset($_SESSION['id_user'])) {
                     case 'riwayat':
                         include "maternitas/pengkajian_ginekologi/halm_tambah_riwayat.php";
                         break;
-                    case 'demografi':
-                        include "maternitas/pengkajian_ginekologi/halm_tambah_demografi.php";
-                        break;
+                   
                     case 'pengkajianfungsional':
                         include "maternitas/pengkajian_ginekologi/halm_tambah_pengkajianfungsional.php";
                         break;
