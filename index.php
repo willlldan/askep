@@ -11,16 +11,33 @@ if (isset($_SESSION['id_user'])) {
     $tab  = $_GET['tab'] ?? '';
 
     // =====================
-    // ADMIN
+    // Mahasiswa & Dosen
     // =====================
     if ($_SESSION['level'] == 'Mahasiswa' || $_SESSION['level'] == 'Dosen') {
 
-        include_once "sidebar_mhs.php";
+        if ($_SESSION['level'] == 'Dosen') {
+            include_once "sidebar_dosen.php";
+        } else {
+            include_once "sidebar_mhs.php";
+        }
 
-        echo "<H1> ini adalah page $page"
-            . ($tab ? " - $tab" : "")
-            . "</H1>";
+        print_r($page);
+        print_r($_SESSION);
+
         switch ($page) {
+            case 'dashboard':
+                if ($_SESSION['level'] == 'Dosen') {
+                    include "halaman_dashboard.php";
+                } else {
+                    include "halaman_dashboard_mahasiswa.php";
+                }
+                break;
+
+            case 'dashboard/detail_mahasiswa':
+                if ($_SESSION['level'] == 'Dosen') {
+                    include "halaman_detail_mahasiswa.php";
+                }
+                break;
 
             case 'maternitas/detail':
                 include "maternitas/halm_data_maternitas.php";
@@ -34,7 +51,7 @@ if (isset($_SESSION['id_user'])) {
                 $tab = $tab ?: 'pengkajian';
 
                 switch ($tab) {
-                    
+
 
                     case 'data_demografi':
                         include "maternitas/pengkajian_antenatal_care/halm_data_demografi.php";
@@ -71,6 +88,9 @@ if (isset($_SESSION['id_user'])) {
                     case 'evaluasi_keperawatan':
                         include "maternitas/pengkajian_antenatal_care/halm_tambah_evaluasi.php";
                         break;
+                    // case 'cetak':       
+                    //     include "maternitas/cetak.php";
+                    //     break;
 
                     default:
                         include "maternitas/pengkajian_antenatal_care/halm_data_demografi.php";
@@ -87,25 +107,28 @@ if (isset($_SESSION['id_user'])) {
 
                 switch ($tab) {
 
-                    
 
-                        case 'identitas':
+
+                    case 'identitas':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_identitas.php";
                         break;
-                        case 'data_biologis':
+                    case 'data_biologis':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_data_biologis.php";
                         break;
-                         case 'pemeriksaan_fisik1':
+                    case 'pemeriksaan_fisik1':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_pemeriksaan_fisik1.php";
                         break;
-                        case 'pemeriksaan_fisik2':
+                    case 'pemeriksaan_fisik2':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_pemeriksaan_fisik2.php";
                         break;
-                        case 'pemeriksaan_fisik3':
+                    case 'pemeriksaan_fisik3':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_pemeriksaan_fisik3.php";
                         break;
+                    case 'terapi_lab':
+                        include "maternitas/pengkajian_pascapartum/halm_data_terapi_lab.php";
+                        break;
 
-                        case 'riwayat_kehamilan':
+                    case 'riwayat_kehamilan':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_riwayat_kehamilan.php";
                         break;
 
@@ -120,6 +143,9 @@ if (isset($_SESSION['id_user'])) {
 
                     case 'implementasi_keperawatan':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_implementasi.php";
+                        break;
+                    case 'lainnya':
+                        include "maternitas/pengkajian_pascapartum/halm_tambah_lainnya.php";
                         break;
 
                     case 'evaluasi_keperawatan':
@@ -137,12 +163,25 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/pengkajian_inranatal_care':
 
-                $tab = $tab ?: 'laporanpersalinan';
+                $tab = $tab ?: 'umum';
 
                 switch ($tab) {
 
+                    case 'umum':
+                        include "maternitas/pengkajian_inranatal_care/halm_tambah_umum.php";
+                        break;
+                    case 'riwayat_persalinan':
+                    include "maternitas/pengkajian_inranatal_care/halm_tambah_riwayatpersalinan.php";
+                        break;
+                    case 'terapi_lab':
+                    include "maternitas/pengkajian_inranatal_care/halm_data_terapi_lab.php";
+                        break;
+
                     case 'laporanpersalinan':
-                        include "maternitas/pengkajian_inranatal_care/halm_tambah_laporanpersalinan.php";
+                    include "maternitas/pengkajian_inranatal_care/halm_tambah_laporanpersalinan.php";
+                        break;
+                    case 'lainnya':
+                    include "maternitas/pengkajian_inranatal_care/halm_tambah_lainnya.php";
                         break;
 
                     case 'diagnosa_keperawatan':
@@ -168,32 +207,40 @@ if (isset($_SESSION['id_user'])) {
                 break;
 
 
+
             // =====================
             // MATERNITAS Resume ANTENATAL
             // =====================
             case 'maternitas/resume_antenatal_care':
 
-                $tab = $tab ?: 'pengkajian';
+                $tab = $tab ?: 'identitas';
 
                 switch ($tab) {
                     case 'identitas':
                         include "maternitas/resume_antenatal_care/halm_tambah_identitas.php";
                         break;
                     case 'pengkajian_anamnesa':
-                    include "maternitas/resume_antenatal_care/halm_tambah_pengkajian_anamnesa.php";
-                    break;
+                        include "maternitas/resume_antenatal_care/halm_tambah_pengkajian_anamnesa.php";
+                        break;
 
                     case 'pengkajian_tanda_vital':
-                    include "maternitas/resume_antenatal_care/halm_tambah_pengkajian_tanda_vital.php";
-                    break;
+                        include "maternitas/resume_antenatal_care/halm_tambah_pengkajian_tanda_vital.php";
+                        break;
 
                     case 'pemeriksaan_fisik':
-                    include "maternitas/resume_antenatal_care/halm_tambah_pemeriksaan_fisik.php";
-                    break; 
+                        include "maternitas/resume_antenatal_care/halm_tambah_pemeriksaan_fisik.php";
+                        break;
 
                     case 'program_terapi':
-                    include "maternitas/resume_antenatal_care/halm_tambah_program_terapi.php";
-                    break; 
+                        include "maternitas/resume_antenatal_care/halm_tambah_program_terapi.php";
+                        break;
+
+                    case 'terapi_lab':
+                        include "maternitas/resume_antenatal_care/halm_data_terapi_lab.php";
+                        break;
+                    case 'lainnya':
+                        include "maternitas/resume_antenatal_care/halm_tambah_lainnya.php";
+                        break;
 
                     case 'pengkajian':
                         include "maternitas/resume_antenatal_care/halm_tambah_pengkajian.php";
@@ -216,7 +263,7 @@ if (isset($_SESSION['id_user'])) {
                         break;
 
                     default:
-                        include "maternitas/resume_antenatal_care/halm_tambah_demografi.php";
+                        include "maternitas/resume_antenatal_care/halm_tambah_identitas.php";
                 }
 
                 break;
@@ -226,12 +273,30 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/pengkajian_ginekologi':
 
-                $tab = $tab ?: 'pengkajian';
+                $tab = $tab ?: 'demografi';
 
                 switch ($tab) {
 
-                    case 'pengkajian':
-                        include "maternitas/pengkajian_ginekologi/halm_tambah_pengkajian.php";
+                    case 'pengkajianfisik':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_pengkajianfisik.php";
+                        break;
+                    case 'demografi':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_demografi.php";
+                        break;
+                    case 'riwayat':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_riwayat.php";
+                        break;
+                    case 'demografi':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_demografi.php";
+                        break;
+                    case 'pengkajianfungsional':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_pengkajianfungsional.php";
+                        break;
+                    case 'terapi_lab':
+                        include "maternitas/pengkajian_ginekologi/halm_data_terapi_lab.php";
+                        break;
+                    case 'lainnya':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_lainnya.php";
                         break;
 
                     case 'diagnosa_keperawatan':
@@ -747,17 +812,21 @@ if (isset($_SESSION['id_user'])) {
                 break;
 
             default:
-                include "halaman_dashboard.php";
+                if ($_SESSION['level'] == 'Dosen') {
+                    include "halaman_dashboard.php";
+                } else {
+                    include "halaman_dashboard_mahasiswa.php";
+                }
+                break;
         }
     }
 
     // =====================
     // STAFF DOKTER
     // =====================
-    elseif ($_SESSION['level'] == 'Staff-Dokter') {
+    elseif ($_SESSION['level'] == 'Admin') {
 
-        include_once "navbar_staff.php";
-        include_once "sidebar_staff.php";
+        include_once "sidebar_admin.php";
 
         switch ($page) {
 
@@ -769,8 +838,19 @@ if (isset($_SESSION['id_user'])) {
                 include "halaman_ganti_password.php";
                 break;
 
+            case 'dashboard':
+                include "halaman_manage_user.php.php";
+                break;
+            case 'manage_user':
+                include 'halaman_manage_user.php';
+                break;
+
+            case 'form_user':
+                include 'halaman_form_user.php';
+                break;
+
             default:
-                include "arsip/halm_cari_arsip.php";
+                include "halaman_manage_user.php";
         }
     }
 } else {

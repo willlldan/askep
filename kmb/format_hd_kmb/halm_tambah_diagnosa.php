@@ -103,12 +103,7 @@ Format Hermodalisa (HD) </a>
         Format Resume Ruang HD
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=analisa">
-        Analisa Keperawatan
-        </a>
-    </li>
+    
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa' ? 'active' : '' ?>"
         href="index.php?page=kmb/format_hd_kmb&tab=diagnosa">
