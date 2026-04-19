@@ -14,14 +14,17 @@ if (!$submission_id) {
 
 // Ambil data submission
 $stmt = $mysqli->prepare("
-    SELECT s.*, u.nama as mahasiswa_name, u.npm
+    SELECT s.*, u.nama as mahasiswa_name, u.npm, f.slug
     FROM submissions s
     JOIN tbl_user u ON s.user_id = u.id_user
+    JOIN forms f ON s.form_id = f.id
     WHERE s.id = ?
 ");
+
 $stmt->bind_param("i", $submission_id);
 $stmt->execute();
 $submission = $stmt->get_result()->fetch_assoc();
+$form_name = $submission['slug'];
 
 if (!$submission) {
     die("Submission tidak ditemukan.");
@@ -37,14 +40,6 @@ while ($row = $result->fetch_assoc()) {
     $sections[$row['section_name']] = json_decode($row['data'], true);
 }
 
-// Shortcut per section
-$demografi   = $sections['data_demografi'] ?? [];
-$riwayat     = $sections['riwayat_kehamilan_persalinan'] ?? [];
-$fisik       = $sections['pengkajian_fisik'] ?? [];
-$terapi      = $sections['program_terapi_lab'] ?? [];
-$analisa     = $sections['analisa_data'] ?? [];
-$catatan     = $sections['catatan_keperawatan'] ?? [];
-
 // Helper
 function p($val) {
     return htmlspecialchars($val ?? '-');
@@ -52,7 +47,19 @@ function p($val) {
 
 // Render HTML
 ob_start();
-include 'template_pdf_anc.php';
+
+switch ($form_name) {
+    case 'pengkajian_antenatal_care':
+        include 'template_pdf_anc.php';
+        break;
+    case 'pengkajian_postpartum':
+         include 'template_pdf_postpartum.php';
+         break;
+    default:
+        include 'template_pdf_postpartum.php';
+        break;
+}
+
 $html = ob_get_clean();
 
 // Generate PDF
@@ -60,10 +67,10 @@ $options = new Options();
 $options->set('isHtml5ParserEnabled', true);
 $options->set('isRemoteEnabled', false);
 $options->set('defaultFont', 'Arial');
-$options->set('margin_top', 20);
-$options->set('margin_bottom', 20);
-$options->set('margin_left', 20);
-$options->set('margin_right', 20);
+// $options->set('margin_top', 20);
+// $options->set('margin_bottom', 20);
+// $options->set('margin_left', 20);
+// $options->set('margin_right', 20);
 
 $dompdf = new Dompdf($options);
 $dompdf->loadHtml($html, 'UTF-8');

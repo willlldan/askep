@@ -17,26 +17,26 @@ if (isset($_SESSION['id_user'])) {
 
         if ($_SESSION['level'] == 'Dosen') {
             include_once "sidebar_dosen.php";
-
-            switch ($page) {
-                case 'dashboard':
-                    include "halaman_dashboard.php";
-                    break;
-                case 'dashboard/detail_mahasiswa':
-                    include "halaman_detail_mahasiswa.php";
-                    break;
-
-                default:
-                    include "halaman_dashboard.php";
-                    break;
-            }
         } else {
             include_once "sidebar_mhs.php";
         }
-        switch ($page) {
 
+        print_r($page);
+        print_r($_SESSION);
+
+        switch ($page) {
             case 'dashboard':
-                include "halaman_dashboard_mahasiswa.php.php";
+                if ($_SESSION['level'] == 'Dosen') {
+                    include "halaman_dashboard.php";
+                } else {
+                    include "halaman_dashboard_mahasiswa.php";
+                }
+                break;
+
+            case 'dashboard/detail_mahasiswa':
+                if ($_SESSION['level'] == 'Dosen') {
+                    include "halaman_detail_mahasiswa.php";
+                }
                 break;
 
             case 'maternitas/detail':
@@ -780,7 +780,12 @@ if (isset($_SESSION['id_user'])) {
                 break;
 
             default:
-                include "halaman_dashboard_mahasiswa.php";
+                if ($_SESSION['level'] == 'Dosen') {
+                    include "halaman_dashboard.php";
+                } else {
+                    include "halaman_dashboard_mahasiswa.php";
+                }
+                break;
         }
     }
 

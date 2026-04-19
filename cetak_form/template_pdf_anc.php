@@ -1,166 +1,19 @@
-<!DOCTYPE html>
-<html lang="id">
+<?php
+// Shortcut per section
+$demografi   = $sections['data_demografi'] ?? [];
+$riwayat     = $sections['riwayat_kehamilan_persalinan'] ?? [];
+$fisik       = $sections['pengkajian_fisik'] ?? [];
+$terapi      = $sections['program_terapi_lab'] ?? [];
+$analisa     = $sections['analisa_data'] ?? [];
+$catatan     = $sections['catatan_keperawatan'] ?? [];
 
-<head>
-    <meta charset="UTF-8">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: Arial, sans-serif;
-            font-size: 10px;
-            color: #000;
-        }
+include 'template_pdf.php';
+?>
 
-        .page {
-            padding: 40px 50px;
-        }
-
-        h1 {
-            font-size: 13px;
-            text-align: center;
-            text-transform: uppercase;
-            margin-bottom: 2px;
-        }
-
-        h2 {
-            font-size: 11px;
-            text-align: center;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        h3 {
-            font-size: 10px;
-            text-transform: uppercase;
-            margin: 8px 0 4px 0;
-            background: #d9d9d9;
-            padding: 3px 5px;
-        }
-
-        h4 {
-            font-size: 10px;
-            margin: 6px 0 3px 0;
-            text-decoration: underline;
-        }
-
-        .header-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 8px;
-        }
-
-        .header-table td {
-            padding: 2px 4px;
-            font-size: 10px;
-        }
-
-        table.data {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 6px;
-        }
-
-        table.data th {
-            background: #d9d9d9;
-            border: 1px solid #000;
-            padding: 3px 5px;
-            font-size: 9px;
-            text-align: center;
-        }
-
-        table.data td {
-            border: 1px solid #000;
-            padding: 3px 5px;
-            font-size: 9px;
-            vertical-align: top;
-        }
-
-        .field-row {
-            width: 100%;
-            margin-bottom: 3px;
-            display: table;
-        }
-
-        .field-label {
-            display: table-cell;
-            width: 35%;
-            font-weight: bold;
-            vertical-align: top;
-            padding-right: 5px;
-        }
-
-        .field-sep {
-            display: table-cell;
-            width: 3%;
-            vertical-align: top;
-        }
-
-        .field-value {
-            display: table-cell;
-            width: 62%;
-            vertical-align: top;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 1px;
-        }
-
-        .field-row-inline {
-            display: table;
-            width: 100%;
-            margin-bottom: 3px;
-        }
-
-        .inline-item {
-            display: table-cell;
-            padding-right: 10px;
-        }
-
-        .inline-item label {
-            font-weight: bold;
-        }
-
-        .section-title {
-            font-size: 10px;
-            font-weight: bold;
-            color: #000;
-            margin: 6px 0 3px 0;
-            text-transform: uppercase;
-            border-bottom: 1px solid #000;
-            padding-bottom: 2px;
-        }
-
-        .subsection-title {
-            font-size: 10px;
-            font-weight: bold;
-            margin: 5px 0 2px 0;
-            color: #444;
-        }
-
-        .page-break {
-            page-break-after: always;
-        }
-
-        .field-hint {
-            font-size: 8px;
-            color: #cc0000;
-            margin-bottom: 2px;
-            font-style: italic;
-        }
-
-        .field-value-wrap {
-            display: table-cell;
-            width: 62%;
-            vertical-align: top;
-        }
-    </style>
-</head>
 
 <body>
-    <div class="page">
+    <div >
 
         <!-- HEADER -->
         <h1>Format Pengkajian Asuhan Keperawatan</h1>
@@ -188,10 +41,10 @@
         <!-- ================================ -->
         <!-- SECTION 1: DATA DEMOGRAFI -->
         <!-- ================================ -->
-        <h3 class="mt-3">Data Demografi</h3>
+        <h3 class="mt-5">Data Demografi</h3>
 
-        <table class="header-table">
-            <tr>
+        <table class="header-table" style="border:1px solid #000;">
+            <tr style="border:1px solid #000;">
                 <td width="25%"><strong>Inisial Pasien</strong></td>
                 <td width="2%">:</td>
                 <td width="23%"><?= p($demografi['inisial_pasien']) ?></td>
@@ -274,7 +127,7 @@
         <!-- ================================ -->
         <!-- SECTION 2: RIWAYAT KEHAMILAN -->
         <!-- ================================ -->
-        <h3 class="mt-3">Riwayat Kehamilan dan Persalinan</h3>
+        <h3 class="mt-5">Riwayat Kehamilan dan Persalinan</h3>
 
         <table class="data">
             <thead>
@@ -395,7 +248,7 @@
         <!-- ================================ -->
         <!-- SECTION 3: PENGKAJIAN FISIK -->
         <!-- ================================ -->
-        <h3 class="mt-3">Pengkajian Fisik</h3>
+        <h3 class="mt-5">Pengkajian Fisik</h3>
 
         <?php
         $pengkajian_items = [
@@ -482,71 +335,71 @@
         <div class="subsection-title">Abdomen - Inspeksi Uterus</div>
         <table class="header-table">
             <tr>
-                <td width="30%"><strong>TFU</strong></td>
-                <td width="2%">:</td>
-                <td width="18%"><?= p($fisik['tfu']) ?> cm</td>
-                <td width="20%"><strong>Kontraksi</strong></td>
-                <td width="2%">:</td>
-                <td><?= p($fisik['kontraksi']) ?></td>
+                <td width="30%" style="border:1px solid #000;"><strong>TFU</strong></td>
+                <td width="2%" style="border:1px solid #000;">:</td>
+                <td width="18%" style="border:1px solid #000;"><?= p($fisik['tfu']) ?> cm</td>
+                <td width="20%" style="border:1px solid #000;"><strong>Kontraksi</strong></td>
+                <td width="2%" style="border:1px solid #000;">:</td>
+                <td style="border:1px solid #000;"><?= p($fisik['kontraksi']) ?></td>
             </tr>
-            <tr>
-                <td><strong>Leopold I</strong></td>
-                <td>:</td>
-                <td colspan="4"><?= p($fisik['leopold_i']) ?></td>
+            <tr style="border:1px solid #000;">
+                <td style="border:1px solid #000;"><strong>Leopold I</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['leopold_i']) ?></td>
             </tr>
-            <tr>
-                <td><strong>Leopold II Kanan</strong></td>
-                <td>:</td>
-                <td><?= p($fisik['leopold_ii_kanan']) ?></td>
-                <td><strong>Leopold II Kiri</strong></td>
-                <td>:</td>
-                <td><?= p($fisik['leopold_ii_kiri']) ?></td>
+            <tr style="border:1px solid #000;">
+                <td style="border:1px solid #000;"><strong>Leopold II Kanan</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td style="border:1px solid #000;"><?= p($fisik['leopold_ii_kanan']) ?></td>
+                <td style="border:1px solid #000;"><strong>Leopold II Kiri</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td style="border:1px solid #000;"><?= p($fisik['leopold_ii_kiri']) ?></td>
             </tr>
-            <tr>
-                <td><strong>Leopold III</strong></td>
-                <td>:</td>
-                <td colspan="4"><?= p($fisik['leopold_iii']) ?></td>
+            <tr style="border:1px solid #000;">
+                <td style="border:1px solid #000;"><strong>Leopold III</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['leopold_iii']) ?></td>
             </tr>
-            <tr>
-                <td><strong>Leopold IV</strong></td>
-                <td>:</td>
-                <td colspan="4"><?= p($fisik['leopold_iv']) ?></td>
+            <tr style="border:1px solid #000;">
+                <td style="border:1px solid #000;"><strong>Leopold IV</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['leopold_iv']) ?></td>
             </tr>
-            <tr>
-                <td><strong>Pemeriksaan DJJ</strong></td>
-                <td>:</td>
-                <td><?= p($fisik['djj']) ?> Frek</td>
-                <td><strong>Intensitas</strong></td>
-                <td>:</td>
-                <td><?= p($fisik['intensitas']) ?></td>
+            <tr style="border:1px solid #000;">
+                <td style="border:1px solid #000;"><strong>Pemeriksaan DJJ</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td style="border:1px solid #000;"><?= p($fisik['djj']) ?> Frek</td>
+                <td style="border:1px solid #000;"><strong>Intensitas</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td style="border:1px solid #000;"><?= p($fisik['intensitas']) ?></td>
             </tr>
-            <tr>
-                <td><strong>Keteraturan</strong></td>
-                <td>:</td>
-                <td colspan="4"><?= p($fisik['keteraturan']) ?></td>
+            <tr style="border:1px solid #000;">
+                <td style="border:1px solid #000;"><strong>Keteraturan</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['keteraturan']) ?></td>
             </tr>
-            <tr>
-                <td><strong>Linea Nigra</strong></td>
-                <td>:</td>
-                <td><?= p($fisik['linea_nigra']) ?></td>
-                <td><strong>Striae</strong></td>
-                <td>:</td>
-                <td><?= p($fisik['striae']) ?></td>
+            <tr style="border:1px solid #000;">
+                <td style="border:1px solid #000;"><strong>Linea Nigra</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td style="border:1px solid #000;"><?= p($fisik['linea_nigra']) ?></td>
+                <td style="border:1px solid #000;"><strong>Striae</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td style="border:1px solid #000;"><?= p($fisik['striae']) ?></td>
             </tr>
-            <tr>
-                <td><strong>Fungsi Pencernaan</strong></td>
-                <td>:</td>
-                <td colspan="4"><?= p($fisik['fungsi_pencernaan']) ?></td>
+            <tr style="border:1px solid #000;">
+                <td style="border:1px solid #000;"><strong>Fungsi Pencernaan</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['fungsi_pencernaan']) ?></td>
             </tr>
-            <tr>
-                <td><strong>Bising Usus</strong></td>
-                <td>:</td>
-                <td colspan="4"><?= p($fisik['bising_usus']) ?></td>
+            <tr style="border:1px solid #000;">
+                <td style="border:1px solid #000;"><strong>Bising Usus</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['bising_usus']) ?></td>
             </tr>
-            <tr>
-                <td><strong>Masalah Khusus</strong></td>
-                <td>:</td>
-                <td colspan="4"><?= p($fisik['masalah_abdomen']) ?></td>
+            <tr style="border:1px solid #000;">
+                <td style="border:1px solid #000;"><strong>Masalah Khusus</strong></td>
+                <td style="border:1px solid #000;">:</td>
+                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['masalah_abdomen']) ?></td>
             </tr>
         </table>
 
@@ -616,7 +469,7 @@
         <!-- ================================ -->
         <!-- SECTION 4: PROGRAM TERAPI & LAB -->
         <!-- ================================ -->
-        <h3 class="mt-3">Program Terapi</h3>
+        <h3 class="mt-5">Program Terapi</h3>
 
         <table class="data">
             <thead>
@@ -645,7 +498,7 @@
             </tbody>
         </table>
 
-        <h3 class="mt-3">Hasil Pemeriksaan Penunjang dan Laboratorium</h3>
+        <h3 class="mt-5">Hasil Pemeriksaan Penunjang dan Laboratorium</h3>
 
         <table class="data">
             <thead>
@@ -675,7 +528,7 @@
         <!-- ================================ -->
         <!-- SECTION 5: ANALISA DATA -->
         <!-- ================================ -->
-        <h3 class="mt-3">Klasifikasi Data</h3>
+        <h3 class="mt-5">Klasifikasi Data</h3>
 
         <table class="data">
             <thead>
@@ -700,7 +553,7 @@
             </tbody>
         </table>
 
-        <h3 class="mt-3">Analisa Data</h3>
+        <h3 class="mt-5">Analisa Data</h3>
 
         <table class="data">
             <thead>
@@ -732,7 +585,7 @@
         <!-- ================================ -->
         <!-- SECTION 6: CATATAN KEPERAWATAN -->
         <!-- ================================ -->
-        <h3 class="mt-3">Diagnosa Keperawatan</h3>
+        <h3 class="mt-5">Diagnosa Keperawatan</h3>
 
         <table class="data">
             <thead>
@@ -759,7 +612,7 @@
             </tbody>
         </table>
 
-        <h3 class="mt-3">Intervensi Keperawatan</h3>
+        <h3 class="mt-5">Intervensi Keperawatan</h3>
 
         <table class="data">
             <thead>
@@ -786,7 +639,7 @@
             </tbody>
         </table>
 
-        <h3 class="mt-3">Implementasi Keperawatan</h3>
+        <h3 class="mt-5">Implementasi Keperawatan</h3>
 
         <table class="data">
             <thead>
@@ -815,7 +668,7 @@
             </tbody>
         </table>
 
-        <h3 class="mt-3">Evaluasi Keperawatan</h3>
+        <h3 class="mt-5">Evaluasi Keperawatan</h3>
 
         <table class="data">
             <thead>
