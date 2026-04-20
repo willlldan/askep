@@ -75,126 +75,78 @@ $titles = [
     <ul class="nav nav-tabs custom-tabs">
         <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'identitas' ? 'active' : '' ?>"
-<<<<<<< HEAD
         href="index.php?page=maternitas/resume_antenatal_care&tab=identitas">
-=======
-        href="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=identitas">
->>>>>>> 430a53a4929ab49113ea8456ae4229d729249d2b
         Identitas
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian_anamnesa' ? 'active' : '' ?>"
-<<<<<<< HEAD
         href="index.php?page=maternitas/resume_antenatal_care&tab=pengkajian_anamnesa">
-=======
-        href="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=pengkajian_anamnesa">
->>>>>>> 430a53a4929ab49113ea8456ae4229d729249d2b
         Anamnesa & Antropometri
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian_tanda_vital' ? 'active' : '' ?>"
-<<<<<<< HEAD
         href="index.php?page=maternitas/resume_antenatal_care&tab=pengkajian_tanda_vital">
-=======
-        href="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=pengkajian_tanda_vital">
->>>>>>> 430a53a4929ab49113ea8456ae4229d729249d2b
         TTV & Pemeriksaan Umum
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pemeriksaan_fisik' ? 'active' : '' ?>"
-<<<<<<< HEAD
         href="index.php?page=maternitas/resume_antenatal_care&tab=pemeriksaan_fisik">
-=======
-        href="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=pemeriksaan_fisik">
->>>>>>> 430a53a4929ab49113ea8456ae4229d729249d2b
         Pemeriksaan Fisik
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'terapi_lab' ? 'active' : '' ?>"
-<<<<<<< HEAD
         href="index.php?page=maternitas/resume_antenatal_care&tab=terapi_lab">
-=======
-        href="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=terapi_lab">
->>>>>>> 430a53a4929ab49113ea8456ae4229d729249d2b
         Terapi  Lab
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya' ? 'active' : '' ?>"
-<<<<<<< HEAD
         href="index.php?page=maternitas/resume_antenatal_care&tab=lainnya">
-=======
-        href="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=lainnya">
->>>>>>> 430a53a4929ab49113ea8456ae4229d729249d2b
         Lainnya
         </a>
     </li>
     <!-- <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'program_terapi' ? 'active' : '' ?>"
-<<<<<<< HEAD
         href="index.php?page=maternitas/resume_antenatal_care&tab=program_terapi">
-=======
-        href="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=program_terapi">
->>>>>>> 430a53a4929ab49113ea8456ae4229d729249d2b
         Program Terapi
         </a>
     </li> -->
 
     <!-- <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian' ? 'active' : '' ?>"
-<<<<<<< HEAD
         href="index.php?page=maternitas/resume_antenatal_care&tab=pengkajian">
-=======
-        href="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=pengkajian">
->>>>>>> 430a53a4929ab49113ea8456ae4229d729249d2b
         Pengkajian
         </a>
     </li> -->
 
     <!-- <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa_keperawatan' ? 'active' : '' ?>"
-<<<<<<< HEAD
         href="index.php?page=maternitas/resume_antenatal_care&tab=diagnosa_keperawatan">
-=======
-        href="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=diagnosa_keperawatan">
->>>>>>> 430a53a4929ab49113ea8456ae4229d729249d2b
         Diagnosa Keperawatan
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'intervensi_keperawatan' ? 'active' : '' ?>"
-<<<<<<< HEAD
         href="index.php?page=maternitas/resume_antenatal_care&tab=intervensi_keperawatan">
-=======
-        href="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=intervensi_keperawatan">
->>>>>>> 430a53a4929ab49113ea8456ae4229d729249d2b
         Intervensi Keperawatan
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi_keperawatan' ? 'active' : '' ?>"
-<<<<<<< HEAD
        href="index.php?page=maternitas/resume_antenatal_care&tab=implementasi_keperawatan">
-=======
-       href="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=implementasi_keperawatan">
->>>>>>> 430a53a4929ab49113ea8456ae4229d729249d2b
         Implementasi Keperawatan
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi_keperawatan' ? 'active' : '' ?>"
-<<<<<<< HEAD
         href="index.php?page=maternitas/resume_antenatal_care&tab=evaluasi_keperawatan">
-=======
-        href="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=evaluasi_keperawatan">
->>>>>>> 430a53a4929ab49113ea8456ae4229d729249d2b
         Evaluasi keperawatan
         </a>
     </li> -->

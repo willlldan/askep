@@ -75,35 +75,41 @@ $titles = [
    <ul class="nav nav-tabs custom-tabs">
 
     <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'umum') == 'umum' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=umum">
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'umum' ? 'active' : '' ?>"
+            href="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=umum<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Data Umum
         </a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'riwayat_persalinan') == 'riwayatpersalinan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=riwayat_persalinan">
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'riwayat_persalinan' ? 'active' : '' ?>"
+            href="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=riwayat_persalinan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Riwayat Persalinan
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'terapi_lab') == 'riwayatpersalinan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=terapi_lab">
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'terapi_lab' ? 'active' : '' ?>"
+            href="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=terapi_lab<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Terapi Lab
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'laporanpersalinan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=laporanpersalinan">
+            href="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=laporanpersalinan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Laporan Persalinan
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa_data' ? 'active' : '' ?>"
+            href="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=analisa_data<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+        Analisa Data
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=lainnya">
+            href="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=lainnya<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Lainnya
         </a>
     </li>

@@ -180,6 +180,9 @@ if (isset($_SESSION['id_user'])) {
                     case 'laporanpersalinan':
                     include "maternitas/pengkajian_inranatal_care/halm_tambah_laporanpersalinan.php";
                         break;
+                        case 'analisa_data':
+                    include "maternitas/pengkajian_inranatal_care/halm_analisa_data.php";
+                        break;
                     case 'lainnya':
                     include "maternitas/pengkajian_inranatal_care/halm_tambah_lainnya.php";
                         break;

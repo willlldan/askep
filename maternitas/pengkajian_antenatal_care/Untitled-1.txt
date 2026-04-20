@@ -218,3 +218,83 @@ Anak
 Jiwa
 ini adalah page maternitas/pengkajian_pascapartum - pemeriksaan_fisik2
 Submission tidak ditemukan.
+
+
+
+
+
+
+
+            <!-- riwayat Persalinan -->
+            <h3 class="mt-5">Riwayat Persalinan</h3>
+
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Cara Lahir</th>
+                    <th>BB Lahir (gram)</th>
+                    <th>Keadaan</th>
+                    <th>Umur</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($riwayat['riwayat_persalinan'])): ?>
+                    <?php foreach ($riwayat['riwayat_persalinan'] as $i => $row): ?>
+                        <tr>
+                            <td><?= $i + 1 ?></td>
+                            <td><?= p($row['tahun']) ?></td>
+                            <td><?= p($row['jenis']) ?></td>
+                            <td><?= p($row['penolong']) ?></td>
+                            <td><?= p($row['jenis_kelamin']) ?></td>
+                            <td><?= p($row['masalah']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="6" style="text-align:center">-</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+        <tr>
+                <td><strong>Kelas Prenatal</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($riwayat['riwayat_ginekologi']) ?></td>
+        </tr>
+        <tr>
+                <td><strong>Jumlah Kunjungan ANC pada kehamilan ini</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($riwayat['riwayat_ginekologi']) ?></td>
+        </tr>
+        <tr>
+                <td><strong>Masalah Kehamilan yang Lalu</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($riwayat['riwayat_ginekologi']) ?></td>
+        </tr>
+        <tr>
+                <td><strong>Masalah Kehamilan Sekarang</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($riwayat['riwayat_ginekologi']) ?></td>
+        </tr>
+        <tr>
+                <td><strong>Rencana KB</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($riwayat['riwayat_ginekologi']) ?></td>
+        </tr>
+        <tr>
+                <td><strong>Makanan Bayi Sebelumnya</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($riwayat['riwayat_ginekologi']) ?></td>
+        </tr>
+        <tr>
+                <td><strong>Setelah bayi lahir, siapa yang diharapkan membantu?</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($riwayat['riwayat_ginekologi']) ?></td>
+        </tr>
+        <tr>
+                <td><strong>Masalah Persalinan</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($riwayat['riwayat_ginekologi']) ?></td>
+        </tr>
