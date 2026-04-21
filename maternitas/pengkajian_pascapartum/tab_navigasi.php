@@ -34,7 +34,7 @@ $nextTab = $tabs[$index + 1] ?? null;
     <?php endif; ?>
 
     <?php if ($nextTab): ?>
-        <a href="index.php?page=maternitas/pengkajian_antenatal_care&tab=<?= $nextTab ?><?php if ($submission_id) echo '&submission_id=' . $submission_id; ?>" class="btn btn-primary">
+        <a href="index.php?page=maternitas/pengkajian_pascapartum&tab=<?= $nextTab ?><?php if ($submission_id) echo '&submission_id=' . $submission_id; ?>" class="btn btn-primary">
             Selanjutnya
         </a>
     <?php else: ?>

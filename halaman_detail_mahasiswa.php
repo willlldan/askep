@@ -119,7 +119,7 @@ while ($row = $result->fetch_assoc()) {
                                                     <i class="ri-edit-line me-1"></i> Review
                                                 </a>
                                                 <?php if ($sub['status'] === 'approved'): ?>
-                                                    <a href="cetak_form.php?submission_id=<?= $sub['submission_id'] ?>"
+                                                    <a href="cetak_form/cetak.php?submission_id=<?= $sub['submission_id'] ?>"
                                                         target="_blank"
                                                         class="btn btn-sm btn-success ms-1">
                                                         <i class="ri-printer-line me-1"></i> Cetak
