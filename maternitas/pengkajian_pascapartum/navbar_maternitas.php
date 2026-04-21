@@ -83,20 +83,20 @@ $titles = [
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pemeriksaan_fisik1' ? 'active' : '' ?>"
             href="index.php?page=maternitas/pengkajian_pascapartum&jenismaternitas=<?= $jenismaternitas ?>&tab=pemeriksaan_fisik1<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-            Pemeriksaan Fisik
+            Pemeriksaan Fisik 1
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pemeriksaan_fisik2' ? 'active' : '' ?>"
             href="index.php?page=maternitas/pengkajian_pascapartum&jenismaternitas=<?= $jenismaternitas ?>&tab=pemeriksaan_fisik2<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-            Pemeriksaan Fisik Lanjut
+            Pemeriksaan Fisik 2
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pemeriksaan_fisik3' ? 'active' : '' ?>"
             href="index.php?page=maternitas/pengkajian_pascapartum&jenismaternitas=<?= $jenismaternitas ?>&tab=pemeriksaan_fisik3<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-            Pemeriksaan Lanjut 1
+            Pemeriksaan Fisik 3
         </a>
     </li>
     <li class="nav-item">

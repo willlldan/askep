@@ -389,6 +389,7 @@ function createSubmission($user_id, $form_id, $tanggal_pengkajian, $rs_ruangan, 
  */
 function updateSubmissionHeader($submission_id, $tanggal_pengkajian, $rs_ruangan, $mysqli)
 {
+echo "updateSubmissionHeader called with: $submission_id, $tanggal_pengkajian, $rs_ruangan"; die;
     $stmt = $mysqli->prepare("
         UPDATE submissions 
         SET tanggal_pengkajian = ?, rs_ruangan = ?, updated_at = NOW()
