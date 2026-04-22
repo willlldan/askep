@@ -76,70 +76,8 @@ if (isset($_POST['submit'])) {
   <div class="pagetitle">
         <h1><strong>Asuhan Keperawatan Jiwa RSUD</strong></h1>
     </div><!-- End Page Title -->
-    <br>
-<ul class="nav nav-tabs custom-tabs">
 
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? 'format_laporan_pendahuluan') == 'format_laporan_pendahuluan' ? 'active' : '' ?>"
-    href="index.php?page=jiwa/jiwa_rsud&tab=format_laporan_pendahuluan">
-    Format Laporan Pendahuluan
-    </a>
-</li>
-
-
-
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian' ? 'active' : '' ?>"
-    href="index.php?page=jiwa/jiwa_rsud&tab=pengkajian">
-    Format Pengkajian Keperawatan Jiwa
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa' ? 'active' : '' ?>"
-    href="index.php?page=jiwa/jiwa_rsud&tab=diagnosa">
-    Diagnosa Keperawatan
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? '') == 'rencana' ? 'active' : '' ?>"
-    href="index.php?page=jiwa/jiwa_rsud&tab=rencana">
-    Rencana Keperawatan
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi' ? 'active' : '' ?>"
-    href="index.php?page=jiwa/jiwa_rsud&tab=implementasi">
-    Implementasi Keperawatan
-    </a>
-</li>
-
-</ul>
-
-        <style>
-        .custom-tabs {
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        .custom-tabs .nav-link {
-            border: none;
-            background: transparent;
-            color: #f6f9ff;
-            font-weight: 500;
-            padding: 10px 20px;
-        }
-
-        .custom-tabs .nav-link:hover {
-            color: #4154f1;
-        }
-
-        .custom-tabs .nav-link.active {
-            border: none;
-            border-bottom: 3px solid #4154f1;
-            color: #4154f1;
-            font-weight: 600;
-            background: transparent;
-        }
-        </style>
+    <?php include "tab.php"; ?>
 
     <section class="section dashboard">
        <div class="card">
@@ -153,18 +91,8 @@ if (isset($_POST['submit'])) {
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Ruang Rawat</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 <input type="text" class="form-control" name="ruang_rawat">
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
 </div>
 </div>
 
@@ -173,18 +101,8 @@ readonly></textarea>
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Tanggal Rawat</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 <input type="date" class="form-control" name="tanggal_rawat">
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
 </div>
 </div>
 
@@ -198,42 +116,21 @@ readonly></textarea>
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Nama Klien</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 <input type="text" class="form-control" name="nama_klien">
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
 </div>
 </div>
-</div>
-
 
 <!-- JENIS KELAMIN -->
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Jenis Kelamin</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 <select class="form-control" name="jenis_kelamin">
 <option value="">-- Pilih --</option>
 <option value="Laki-laki">Laki-laki</option>
 <option value="Perempuan">Perempuan</option>
 </select>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
 </div>
 </div>
 
@@ -242,36 +139,17 @@ readonly></textarea>
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 <input type="date" class="form-control" name="tanggal_pengkajian">
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
+</div>
 </div>
 
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
 <!-- RM -->
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Umur</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 <input type="text" class="form-control" name="rm">
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
 </div>
 </div>
 
@@ -280,18 +158,8 @@ readonly></textarea>
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>RM</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 <input type="text" class="form-control" name="rm">
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
 </div>
 </div>
 
@@ -300,48 +168,26 @@ readonly></textarea>
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Informasi</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 <input type="text" class="form-control" name="informasi">
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
 </div>
 </div>
 
- <div class="row mb-2">
+<div class="row mb-2">
                         <label class="col-sm-3 col-form-label text-primary">
                             <strong>II. ALASAN MASUK</strong>
                     </div>
 
 
+<!-- NAMA KLIEN -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"></label>
+<label class="col-sm-2 col-form-label"><strong>Alasan Masuk</strong></label>
 
-<div class="col-sm-9">
-
-<textarea name="alasan_masuk" class="form-control" rows="4"
-style="overflow:hidden; resize:none;"
-oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
+<div class="col-sm-10">
+<textarea name="alasanmasuk" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 </div>
 </div>
-</div>
+
 
  <div class="row mb-2">
                         <label class="col-sm-4 col-form-label text-primary">
@@ -351,9 +197,9 @@ readonly></textarea>
 
 <!-- 1 -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>1. Pernah mengalami gangguan jiwa di masa lalu?</strong></label>
+<label class="col-sm-5 col-form-label"><strong>1. Pernah mengalami gangguan jiwa di masa lalu?</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-3">
 
 <div class="form-check form-check-inline">
 <input class="form-check-input" type="radio" name="gangguan_jiwa" value="ya">
@@ -364,26 +210,15 @@ readonly></textarea>
 <input class="form-check-input" type="radio" name="gangguan_jiwa" value="tidak">
 <label class="form-check-label">Tidak</label>
 </div>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
 </div>
 </div>
 
 
 <!-- 2 -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>2. Pengobatan sebelumnya</strong></label>
+<label class="col-sm-5 col-form-label"><strong>2. Pengobatan sebelumnya</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-3">
 
 <div class="form-check form-check-inline">
 <input class="form-check-input" type="radio" name="pengobatan" value="berhasil">
@@ -394,17 +229,6 @@ readonly></textarea>
 <input class="form-check-input" type="radio" name="pengobatan" value="tidak_berhasil">
 <label class="form-check-label">Tidak berhasil</label>
 </div>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
 </div>
 </div>
 
@@ -413,7 +237,7 @@ readonly></textarea>
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>3. Riwayat Kejadian</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <table class="table table-bordered">
 <thead>
@@ -463,16 +287,6 @@ readonly></textarea>
 </tbody>
 </table>
 
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
 </div>
 </div>
 
@@ -481,29 +295,18 @@ readonly></textarea>
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Jelaskan No 1,2,3</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
-<textarea name="penjelasan" class="form-control" rows="4"></textarea>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
+<textarea name="penjelasan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 </div>
 </div> 
 
 
 <!-- 1 -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>4.	Adakah anggota keluarga yang mengalami gangguan jiwa      </strong></label>
+<label class="col-sm-5 col-form-label"><strong>4.	Adakah anggota keluarga yang mengalami gangguan jiwa      </strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-3">
 
 <div class="form-check form-check-inline">
 <input class="form-check-input" type="radio" name="gangguan_jiwa" value="ya">
@@ -515,117 +318,59 @@ readonly></textarea>
 <label class="form-check-label">Tidak</label>
 </div>
 
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
+</div>
 </div>
 
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
 <!-- INFORMASI -->
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Hubungan keluarga </strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 <input type="text" class="form-control" name="Hubungan_keluarga ">
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
+</div>
 </div>
 
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
 <!-- INFORMASI -->
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Gejala </strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 <input type="text" class="form-control" name="Gejala ">
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
+</div>
 </div>
 
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
 <!-- INFORMASI -->
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Riwayat </strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 <input type="text" class="form-control" name="Riwayat ">
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
+</div>
 </div>
 
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
 <!-- INFORMASI -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Pengobatan/perawatan </strong></label>
+<label class="col-sm-2 col-form-label"><strong>Pengobatan/ <br>perawatan </strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 <input type="text" class="form-control" name="Hubungan_keluarga ">
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
+</div>
 </div>
 
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
-</div>
-</div>
-</div>
  <div class="row mb-2">
-                        <label class="col-sm-4 col-form-label ">
+                        <label class="col-sm-5 col-form-label ">
                             <strong>5.	Pengalaman masa lalu yang tidak menyenangkan </strong>
                     </div>
 
 
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"></label>
+<label class="col-sm-2 col-form-label"><strong>Pengalaman masa lalu yang tidak menyenangkan</strong></label>
 
-<div class="col-sm-9">
-
-<textarea name="alasan_masuk" class="form-control" rows="4"
-style="overflow:hidden; resize:none;"
-oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-<textarea class="form-control mt-2" rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox">
+<div class="col-sm-10">
+<textarea name="pengalaman_masa_lalu" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 </div>
 </div>
-</div>
+
         <div class="row mb-2">
     <label class="col-sm-3 col-form-label text-primary">
         <strong>IV. PEMERIKSAAN FISIK</strong>
@@ -641,22 +386,10 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>TD</strong></label>
 
-    <div class="col-sm-9">
+    <div class="col-sm-10">
         <div class="input-group">
             <input type="text" class="form-control" name="td">
             <span class="input-group-text">mmHg</span>
-        </div>
-
-        <textarea class="form-control mt-2" id="commenttd" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" disabled>
         </div>
     </div>
 </div>
@@ -665,22 +398,10 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>N</strong></label>
 
-    <div class="col-sm-9">
+    <div class="col-sm-10">
         <div class="input-group">
             <input type="text" class="form-control" name="nadi">
             <span class="input-group-text">x/mnt</span>
-        </div>
-
-        <textarea class="form-control mt-2" id="commentnadi" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" disabled>
         </div>
     </div>
 </div>
@@ -689,22 +410,10 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>S</strong></label>
 
-    <div class="col-sm-9">
+    <div class="col-sm-10">
         <div class="input-group">
             <input type="text" class="form-control" name="suhu">
             <span class="input-group-text">°C</span>
-        </div>
-
-        <textarea class="form-control mt-2" id="commentsuhu" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" disabled>
         </div>
     </div>
 </div>
@@ -713,22 +422,10 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>P</strong></label>
 
-    <div class="col-sm-9">
+    <div class="col-sm-10">
         <div class="input-group">
             <input type="text" class="form-control" name="pernafasan">
             <span class="input-group-text">x/mnt</span>
-        </div>
-
-        <textarea class="form-control mt-2" id="commentpernafasan" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" disabled>
         </div>
     </div>
 </div>
@@ -736,38 +433,29 @@ readonly></textarea>
                  
     <!-- 2. Pengukuran -->
 <div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>2. Pengukuran</strong></label>
+    <label class="col-sm-3 col-form-label"><strong>2. Pengukuran</strong></label>
+</div>
+
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>TB</strong></label>
 
-    <div class="col-sm-9">
+    <div class="col-sm-10">
         <div class="input-group">
             <input type="text" class="form-control" name="pernafasan">
             <span class="input-group-text">cm</span>
         </div>
-
-        <textarea class="form-control mt-2" id="commentpernafasan" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
     </div>
     </div>
 
     <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>BB</strong></label>
 
-    <div class="col-sm-9">
+    <div class="col-sm-10">
         <div class="input-group">
             <input type="text" class="form-control" name="pernafasan">
             <span class="input-group-text">kg</span>
         </div>
 
-        <textarea class="form-control mt-2" id="commentpernafasan" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
     </div>
     </div>
 
@@ -777,7 +465,7 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>3. Keluhan Fisik</strong></label>
 
-    <div class="col-sm-9">
+    <div class="col-sm-10">
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="keluhan_fisik" value="ya">
             <label class="form-check-label">Ya</label>
@@ -787,18 +475,6 @@ readonly></textarea>
             <input class="form-check-input" type="radio" name="keluhan_fisik" value="tidak">
             <label class="form-check-label">Tidak</label>
         </div>
-
-        <textarea class="form-control mt-2" id="commentkeluhanfisik" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" disabled>
-        </div>
     </div>
 </div>
 
@@ -807,22 +483,8 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Penjelasan</strong></label>
 
-    <div class="col-sm-9">
-        <textarea name="penjelasan_keluhan" class="form-control" rows="4"
-        placeholder="Tuliskan penjelasan di sini..."></textarea>
-
-        <textarea class="form-control mt-2" id="commentpenjelasan" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"
-            onchange="document.getElementById('commentpenjelasan').style.display = this.checked ? 'none' : 'block'">
-        </div>
+    <div class="col-sm-10">
+       <textarea name="penjelasan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
     </div>
 </div>
                <div class="row mb-2">
@@ -834,21 +496,8 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>1. Genogram</strong></label>
 
-    <div class="col-sm-9">
-        <textarea name="genogram" class="form-control" rows="4" placeholder="Penjelasan Genogram..."></textarea>
-
-        <textarea class="form-control mt-2" id="comment_genogram" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"
-            onchange="document.getElementById('comment_genogram').style.display=this.checked?'none':'block'">
-        </div>
+    <div class="col-sm-10">
+        <textarea name="obatdikonsumsi" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
     </div>
 </div>
 
@@ -862,21 +511,8 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>a. Gambaran Diri</strong></label>
 
-    <div class="col-sm-9">
-        <textarea name="gambaran_diri" class="form-control" rows="4" placeholder="Penjelasan Gambaran Diri..."></textarea>
-
-        <textarea class="form-control mt-2" id="comment_gambaran" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"
-            onchange="document.getElementById('comment_gambaran').style.display=this.checked?'none':'block'">
-        </div>
+    <div class="col-sm-10">
+        <textarea name="gambaran_diri" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
     </div>
 </div>
 
@@ -885,21 +521,8 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>b. Identitas Diri</strong></label>
 
-    <div class="col-sm-9">
-        <textarea name="identitas_diri" class="form-control" rows="4" placeholder="Penjelasan Identitas Diri..."></textarea>
-
-        <textarea class="form-control mt-2" id="comment_identitas" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"
-            onchange="document.getElementById('comment_identitas').style.display=this.checked?'none':'block'">
-        </div>
+    <div class="col-sm-10">
+        <textarea name="identitas_diri" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
     </div>
 </div>
 
@@ -908,21 +531,9 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>c. Peran</strong></label>
 
-    <div class="col-sm-9">
-        <textarea name="peran" class="form-control" rows="4" placeholder="Penjelasan Peran..."></textarea>
-
-        <textarea class="form-control mt-2" id="comment_peran" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"
-            onchange="document.getElementById('comment_peran').style.display=this.checked?'none':'block'">
-        </div>
+    <div class="col-sm-10">
+        <textarea name="peran" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
     </div>
 </div>
 
@@ -931,21 +542,9 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>d. Ideal Diri</strong></label>
 
-    <div class="col-sm-9">
-        <textarea name="ideal_diri" class="form-control" rows="4" placeholder="Penjelasan Ideal Diri..."></textarea>
-
-        <textarea class="form-control mt-2" id="comment_ideal" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"
-            onchange="document.getElementById('comment_ideal').style.display=this.checked?'none':'block'">
-        </div>
+    <div class="col-sm-10">
+        <textarea name="ideal_diri" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
     </div>
 </div>
 
@@ -954,21 +553,9 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>e. Harga Diri</strong></label>
 
-    <div class="col-sm-9">
-        <textarea name="harga_diri" class="form-control" rows="4" placeholder="Penjelasan Harga Diri..."></textarea>
-
-        <textarea class="form-control mt-2" id="comment_harga" rows="2"
-        placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-        style="display:block; overflow:hidden; resize:none;"
-        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"
-            onchange="document.getElementById('comment_harga').style.display=this.checked?'none':'block'">
-        </div>
+    <div class="col-sm-10">
+        <textarea name="harga_diri" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
     </div>
 </div>
 
@@ -982,36 +569,20 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>a. Orang yang Berarti</strong></label>
 
-    <div class="col-sm-9">
-        <textarea name="orang_berarti" class="form-control" rows="4"></textarea>
-        <textarea class="form-control mt-2" id="comment_orang" rows="2"         placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"
-            onchange="document.getElementById('comment_orang').style.display=this.checked?'none':'block'">
-        </div>
+    <div class="col-sm-10">
+        <textarea name="orang_berarti" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
     </div>
 </div>
 
 
 <!-- b. Kegiatan Kelompok -->
 <div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>b. Peran serta dalam kegiatan kelompok/masyarakat</strong></label>
+    <label class="col-sm-2 col-form-label"><strong>b. Peran serta dalam kegiatan kelompok/ <br>masyarakat</strong></label>
 
-    <div class="col-sm-9">
-        <textarea name="kegiatan_kelompok" class="form-control" rows="4"></textarea>
-        <textarea class="form-control mt-2" id="comment_kelompok" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"
-            onchange="document.getElementById('comment_kelompok').style.display=this.checked?'none':'block'">
-        </div>
+    <div class="col-sm-10">
+        <textarea name="kegiatan_kelompok" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
     </div>
 </div>
 
@@ -1020,17 +591,9 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>c. Hambatan dalam hubungan dengan orang lain</strong></label>
 
-    <div class="col-sm-9">
-        <textarea name="hambatan_hubungan" class="form-control" rows="4"></textarea>
-        <textarea class="form-control mt-2" id="comment_hambatan" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"
-            onchange="document.getElementById('comment_hambatan').style.display=this.checked?'none':'block'">
-        </div>
+    <div class="col-sm-10">
+        <textarea name="hambatan_hubungan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
     </div>
 </div>
 
@@ -1044,17 +607,9 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>a. Nilai dan Keyakinan</strong></label>
 
-    <div class="col-sm-9">
-        <textarea name="nilai_keyakinan" class="form-control" rows="4"></textarea>
-        <textarea class="form-control mt-2" id="comment_nilai" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"
-            onchange="document.getElementById('comment_nilai').style.display=this.checked?'none':'block'">
-        </div>
+    <div class="col-sm-10">
+        <textarea name="nilai_keyakinan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+    
     </div>
 </div>
 
@@ -1063,17 +618,9 @@ readonly></textarea>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>b. Kegiatan Ibadah</strong></label>
 
-    <div class="col-sm-9">
-        <textarea name="kegiatan_ibadah" class="form-control" rows="4"></textarea>
-        <textarea class="form-control mt-2" id="comment_ibadah" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-    </div>
-
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox"
-            onchange="document.getElementById('comment_ibadah').style.display=this.checked?'none':'block'">
-        </div>
+    <div class="col-sm-10">
+        <textarea name="kegiatan_ibadah" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
     </div>
 </div>
                        <div class="row mb-2">
@@ -1084,7 +631,7 @@ readonly></textarea>
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>1. Penampilan</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <div class="form-check form-check-inline">
 <input class="form-check-input" type="checkbox" name="penampilan[]" value="tidak_rapi">
@@ -1100,17 +647,6 @@ readonly></textarea>
 <input class="form-check-input" type="checkbox" name="penampilan[]" value="berpakaian_tidak_biasa">
 <label class="form-check-label">Cara berpakaian tidak seperti biasanya</label>
 </div>
-
-<textarea name="penjelasan_penampilan" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea class="form-control mt-2" id="comment_penampilan" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_penampilan',this)">
-</div>
 </div>
 </div>
 
@@ -1119,7 +655,7 @@ readonly></textarea>
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>2. Pembicaraan</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="pembicaraan[]" value="cepat"> Cepat
@@ -1152,17 +688,6 @@ readonly></textarea>
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="pembicaraan[]" value="tidak_memulai"> Tidak mampu memulai pembicaraan
 </label>
-
-<textarea name="penjelasan_pembicaraan" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea class="form-control mt-2" id="comment_pembicaraan" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_pembicaraan',this)">
-</div>
 </div>
 </div>
 
@@ -1171,7 +696,7 @@ readonly></textarea>
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>3. Aktivitas Motorik</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="lesu"> Lesu</label>
 <label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="tegang"> Tegang</label>
@@ -1181,24 +706,13 @@ readonly></textarea>
 <label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="grimasen"> Grimasen</label>
 <label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="tremor"> Tremor</label>
 <label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="kompulsif"> Kompulsif</label>
-
-<textarea name="penjelasan_motorik" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea class="form-control mt-2" id="comment_motorik" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_motorik',this)">
-</div>
 </div>
 </div>
 
            <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>4. Alam Perasaan</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="alam_perasaan[]" value="sedih"> Sedih
@@ -1219,17 +733,6 @@ readonly></textarea>
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="alam_perasaan[]" value="gembira_berlebihan"> Gembira berlebihan
 </label>
-
-<textarea name="penjelasan_alam_perasaan" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_alam_perasaan" class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_alam_perasaan',this)">
-</div>
 </div>
 
 </div>
@@ -1238,7 +741,7 @@ readonly></textarea>
         <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>5. Afek</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="afek[]" value="datar"> Datar
@@ -1252,23 +755,14 @@ readonly></textarea>
 <input class="form-check-input" type="checkbox" name="afek[]" value="tidak_sesuai"> Tidak sesuai
 </label>
 
-<textarea name="penjelasan_afek" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_afek" class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_afek',this)">
-</div>
 </div>
 
 </div>
+
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>6. Interaksi selama wawancara</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="bermusuhan"> Bermusuhan
@@ -1293,17 +787,6 @@ readonly></textarea>
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="curiga"> Curiga
 </label>
-
-<textarea name="penjelasan_interaksi" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_interaksi" class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_interaksi',this)">
-</div>
 </div>
 
 </div>
@@ -1311,7 +794,7 @@ readonly></textarea>
 
 <label class="col-sm-2 col-form-label"><strong>7. Persepsi - Sensorik</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="persepsi_sensorik[]" value="pendengaran"> Pendengaran
@@ -1343,18 +826,6 @@ readonly></textarea>
 <input class="form-check-input" type="checkbox" name="ilusi[]" value="tidak_ada"> Ilusi Tidak Ada
 </label>
 
-<textarea name="penjelasan_persepsi" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_persepsi" class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_persepsi',this)">
-</div>
-
 </div>
 
 </div>
@@ -1363,7 +834,7 @@ readonly></textarea>
 
 <label class="col-sm-2 col-form-label"><strong>8. Proses Pikir</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="proses_pikir[]" value="sirkumtansial"> Sirkumtansial
@@ -1393,18 +864,6 @@ readonly></textarea>
 <input class="form-check-input" type="checkbox" name="proses_pikir[]" value="pengulangan_pembicaraan"> Pengulangan pembicaraan
 </label>
 
-<textarea name="penjelasan_proses_pikir" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_proses_pikir" class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_proses_pikir',this)">
-</div>
-
 </div>
 
 </div>
@@ -1414,7 +873,7 @@ readonly></textarea>
 
 <label class="col-sm-2 col-form-label"><strong>9. Isi Pikir</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="obsesi"> Obsesi
@@ -1476,18 +935,6 @@ readonly></textarea>
 <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="kontrol_pikir"> Kontrol Pikir
 </label>
 
-<textarea name="penjelasan_isi_pikir" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_isi_pikir" class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_isi_pikir',this)">
-</div>
-
 </div>
 
 </div>
@@ -1497,7 +944,7 @@ readonly></textarea>
 
 <label class="col-sm-2 col-form-label"><strong>10. Tingkat Kesadaran</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="tingkat_kesadaran[]" value="bingung"> Bingung
@@ -1518,17 +965,6 @@ readonly></textarea>
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="tingkat_kesadaran[]" value="disorientasi_tempat"> Disorientasi tempat
 </label>
-
-<textarea name="penjelasan_tingkat_kesadaran" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_kesadaran" class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_kesadaran',this)">
-</div>
 </div>
 
 </div>
@@ -1537,7 +973,7 @@ readonly></textarea>
 
 <label class="col-sm-2 col-form-label"><strong>11. Memori</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="memori[]" value="gangguan_daya_ingat_jangka_panjang"> Gangguan daya ingat jangka panjang
@@ -1554,17 +990,6 @@ readonly></textarea>
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="memori[]" value="konfabulasi"> Konfabulasi
 </label>
-
-<textarea name="penjelasan_memori" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_memori" class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_memori',this)">
-</div>
 </div>
 
 </div>
@@ -1574,7 +999,7 @@ readonly></textarea>
 
 <label class="col-sm-2 col-form-label"><strong>12. Tingkat Konsentrasi dan Berhitung</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="konsentrasi_berhitung[]" value="mudah_beralih"> Mudah beralih
@@ -1587,17 +1012,6 @@ readonly></textarea>
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="konsentrasi_berhitung[]" value="tidak_berhitung"> Tidak mampu berhitung sederhana
 </label>
-
-<textarea name="penjelasan_konsentrasi_berhitung" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_konsentrasi" class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_konsentrasi',this)">
-</div>
 </div>
 
 </div>
@@ -1607,7 +1021,7 @@ readonly></textarea>
 
 <label class="col-sm-2 col-form-label"><strong>13. Kemampuan Penilaian</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="kemampuan_penilaian[]" value="gangguan_ringan"> Gangguan ringan
@@ -1616,17 +1030,6 @@ readonly></textarea>
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="kemampuan_penilaian[]" value="gangguan_bermakna"> Gangguan bermakna
 </label>
-
-<textarea name="penjelasan_kemampuan_penilaian" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_penilaian" class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_penilaian',this)">
-</div>
 </div>
 
 </div>
@@ -1636,7 +1039,7 @@ readonly></textarea>
 
 <label class="col-sm-2 col-form-label"><strong>14. Daya Tilik Diri</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="daya_tilik_diri[]" value="mengingkari_penyakit"> Mengingkari penyakit yang diderita
@@ -1645,17 +1048,6 @@ readonly></textarea>
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="daya_tilik_diri[]" value="menyalahkan_diluar_diri"> Menyalahkan hal-hal di luar dirinya
 </label>
-
-<textarea name="penjelasan_daya_tilik_diri" class="form-control mt-2" rows="2" placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_tilik_diri" class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox" onclick="toggleComment('comment_tilik_diri',this)">
-</div>
 </div>
 
 </div>
@@ -1745,18 +1137,18 @@ readonly></textarea>
             <div class="row mb-3">
                 <label class="col-sm-3 col-form-label"><strong>5. Istirahat/tidur</strong></label>
                 <div class="col-sm-9">
-                    <label class="form-check-label me-3">Tidur siang: </label>
-                    <input type="text" class="form-control d-inline" name="tidur_siang" style="width: 100px;" placeholder="...">
-                    <label class="form-check-label ms-3">s/d</label>
-                    <input type="text" class="form-control d-inline" name="tidur_siang_sampai" style="width: 100px;" placeholder="...">
+                    <label class="form-check-label me-4">Tidur siang: </label>
+                    <input type="text" class="form-control d-inline" name="tidur_siang" style="width: 100px;">
+                    <label class="form-check-label ms-4">s/d</label>
+                    <input type="text" class="form-control d-inline" name="tidur_siang_sampai" style="width: 100px;">
 
-                    <br>
-                    <label class="form-check-label me-3">Tidur malam: </label>
-                    <input type="text" class="form-control d-inline" name="tidur_malam" style="width: 100px;" placeholder="...">
-                    <label class="form-check-label ms-3">s/d</label>
-                    <input type="text" class="form-control d-inline" name="tidur_malam_sampai" style="width: 100px;" placeholder="...">
-                    <br>
-                    <label class="form-check-label me-3">Kegiatan sebelum/sesudah tidur: </label>
+                    
+                    <label class="form-check-label me-4">Tidur malam: </label>
+                    <input type="text" class="form-control d-inline" name="tidur_malam" style="width: 100px;">
+                    <label class="form-check-label ms-4">s/d</label>
+                    <input type="text" class="form-control d-inline" name="tidur_malam_sampai" style="width: 100px;">
+                   
+                    <label class="form-check-label me-4">Kegiatan sebelum/sesudah tidur: </label>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="kegiatan_tidur" value="tidak">
                         <label class="form-check-label">Ya</label>
@@ -1910,19 +1302,9 @@ readonly></textarea>
             <!-- Penjelasan -->
              
             <div class="row mb-3">
-                    <label for="agamaistri" class="col-sm-2 col-form-label"><strong>Penjelasan</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="agamaistri">
-
-                       <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentagamaistri" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
+                    <label for="penjelasan" class="col-sm-2 col-form-label"><strong>Penjelasan</strong></label>
+                    <div class="col-sm-10">
+                        <textarea name="penjelasan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
                          </div>
                     </div>
 <div class="row mb-3">
@@ -1931,8 +1313,8 @@ readonly></textarea>
                             <strong>VIII. Mekanisme Koping</strong>
                     </div>
  <div class="row mb-3">
-                    <label for="agamaistri" class="col-sm-2 col-form-label"><strong></strong></label>
-                    <div class="col-sm-9">
+                    <label for="agamaistri" class="col-sm-2 col-form-label"><strong>Mekanisme Koping</strong></label>
+                    <div class="col-sm-10">
                        
 
 <label class="form-check-label me-3">
@@ -1982,43 +1364,6 @@ readonly></textarea>
 <label class="form-check-label me-3">
 <input class="form-check-input" type="checkbox" name="psikososial[]" value="mencederai_diri"> Mencederai diri
 </label>
-
-<br>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox"
-name="psikososial_lainnya"
-id="psikososial_lainnya"
-onchange="document.getElementById('lainnya_input').style.display = this.checked ? 'block' : 'none'">
-Lainnya
-</label>
-
-<input type="text"
-id="lainnya_input"
-name="psikososial_lainnya_text"
-class="form-control mt-2"
-style="display:none"
-placeholder="Isi jika lainnya">
-
-<textarea name="penjelasan_psikososial"
-class="form-control mt-2"
-rows="3"
-placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_koping"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-
-<div class="form-check">
-<input class="form-check-input"
-type="checkbox"
-onclick="toggleComment('comment_koping',this)">
 </div>
 
 </div>
@@ -2031,200 +1376,91 @@ onclick="toggleComment('comment_koping',this)">
 
 <!-- Dukungan Kelompok -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Masalah dengan dukungan kelompok, Uraikan : </strong></label>
+<label class="col-sm-2 col-form-label"><strong>Masalah dengan dukungan kelompok, Uraikan</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
-<textarea name="dukungan_kelompok" class="form-control" rows="3" placeholder="Uraikan masalah dengan dukungan kelompok"></textarea>
-
-<textarea id="comment_dukungan_kelompok"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox"
-onclick="toggleComment('comment_dukungan_kelompok',this)">
-</div>
+<textarea name="dukungan_kelompok" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 </div>
 </div>
 
 
 <!-- Lingkungan -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Masalah dengan lingkungan, uraikan :  </strong></label>
+<label class="col-sm-2 col-form-label"><strong>Masalah dengan lingkungan, Uraikan</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
-<textarea name="masalah_lingkungan" class="form-control" rows="3" placeholder="Uraikan masalah dengan lingkungan"></textarea>
-
-<textarea id="comment_lingkungan"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox"
-onclick="toggleComment('comment_lingkungan',this)">
-</div>
+<textarea name="masalah_lingkungan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 </div>
 </div>
 
 
 <!-- Pendidikan -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Masalah dengan pendidikan, Uraikan : </strong></label>
+<label class="col-sm-2 col-form-label"><strong>Masalah dengan pendidikan, Uraikan</strong></label>
 
-<div class="col-sm-9">
-
-<textarea name="masalah_pendidikan" class="form-control" rows="3" placeholder="Uraikan masalah dengan pendidikan"></textarea>
-
-<textarea id="comment_pendidikan"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox"
-onclick="toggleComment('comment_pendidikan',this)">
-</div>
+<div class="col-sm-10">
+<textarea name="masalah_pendidikan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
 </div>
 </div>
 
 
 <!-- Pekerjaan -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Masalah dengan pekerjaan, Uraikan : </strong></label>
+<label class="col-sm-2 col-form-label"><strong>Masalah dengan pekerjaan, Uraikan</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
-<textarea name="masalah_pekerjaan" class="form-control" rows="3" placeholder="Uraikan masalah dengan pekerjaan"></textarea>
-
-<textarea id="comment_pekerjaan"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox"
-onclick="toggleComment('comment_pekerjaan',this)">
-</div>
+<textarea name="masalah_pekerjaan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
 </div>
 </div>
 
 
 <!-- Perumahan -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Masalah dengan perumahan, Uraikan : </strong></label>
+<label class="col-sm-2 col-form-label"><strong>Masalah dengan perumahan, Uraikan</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
-<textarea name="masalah_perumahan" class="form-control" rows="3" placeholder="Uraikan masalah dengan perumahan"></textarea>
-
-<textarea id="comment_perumahan"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox"
-onclick="toggleComment('comment_perumahan',this)">
-</div>
+<textarea name="masalah_perumahan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
 </div>
 </div>
 
 
 <!-- Ekonomi -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Masalah dengan ekonomi, Uraikan : </strong></label>
+<label class="col-sm-2 col-form-label"><strong>Masalah dengan ekonomi, Uraikan</strong></label>
 
-<div class="col-sm-9">
-
-<textarea name="masalah_ekonomi" class="form-control" rows="3" placeholder="Uraikan masalah dengan ekonomi"></textarea>
-
-<textarea id="comment_ekonomi"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox"
-onclick="toggleComment('comment_ekonomi',this)">
-</div>
+<div class="col-sm-10">
+<textarea name="masalah_ekonomi" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
 </div>
 </div>
 
 
 <!-- Pelayanan Kesehatan -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Masalah dengan pelayanan kesehatan, Uraikan : </strong></label>
+<label class="col-sm-2 col-form-label"><strong>Masalah dengan pelayanan kesehatan, Uraikan</strong></label>
 
-<div class="col-sm-9">
+<div class="col-sm-10">
 
-<textarea name="masalah_pelayanan_kesehatan" class="form-control" rows="3" placeholder="Uraikan masalah dengan pelayanan kesehatan"></textarea>
-
-<textarea id="comment_pelayanan_kesehatan"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox"
-onclick="toggleComment('comment_pelayanan_kesehatan',this)">
-</div>
+<textarea name="masalah_pelayanan_kesehatan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
 </div>
 </div>
 
 
 <!-- Masalah Lain -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Masalah lain, Uraikan : </strong></label>
+<label class="col-sm-2 col-form-label"><strong>Masalah lain, Uraikan</strong></label>
 
-<div class="col-sm-9">
-
-<textarea name="masalah_lain" class="form-control" rows="3" placeholder="Uraikan masalah lain"></textarea>
-
-<textarea id="comment_masalah_lain"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input" type="checkbox"
-onclick="toggleComment('comment_masalah_lain',this)">
-</div>
+<div class="col-sm-10">
+<textarea name="masalah_lain" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
 </div>
 </div><div class="row mb-3">
  <div class="row mb-2">
@@ -2232,8 +1468,8 @@ onclick="toggleComment('comment_masalah_lain',this)">
                             <strong>X. Pengetahuan Kurang Tentang</strong>
                     </div>
  <div class="row mb-3">
-                    <label for="agamaistri" class="col-sm-2 col-form-label"><strong></strong></label>
-                    <div class="col-sm-9">
+                    <label for="agamaistri" class="col-sm-2 col-form-label"><strong>Pengetahuan Kurang Tentang</strong></label>
+                    <div class="col-sm-10">
                        
 
 <label class="form-check-label me-3">
@@ -2266,405 +1502,9 @@ Koping
 Obat-obatan
 </label>
 
-<br>
-
-<label class="form-check-label me-3">
-<input class="form-check-input"
-type="checkbox"
-id="pengetahuan_lainnya"
-onchange="document.getElementById('lainnya_pengetahuan').style.display = this.checked ? 'block' : 'none'">
-Lainnya
-</label>
-
-<input type="text"
-id="lainnya_pengetahuan"
-name="pengetahuan_lainnya"
-class="form-control mt-2"
-style="display:none"
-placeholder="Isi jika lainnya">
-
-<textarea name="penjelasan_pengetahuan"
-class="form-control mt-2"
-rows="3"
-placeholder="Penjelasan"></textarea>
-
-<textarea id="comment_pengetahuan"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-
-<div class="form-check">
-<input class="form-check-input"
-type="checkbox"
-onclick="toggleComment('comment_pengetahuan',this)">
 </div>
 
 </div>
-
-</div>
-
-            <!-- ASPEK MEDIS -->
-              <div class="row mb-2">
-                        <label class="col-sm-4 col-form-label text-primary">
-                            <strong>XI. Aspek Medis</strong>
-                    </div>
-
-<!-- Diagnosa Medis -->
-<div class="row mb-3">
-
-<label class="col-sm-2 col-form-label"><strong>Diagnosa Medis</strong></label>
-
-<div class="col-sm-9">
-
-<input type="text"
-class="form-control"
-name="diagnosa_medis"
-placeholder="Masukkan diagnosa medis">
-
-<textarea id="comment_diagnosa"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input"
-type="checkbox"
-onclick="toggleComment('comment_diagnosa',this)">
-</div>
-</div>
-
-</div>
-
-
-<!-- Terapi Medik -->
-<div class="row mb-3">
-
-<label class="col-sm-2 col-form-label"><strong>Terapi Medik</strong></label>
-
-<div class="col-sm-9">
-
-<input type="text"
-class="form-control"
-name="terapi_medik"
-placeholder="Masukkan terapi medik">
-
-<textarea id="comment_terapi"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input"
-type="checkbox"
-onclick="toggleComment('comment_terapi',this)">
-</div>
-</div>
-
-</div>
- <div class="row mb-2">
-                        <label class="col-sm-4 col-form-label text-primary">
-                            <strong>XII. Data Fokus</strong>
-                    </div>
-
-
-
-<!-- Data Subjektif -->
-<div class="row mb-3">
-
-<label class="col-sm-2 col-form-label"><strong>Data Subjektif</strong></label>
-
-<div class="col-sm-9">
-
-<textarea
-class="form-control"
-name="data_subjektif"
-rows="3"
-placeholder="Masukkan data subjektif"></textarea>
-
-<textarea id="comment_subjektif"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input"
-type="checkbox"
-onclick="toggleComment('comment_subjektif',this)">
-</div>
-</div>
-
-</div>
-
-
-<!-- Data Objektif -->
-<div class="row mb-3">
-
-<label class="col-sm-2 col-form-label"><strong>Data Objektif</strong></label>
-
-<div class="col-sm-9">
-
-<textarea
-class="form-control"
-name="data_objektif"
-rows="3"
-placeholder="Masukkan data objektif"></textarea>
-
-<textarea id="comment_objektif"
-class="form-control mt-2"
-rows="2"
-placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!"
-readonly></textarea>
-
-</div>
-
-<div class="col-sm-1 d-flex align-items-start">
-<div class="form-check">
-<input class="form-check-input"
-type="checkbox"
-onclick="toggleComment('comment_objektif',this)">
-</div>
-</div>
-
-</div>
-            <!-- XIII. ANALISA DATA -->
-           <div class="row mb-2">
-                        <label class="col-sm-4 col-form-label text-primary">
-                            <strong>XV. Analisa Data</strong>
-                    </div>
-
-
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-                <!-- Bagian No. DX -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>No</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="no" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-
-                <!-- Bagian Hari/Tanggal -->
-
-                    <div class="row mb-3">
-                        <label for="hari_tgl" class="col-sm-2 col-form-label"><strong>Data Subjektif</strong></label>
-
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="DATA" name="DATA">
-                            
-                             <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenthari_tgl" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
-                <!-- Bagian Jam -->
-
-                    <div class="row mb-3">
-                        <label for="jam" class="col-sm-2 col-form-label"><strong>Data Objektif</strong></label>
-
-                        <div class="col-sm-9">
-                             <input type="text" class="form-control" id="ETILOGI" name="ETILOGI">
-                            
-                             <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentjam" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-
-                <!-- Bagian Implementasi -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Masalah</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="MASALAH" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentimplementasi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-                    
-                <!-- Bagian Button -->    
-                    <div class="row mb-3">
-                        <div class="col-sm-11 justify-content-end d-flex">
-                            <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div> 
-
-                    <h5 class="card-title mt-2"><strong>Analisa Data</strong></h5>
-
-                    <style>
-                    .table-pemeriksaan {
-                        table-layout: fixed;
-                        width:100%
-                    }
-
-                    .table-pemeriksaan td,
-                    .table-pemeriksaan th {
-                        word-wrap: break-word;
-                        white-space: normal;
-                        vertical-align: top;
-                    }
-                    </style>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th class="text-center">Data Subjektif</th>
-                                <th class="text-center">Data objektif</th>
-                                <th class="text-center">Masalah</th>
-                        </tr>
-                        </thead>
-
-                    <tbody>
-
-                    <?php
-                    if(!empty($data)){
-                        foreach($data as $row){
-                            echo "<tr>
-                            <td>".$row['NO']."</td>
-                            <td>".$row['Data_Subjektif']."</td>
-                            <td>".$row['Data_objektif']."</td>
-                            <td>".$row['Masalah']."</td>
-                            </tr>";
-                        }
-                    }
-                    ?>
-
-                    </tbody>
-                    </table>    
-
-            </tbody>
-        </table>
-</form>
-</div>
- <div class="row mb-2">
-                        <label class="col-sm-5 col-form-label text-primary">
-                            <strong>XIV. DAFTAR MASALAH KEPERAWATAN</strong>
-                    </div>
-             <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong></strong></label>
-                    <div class="col-sm-9">
-                    <input type="text" class="form-control" name="tempat_lahir">
-                    
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenttempat_lahir" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
-            
-            <!-- XV. POHON MASALAH -->
-              <div class="row mb-2">
-                        <label class="col-sm-5 col-form-label text-primary">
-                            <strong>XV. POHON MASALAH</strong>
-                    </div>
-             <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Efek</strong></label>
-                    <div class="col-sm-9">
-                    <input type="text" class="form-control" name="tempat_lahir">
-                    
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenttempat_lahir" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
-             <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Cara Problem</strong></label>
-                    <div class="col-sm-9">
-                    <input type="text" class="form-control" name="tempat_lahir">
-                    
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenttempat_lahir" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
-             <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Etiologi</strong></label>
-                    <div class="col-sm-9">
-                    <input type="text" class="form-control" name="tempat_lahir">
-                    
-                    <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenttempat_lahir" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div>
-            
-           
-
-            <!-- XVI. DIAGNOSA KEPERAWATAN -->
       
                          <?php include "tab_navigasi.php"; ?>
 

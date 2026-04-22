@@ -73,47 +73,55 @@ if (isset($_POST['submit'])) {
 
 <main id="main" class="main">
 
-      <div class="pagetitle">
-        <h1><strong>Asuhan Keperawatan Poli Jiwa</strong></h1>
+    <div class="pagetitle">
+        <h1><strong>Pengkajian Asuhan Keperawatan Antenatal Care</strong></h1>
+        <!-- <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+        </nav> -->
     </div><!-- End Page Title -->
     <br>
 
     <ul class="nav nav-tabs custom-tabs">
 
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? '') == 'praktik_klinik_keperawatan_jiwa' ? 'active' : '' ?>"
-    href="index.php?page=jiwa/poli_jiwa&tab=praktik_klinik_keperawatan_jiwa">
-    Format LP Praktik Klinik Keperawatan Jiwa
-    </a>
-</li>
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian' ? 'active' : '' ?>"
+        href="index.php?page=maternitas/pengkajian_antenatal_care&tab=pengkajian">
+        Pengkajian
+        </a>
+    </li>
 
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? '') == 'resume' ? 'active' : '' ?>"
-    href="index.php?page=jiwa/poli_jiwa&tab=resume">
-    Format Resume Keperawatan Jiwa
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa' ? 'active' : '' ?>"
-    href="index.php?page=jiwa/poli_jiwa&tab=diagnosa">
-    Diagnosa Keperawatan
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? '') == 'rencana' ? 'active' : '' ?>"
-    href="index.php?page=jiwa/poli_jiwa&tab=rencana">
-    Rencana Keperawatan
-    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi' ? 'active' : '' ?>"
-    href="index.php?page=jiwa/poli_jiwa&tab=implementasi">
-    Implementasi Keperawatan
-    </a>
-</li>
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa_keperawatan' ? 'active' : '' ?>"
+        href="index.php?page=maternitas/pengkajian_antenatal_care&tab=diagnosa_keperawatan">
+        Diagnosa Keperawatan
+        </a>
+    </li>
 
-</ul>
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'intervensi_keperawatan' ? 'active' : '' ?>"
+        href="index.php?page=maternitas/pengkajian_antenatal_care&tab=intervensi_keperawatan">
+        Intervensi Keperawatan
+        </a>
+    </li>
 
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi_keperawatan' ? 'active' : '' ?>"
+       href="index.php?page=maternitas/pengkajian_antenatal_care&tab=implementasi_keperawatan">
+        Implementasi Keperawatan
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi_keperawatan' ? 'active' : '' ?>"
+        href="index.php?page=maternitas/pengkajian_antenatal_care&tab=evaluasi_keperawatan">
+        Evaluasi keperawatan
+        </a>
+    </li>
+
+    </ul>
         <style>
         .custom-tabs {
             border-bottom: 1px solid #dee2e6;
@@ -143,23 +151,21 @@ if (isset($_POST['submit'])) {
     <section class="section dashboard">
         <div class="card">
             <div class="card-body">
- <div class="row mb-2">
-                        <label class="col-sm-6 col-form-label text-primary">
-                            <strong>RENCANA KEPERAWATAN</strong>
-                    </div>
+              <h5 class="card-title mb-1"><strong>Implementasi Keperawatan</strong></h5>
+
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-                <!-- Bagian Diagnosa -->
+                <!-- Bagian No. DX -->
 
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Diagnosa Keperawatan</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>No. DX</strong></label>
 
                         <div class="col-sm-9">
-                            <textarea name="diagnosa" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
+                             <input type="text" class="form-control" name="nodx">
+ 
                      <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentdiagnosa" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                            <textarea class="form-control mt-2" id="commentnodx" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
                             oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
                         </div>
 
@@ -170,16 +176,16 @@ if (isset($_POST['submit'])) {
                          </div>
                     </div> 
 
-                    <!-- Bagian Tujuan dan Kriteria Hasil -->
+                <!-- Bagian Hari/Tanggal -->
 
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Tujuan </strong></label>
+                        <label for="hari_tgl" class="col-sm-2 col-form-label"><strong>Hari/Tanggal</strong></label>
 
                         <div class="col-sm-9">
-                            <textarea name="tujuandankriteria" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenttujuandankriteria" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                            <input type="datetime-local" class="form-control" id="hari_tgl" name="hari_tgl">
+                            
+                             <!-- comment -->
+                            <textarea class="form-control mt-2" id="commenthari_tgl" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
                             oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
                         </div>
 
@@ -188,38 +194,18 @@ if (isset($_POST['submit'])) {
                                 <input class="form-check-input" type="checkbox" disabled>
                             </div>
                          </div>
-                    </div> 
-                      <!-- Bagian Tujuan dan Kriteria Hasil -->
+                    </div>
+                    
+                <!-- Bagian Jam -->
 
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Kriteria Evaluasi </strong></label>
+                        <label for="jam" class="col-sm-2 col-form-label"><strong>Jam</strong></label>
 
                         <div class="col-sm-9">
-                            <textarea name="tujuandankriteria" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commenttujuandankriteria" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
-                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
-                        </div>
-
-                        <div class="col-sm-1 d-flex align-items-start">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                         </div>
-                    </div> 
-
-
-                    <!-- Bagian Intervensi -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Intervensi</strong></label>
-
-                        <div class="col-sm-9">
-                            <textarea name="intervensi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-
-                     <!-- comment -->
-                            <textarea class="form-control mt-2" id="commentintervensi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                             <input type="time" class="form-control" id="jam" name="jam">
+                            
+                             <!-- comment -->
+                            <textarea class="form-control mt-2" id="commentjam" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
                             oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
                         </div>
 
@@ -230,14 +216,48 @@ if (isset($_POST['submit'])) {
                          </div>
                     </div> 
 
-                    <!-- Bagian Button -->    
+                <!-- Bagian Implementasi dan Hasil -->
+
+                    <!-- Implementasi -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Implementasi</strong></label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <textarea name="implementasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        </div>    
+                    </div>
+                                
+                    <!-- Hasil -->
+                    <label class="col-sm-2 col-form-label"><strong>Hasil</strong></label>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <textarea name="hasil" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                         </div> 
+                    </div>   
+
+                    <div class="col-sm-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" disabled>
+                        </div>
+                    </div>   
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-9 offset-sm-2">
+                        <textarea class="form-control" rows="2" placeholder="Kolom Ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakan!" style="display:block; overflow:hidden; resize: none;"
+                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                     </div>
+                </div>
+                                 
+                    
+                <!-- Bagian Button -->    
                     <div class="row mb-3">
                         <div class="col-sm-11 justify-content-end d-flex">
                             <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </div> 
 
-                    <h5 class="card-title mt-2"><strong>RENCANA KEPERAWATAN</strong></h5>
+                    <h5 class="card-title mt-2"><strong>Implementasi Keperawatan</strong></h5>
 
                     <style>
                     .table-pemeriksaan {
@@ -256,10 +276,11 @@ if (isset($_POST['submit'])) {
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th class="text-center">Diagnosa</th>
-                                <th class="text-center">Tujuan</th>
-                                 <th class="text-center">Kriteria Evaluasi</th>
-                                <th class="text-center">Intervensi</th>
+                                <th class="text-center">No. Dx </th>
+                                <th class="text-center">Hari/Tanggal</th>
+                                <th class="text-center">Jam</th>
+                                <th class="text-center">Implementasi</th>
+                                <th class="text-center">Hasil</th>
                         </tr>
                         </thead>
 
@@ -269,18 +290,20 @@ if (isset($_POST['submit'])) {
                     if(!empty($data)){
                         foreach($data as $row){
                             echo "<tr>
-                            <td>".$row['diagnosa']."</td>
-                            <td>".$row['tujuan']."</td>
-                            td>".$row['Kriteria']."</td>
-                            <td>".$row['intervensi']."</td>
+                            <td>".$row['no_dx']."</td>
+                            <td>".$row['hari_tgl']."</td>
+                            <td>".$row['jam']."</td>
+                            <td>".$row['implementasi']."</td>
+                            <td>".$row['hasil']."</td>
                             </tr>";
                         }
                     }
                     ?>
 
                     </tbody>
-                    </table>
+                    </table>    
 
-  <?php include "tab_navigasi.php"; ?>
-    </section>
-  
+                    <?php include "tab_navigasi.php"; ?>
+
+</section>
+</main>

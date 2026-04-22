@@ -2,15 +2,12 @@
 
 $tabs = [
     "umum",
-    "riwayatpersalinan",
+    "umumlanjutan",
     "laporanpersalinan",
-    "diagnosa_keperawatan",
-    "intervensi_keperawatan",
-    "implementasi_keperawatan",
-    "evaluasi_keperawatan"
+    "lainnya"
 ];
 
-$currentTab = $_GET['tab'] ?? 'laporanpersalinan';
+$currentTab = $_GET['tab'] ?? 'umum';
 
 $index = array_search($currentTab, $tabs);
 

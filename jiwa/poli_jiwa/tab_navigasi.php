@@ -2,10 +2,8 @@
 
 $tabs = [
     "halm_tambah_praktik_klinik_keperawatan_jiwa",
-    "diagnosa",
-     "rencana",
-     "implementasi",
-    
+    "format_resume",
+    "lainnya",
 ];
 
 $currentTab = $_GET['tab'] ?? 'halm_tambah_praktik_klinik_keperawatan_jiwa';

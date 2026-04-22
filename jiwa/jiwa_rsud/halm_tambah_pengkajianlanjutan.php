@@ -72,140 +72,55 @@ if (isset($_POST['submit'])) {
 ?>
 
 <main id="main" class="main">
-<?php include "tab.php"; ?>
+
+  <div class="pagetitle">
+        <h1><strong>Asuhan Keperawatan Jiwa RSUD</strong></h1>
+    </div><!-- End Page Title -->
+    
+    <?php include "tab.php"; ?>
 
     <section class="section dashboard">
-    <div class="card">
-        <div class="card-body">
-            <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-                
-                <h5 class="card-title"><strong>FORMAT LAPORAN PENDAHULUAN PRAKTIK KLINIK KEPERAWATAN JIWA</strong></h5>
+       <div class="card">
+<div class="card-body">
 
-                <!-- A. PENGKAJIAN -->
+<form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+<h5 class="card-title"><strong>FORMAT PENGKAJIAN ANALISA KEPERAWATAN JIWA</strong></h5>
+
+
+            <!-- ASPEK MEDIS -->
+              <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label text-primary">
+                            <strong>XI. Aspek Medis</strong>
+                    </div>
+
+<!-- Diagnosa Medis -->
 <div class="row mb-3">
-<div class="col-sm-12">
-<label class="text-primary"><strong>A. PENGKAJIAN</strong></label>
-</div>
-</div>
 
-<!-- 1. IDENTITAS KLIEN -->
-<div class="row mb-3">
-<div class="col-sm-12">
-<label><strong>1. IDENTITAS KLIEN</strong></label>
-</div>
-</div>
-
-<!-- NAMA -->
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Nama</strong></label>
-
-<div class="col-sm-10">
-<input type="text" class="form-control" name="nama">
-</div>
-</div>
-
-<!-- UMUR -->
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Umur</strong></label>
-
-<div class="col-sm-10">
-<input type="number" class="form-control" name="umur">
-</div>
-</div>
-
-<!-- AGAMA -->
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Agama</strong></label>
-
-<div class="col-sm-10">
-<input type="text" class="form-control" name="agama">
-</div>
-</div>
-
-<!-- STATUS PERKAWINAN -->
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
-
-<div class="col-sm-10">
-<input type="text" class="form-control" name="status_perkawinan">
-</div>
-</div>
-
-<!-- PEKERJAAN -->
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
-
-<div class="col-sm-10">
-<input type="text" class="form-control" name="pekerjaan">
-</div>
-</div>
-
-<!-- ALAMAT -->
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
-
-<div class="col-sm-10">
-<textarea name="alamat" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-</div>
-</div>
-
-<!-- KUNJUNGAN KE -->
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Kunjungan ke</strong></label>
-
-<div class="col-sm-10">
-<input type="text" class="form-control" name="kunjungan_ke">
-</div>
-</div>
-
-<!-- DIAGNOSA MEDIS -->
-<div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Diagnosa Medis</strong></label>
 
 <div class="col-sm-10">
-<textarea name="diagnosa_medis" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-</div>
+<input type="text" class="form-control" name="diagnosa_medis">    
 </div>
 
-<!-- TANGGAL PENGKAJIAN -->
+</div>
+
+
+<!-- Terapi Medik -->
 <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
+
+<label class="col-sm-2 col-form-label"><strong>Terapi Medik</strong></label>
 
 <div class="col-sm-10">
-<input type="date" class="form-control" name="tanggal_pengkajian">
-</div>
-</div>
-
-<div class="row mb-2">
-                        <label class="col-sm-3 col-form-label ">
-                            <strong>2. Alasan Masuk</strong>
-                    </div>
-
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Alasan Masuk</strong></label>
-
-<div class="col-sm-10">
-<textarea name="alasan_masuk" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-</div>
+<input type="text" class="form-control" name="terapi_medik">
 </div>
 
+</div>
  <div class="row mb-2">
-                        <label class="col-sm-5 col-form-label ">
-                            <strong>3.  Riwayat Kesehatan Masa Lalu</strong>
+                        <label class="col-sm-4 col-form-label text-primary">
+                            <strong>XII. Data Fokus</strong>
                     </div>
 
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>Riwayat Kesehatan Masa Lalu</strong></label>
-
-<div class="col-sm-10">
-<textarea name="riwayat_kesehatan_masa_lalu" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-</div>
-</div>
-
-<div class="row mb-2">
-                        <label class="col-sm-4 col-form-label ">
-                            <strong>4. Data Fokus</strong>
-                    </div>
 
 
 <!-- Data Subjektif -->
@@ -216,23 +131,26 @@ if (isset($_POST['submit'])) {
 <div class="col-sm-10">
 <textarea name="data_subjektif" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
 </div>
+
 </div>
+
 
 <!-- Data Objektif -->
 <div class="row mb-3">
 
 <label class="col-sm-2 col-form-label"><strong>Data Objektif</strong></label>
 
-<div class="col-sm-10">
-<textarea name="data_objektif" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-           
+<div class="col-sm-10"><textarea name="data_objektif" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
 </div>
+
 </div>
             <!-- XIII. ANALISA DATA -->
            <div class="row mb-2">
-                        <label class="col-sm-4 col-form-label">
-                            <strong>5. Analisa Data</strong>
+                        <label class="col-sm-4 col-form-label text-primary">
+                            <strong>XV. Analisa Data</strong>
                     </div>
+
 
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
@@ -243,18 +161,19 @@ if (isset($_POST['submit'])) {
                         <label for="hari_tgl" class="col-sm-2 col-form-label"><strong>Data Subjektif</strong></label>
 
                         <div class="col-sm-10">
-                            <textarea name="subjektif" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <input type="text" class="form-control" id="DATA" name="DATA">
+                           
                          </div>
                     </div>
-
                 <!-- Bagian Jam -->
 
                     <div class="row mb-3">
                         <label for="jam" class="col-sm-2 col-form-label"><strong>Data Objektif</strong></label>
 
                         <div class="col-sm-10">
-                             <textarea name="objetktif" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-                        </div>
+                             <input type="text" class="form-control" id="ETILOGI" name="ETILOGI">
+                            
+                         </div>
                     </div> 
 
                 <!-- Bagian Implementasi -->
@@ -263,7 +182,9 @@ if (isset($_POST['submit'])) {
                         <label class="col-sm-2 col-form-label"><strong>Masalah</strong></label>
 
                         <div class="col-sm-10">
-                            <textarea name="masalah" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                            <textarea name="MASALAH" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+                   
                          </div>
                     </div> 
                     
@@ -320,48 +241,56 @@ if (isset($_POST['submit'])) {
 
             </tbody>
         </table>
-</form>
+
+
  <div class="row mb-2">
-                        <label class="col-sm-5 col-form-label ">
-                            <strong>6. Daftar Masalah Keperawatan</strong>
+                        <label class="col-sm-5 col-form-label text-primary">
+                            <strong>XIV. DAFTAR MASALAH KEPERAWATAN</strong>
                     </div>
              <div class="row mb-3">
                 <label class="col-sm-2 col-form-label"><strong>Daftar Masalah Keperawatan</strong></label>
                     <div class="col-sm-10">
-                    <textarea name="daftar_masalah" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-                             </div>
+                   <textarea name="daftar_masalah_keperawatan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
+                   
+                         </div>
                     </div>
             
             <!-- XV. POHON MASALAH -->
               <div class="row mb-2">
-                        <label class="col-sm-5 col-form-label ">
-                            <strong>7. Pohon Masalah</strong>
+                        <label class="col-sm-5 col-form-label text-primary">
+                            <strong>XV. POHON MASALAH</strong>
                     </div>
              <div class="row mb-3">
                 <label class="col-sm-2 col-form-label"><strong>Efek</strong></label>
                     <div class="col-sm-10">
-                    <input type="text" class="form-control" name="efek">
+                    <textarea name="efek" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
+                    
+                  
                          </div>
                     </div>
 
              <div class="row mb-3">
                 <label class="col-sm-2 col-form-label"><strong>Cara Problem</strong></label>
-                    <div class="col-sm-9">
-                    <textarea name="cara_problem" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                    <div class="col-sm-10">
+                   <textarea name="cara_problem" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                        
+                 
                          </div>
                     </div>
 
              <div class="row mb-3">
                 <label class="col-sm-2 col-form-label"><strong>Etiologi</strong></label>
-                    <div class="col-sm-9">
-                    <textarea name="etilogoi" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                    <div class="col-sm-10">
+                    <textarea name="etiologi" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+              
                          </div>
                     </div>
             
-           
+        
+      
+                         <?php include "tab_navigasi.php"; ?>
 
-          
-    <?php include "tab_navigasi.php"; ?>
 </section>
 </main>
-

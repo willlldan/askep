@@ -1,277 +1,196 @@
 <?php
-require_once "koneksi.php";
-require_once "utils.php";
+    require_once "koneksi.php";
+    require_once "utils.php";
 
-if (isset($_POST['submit'])) {
-    $no_dokumen = $_POST['no_dokumen']; 
-    $status_dokumen = $_POST['status_dokumen'];
-    $tgl_keluar_dok = $_POST['tgl_keluar_dok'];
-    $perihal = $_POST['perihal'];
-    $tujuan = $_POST['tujuan'];
-    $label_arsip = $_POST['label_arsip'];
-    $rak_arsip = $_POST['rak_arsip'];    
-    $tgl_pinjam = $_POST['tgl_pinjam'];
-    $peminjaman = $_POST['peminjaman'];
-    $tgl_kembali = $_POST['tgl_kembali'];
-    $keterangan = $_POST['keterangan'];
-    $file_name = "";
+    $form_id       = 4;
+    $level         = $_SESSION['level'];
+    $user_id       = $_SESSION['id_user'];
+    $section_name  = 'umum_lanjutan';
+    $section_label = 'Umum Lanjutan';
 
-    if (isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])) {
-        $target_dir = "maternitas/uploads/";
-        $file_name = date("YmdHis_") . basename($_FILES["file"]["name"]);
-        $target_file = $target_dir . $file_name;
-        $uploadOk = 1;
-        $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        // Lakukan validasi ukuran dan tipe file jika perlu
-        // ...
-
-        if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-            echo "Data maternitas berhasil ditambah.";
-        } else {
-            echo "Terjadi kesalahan saat melakukan tambah data maternitas.";
+    // =============================================
+    // DOSEN: ambil submission berdasarkan ?submission_id=
+    // MAHASISWA: ambil submission milik sendiri
+    // =============================================
+    if ($level === 'Dosen') {
+        $submission_id_param = $_GET['submission_id'] ?? null;
+        if (!$submission_id_param) {
+            echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
+            exit;
         }
-    }
-
-    $sql = "INSERT INTO tbl_dok_keluar (
-            no_dokumen,                        
-            status_dokumen,       
-            tgl_keluar_dok,             
-            perihal,
-            tujuan,
-            label_arsip,      
-            rak_arsip,          
-            tgl_pinjam,
-            peminjaman,
-            tgl_kembali,
-            keterangan,
-            file 
-                    
-            ) VALUES (
-            '$no_dokumen',             
-            '$status_dokumen',   
-            '$tgl_keluar_dok',           
-            '$perihal',
-            '$tujuan',
-            '$label_arsip',
-            '$rak_arsip',            
-            '$tgl_pinjam',
-            '$peminjaman',
-            '$tgl_kembali',
-            '$keterangan',
-            '$file_name'
-            )";  
-                
-    if ($mysqli->query($sql) === TRUE) {
-        echo "<script>alert('Dokumen Keluar berhasil ditambah.')</script>";
+        $stmt = $mysqli->prepare("
+            SELECT s.*, r.nama as dosen_name
+            FROM submissions s
+            LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
+            WHERE s.id = ?
+        ");
+        $stmt->bind_param("i", $submission_id_param);
+        $stmt->execute();
+        $submission = $stmt->get_result()->fetch_assoc();
     } else {
-        echo "Error: " . $sql . "<br>" . $mysqli->error;
+        $submission = getSubmission($user_id, $form_id, $mysqli);
     }
-}
 
-?>
+    $existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
+    $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
+    // Load existing riwayat persalinan (array)
+    $existing_persalinan = $existing_data['riwayat_persalinan'] ?? [];
 
-<main id="main" class="main">
-    <div class="pagetitle">
-        <h1><strong>Pengkajian Inranatal Care Keperawatan Maternitas</strong></h1>
-        <!-- <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-        </nav> -->
-    </div><!-- End Page Title -->
-    <br>
+    // =============================================
+    // HANDLE POST - MAHASISWA SIMPAN DATA
+    // =============================================
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
+        if (isLocked($submission)) {
+            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
+        }
+        // Proses dynamic rows persalinan
+        $persalinan = [];
+        if (!empty($_POST['persalinan'])) {
+            foreach ($_POST['persalinan'] as $index => $row) {
+                // Skip row kalau semua field kosong
+                if (empty($row['jeniskelamin']) && empty($row['caralahir']) && empty($row['bblahir']) && empty($row['keadaan']) && empty($row['umum'])) {
+                    continue;
+                }
+                $persalinan[] = [
+                    'no'              => $index,
+                    'jeniskelamin'    => $row['jeniskelamin'] ?? '',
+                    'caralahir'       => $row['caralahir'] ?? '',
+                    'bblahir'         => $row['bblahir'] ?? '',
+                    'keadaan'         => $row['keadaan'] ?? '',
+                    'umur'            => $row['umur'] ?? '',
+                ];
+            }
+        }
+        $data = [
+            'riwayat_persalinan'    => $persalinan,
+            'pengalaman_menyusui'   => $_POST['pengalaman_menyusui'] ?? '',
+            'berapa_lama'           => $_POST['berapa_lama'] ?? '',
+            'riwayat_ginekologi'    => $_POST['riwayat_ginekologi'] ?? '',
+            'hasil_ginekologi'      => $_POST['hasil_ginekologi'] ?? '',
+            'riwayat_kb'            => $_POST['riwayat_kb'] ?? '',
+            'status_obstetrik_g'    => $_POST['status_obstetrik_g'] ?? '',
+            'status_obstetrik_p'    => $_POST['status_obstetrik_p'] ?? '',
+            'status_obstetrik_a'    => $_POST['status_obstetrik_a'] ?? '',
+            'hpht'                  => $_POST['hpht'] ?? '',
+            'usia_kehamilan'        => $_POST['usia_kehamilan'] ?? '',
+            'bb_sebelum_hamil'      => $_POST['bb_sebelum_hamil'] ?? '',
+            'keadaan_umum'          => $_POST['keadaan_umum'] ?? '',
+            'bbtb'                  => $_POST['bbtb'] ?? '',
+            'lengan_atas'           => $_POST['lengan_atas'] ?? '',
+            'tekanan_darah'         => $_POST['tekanan_darah'] ?? '',
+            'nadi'                  => $_POST['nadi'] ?? '',
+            'suhu'                  => $_POST['suhu'] ?? '',
+            'pernapasan'            => $_POST['pernapasan'] ?? '',
+        ];
+        if (!$submission) {
+            $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
+        } else {
+            $submission_id = $submission['id'];
+        }
+        saveSection($submission_id, $section_name, $section_label, $data, $mysqli);
+        updateSubmissionStatus($submission_id, $form_id, $mysqli);
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
+    }
 
-    <ul class="nav nav-tabs custom-tabs">
+    // =============================================
+    // HANDLE POST - DOSEN APPROVE / REVISI / KOMENTAR
+    // =============================================
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
+        $submission_id = $submission['id'];
+        $dosen_id      = $user_id;
+        $action        = $_POST['action'] ?? '';
+        $comment       = $_POST['comment'] ?? '';
 
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'umum') == 'umum' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=umum">
-        Data Umum
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'riwayatpersalinan') == 'riwayatpersalinan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=riwayatpersalinan">
-        Riwayat Persalinan
-        </a>
-    </li>
-        
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'laporanpersalinan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=laporanpersalinan">
-        Laporan Persalinan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=diagnosa_keperawatan">
-        Diagnosa keperawatan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'intervensi_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=intervensi_keperawatan">
-        Intervensi keperawatan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=implementasi_keperawatan">
-        Implementasi keperawatan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=evaluasi_keperawatan">
-        Evaluasi keperawatan
-        </a>
-    </li>
-
-    </ul>
-
-        <style>
-        .custom-tabs {
-            border-bottom: 1px solid #dee2e6;
-            display: flex;
-            width: 100%;
+        if ($action === 'approve') {
+            updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
+            if (!empty($comment)) {
+                saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
+            }
+        } elseif ($action === 'revision') {
+            if (empty($comment)) {
+                redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
+            }
+            updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
+            saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
         }
 
-        .custom-tabs .nav-item {
-            flex: 1;
-            display: flex;
-        }
+        updateReviewer($submission_id, $dosen_id, $mysqli);
+        updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
+    }
 
-        .custom-tabs .nav-link {
-            border: none;
-            background: transparent;
-            color: #f6f9ff;
-            font-weight: 500;
-            padding: 10px 15px;
-            
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
+    // Load komentar section (untuk dosen & mahasiswa)
+    $comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
 
-            width: 100%;
-            height: 100%;
-            text-align: left;
-        }
+    // Readonly jika mahasiswa + locked, atau jika dosen
+    $is_dosen    = $level === 'Dosen';
+    $is_readonly = $is_dosen || isLocked($submission);
+    $ro          = $is_readonly ? 'readonly' : '';
+    $ro_select   = $is_readonly ? 'disabled' : '';
+    ?>
 
-        .custom-tabs .nav-link:hover {
-            color: #4154f1;
-        }
+   <main id="main" class="main">
 
-        .custom-tabs .nav-link.active {
-            border: none;
-            border-bottom: 3px solid #4154f1;
-            color: #4154f1;
-            font-weight: 600;
-            background: transparent;
-        }
-        </style>
+       <?php include "maternitas/pengkajian_inranatal_care/tab.php"; ?>
 
-    <section class="section dashboard">
+       <section class="section dashboard">
+
+           <!-- NOTIFIKASI -->
+           <?php if (isset($_SESSION['success'])): ?>
+               <div class="alert alert-success"><?= $_SESSION['success'];
+                                                unset($_SESSION['success']); ?></div>
+           <?php endif; ?>
+           <?php if (isset($_SESSION['error'])): ?>
+               <div class="alert alert-danger"><?= $_SESSION['error'];
+                                                unset($_SESSION['error']); ?></div>
+           <?php endif; ?>
+
+        <!-- Info status section (untuk dosen) -->
+        <?php if  ($section_status): ?>
+            <?php
+            $badge = [
+                'draft'     => 'secondary',
+                'submitted' => 'primary',
+                'revision'  => 'warning',
+                'approved'  => 'success',
+            ];
+            ?>
+            <div class="alert alert-<?= $badge[$section_status] ?>">
+                Status: <strong><?= ucfirst($section_status) ?></strong>
+                | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>
+            </div>
+        <?php endif; ?>
+
         <div class="card">
             <div class="card-body">
-              <h5 class="card-title mb-1"><strong>RIWAYAT PERSALINAN</strong></h5>
-
+                <h5 class="card-title"><strong>RIWAYAT PERSALINAN</strong></h5>
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-                
-                <!-- Bagian Jenis Kelamin -->
-                 <div class="row mb-3">
-                    <label for="jeniskelamin" class="col-sm-2 col-form-label"><strong>Jenis Kelamin</strong></label> 
-                    <div class="col-sm-10">
-                    <select class="form-select" name="jeniskelamin">
-                            <option value="">Pilih</option>
-                            <option value="Perempuan">Perempuan</option>
-                            <option value="Laki-laki">Laki-laki</option>
-                            </select>
-                         </div>
-                    </div>
+                       <table class="table table-bordered" id="tabel-persalinan">
+                           <thead>
+                               <tr>
+                                   <th class="text-center">No</th>
+                                   <th class="text-center">Jenis Kelamin</th>
+                                   <th class="text-center">Cara Lahir</th>
+                                   <th class="text-center">BB Lahir (gram)</th>
+                                   <th class="text-center">Keadaan</th>
+                                   <th class="text-center">Umur</th>
+                                   <th class="text-center">Aksi</th>
+                               </tr>
+                           </thead>
+                           <tbody id="tbody-persalinan">
+                               <!-- Row dinamis masuk sini -->
+                           </tbody>
+                       </table>
 
-                <!-- Bagian Cara Lahir -->
-                <div class="row mb-3">
-                    <label for="caralahir" class="col-sm-2 col-form-label"><strong>Cara Lahir</strong></label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="caralahir">
-                         </div>
-                    </div> 
-                    
-                <!-- Bagian BB Lahir (gram) -->
-                <div class="row mb-3">
-                    <label for="bblahir" class="col-sm-2 col-form-label"><strong>BB Lahir (gram)</strong></label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="bblahir">
-                         </div>
-                    </div>     
-
-                <!-- Bagian Keadaan -->
-                <div class="row mb-3">
-                    <label for="keadaan" class="col-sm-2 col-form-label"><strong>Keadaan</strong></label>
-                    <div class="col-sm-10">
-                        <textarea name="keadaan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
-                         </div>
-                    </div>
-                    
-                <!-- Bagian Umur -->
-                <div class="row mb-3">
-                    <label for="bbtbbayi" class="col-sm-2 col-form-label"><strong>Umur</strong></label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="umur">
-                         </div>
-                    </div> 
-
-                <!-- Bagian Button -->    
-                <div class="row mb-3">
-                    <div class="col-sm-12 justify-content-end d-flex">
-                        <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </div> 
-
-                <h5 class="card-title mt-2"><strong>Tabel Riwayat Persalinan</strong></h5>
-
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th class="text-center">No</th>
-                            <th class="text-center">Jenis Kelamin</th>
-                            <th class="text-center">Cara Lahir</th>
-                            <th class="text-center">BB Lahir (gram)</th>
-                            <th class="text-center">Keadaan</th>
-                            <th class="text-center">Umur</th>
-                       </tr>
-                    </thead>
-
-                <tbody>
-
-                <?php
-                if(!empty($data)){
-                    $no = 1;
-                    foreach($data as $row){
-                        echo "<tr>
-                        <td class='text-center'>".$no++."</td>
-                        <td>".$row['no']."</td>
-                        <td>".$row['jeniskelamin']."</td>
-                        <td>".$row['caralahir']."</td>
-                        <td>".$row['bblahir']."</td>
-                        <td>".$row['keadaan']."</td>
-                        <td>".$row['umur']."</td>
-                        </tr>";
-                    }
-                }
-                ?>
-
-                </tbody>
-                </table>
-
+                        <?php if (!$is_dosen): ?>
+                        <div class="row mb-3">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary" onclick="tambahRow()">Tambah Data</button>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+            
                 <!-- Bagian Kelas Prenatal -->
                         <div class="row mb-3">
 
@@ -1175,6 +1094,46 @@ if (isset($_POST['submit'])) {
                     </table>
 
     <?php include "tab_navigasi.php"; ?>
+
+    <script>
+            let rowCount = 1;
+            // Load existing data persalinan dari PHP
+            const existingPersalinan = <?= json_encode($existing_persalinan) ?>;
+            function tambahRow(data = null) {
+                const tbody = document.getElementById('tbody-persalinan');
+                const row = document.createElement('tr');
+                const index = rowCount;
+                row.innerHTML = `
+                    <td>${index}</td>
+                    <td>
+                        <select class="form-select form-select-sm" name="persalinan[${index}][jeniskelamin]" <?= $ro_select ?> >
+                            <option value="">Pilih</option>
+                            <option value="Perempuan" ${data?.jeniskelamin === 'Perempuan' ? 'selected' : ''}>Perempuan</option>
+                            <option value="Laki-laki" ${data?.jeniskelamin === 'Laki-laki' ? 'selected' : ''}>Laki-laki</option>
+                        </select>
+                    </td>
+                    <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][caralahir]" value="${data?.tahun ?? ''}" <?= $ro ?>></td>
+                    <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][bblahir]" value="${data?.jenis ?? ''}" <?= $ro ?>></td>
+                    <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][keadaan]" value="${data?.penolong ?? ''}" <?= $ro ?>></td>
+                    <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][umur]" value="${data?.masalah ?? ''}" <?= $ro ?>></td>
+                    <td>${!<?= json_encode($is_dosen) ?> && !<?= json_encode($is_readonly) ?> ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}</td>
+                `;
+                tbody.appendChild(row);
+                rowCount++;
+            }
+            function hapusRow(btn) {
+                btn.closest('tr').remove();
+            }
+            // Load existing rows kalau ada
+            window.addEventListener('load', function() {
+                if (existingPersalinan && existingPersalinan.length > 0) {
+                    existingPersalinan.forEach(row => tambahRow(row));
+                } else {
+                    tambahRow(); // default 1 row kosong
+                }
+            });
+            const existingData = <?= json_encode($existing_data) ?>;
+        </script>
 
 </section>
 </main>

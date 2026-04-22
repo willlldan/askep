@@ -3,13 +3,12 @@
 $tabs = [
     "format_laporan_pendahuluan",
     "pengkajian",
-    "diagnosa",
-    "rencana",
-    "implementasi",
+    "pengkajianlanjutan",
+    "lainnya",
     
 ];
 
-$currentTab = $_GET['tab'] ?? 'pengkajian';
+$currentTab = $_GET['tab'] ?? 'format_laporan_pendahuluan';
 
 $index = array_search($currentTab, $tabs);
 

@@ -72,8 +72,9 @@ if (isset($_POST['submit'])) {
 ?>
 
 <main id="main" class="main">
+
     <div class="pagetitle">
-        <h1><strong>Pengkajian Inranatal Care Keperawatan Maternitas</strong></h1>
+        <h1><strong>Pengkajian Asuhan Keperawatan Antenatal Care</strong></h1>
         <!-- <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -86,66 +87,45 @@ if (isset($_POST['submit'])) {
     <ul class="nav nav-tabs custom-tabs">
 
     <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'umum') == 'umum' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=umum">
-        Data Umum
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'riwayatpersalinan') == 'riwayatpersalinan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=riwayatpersalinan">
-        Riwayat Persalinan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'laporanpersalinan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=laporanpersalinan">
-        Laporan Persalinan
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian' ? 'active' : '' ?>"
+        href="index.php?page=maternitas/pengkajian_antenatal_care&tab=pengkajian">
+        Pengkajian
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=diagnosa_keperawatan">
-        Diagnosa keperawatan
+        href="index.php?page=maternitas/pengkajian_antenatal_care&tab=diagnosa_keperawatan">
+        Diagnosa Keperawatan
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'intervensi_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=intervensi_keperawatan">
-        Intervensi keperawatan
+        href="index.php?page=maternitas/pengkajian_antenatal_care&tab=intervensi_keperawatan">
+        Intervensi Keperawatan
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=implementasi_keperawatan">
-        Implementasi keperawatan
+       href="index.php?page=maternitas/pengkajian_antenatal_care&tab=implementasi_keperawatan">
+        Implementasi Keperawatan
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=evaluasi_keperawatan">
+        href="index.php?page=maternitas/pengkajian_antenatal_care&tab=evaluasi_keperawatan">
         Evaluasi keperawatan
         </a>
     </li>
-    
+
     </ul>
 
         <style>
         .custom-tabs {
             border-bottom: 1px solid #dee2e6;
-            display: flex;
-            width: 100%;
-        }
-
-        .custom-tabs .nav-item {
-            flex: 1;
-            display: flex;
         }
 
         .custom-tabs .nav-link {
@@ -153,15 +133,7 @@ if (isset($_POST['submit'])) {
             background: transparent;
             color: #f6f9ff;
             font-weight: 500;
-            padding: 10px 15px;
-            
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-
-            width: 100%;
-            height: 100%;
-            text-align: left;
+            padding: 10px 20px;
         }
 
         .custom-tabs .nav-link:hover {
@@ -190,8 +162,18 @@ if (isset($_POST['submit'])) {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Diagnosa</strong></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-9">
                             <textarea name="diagnosa" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+                     <!-- comment -->
+                            <textarea class="form-control mt-2" id="commentdiagnosa" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                        </div>
+
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled>
+                            </div>
                          </div>
                     </div> 
 
@@ -200,8 +182,18 @@ if (isset($_POST['submit'])) {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Tujuan dan Kriteria Hasil</strong></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-9">
                             <textarea name="tujuandankriteria" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+                     <!-- comment -->
+                            <textarea class="form-control mt-2" id="commenttujuandankriteria" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                        </div>
+
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled>
+                            </div>
                          </div>
                     </div> 
 
@@ -210,14 +202,24 @@ if (isset($_POST['submit'])) {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Intervensi</strong></label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-9">
                             <textarea name="intervensi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+
+                     <!-- comment -->
+                            <textarea class="form-control mt-2" id="commentintervensi" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" style="display:block; overflow:hidden; resize: none;"
+                            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" readonly></textarea>
+                        </div>
+
+                        <div class="col-sm-1 d-flex align-items-start">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" disabled>
+                            </div>
                          </div>
                     </div> 
 
                     <!-- Bagian Button -->    
                     <div class="row mb-3">
-                        <div class="col-sm-12 justify-content-end d-flex">
+                        <div class="col-sm-11 justify-content-end d-flex">
                             <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </div> 
@@ -238,7 +240,7 @@ if (isset($_POST['submit'])) {
                     }
                     </style>
 
-                    <table class="table table-bordered" style="table-layout: fixed; width: 100%;">
+                    <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th class="text-center">Diagnosa</th>
