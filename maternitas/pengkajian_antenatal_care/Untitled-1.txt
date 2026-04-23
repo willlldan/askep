@@ -77,23 +77,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             }
       
         $data = [
-            'riwayat_persalinan'    => $persalinan,
-            'pengalaman_menyusui'   => $_POST['pengalamanmenyusui'] ?? '',
-            'berapalama1'           => $_POST['berapalama'] ?? '',
-            'riwayat_ginekologi'    => $_POST['riwayatginekologi'] ?? '',
-            'masalah_ginekologi'    => $_POST['masalahginekologi'] ?? '',
-            'riwayat_kb'            => $_POST['riwayatkb'] ?? '',
-            'riwayat_penyakit'      => $_POST['riwayatpenyakit'] ?? '',
-            'keluhan_utama'         => $_POST['keluhanutama'] ?? '',
-            'riwayat_keluhan_utama' => $_POST['riwayatkeluhanutama'] ?? '',
-            'kesadaran'             => $_POST['kesadaran'] ?? '',
-            'umum'          => $_POST['umum'] ?? '',
-            'bb_tb'                 => $_POST['bbtb'] ?? '',
-            'lengan_atas'           => $_POST['lenganatas'] ?? '',
-            'tekanan_darah'         => $_POST['tekanandarah'] ?? '',
-            'nadi'                  => $_POST['nadi'] ?? '',
-            'suhu'                  => $_POST['suhu'] ?? '',
-            'pernapasan'            => $_POST['pernapasan'] ?? '',
+            'nama_klien'                            => $_POST['nama_klien'] ?? '',
+            'ttl_umur'                              => $_POST['ttl_umur'] ?? '',
+            'jenis_kelamin'                         => $_POST['jenis_kelamin'] ?? '',
+            'status_perkawinan'                     => $_POST['status_perkawinan'] ?? '',
+            'agama'                                 => $_POST['agama'] ?? '',
+            'pendidikan'                            => $_POST['pendidikan'] ?? '',
+            'pekerjaan'                             => $_POST['pekerjaan'] ?? '',
+            'alamat'                                => $_POST['alamat'] ?? '',
+            'tgl_pengkajian'                        => $_POST['tgl_masuk_rs'] ?? '',
+
+            'diagnosa_medik'                        => $_POST['diagnosa_medik'] ?? '',
+            'golongan_darah'                        => $_POST['golongan_darah'] ?? '',
+            'no_registrasi'                         => $_POST['no_registrasi'] ?? '',
+            'ruangan'                               => $_POST['ruangan'] ?? '',
+            'nama_klienpj'                          => $_POST['nama_klienppj'] ?? '',
+            'ttl_umurpj'                            => $_POST['ttl_umurpj'] ?? '',
+            'jenis_kelaminpj'                       => $_POST['jenis_kelaminpj'] ?? '',
+            'hubungan_klienpj'                      => $_POST['hubungan_klienpj'] ?? '',
+            'agamapj'                               => $_POST['agamapj'] ?? '',
+            'pendidikanpj'                          => $_POST['pendidikanpj'] ?? '',
+            'pekerjaanpj'                           => $_POST['pekerjaanpj'] ?? '',
+            'alamatpj'                              => $_POST['alamatpj'] ?? '',
+            'td_prehd'                              => $_POST['td_prehd'] ?? '',
+            'nadi_prehd'                            => $_POST['nadi_prehd'] ?? '',
+            'pernafasan_prehd'                      => $_POST['pernafasan_prehd'] ?? '',
+            'td_prehd'                              => $_POST['td_prehd'] ?? '',
+            'suhu_prehd'                             => $_POST['suhu_prehd'] ?? '',
+            'nadi'                                  => $_POST['nadi'] ?? '',
+            'pernafasan'                            => $_POST['pernafasan'] ?? '',
+            'td'                                    => $_POST['td'] ?? '',
+            'suhu'                                  => $_POST['suhu'] ?? '',
+            'm'                                     => $_POST[m] ?? ''
+
+
+            'tglpengkajian'             => $_POST['tglpengkajian'] ?? '',
+            'rsruangan'                 => $_POST['rsruangan'] ?? '',
+            'pengertian'                => $_POST['pengertian'] ?? ''
+             'patofisiologi'            => $_POST['patofisiologi'] ?? '',
+            'manifestasi_klinik'        => $_POST['manifestasi_klinik'] ?? '',
+            'pemeriksaan_diagnostic'    => $_POST['pemeriksaan_diagnostic'] ?? '',
+            'penatalaksanaan'           => $_POST['penatalaksanaan'] ?? '',
+            'komplikasi'                => $_POST['komplikasi'] ?? '',
+            'pengkajian_keperawatan'    => $_POST['pengkajian_keperawatan'] ?? ''
+            'penyimpangan_kdm'          => $_POST['penyimpangan_kdm'] ?? '',
+            'diagnosa_keperawatan'      => $_POST['diagnosa_keperawatan'] ?? '',
+            'daftar_pustaka'            => $_POST['daftar_pustaka'] ?? '',
+           
         ];
         
         
@@ -298,3 +328,326 @@ Submission tidak ditemukan.
                 <td>:</td>
                 <td colspan="4"><?= p($riwayat['riwayat_ginekologi']) ?></td>
         </tr>
+
+
+
+
+
+
+
+
+
+            $lab = [];
+    if (!empty($_POST['lab'])) {
+        foreach ($_POST['lab'] as $index => $row) {
+            if (empty($row['tanggal_pemeriksaan']) && empty($row['nama_pemeriksaan']) && empty($row['hasil']) && empty($row['satuan']) && empty($row['nilai_rujukkan'])) {
+                continue;
+            }
+            $lab[] = [
+                'tanggal_pemeriksaan'  => $row['tanggal_pemeriksaan']  ?? '',
+                'nama_pemeriksaan'        => $row['nama_pemeriksaan']         ?? '',
+                'hasil' => $row['hasil']  ?? '',
+                'satuan' => $row['satuan']  ?? '',
+                'nilai_rujukkan' => $row['nilai_rujukkan']  ?? '',
+            ];
+        }
+    } 
+     // Proses dynamic rows pemeriksaan
+    $pemeriksaan = [];
+    if (!empty($_POST['pemeriksaan'])) {
+        foreach ($_POST['pemeriksaan'] as $index => $row) {
+            if (empty($row['jam']) && empty($row['td']) && empty($row['nadi'])) {
+                continue;
+            }
+            $pemeriksaan[] = [
+                'jam'     => $row['jam']     ?? '',
+                'td'          => $row['td']           ?? '',
+                'nadi'       => $row['nadi']        ?? '',
+                'qb' => $row['qb']  ?? '',
+                'tmp' => $row['tmp']  ?? '',
+                'teka' => $row['teka']  ?? '',
+                 'tekv' => $row['tekv']  ?? '',
+                 'hp' => $row['hp']  ?? '',
+            ];
+        }
+    
+
+
+
+    <!-- Posisi Mata -->
+<div class="row mb-3 align-items-start">
+    <label class="col-sm-2 col-form-label"><strong>Posisi Mata</strong></label>
+    <div class="col-sm-9">
+        <input type="radio" name="posisi_mata" value="simetris" <?= val('posisi_mata', $existing_data)=='simetris' ? 'checked' : '' ?> <?= $ro ?>> Simetris
+        <input type="radio" name="posisi_mata" value="tidak" <?= val('posisi_mata', $existing_data)=='tidak' ? 'checked' : '' ?> <?= $ro ?>> Tidak
+        <input type="text" class="form-control mt-2" name="posisi_mata_keterangan" value="<?= val('posisi_mata_keterangan', $existing_data) ?>" <?= $ro ?>>
+    </div>
+</div>
+
+<!-- Gerakan Bola Mata -->
+<div class="row mb-3 align-items-start">
+    <label class="col-sm-2 col-form-label"><strong>Gerakan Bola Mata</strong></label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control mb-2" name="gerakan_mata" value="<?= val('gerakan_mata', $existing_data) ?>" <?= $ro ?>>
+    </div>
+</div>
+
+<!-- Penutupan Kelopak -->
+<div class="row mb-3 align-items-start">
+    <label class="col-sm-2 col-form-label"><strong>Penutupan Kelopak mata</strong></label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control mb-2" name="kelopak" value="<?= val('kelopak', $existing_data) ?>" <?= $ro ?>>
+    </div>
+</div>
+
+<!-- Bulu Mata -->
+<div class="row mb-3 align-items-start">
+    <label class="col-sm-2 col-form-label"><strong>Keadaan Bulu Mata</strong></label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control mb-2" name="bulu_mata" value="<?= val('bulu_mata', $existing_data) ?>" <?= $ro ?>>
+    </div>
+</div>
+
+<!-- Penglihatan -->
+<div class="row mb-3 align-items-start">
+    <label class="col-sm-2 col-form-label"><strong>Penglihatan</strong></label>
+    <div class="col-sm-9">
+        <div class="mb-2">
+            <input type="radio" name="kabur" value="kabur" <?= val('kabur', $existing_data)=='kabur' ? 'checked' : '' ?> <?= $ro ?>> Kabur
+            <input type="radio" name="kabur" value="tidak" <?= val('kabur', $existing_data)=='tidak' ? 'checked' : '' ?> <?= $ro ?>> Tidak
+        </div>
+        <div class="mb-2">
+            <input type="radio" name="diplopia" value="diplopia" <?= val('diplopia', $existing_data)=='diplopia' ? 'checked' : '' ?> <?= $ro ?>> Diplopia
+            <input type="radio" name="diplopia" value="tidak" <?= val('diplopia', $existing_data)=='tidak' ? 'checked' : '' ?> <?= $ro ?>> Tidak
+        </div>
+    </div>
+</div>
+
+<!-- Data Lain -->
+<div class="row mb-3 align-items-start">
+    <label class="col-sm-2 col-form-label"><strong>Data Lain</strong></label>
+    <div class="col-sm-9">
+        <input type="text" class="form-control mb-2" name="data_mata" value="<?= val('data_mata', $existing_data) ?>" <?= $ro ?>>
+    </div>
+</div>
+
+
+ $implementasi = [];
+        if (!empty($_POST['implementasi'])) {
+            foreach ($_POST['implementasi'] as $index => $row) {
+                if (empty($row['hari_tgl']) && empty($row['implementasi']) && empty($row['diagnosa'])) {
+                    continue;
+                }
+                $implementasi[] = [
+                    'hari_tgl'        => $row['hari_tgl']        ?? '',
+                    'implementasi'     => $row['implementasi']      ?? '',
+                    'diagnosa'          => $row['diagnosa']            ?? '',
+                    'evaluasi_s' => $row['evaluasi_s']  ?? '',
+                    'evaluasi_o' => $row['evaluasi_o']  ?? '',
+                    'evaluasi_a' => $row['evaluasi_a']  ?? '',
+                    'evaluasi_p' => $row['evaluasi_p']  ?? '',
+                ];
+            }
+        }
+
+
+        <!-- ================================ -->
+<!-- SECTION A: IDENTITAS KLIEN -->
+<!-- ================================ -->
+<h3 class="mt-5">Identitas Klien</h3>
+<table class="header-table" style="border:1px solid #000;">
+    <tr>
+        <td width="25%"><strong>Nama</strong></td>
+        <td width="2%">:</td>
+        <td width="23%"><?= p($resume['nama']) ?></td>
+        <td width="25%"><strong>Umur</strong></td>
+        <td width="2%">:</td>
+        <td><?= p($resume['umur']) ?></td>
+    </tr>
+    <tr>
+        <td><strong>Agama</strong></td>
+        <td>:</td>
+        <td><?= p($resume['agama']) ?></td>
+        <td><strong>Status Perkawinan</strong></td>
+        <td>:</td>
+        <td><?= p($resume['status_perkawinan']) ?></td>
+    </tr>
+    <tr>
+        <td><strong>Pekerjaan</strong></td>
+        <td>:</td>
+        <td><?= p($resume['pekerjaan']) ?></td>
+        <td><strong>Alamat</strong></td>
+        <td>:</td>
+        <td><?= p($resume['alamat']) ?></td>
+    </tr>
+    <tr>
+        <td><strong>Kunjungan ke</strong></td>
+        <td>:</td>
+        <td><?= p($resume['kunjungan_ke']) ?></td>
+        <td><strong>Diagnosa Medis</strong></td>
+        <td>:</td>
+        <td><?= p($resume['diagnosa_medis']) ?></td>
+    </tr>
+    <tr>
+        <td><strong>Tanggal Pengkajian</strong></td>
+        <td>:</td>
+        <td colspan="4"><?= p($resume['tanggal_pengkajian']) ?></td>
+    </tr>
+</table>
+
+<!-- ================================ -->
+<!-- SECTION B: ALASAN MASUK -->
+<!-- ================================ -->
+<h4>Alasan Masuk</h4>
+<div class="field-row">
+    <div class="field-value"><?= p($resume['alasan_masuk']) ?></div>
+</div>
+
+<!-- ================================ -->
+<!-- SECTION C: RIWAYAT KESEHATAN MASA LALU -->
+<!-- ================================ -->
+<h4>Riwayat Kesehatan Masa Lalu</h4>
+<div class="field-row">
+    <div class="field-value"><?= p($resume['riwayat_kesehatan']) ?></div>
+</div>
+
+<!-- ================================ -->
+<!-- SECTION D: DATA FOKUS -->
+<!-- ================================ -->
+<h4>Data Fokus</h4>
+<div class="field-row">
+    <div class="field-label">Data Subjektif</div>
+    <div class="field-sep">:</div>
+    <div class="field-value"><?= p($resume['data_subjektif']) ?></div>
+</div>
+<div class="field-row">
+    <div class="field-label">Data Objektif</div>
+    <div class="field-sep">:</div>
+    <div class="field-value"><?= p($resume['data_objektif']) ?></div>
+</div>
+
+<!-- ================================ -->
+<!-- SECTION E: ANALISA DATA -->
+<!-- ================================ -->
+<h4>Analisa Data</h4>
+<table class="header-table" style="border:1px solid #000;">
+    <tr>
+        <th>No</th>
+        <th>Data Subjektif/Data Objektif</th>
+        <th>Masalah</th>
+    </tr>
+    <?php foreach($resume['analisa_data'] as $i => $row): ?>
+    <tr>
+        <td><?= $i+1 ?></td>
+        <td><?= p($row['data']) ?></td>
+        <td><?= p($row['masalah']) ?></td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+
+<!-- ================================ -->
+<!-- SECTION F: DAFTAR MASALAH KEPERAWATAN -->
+<!-- ================================ -->
+<h4>Daftar Masalah Keperawatan</h4>
+<div class="field-row">
+    <div class="field-value"><?= p($resume['daftar_masalah']) ?></div>
+</div>
+
+<!-- ================================ -->
+<!-- SECTION G: POHON MASALAH -->
+<!-- ================================ -->
+<h4>Pohon Masalah</h4>
+<div class="field-row">
+    <div class="field-label">Efek</div>
+    <div class="field-sep">:</div>
+    <div class="field-value"><?= p($resume['pohon_efek']) ?></div>
+</div>
+<div class="field-row">
+    <div class="field-label">Cara Problem</div>
+    <div class="field-sep">:</div>
+    <div class="field-value"><?= p($resume['pohon_cara_problem']) ?></div>
+</div>
+<div class="field-row">
+    <div class="field-label">Etiologi</div>
+    <div class="field-sep">:</div>
+    <div class="field-value"><?= p($resume['pohon_etiologi']) ?></div>
+</div>
+
+<!-- ================================ -->
+<!-- SECTION H: DIAGNOSA KEPERAWATAN -->
+<!-- ================================ -->
+<h4>Diagnosa Keperawatan</h4>
+<div class="field-row">
+    <div class="field-value"><?= p($resume['diagnosa_keperawatan']) ?></div>
+</div>
+
+<!-- ================================ -->
+<!-- SECTION I: RENCANA KEPERAWATAN -->
+<!-- ================================ -->
+<h4>Rencana Keperawatan</h4>
+<table class="header-table" style="border:1px solid #000;">
+    <tr>
+        <th>Tgl</th>
+        <th>Diagnosa Keperawatan</th>
+        <th>Perencanaan</th>
+        <th>Tujuan</th>
+        <th>Kriteria Evaluasi</th>
+        <th>Intervensi</th>
+    </tr>
+    <?php foreach($resume['rencana_keperawatan'] as $row): ?>
+    <tr>
+        <td><?= p($row['tgl']) ?></td>
+        <td><?= p($row['diagnosa']) ?></td>
+        <td><?= p($row['perencanaan']) ?></td>
+        <td><?= p($row['tujuan']) ?></td>
+        <td><?= p($row['kriteria_evaluasi']) ?></td>
+        <td><?= p($row['intervensi']) ?></td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+
+<!-- ================================ -->
+<!-- SECTION J: IMPLEMENTASI DAN EVALUASI -->
+<!-- ================================ -->
+<h4>Implementasi dan Evaluasi</h4>
+<table class="header-table" style="border:1px solid #000;">
+    <tr>
+        <th>No</th>
+        <th>Hari/Tgl/Jam</th>
+        <th>Diagnosa Keperawatan</th>
+        <th>Implementasi</th>
+        <th>Evaluasi</th>
+        <th>Paraf</th>
+    </tr>
+    <?php foreach($resume['implementasi_evaluasi'] as $i => $row): ?>
+    <tr>
+        <td><?= $i+1 ?></td>
+        <td><?= p($row['hari_tgl_jam']) ?></td>
+        <td><?= p($row['diagnosa']) ?></td>
+        <td><?= p($row['implementasi']) ?></td>
+        <td><?= p($row['evaluasi']) ?></td>
+        <td><?= p($row['paraf']) ?></td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+
+<!-- ================================ -->
+<!-- SECTION K: S.O.A.P -->
+<!-- ================================ -->
+<h4>S.O.A.P</h4>
+<div class="field-row">
+    <div class="field-label">S :</div>
+    <div class="field-value"><?= p($resume['soap']['S']) ?></div>
+</div>
+<div class="field-row">
+    <div class="field-label">O :</div>
+    <div class="field-value"><?= p($resume['soap']['O']) ?></div>
+</div>
+<div class="field-row">
+    <div class="field-label">A :</div>
+    <div class="field-value"><?= p($resume['soap']['A']) ?></div>
+</div>
+<div class="field-row">
+    <div class="field-label">P :</div>
+    <div class="field-value"><?= p($resume['soap']['P']) ?></div>
+</div>

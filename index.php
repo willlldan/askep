@@ -559,20 +559,20 @@ if (isset($_SESSION['id_user'])) {
                         include "kmb/format_hd_kmb/halm_tambah_format_hd.php";
                         break;
 
-                    case 'resume':
-                        include "kmb/format_hd_kmb/halm_tambah_resume.php";
+                    case 'pengkajian':
+                        include "kmb/format_hd_kmb/halm_tambah_pengkajian.php";
                         break;
 
-                    case 'analisa':
-                        include "kmb/format_hd_kmb/halm_tambah_analisa.php";
+                    case 'pemeriksaan_fisik':
+                        include "kmb/format_hd_kmb/halm_tambah_pemeriksaan_fisik.php";
                         break;
 
-                    case 'diagnosa':
-                        include "kmb/format_hd_kmb/halm_tambah_diagnosa.php";
+                    case 'pengkajian_kebutuhan':
+                        include "kmb/format_hd_kmb/halm_tambah_pengkajian_kebutuhan.php";
                         break;
 
-                    case 'rencana':
-                        include "kmb/format_hd_kmb/halm_tambah_rencana.php";
+                    case 'lainnya':
+                        include "kmb/format_hd_kmb/halm_tambah_lainnya.php";
                         break;
 
                     case 'implementasi':
@@ -636,10 +636,11 @@ if (isset($_SESSION['id_user'])) {
 
                 break;
 
+         
             // =====================
             // Jiwa Jiwa RSUD
             // =====================
-            case 'jiwa/jiwa_rsud':
+             case 'jiwa/jiwa_rsud':
 
                 $tab = $tab ?: 'format_laporan_pendahuluan';
 
@@ -647,27 +648,28 @@ if (isset($_SESSION['id_user'])) {
 
                     case 'format_laporan_pendahuluan':
                         include "jiwa/jiwa_rsud/halm_tambah_format_laporan_pendahuluan.php";
-                        break;
+                    break;
 
                     case 'pengkajian':
                         include "jiwa/jiwa_rsud/halm_tambah_pengkajian.php";
-                        break;
+                    break;
+    
+                    case 'pengkajianlanjutan':
+                        include "jiwa/jiwa_rsud/halm_tambah_pengkajianlanjutan.php";
+                    break;
 
-                    case 'diagnosa':
-                        include "jiwa/jiwa_rsud/halm_tambah_diagnosa.php";
-                        break;
-
-                    case 'rencana':
-                        include "jiwa/jiwa_rsud/halm_tambah_rencana.php";
-                        break;
-
-                    case 'implementasi':
-                        include "jiwa/jiwa_rsud/halm_tambah_implementasi.php";
-                        break;
+                    case 'lainnya':
+                        include "jiwa/jiwa_rsud/halm_tambah_lainnya.php";
+                    break;
+                    case 'lainnya1':
+                        include "jiwa/jiwa_rsud/halm_tambah_lainnya_copy.php";
+                    break;
 
                     default:
                         include "jiwa/jiwa_rsud/halm_tambah_format_laporan_pendahuluan.php";
                 }
+
+                break ;
 
                 // =====================
                 // Jiwa Poli Jiwa
@@ -680,21 +682,22 @@ if (isset($_SESSION['id_user'])) {
 
                     case 'halm_tambah_praktik_klinik_keperawatan_jiwa':
                         include "jiwa/poli_jiwa/halm_tambah_praktik_klinik_keperawatan_jiwa.php";
-                        break;
+                    break;
 
-                    case 'diagnosa':
-                        include "jiwa/poli_jiwa/halm_tambah_diagnosa.php";
-                        break;
+                    case 'format_resume':
+                        include "jiwa/poli_jiwa/halm_tambah_format_resume.php";
+                    break;
 
-                    case 'implementasi':
-                        include "jiwa/poli_jiwa/halm_tambah_implementasi.php";
-                        break;
+                    case 'lainnya':
+                        include "jiwa/poli_jiwa/halm_tambah_lainnya.php";
+                    break;
 
                     default:
                         include "jiwa/poli_jiwa/halm_tambah_praktik_klinik_keperawatan_jiwa.php";
                 }
 
-                break;
+            break;
+
 
             // =====================
             // Anak Format Anggrek
@@ -712,6 +715,20 @@ if (isset($_SESSION['id_user'])) {
                     case 'pengkajian':
                         include "anak/format_anggrek/halm_tambah_pengkajian.php";
                         break;
+                    
+                    case 'pengkajian_riwayat':
+                        include "anak/format_anggrek/halm_tambah_pengkajian_riwayat.php";
+                        break;
+                    case 'pengkajian_fisik':
+                        include "anak/format_anggrek/halm_tambah_pengkajian_fisik.php";
+                        break;
+                    case 'analisa_data':
+                        include "anak/format_anggrek/halm_analisa_data.php";
+                        break;
+                    case 'lainnya':
+                        include "anak/format_anggrek/halm_tambah_lainnya.php";
+                        break;
+                    
 
                     case 'diagnosa':
                         include "anak/format_anggrek/halm_tambah_diagnosa.php";
