@@ -26,9 +26,9 @@ CREATE TABLE IF NOT EXISTS `tbl_user` (
   `npm` varchar(50) DEFAULT NULL,
   `username` varchar(15) NOT NULL,
   `password` varchar(10) NOT NULL,
-  `level` enum('Admin','Dosen','Mahasiswa') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `level` enum('Admin','Dosen','Mahasiswa') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Dumping data for table askep_new.tbl_user: ~4 rows (approximately)
 INSERT INTO `tbl_user` (`id_user`, `nama`, `npm`, `username`, `password`, `level`) VALUES
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `submission_sections` (
   `submission_id` int NOT NULL,
   `section_name` varchar(255) NOT NULL,
   `section_label` varchar(255) NOT NULL,
-  `data` json NOT NULL,
+  `data` longtext NOT NULL,
   `status` enum('draft','submitted','revision','approved') NOT NULL DEFAULT 'draft',
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),

@@ -1,0 +1,1 @@
+ALTER TABLE `forms` ADD COLUMN `first_section` VARCHAR(50) NULL;

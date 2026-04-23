@@ -57,14 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'suku_bangsa'               => $_POST['sukubangsa'] ?? '',
         'status_perkawinan'         => $_POST['statusperkawinan'] ?? '',
         'alamat'                    => $_POST['keterangan'] ?? '',
-        'diagnosa_medik'            => $_POST['diagnosamedik'] ?? '',
-        'nama_suami'                => $_POST['namasuami'] ?? '',
-        'usia_suami'                => $_POST['usiasuami'] ?? '',
-        'pekerjaan_suami'           => $_POST['pekerjaansuami'] ?? '',
-        'pendidikan_terakhir_suami' => $_POST['pendidikanterakhirsuami'] ?? '',
-        'agama_suami'               => $_POST['agamasuami'] ?? '',
-        'keluhan_utama'             => $_POST['keluhanutama'] ?? '',
-        'riwayat_keluhan_utama'     => $_POST['riwayatkeluhanutama'] ?? '',
     ];
 
     if (!$submission) {
