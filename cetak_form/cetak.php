@@ -56,6 +56,9 @@ switch ($form_name) {
     case 'pengkajian_pascapartum':
          include 'template_pdf_pascapartum.php';
          break;
+    case 'resume_antenatal_care':
+        include 'template_pdf_resume_anc.php';
+        break;
     default:
         include 'template_pdf_postpartum.php';
         break;

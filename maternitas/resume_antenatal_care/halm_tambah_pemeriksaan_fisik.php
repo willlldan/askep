@@ -5,7 +5,7 @@ require_once "utils.php";
 $form_id       = 4;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'pemeriksaan_fisik ';
+$section_name  = 'pemeriksaan_fisik';
 $section_label = 'Pemeriksaan Fisik';
 
 // =============================================
@@ -33,8 +33,6 @@ if ($level === 'Dosen') {
 
 $existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
 $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
-$tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
-$rs_ruangan     = $submission['rs_ruangan'] ?? '';
 
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
@@ -44,9 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     if (isLocked($submission)) {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
-
-    $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
-    $rs_ruangan     = $_POST['rsruangan'] ?? '';
 
     $data = [
         'inspeksi_wajah'                => $_POST['inspeksiwajah'] ?? '',
@@ -99,7 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
     } else {
         $submission_id = $submission['id'];
-        updateSubmissionHeader($submission_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
     }
 
 
@@ -147,49 +141,49 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <main id="main" class="main">
     <?php include "maternitas/resume_antenatal_care/tab.php"; ?>
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success"><?= $_SESSION['success'];
+                                            unset($_SESSION['success']); ?></div>
+    <?php endif; ?>
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert alert-danger"><?= $_SESSION['error'];
+                                        unset($_SESSION['error']); ?></div>
+    <?php endif; ?>
 
-        <!-- Info status section (untuk dosen) -->
-        <?php if  ($section_status): ?>
-            <?php
-            $badge = [
-                'draft'     => 'secondary',
-                'submitted' => 'primary',
-                'revision'  => 'warning',
-                'approved'  => 'success',
-            ];
-            ?>
+    <!-- Info status section (untuk dosen) -->
+    <?php if ($section_status): ?>
+        <?php
+        $badge = [
+            'draft'     => 'secondary',
+            'submitted' => 'primary',
+            'revision'  => 'warning',
+            'approved'  => 'success',
+        ];
+        ?>
 
-             <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                    | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>       
-            </div>
-        <?php endif; ?>
+        <div class="alert alert-<?= $badge[$section_status] ?>">
+            Status: <strong><?= ucfirst($section_status) ?></strong>
+            | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>
+        </div>
+    <?php endif; ?>
     <section class="section dashboard">
 
-             <div class="card">
+        <div class="card">
             <div class="card-body">
                 <h5 class="card-title"> <strong>e. Pemeriksaan Fisik</strong></h5>
 
-                
+
 
                 <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">            
-                
-                <!-- Bagian Wajah -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                    <!-- Bagian Wajah -->
 
                     <div class="row mb-2">
                         <label class="col-sm-2 col-form-label text-primary">
                             <strong>Wajah</strong>
                     </div>
-                    
+
                     <!-- Inspeksi -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Wajah</strong></label>
@@ -197,29 +191,29 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Adakah pembengkakan, hiperpigmentasi/cloasma gravidarum, area jika ada cloasma. Hasil:</small>
                             <textarea name="inspeksiwajah" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('inspeksi_wajah', $existing_data) ?></textarea>
+                                <?= $ro ?>><?= val('inspeksi_wajah', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
+                        </div>
+                    </div>
 
-                <!-- Bagian Mata -->
+                    <!-- Bagian Mata -->
 
                     <div class="row mb-2">
                         <label class="col-sm-2 col-form-label text-primary">
                             <strong>Mata</strong>
                     </div>
-                    
+
                     <!-- Inspeksi -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Konjungtiva</strong></label>
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Apakah anemis/an-anemis. Hasil:</small>
-                           <textarea name="inspeksikonjungtiva" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                           <?= $ro ?>><?= val('inspeksi_konjungtiva', $existing_data) ?></textarea>
+                            <textarea name="inspeksikonjungtiva" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('inspeksi_konjungtiva', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
+                        </div>
+                    </div>
 
                     <!-- Inspeksi Sklera -->
                     <div class="row mb-3">
@@ -227,11 +221,11 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Ikterik/An-ikterik. Hasil:</small>
-                           <textarea name="inspeksisklera" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                           <?= $ro ?>><?= val('inspeksi_sklera', $existing_data) ?></textarea>
+                            <textarea name="inspeksisklera" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('inspeksi_sklera', $existing_data) ?></textarea>
 
-                         </div>
-                    </div>   
+                        </div>
+                    </div>
 
                     <!-- Bagian Mulut -->
 
@@ -247,10 +241,10 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Amati jumlah, warna, kebersihan, karies. Hasil:</small>
                             <textarea name="inspeksigigi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('inspeksi_gigi', $existing_data) ?></textarea>
+                                <?= $ro ?>><?= val('inspeksi_gigi', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
+                        </div>
+                    </div>
 
                     <!-- Inspeksi Gusi -->
                     <div class="row mb-3">
@@ -259,29 +253,29 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Adakah atau tidak lesi/pembengkakan? Hasil:</small>
                             <textarea name="inspeksigusi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('inspeksi_gusi', $existing_data) ?></textarea>
+                                <?= $ro ?>><?= val('inspeksi_gusi', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
+                        </div>
+                    </div>
 
-                     <!-- Keluhan / Masalah Khusus -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Keluhan/Masalah Khusus</strong></label>
+                    <!-- Keluhan / Masalah Khusus -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Keluhan/Masalah Khusus</strong></label>
 
-                            <div class="col-sm-9">
-                                <textarea name="masalahkhususmulut" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('masalah_khusus_mulut', $existing_data) ?></textarea>
+                        <div class="col-sm-9">
+                            <textarea name="masalahkhususmulut" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('masalah_khusus_mulut', $existing_data) ?></textarea>
 
-                         </div>
-                    </div>  
-                                    
-                     <!-- Bagian Leher -->
+                        </div>
+                    </div>
+
+                    <!-- Bagian Leher -->
 
                     <div class="row mb-2">
                         <label class="col-sm-2 col-form-label text-primary">
                             <strong>Leher</strong>
                     </div>
-                    
+
                     <!-- Inspeksi -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Leher</strong></label>
@@ -289,30 +283,30 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Adakah Distensi vena jugularis/tidak ada. Hasil:</small>
                             <textarea name="inspeksileher" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('inspeksi_leher', $existing_data) ?></textarea>
-                         </div>
-                    </div> 
-        
+                                <?= $ro ?>><?= val('inspeksi_leher', $existing_data) ?></textarea>
+                        </div>
+                    </div>
+
                     <!-- Bagian Dada -->
 
                     <div class="row mb-2">
                         <label class="col-sm-8 col-form-label text-primary">
                             <strong>Dada; Sistem Pernapasan dan Kardiovaskuler</strong>
                     </div>
-                    
+
                     <!-- Auskultasi Bunyi Napas-->
-                  
+
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Auskultasi</strong></label>
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Bunyi Napas. Hasil:</small>
                             <textarea name="bunyinapas" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('bunyi_napas', $existing_data) ?></textarea>
+                                <?= $ro ?>><?= val('bunyi_napas', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
-                    
+                        </div>
+                    </div>
+
                     <!-- Auskultasi Suara Jantung -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"></label>
@@ -320,30 +314,30 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Suara Jantung (Apakah ada mur-mur dan gallop). Hasil:</small>
                             <textarea name="suarajantung" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('suara_jantung', $existing_data) ?></textarea></textarea>
+                                <?= $ro ?>><?= val('suara_jantung', $existing_data) ?></textarea></textarea>
 
- 
-                         </div>
-                    </div>  
 
-                     <!-- Masalah Khusus -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
+                        </div>
+                    </div>
 
-                            <div class="col-sm-9">
-                                <textarea name="masalahkhususdada" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                    <!-- Masalah Khusus -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
+
+                        <div class="col-sm-9">
+                            <textarea name="masalahkhususdada" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('masalah_khusus_dada', $existing_data) ?></textarea>
 
-                         </div>
+                        </div>
                     </div>
-                 
+
                     <!-- Bagian Payudara -->
 
                     <div class="row mb-2">
                         <label class="col-sm-2 col-form-label text-primary">
                             <strong>Payudara</strong>
                     </div>
-                    
+
                     <!-- Payudara -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Payudara</strong></label>
@@ -351,10 +345,10 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Hyperpigmentasi pada areola mammae, pengeluaran cairan:</small>
                             <textarea name="payudara" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('payudara', $existing_data) ?></textarea>
+                                <?= $ro ?>><?= val('payudara', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
+                        </div>
+                    </div>
 
                     <!--  Puting -->
                     <div class="row mb-3">
@@ -363,65 +357,65 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Bentuk puting:</small>
                             <textarea name="puting" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('puting', $existing_data) ?></textarea>
+                                <?= $ro ?>><?= val('puting', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
+                        </div>
+                    </div>
 
-                     <!-- Masalah Khusus -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
+                    <!-- Masalah Khusus -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
 
-                            <div class="col-sm-9">
-                                <textarea name="masalahkhususpayudara" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <div class="col-sm-9">
+                            <textarea name="masalahkhususpayudara" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('masalahkhususpayudara', $existing_data) ?></textarea>
 
-                         </div>
+                        </div>
                     </div>
-                            
-                <!-- Bagian Abdomen -->
+
+                    <!-- Bagian Abdomen -->
 
                     <div class="row mb-3">
                         <label class="col-sm-9 col-form-label text-primary">
                             <strong>Abdomen</strong>
-                        </label>    
+                        </label>
                     </div>
 
-                    
+
                     <!-- Linea Nigra -->
                     <div class="row mb-3 align-items-center">
                         <label class="col-sm-2 col-form-label"><strong>Linea Nigra</strong></label>
                         <div class="col-sm-3">
-                            <select class="form-select" name="lineanigra"<?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="Ya"<?= val('lineanigra', $existing_data) === 'Ya' ? 'selected' : '' ?>>Ya</option>
-                            <option value="Tidak"<?= val('lineanigra', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option> 
-                        </select>  
+                            <select class="form-select" name="lineanigra" <?= $ro_select ?>>
+                                <option value="">Pilih</option>
+                                <option value="Ya" <?= val('lineanigra', $existing_data) === 'Ya' ? 'selected' : '' ?>>Ya</option>
+                                <option value="Tidak" <?= val('lineanigra', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option>
+                            </select>
+                        </div>
+
+                        <!-- Linea Alba -->
+                        <label class="col-sm-2 col-form-label"><strong>Linea Alba</strong></label>
+                        <div class="col-sm-3">
+                            <select class="form-select" name="inspeksikontraksi1" <?= $ro_select ?>>
+                                <option value="">Pilih</option>
+                                <option value="Ya" <?= val('inspeksikontraksi1', $existing_data) === 'Ya' ? 'selected' : '' ?>>Ya</option>
+                                <option value="Tidak" <?= val('inspeksikontraksi1', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option>
+                            </select>
+                        </div>
+
                     </div>
-                                
-                    <!-- Linea Alba -->
-                    <label class="col-sm-2 col-form-label"><strong>Linea Alba</strong></label>
-                    <div class="col-sm-3">
-                        <select class="form-select" name="inspeksikontraksi1"<?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="Ya" <?= val('inspeksikontraksi1', $existing_data) === 'Ya' ? 'selected' : '' ?>>Ya</option>
-                            <option value="Tidak" <?= val('inspeksikontraksi1', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option> 
-                        </select>
-                    </div>    
 
-                </div>
+                    <!-- Keadaan Dinding Perut -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Keadaan Dinding Perut</strong></label>
 
-                <!-- Keadaan Dinding Perut -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Keadaan Dinding Perut</strong></label>
-
-                            <div class="col-sm-9">
-                                <textarea name="dindingperut" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <div class="col-sm-9">
+                            <textarea name="dindingperut" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('dindingperut', $existing_data) ?></textarea>
-  
-                         </div>
+
+                        </div>
                     </div>
-                     
+
 
                     <!-- TFU -->
                     <div class="row mb-3 align-items-center">
@@ -430,32 +424,32 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                             <div class="input-group">
                                 <input type="text" class="form-control" name="inspeksitfu" value="<?= val('inspeksitfu', $existing_data) ?>" <?= $ro ?>>
                                 <span class="input-group-text">cm</span>
-                        </div>    
+                            </div>
+                        </div>
+
+                        <!-- Kontraksi -->
+                        <label class="col-sm-2 col-form-label"><strong>Kontraksi</strong></label>
+                        <div class="col-sm-3">
+                            <select class="form-select" name="inspeksikontraksi" <?= $ro_select ?>>
+                                <option value="">Pilih</option>
+                                <option value="Ya" <?= val('inspeksikontraksi1', $existing_data) === 'Ya' ? 'selected' : '' ?>>Ya</option>
+                                <option value="Tidak" <?= val('inspeksikontraksi1', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option>
+                            </select>
+                        </div>
                     </div>
-                                
-                    <!-- Kontraksi -->
-                    <label class="col-sm-2 col-form-label"><strong>Kontraksi</strong></label>
-                    <div class="col-sm-3">
-                        <select class="form-select" name="inspeksikontraksi"<?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="Ya"<?= val('inspeksikontraksi1', $existing_data) === 'Ya' ? 'selected' : '' ?>>Ya</option>
-                            <option value="Tidak"<?= val('inspeksikontraksi1', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option> 
-                        </select>
-                    </div>    
-                </div>
 
                     <!-- Leopold I -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Leopold I</strong></label>
 
                         <div class="col-sm-9">
-                            <select class="form-select" name="leopoldi"<?= $ro_select ?>>
+                            <select class="form-select" name="leopoldi" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Kepala" <?= val('leopoldi', $existing_data) === 'Kepala' ? 'selected' : '' ?>>Kepala</option>
-                                <option value="Bokong"<?= val('leopoldi', $existing_data) === 'Bokong' ? 'selected' : '' ?>>Bokong</option>
-                                <option value="Kosong"<?= val('leopoldi', $existing_data) === 'Kosong' ? 'selected' : '' ?>>Kosong</option>
+                                <option value="Bokong" <?= val('leopoldi', $existing_data) === 'Bokong' ? 'selected' : '' ?>>Bokong</option>
+                                <option value="Kosong" <?= val('leopoldi', $existing_data) === 'Kosong' ? 'selected' : '' ?>>Kosong</option>
                             </select>
-                         </div>
+                        </div>
                     </div>
 
                     <!-- Leopold II -->
@@ -464,65 +458,65 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <label class="col-sm-2 col-form-label">
                             <strong>Leopold II</strong>
                     </div>
-                    
+
                     <!-- Kanan -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Kanan</strong></label>
 
-                       <div class="col-sm-9">
-                            <select class="form-select" name="kanan"<?= $ro_select ?>>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="kanan" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
-                                <option value="Punggung"<?= val('kanan', $existing_data) === 'Punggung' ? 'selected' : '' ?>>Punggung</option>
-                                <option value="Bagian Kecil"<?= val('kanan', $existing_data) === 'Bagian Kecil' ? 'selected' : '' ?>>Bagian Kecil</option>
-                                <option value="Kepala"<?= val('kanan', $existing_data) === 'Kepala' ? 'selected' : '' ?>>Kepala</option>
+                                <option value="Punggung" <?= val('kanan', $existing_data) === 'Punggung' ? 'selected' : '' ?>>Punggung</option>
+                                <option value="Bagian Kecil" <?= val('kanan', $existing_data) === 'Bagian Kecil' ? 'selected' : '' ?>>Bagian Kecil</option>
+                                <option value="Kepala" <?= val('kanan', $existing_data) === 'Kepala' ? 'selected' : '' ?>>Kepala</option>
                             </select>
- 
-                         </div>
+
+                        </div>
                     </div>
 
                     <!-- Kiri -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Kiri</strong></label>
 
-                       <div class="col-sm-9">
-                            <select class="form-select" name="kiri"<?= $ro_select ?>>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="kiri" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Punggung" <?= val('kiri', $existing_data) === 'Punggung' ? 'selected' : '' ?>>Punggung</option>
                                 <option value="Bagian Kecil" <?= val('kiri', $existing_data) === 'Bagian Kecil' ? 'selected' : '' ?>>Bagian Kecil</option>
-                                <option value="Kepala"<?= val('kiri', $existing_data) === 'Kepala' ? 'selected' : '' ?>>Kepala</option>
+                                <option value="Kepala" <?= val('kiri', $existing_data) === 'Kepala' ? 'selected' : '' ?>>Kepala</option>
                             </select>
- 
-                         </div>
-                    </div>        
+
+                        </div>
+                    </div>
 
                     <!-- Leopold III -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Leopold III</strong></label>
 
-                       <div class="col-sm-9">
-                            <select class="form-select" name="leopoldiii"<?= $ro_select ?>>
-                                <option value="">Pilih</option>    
+                        <div class="col-sm-9">
+                            <select class="form-select" name="leopoldiii" <?= $ro_select ?>>
+                                <option value="">Pilih</option>
                                 <option value="Kepala" <?= val('leopoldiii', $existing_data) === 'Kepala' ? 'selected' : '' ?>>Kepala</option>
-                                <option value="Bokong"<?= val('leopoldiii', $existing_data) === 'Bokong' ? 'selected' : '' ?>>Bokong</option>
-                                <option value="Kosong"<?= val('leopoldiii', $existing_data) === 'Kosong' ? 'selected' : '' ?>>Kosong</option>
+                                <option value="Bokong" <?= val('leopoldiii', $existing_data) === 'Bokong' ? 'selected' : '' ?>>Bokong</option>
+                                <option value="Kosong" <?= val('leopoldiii', $existing_data) === 'Kosong' ? 'selected' : '' ?>>Kosong</option>
                             </select>
-   
-                         </div>
-                    </div>        
+
+                        </div>
+                    </div>
 
                     <!-- Leopold IV Penurunan Kepala-->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Leopold IV Penurunan Kepala</strong></label>
 
-                       <div class="col-sm-9">
+                        <div class="col-sm-9">
                             <select class="form-select" name="leopoldiv" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
-                                <option value="Sudah"<?= val('leopoldiv', $existing_data) === 'Sudah' ? 'selected' : '' ?>>Sudah</option>
-                                <option value="Belum"<?= val('leopoldiv', $existing_data) === 'Belum' ? 'selected' : '' ?>>Belum</option>
+                                <option value="Sudah" <?= val('leopoldiv', $existing_data) === 'Sudah' ? 'selected' : '' ?>>Sudah</option>
+                                <option value="Belum" <?= val('leopoldiv', $existing_data) === 'Belum' ? 'selected' : '' ?>>Belum</option>
                             </select>
- 
-                         </div>
-                    </div>        
+
+                        </div>
+                    </div>
 
 
                     <!-- Pemeriksaan DJJ -->
@@ -534,11 +528,11 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                                 <input type="text" class="form-control" name="pemeriksaandjj" value="<?= val('pemeriksaandjj', $existing_data) ?>" <?= $ro ?>>
                                 <span class="input-group-text">Frek</span>
                             </div>
-                                <small class="form-text" style="color: red;">(Normal 120-160/bradikardi, 160-180/tachikardi < 120) </small>
- 
-                         </div>
+                            <small class="form-text" style="color: red;">(Normal 120-160/bradikardi, 160-180/tachikardi < 120) </small>
+
+                        </div>
                     </div>
-                    
+
                     <!-- Intensitas -->
                     <div class="row mb-3 align-items-center">
                         <label class="col-sm-2 col-form-label"><strong>Intensitas</strong></label>
@@ -546,18 +540,18 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                             <div class="input-group">
                                 <input type="text" class="form-control" name="intensitas" value="<?= val('intensitas', $existing_data) ?>" <?= $ro ?>>
                                 <span class="input-group-text">Intensitas</span>
-                        </div>    
-                    </div>
-                                
-                    <!-- Keteraturan -->
-                    <label class="col-sm-2 col-form-label"><strong>Keteraturan</strong></label>
-                    <div class="col-sm-3">
+                            </div>
+                        </div>
+
+                        <!-- Keteraturan -->
+                        <label class="col-sm-2 col-form-label"><strong>Keteraturan</strong></label>
+                        <div class="col-sm-3">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="keteraturan" value="<?= val('keteraturan', $existing_data) ?>" <?= $ro ?>>
                                 <span class="input-group-text">Keteraturan</span>
-                        </div>    
-                    </div>   
-                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Pigmentasi -->
 
@@ -565,112 +559,30 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <label class="col-sm-2 col-form-label">
                             <strong>Pigmentasi</strong>
                     </div>
-                    
+
                     <!-- Linea Nigra -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Linea Nigra</strong></label>
 
-                       <div class="col-sm-9">
-                            <select class="form-select" name="linea_nigra1"<?= $ro_select ?>>
+                        <div class="col-sm-9">
+                            <select class="form-select" name="linea_nigra1" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Ada" <?= val('linea_nigra1', $existing_data) === 'Ada' ? 'selected' : '' ?>>Ada</option>
                                 <option value="Tidak" <?= val('linea_nigra1', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option>
                             </select>
- 
-                         </div>
+
+                        </div>
                     </div>
 
-                    <style>
-                    .table-abdomen {
-                        table-layout: fixed;
-                        width:100%
-                    }
+                    
 
-                    .table-abdomen td,
-                    .table-abdomen th {
-                        word-wrap: break-word;
-                        white-space: normal;
-                        vertical-align: top;
-                    }
-
-                
-                    </style>
-
-                    <table class="table table-bordered table-abdomen">
-
-                    <tbody>
-                        <tr>
-                            <td colspan="2"><strong>Uterus</strong></td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>TFU</strong></td>
-                            <td><?= $row['tfu'] ?? ''; ?> cm</td>
-                        </tr>
-
-                        <tr>
-                            <td></td>
-                            <td>Kontraksi: <?= $row['kontraksi'] ?? ''; ?></td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>Leopold I<strong></td>
-                            <td><?= $row['leopoldi'] ?? ''; ?></td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>Leopold II<strong></td>
-                            <td>Kanan: <?= $row['kanan'] ?? ''; ?></td>
-                        </tr>
-
-                        <tr>
-                            <td></td>
-                            <td>Kiri: <?= $row['kiri'] ?? ''; ?></td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>Leopold III<strong></td>
-                            <td><?= $row['leopoldiii'] ?? ''; ?></td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>Leopold IV Penurunan Kepala<strong></td>
-                            <td><?= $row['leopoldiv'] ?? ''; ?></td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>Leopold I<strong></td>
-                            <td><?= $row['leopoldi'] ?? ''; ?></td>
-                        </tr>
-
-                        <tr>
-                            <td><strong>Pemeriksaan DJJ</strong></td>
-                        <td>
-                            <?= $row['pemeriksaandjj'] ?? ''; ?> Frek (normal 120-160),
-                            <?= $row['intensitas'] ?? ''; ?> Intensitas,
-                            <?= $row['keteraturan'] ?? ''; ?> Keteraturan
-                        </td>
-                        </tr>
-
-                        <tr>
-                            <td colspan="2"><strong>Pigmentasi</strong></td>    
-                        </tr>
-
-                        <tr>
-                            <td><strong>Linea Nigra<strong></td>
-                            <td><?= $row['linea_nigra'] ?? ''; ?></td>
-                        </tr>
-
-                    </tbody>
-                    </table>
-                            
                     <!-- Bagian Perineum dan Genetalia -->
 
                     <div class="row mb-2">
                         <label class="col-sm-8 col-form-label text-primary">
                             <strong>Vagina dan Perineum</strong>
                     </div>
-                    
+
                     <!-- Keputihan -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Keputihan</strong></label>
@@ -678,11 +590,11 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Keputihan (Ya/Tidak): warna, konsistensi, bau, dan gatal. Hasil:</small>
                             <textarea name="inspeksikeputihan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('inspeksi_keputihan', $existing_data) ?></textarea></textarea>
+                                <?= $ro ?>><?= val('inspeksi_keputihan', $existing_data) ?></textarea></textarea>
 
-                         </div>
-                    </div> 
-                    
+                        </div>
+                    </div>
+
                     <!-- Hemoroid -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Hemoroid</strong></label>
@@ -690,28 +602,28 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">hemoroid (Ya/Tidak). Jika Ya sebutkan (derajat, sudah berapa lama nyeri?). Hasil:</small>
                             <textarea name="inspeksihemoroid" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('inspeksi_hemoroid', $existing_data) ?></textarea></textarea>
+                                <?= $ro ?>><?= val('inspeksi_hemoroid', $existing_data) ?></textarea></textarea>
 
-                         </div>
-                    </div> 
+                        </div>
+                    </div>
 
                     <!-- Masalah Khusus -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
 
-                            <div class="col-sm-9">
-                                <textarea name="masalahkhususperineum" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <div class="col-sm-9">
+                            <textarea name="masalahkhususperineum" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('masalah_khusus_perineum', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
-                    
+                        </div>
+                    </div>
+
                     <!-- Bagian Ekstremitas -->
 
                     <div class="row mb-2">
                         <label class="col-sm-8 col-form-label text-primary">
                             <strong>Ekstremitas</strong>
-                    </div> 
+                    </div>
 
                     <!-- Inspeksi Ekstremitas Bawah -->
                     <div class="row mb-3">
@@ -719,19 +631,19 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Apakah terdapat edema (Ya/Tidak), Varises (Ya/Tidak). Hasil:</small>
-                           <textarea name="inspeksiekstremitasbawah" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                           <?= $ro ?>><?= val('inspeksi_ekstremitas_bawah', $existing_data) ?></textarea></textarea>
+                            <textarea name="inspeksiekstremitasbawah" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('inspeksi_ekstremitas_bawah', $existing_data) ?></textarea></textarea>
 
-                         </div>
-                    </div> 
-        
-                <!-- Bagian Istirahat dan Kenyamanan -->
+                        </div>
+                    </div>
+
+                    <!-- Bagian Istirahat dan Kenyamanan -->
 
                     <div class="row mb-2">
                         <label class="col-sm-6 col-form-label text-primary">
                             <strong>Istirahat dan Kenyamanan</strong>
                     </div>
-                    
+
                     <!-- Inspeksi Istirahat -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pola Tidur Saat Ini</strong></label>
@@ -739,33 +651,33 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Kebiasaan tidur, lama dalam hitungan jam, frekuensi. Hasil:</small>
                             <textarea name="inspeksiistirahat" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('inspeksi_istirahat', $existing_data) ?></textarea>
-                         </div>
-                    </div> 
-                    
+                                <?= $ro ?>><?= val('inspeksi_istirahat', $existing_data) ?></textarea>
+                        </div>
+                    </div>
+
                     <!-- Inspeksi Kenyamanan -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"></label>
 
                         <div class="col-sm-9">
-                            <small class="form-text" style="color: red;">Keluhan ketidaknyamanan  (Ya/Tidak), lokasi. Hasil:</small>
+                            <small class="form-text" style="color: red;">Keluhan ketidaknyamanan (Ya/Tidak), lokasi. Hasil:</small>
                             <textarea name="inspeksikenyamanan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('inspeksi_kenyamanan', $existing_data) ?></textarea>
-                         </div>
-                    </div> 
-   
+                                <?= $ro ?>><?= val('inspeksi_kenyamanan', $existing_data) ?></textarea>
+                        </div>
+                    </div>
+
                     <!-- Masalah Khusus -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
 
-                            <div class="col-sm-9">
-                                <textarea name="masalahkhususistirahat" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('masalah_khusus_istirahat', $existing_data) ?></textarea>
+                        <div class="col-sm-9">
+                            <textarea name="masalahkhususistirahat" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('masalah_khusus_istirahat', $existing_data) ?></textarea>
 
-                         </div>
-                    </div>  
-                            
-                <!-- Bagian Mobilisasi dan Latihan -->
+                        </div>
+                    </div>
+
+                    <!-- Bagian Mobilisasi dan Latihan -->
 
                     <div class="row mb-2">
                         <label class="col-sm-6 col-form-label text-primary">
@@ -779,28 +691,28 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Apakah mandiri, parsial, total. Hasil:</small>
                             <textarea name="inspeksimobilisasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('inspeksi_mobilisasi', $existing_data) ?></textarea>
-                         </div>
-                    </div> 
-                    
-                    <!-- Masalah Khusus -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
+                                <?= $ro ?>><?= val('inspeksi_mobilisasi', $existing_data) ?></textarea>
+                        </div>
+                    </div>
 
-                            <div class="col-sm-9">
-                                <textarea name="masalahkhususmobilisasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                    <!-- Masalah Khusus -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
+
+                        <div class="col-sm-9">
+                            <textarea name="masalahkhususmobilisasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('masalah_khusus_mobilisasi', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
-                            
-                <!-- Bagian Pola Nutrisi dan Cairan -->
+                        </div>
+                    </div>
+
+                    <!-- Bagian Pola Nutrisi dan Cairan -->
 
                     <div class="row mb-2">
                         <label class="col-sm-6 col-form-label text-primary">
                             <strong>Pola Nutrisi dan Cairan</strong>
                     </div>
-                    
+
                     <!-- Inspeksi Nutrisi -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pola Nutrisi dan Cairan</strong></label>
@@ -808,11 +720,11 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Asupan nutrisi (nafsu makan: baik, kurang atau tidak nafsu makan). Hasil:</small>
                             <textarea name="inspeksinutrisi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('inspeksi_nutrisi', $existing_data) ?></textarea>
+                                <?= $ro ?>><?= val('inspeksi_nutrisi', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
-                    
+                        </div>
+                    </div>
+
                     <!-- Inspeksi Cairan -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"></label>
@@ -820,10 +732,10 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Asupan cairan (cukup/kurang). Hasil:</small>
                             <textarea name="inspeksicairan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('inspeksi_cairan', $existing_data) ?></textarea>
+                                <?= $ro ?>><?= val('inspeksi_cairan', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
+                        </div>
+                    </div>
 
                     <!-- Inspeksi Pantangan Makan -->
                     <div class="row mb-3">
@@ -832,23 +744,23 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Pantangan Makan. Hasil:</small>
                             <textarea name="inspeksipantangan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('inspeksi_pantangan', $existing_data) ?></textarea>
+                                <?= $ro ?>><?= val('inspeksi_pantangan', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
-                    
+                        </div>
+                    </div>
+
                     <!-- Masalah Khusus -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
 
-                            <div class="col-sm-9">
-                               <textarea name="masalahkhususpolanutrisi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('masalah_khusus_polanutrisi', $existing_data) ?></textarea>
+                        <div class="col-sm-9">
+                            <textarea name="masalahkhususpolanutrisi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('masalah_khusus_polanutrisi', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
-                            
-                <!-- Bagian Pengetahuan -->
+                        </div>
+                    </div>
+
+                    <!-- Bagian Pengetahuan -->
 
                     <div class="row mb-2">
                         <label class="col-sm-2 col-form-label text-primary">
@@ -861,9 +773,9 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
                         <div class="col-sm-9">
                             <textarea name="tandamelahirkan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('tanda_melahirkan', $existing_data) ?></textarea>
-                         </div>
-                    </div> 
+                                <?= $ro ?>><?= val('tanda_melahirkan', $existing_data) ?></textarea>
+                        </div>
+                    </div>
 
                     <!-- Inspeksi Nyeri Melahirkan -->
                     <div class="row mb-3">
@@ -871,9 +783,9 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
                         <div class="col-sm-9">
                             <textarea name="nyerimelahirkan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('nyeri_melahirkan', $existing_data) ?></textarea>
-                         </div>
-                    </div> 
+                                <?= $ro ?>><?= val('nyeri_melahirkan', $existing_data) ?></textarea>
+                        </div>
+                    </div>
 
                     <!-- Inspeksi Persalinan -->
                     <div class="row mb-3">
@@ -881,9 +793,9 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
                         <div class="col-sm-9">
                             <textarea name="persalinan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('persalinan', $existing_data) ?></textarea>
-                         </div>
-                    </div> 
+                                <?= $ro ?>><?= val('persalinan', $existing_data) ?></textarea>
+                        </div>
+                    </div>
 
                     <!-- Inspeksi Asi dan Payudara -->
                     <div class="row mb-3">
@@ -891,21 +803,21 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
                         <div class="col-sm-9">
                             <textarea name="asidanpayudara" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('asi_dan_payudara', $existing_data) ?></textarea>
-                         </div>
-                            </div> 
-                        </div>
-            </div>
-            <!-- TOMBOL SUBMIT -->
-                    <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-11 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                <?= $ro ?>><?= val('asi_dan_payudara', $existing_data) ?></textarea>
                         </div>
                     </div>
-                    <?php endif; ?>
-                </form>
             </div>
+        </div>
+        <!-- TOMBOL SUBMIT -->
+        <?php if (!$is_dosen): ?>
+            <div class="row mb-3">
+                <div class="col-sm-11 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        <?php endif; ?>
+        </form>
+        </div>
         </div>
 
         <!-- ================================ -->

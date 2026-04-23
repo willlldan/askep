@@ -1,11 +1,11 @@
 <?php
-$jenismaternitas = $_GET['jenismaternitas'] ?? 'resume';
+$jenismaternitas = $_GET['jenismaternitas'] ?? 'resume_antenatal_care';
 $submission_id = $_GET['submission_id'] ?? null;
 
 $titles = [
     'antenatal' => 'Pengkajian Asuhan Keperawatan Antenatal Care',
     'pascapartum' => 'Pengkajian Asuhan Keperawatan Pascapartum',
-    'resume' => 'Resume Asuhan Keperawatan Antenatal Care',
+    'resume_antenatal_care' => 'Resume Asuhan Keperawatan Antenatal Care',
     'inranatal' => 'Pengkajian Asuhan Keperawatan Inranatal Care',
     'ginekologi' => 'Pengkajian Asuhan Keperawatan Ginekologi'
 ];
@@ -33,8 +33,8 @@ $titles = [
                         Pengkajian Pascapartum
                     </option>
 
-                    <option value="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=resume"
-                        <?= $jenismaternitas == 'resume' ? 'selected' : '' ?>>
+                    <option value="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=resume_antenatal_care"
+                        <?= $jenismaternitas == 'resume_antenatal_care' ? 'selected' : '' ?>>
                         Resume Antenatal Care
                     </option>
 
