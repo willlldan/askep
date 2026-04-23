@@ -76,21 +76,21 @@ $titles = [
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? 'demografi') == 'demografi' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_ginekologi&tab=demografi">
+        href="?page=maternitas/pengkajian_ginekologi&tab=demografi <?php if($submission_id) echo '&submission_id=' . $submission_id; ?>" >
         Data Demografi
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? 'riwayat') == 'riwayat' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_ginekologi&tab=riwayat">
+        href="?page=maternitas/pengkajian_ginekologi&tab=riwayat<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Riwayat Kehamilan dan Kesehatan
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajianfisik' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_ginekologi&tab=pengkajianfisik">
+        href="?page=maternitas/pengkajian_ginekologi&tab=pengkajianfisik<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Pengkajian Fisik
         </a>
     </li>
@@ -103,13 +103,13 @@ $titles = [
     </li> -->
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? 'riwayat') == 'terapi_lab' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_ginekologi&tab=terapi_lab">
+        href="?page=maternitas/pengkajian_ginekologi&tab=terapi_lab <?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Terapi Lab
         </a>
 </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? 'riwayat') == 'lainnya' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_ginekologi&tab=lainnya">
+        href="?page=maternitas/pengkajian_ginekologi&tab=lainnya<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Lainnya
         </a>
     </li>
