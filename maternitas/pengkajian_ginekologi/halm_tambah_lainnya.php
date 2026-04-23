@@ -6,8 +6,8 @@ require_once "utils.php";
 $form_id       = 6;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'catatan_keperawatan';
-$section_label = 'Catatan Keperawatan';
+$section_name  = 'lainnya';
+$section_label = 'Lainnya';
 
 // Ambil submission sesuai role
 if ($level === 'Dosen') {

@@ -1187,6 +1187,223 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                            <?= $ro ?>><?= val('pola_minum', $existing_data) ?></textarea></textarea>
                          </div>
                     </div> 
+                    
+                    <!-- Masalah Khusus -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
+
+                            <div class="col-sm-10">
+                                <textarea name="masalahkhususbab" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('masalah_khusus_bab', $existing_data) ?></textarea>
+                         </div>
+                    </div> 
+                            
+                <!-- Bagian Istirahat dan Kenyamanan -->
+
+                    <div class="row mb-2">
+                        <label class="col-sm-6 col-form-label text-primary">
+                            <strong>Istirahat dan Kenyamanan</strong>
+                    </div>
+                    
+                    <!-- Inspeksi Istirahat -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Pola Tidur Saat Ini</strong></label>
+
+                        <div class="col-sm-10">
+                            <small class="form-text" style="color: red;">Kebiasaan tidur, lama dalam hitungan jam, frekuensi. Hasil:</small>
+                            <textarea name="inspeksiistirahat" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('pola_tidur', $existing_data) ?></textarea>
+                         </div>
+                    </div> 
+                    
+                    <!-- Inspeksi Kenyamanan -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"></label>
+
+                        <div class="col-sm-10">
+                            <small class="form-text" style="color: red;">Keluhan ketidaknyamanan  (Ya/Tidak), lokasi. Hasil:</small>
+                            <textarea name="inspeksikenyamanan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('kenyamanan', $existing_data) ?></textarea>
+                         </div> 
+                    </div>
+   
+                    <!-- Masalah Khusus -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
+
+                            <div class="col-sm-10">
+                                <textarea name="masalahkhususistirahat" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('masalah_istirahat', $existing_data) ?></textarea></textarea>
+                         </div>
+                    </div>  
+                            
+                <!-- Bagian Mobilisasi dan Latihan -->
+
+                    <div class="row mb-2">
+                        <label class="col-sm-6 col-form-label text-primary">
+                            <strong>Mobilisasi dan Latihan</strong>
+                    </div>
+
+                    <!-- Inspeksi -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Tingkat Mobilisasi</strong></label>
+
+                        <div class="col-sm-10">
+                            <small class="form-text" style="color: red;">Apakah mandiri, parsial, total. Hasil:</small>
+                            <textarea name="inspeksimobilisasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <?= $ro ?>><?= val('tingkat_mobilisasi', $existing_data) ?></textarea>
+                         </div>
+                    </div> 
+                    
+                    <!-- Masalah Khusus -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
+
+                            <div class="col-sm-10">
+                                <textarea name="masalahkhususmobilisasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('masalah_mobilisasi', $existing_data) ?></textarea></textarea>
+                         </div>
+                    </div> 
+                            
+                <!-- Bagian Pola Nutrisi dan Cairan -->
+
+                    <div class="row mb-2">
+                        <label class="col-sm-6 col-form-label text-primary">
+                            <strong>Pola Nutrisi dan Cairan</strong>
+                    </div>
+                    
+                    <!-- Jenis Makanan -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Jenis Makanan</strong></label>
+
+                        <div class="col-sm-10">
+                           <textarea name="jenismakanan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                           <?= $ro ?>><?= val('jenis_makanan', $existing_data) ?></textarea>
+                         </div>
+                    </div> 
+
+                    <!-- Frekuensi -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Frekuensi</strong></label>
+
+                        <div class="col-sm-10">
+                           <textarea name="frekuensi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                           <?= $ro ?>><?= val('frekuensi', $existing_data) ?></textarea>
+                         </div>
+                    </div> 
+
+                    <!-- Konsumsi Snack -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Konsumsi Snack</strong></label>
+
+                        <div class="col-sm-10">
+                           <textarea name="konsumsisnack" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                           <?= $ro ?>><?= val('konsumsi_snack', $existing_data) ?></textarea>
+                         </div>
+                    </div> 
+
+                    <!-- Nafsu Makan -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Nafsu Makan</strong></label>
+
+                        <div class="col-sm-10">
+                           <textarea name="nafsumakan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                           <?= $ro ?>><?= val('nafsu_makan', $existing_data) ?></textarea>
+                         </div>
+                    </div> 
+
+                    <!-- Pola Minum -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Pola Minum</strong></label>
+
+                        <div class="col-sm-10">
+                           <textarea name="polaminum" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                           <?= $ro ?>><?= val('pola_minum', $existing_data) ?></textarea></textarea>
+                         </div>
+                    </div> 
+
+                    <!-- Frekuensi -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Frekuensi</strong></label>
+
+                        <div class="col-sm-10">
+                           <textarea name="frekuensi2" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                           <?= $ro ?>><?= val('frekuensi2', $existing_data) ?></textarea></textarea>
+                         </div>
+                    </div> 
+
+                    <!-- Pantangan Makanan -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Pantangan Makanan</strong></label>
+
+                        <div class="col-sm-10">
+                           <textarea name="pantanganmakanan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                           <?= $ro ?>><?= val('pantangan_makanan', $existing_data) ?></textarea></textarea>
+                    </div> 
+                </div>
+            </div>
+        </div>
+
+                   <!-- TOMBOL SUBMIT -->
+                    <?php if (!$is_dosen): ?>
+                    <div class="row mb-3">
+                        <div class="col-sm-11 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </form>
+            </div>
+        </div>
+
+        <!-- ================================ -->
+        <!-- SECTION KOMENTAR & ACTION DOSEN -->
+        <!-- ================================ -->
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5 class="card-title"><strong>Komentar</strong></h5>
+
+                <!-- List komentar -->
+                <?php if (!empty($comments)): ?>
+                    <?php foreach ($comments as $cmt): ?>
+                        <div class="alert alert-warning">
+                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
+                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
+                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="text-muted">Belum ada komentar.</p>
+                <?php endif; ?>
+
+                <!-- Form komentar + action (khusus dosen) -->
+                <?php if ($is_dosen && $section_status !== 'approved'): ?>
+                    <form action="" method="POST">
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
+                            <div class="col-sm-9">
+                                <textarea name="comment" class="form-control" rows="3"
+                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-11 d-flex justify-content-end gap-2">
+                                <button type="submit" name="action" value="revision" class="btn btn-warning">
+                                    Minta Revisi
+                                </button>
+                                <button type="submit" name="action" value="approve" class="btn btn-success">
+                                    Approve
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
+                    <div class="alert alert-success">
+                        Section ini sudah di-approve.
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
 
                     <!-- Frekuensi -->
                     <div class="row mb-3">
