@@ -305,7 +305,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                                 value="<?= val('pendidikan_terakhir_suami', $existing_data) ?>" <?= $ro ?>>
 
                         
-                        
+                        </div>
                     </div>
 
                 <!-- Bagian Agama -->

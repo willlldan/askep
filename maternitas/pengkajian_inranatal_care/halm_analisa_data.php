@@ -6,8 +6,8 @@ require_once "utils.php";
 $form_id       = 7;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'program_terapi_lab';
-$section_label = 'Program Terapi dan Laboratorium';
+$section_name  = 'analisa_data';
+$section_label = 'Analisa Data';
 
 // =============================================
 // DOSEN: ambil submission berdasarkan ?submission_id=
@@ -36,8 +36,8 @@ $existing_data  = $submission ? getSectionData($submission['id'], $section_name,
 $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
 
 // Load existing dynamic rows
-$existing_obat = $existing_data['obat'] ?? [];
-$existing_lab  = $existing_data['lab']  ?? [];
+$existing_klasifikasi = $existing_data['klasifikasi'] ?? [];
+$existing_analisa     = $existing_data['analisa']     ?? [];
 
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
@@ -47,40 +47,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
 
-    // Proses dynamic rows obat
-    $obat = [];
-    if (!empty($_POST['obat'])) {
-        foreach ($_POST['obat'] as $index => $row) {
-            if (empty($row['jenis_obat']) && empty($row['dosis']) && empty($row['kegunaan'])) {
+    // Proses dynamic rows klasifikasi data
+    $klasifikasi = [];
+    if (!empty($_POST['klasifikasi'])) {
+        foreach ($_POST['klasifikasi'] as $index => $row) {
+            if (empty($row['ds']) && empty($row['do'])) {
                 continue;
             }
-            $obat[] = [
-                'jenis_obat'     => $row['jenis_obat']     ?? '',
-                'dosis'          => $row['dosis']           ?? '',
-                'kegunaan'       => $row['kegunaan']        ?? '',
-                'cara_pemberian' => $row['cara_pemberian']  ?? '',
+            $klasifikasi[] = [
+                'ds' => $row['ds'] ?? '',
+                'do' => $row['do'] ?? '',
             ];
         }
     }
 
-    // Proses dynamic rows lab
-    $lab = [];
-    if (!empty($_POST['lab'])) {
-        foreach ($_POST['lab'] as $index => $row) {
-            if (empty($row['pemeriksaan']) && empty($row['hasil']) && empty($row['nilai_normal'])) {
+    // Proses dynamic rows analisa data
+    $analisa = [];
+    if (!empty($_POST['analisa'])) {
+        foreach ($_POST['analisa'] as $index => $row) {
+            if (empty($row['ds_do']) && empty($row['etiologi']) && empty($row['masalah'])) {
                 continue;
             }
-            $lab[] = [
-                'pemeriksaan'  => $row['pemeriksaan']  ?? '',
-                'hasil'        => $row['hasil']         ?? '',
-                'nilai_normal' => $row['nilai_normal']  ?? '',
+            $analisa[] = [
+                'ds_do'   => $row['ds_do']   ?? '',
+                'etiologi' => $row['etiologi'] ?? '',
+                'masalah'  => $row['masalah']  ?? '',
             ];
         }
     }
 
     $data = [
-        'obat' => $obat,
-        'lab'  => $lab,
+        'klasifikasi' => $klasifikasi,
+        'analisa'     => $analisa,
     ];
 
     if (!$submission) {
@@ -164,49 +162,47 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title"><strong>PROGRAM TERAPI & LABORATORIUM</strong></h5>
+                <h5 class="card-title"><strong>ANALISA DATA</strong></h5>
                 <form class="needs-validation" novalidate action="" method="POST">
-                    <!-- ===================== TABEL OBAT ===================== -->
-                    <p class="text-primary fw-bold mb-2">Obat-obatan yang Dikonsumsi Saat Ini</p>
-                    <table class="table table-bordered" id="tabel-obat">
+                    <!-- ===================== TABEL KLASIFIKASI DATA ===================== -->
+                    <p class="text-primary fw-bold mb-2">Klasifikasi Data</p>
+                    <table class="table table-bordered" id="tabel-klasifikasi">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Jenis Obat</th>
-                                <th class="text-center">Dosis</th>
-                                <th class="text-center">Kegunaan</th>
-                                <th class="text-center">Cara Pemberian</th>
+                                <th class="text-center">Data Subjektif (DS)</th>
+                                <th class="text-center">Data Objektif (DO)</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="tbody-obat">
+                        <tbody id="tbody-klasifikasi">
                             <!-- Dynamic rows masuk sini -->
                         </tbody>
                     </table>
                     <div class="row mb-4">
                         <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-obat" onclick="tambahRowObat()">+ Tambah Obat</button>
+                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-klasifikasi" onclick="tambahRowKlasifikasi()">+ Tambah Baris</button>
                         </div>
                     </div>
-                    <!-- ===================== TABEL LAB ===================== -->
-                    <p class="text-primary fw-bold mb-2">Hasil Pemeriksaan Penunjang dan Laboratorium</p>
-                    <table class="table table-bordered" id="tabel-lab">
+                    <!-- ===================== TABEL ANALISA DATA ===================== -->
+                    <p class="text-primary fw-bold mb-2">Analisa Data</p>
+                    <table class="table table-bordered" id="tabel-analisa">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Pemeriksaan</th>
-                                <th class="text-center">Hasil</th>
-                                <th class="text-center">Nilai Normal</th>
+                                <th class="text-center">DS/DO</th>
+                                <th class="text-center">Etiologi</th>
+                                <th class="text-center">Masalah</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="tbody-lab">
+                        <tbody id="tbody-analisa">
                             <!-- Dynamic rows masuk sini -->
                         </tbody>
                     </table>
                     <div class="row mb-4">
                         <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-lab" onclick="tambahRowLab()">+ Tambah Pemeriksaan</button>
+                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-analisa" onclick="tambahRowAnalisa()">+ Tambah Baris</button>
                         </div>
                     </div>
                     <!-- TOMBOL SIMPAN -->
@@ -218,65 +214,73 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     </div>
                     <?php endif; ?>
                     <script>
-                        let rowObatCount = 1;
-                        let rowLabCount  = 1;
-                        const existingObat = <?= json_encode($existing_obat) ?>;
-                        const existingLab  = <?= json_encode($existing_lab) ?>;
+                        let rowKlasifikasiCount = 1;
+                        let rowAnalisaCount     = 1;
+                        const existingKlasifikasi = <?= json_encode($existing_klasifikasi) ?>;
+                        const existingAnalisa     = <?= json_encode($existing_analisa) ?>;
                         const isReadonly = <?= json_encode($is_readonly) ?>;
-                        // ---- OBAT ----
-                        function tambahRowObat(data = null) {
-                            const tbody = document.getElementById('tbody-obat');
-                            const index = rowObatCount;
+                        // ---- KLASIFIKASI DATA ----
+                        function tambahRowKlasifikasi(data = null) {
+                            const tbody = document.getElementById('tbody-klasifikasi');
+                            const index = rowKlasifikasiCount;
                             const row   = document.createElement('tr');
                             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][jenis_obat]" value="${data?.jenis_obat ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][dosis]" value="${data?.dosis ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][kegunaan]" value="${data?.kegunaan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][cara_pemberian]" value="${data?.cara_pemberian ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td>
+                                    <textarea class="form-control form-control-sm" name="klasifikasi[${index}][ds]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.ds ?? ''}</textarea>
+                                </td>
+                                <td>
+                                    <textarea class="form-control form-control-sm" name="klasifikasi[${index}][do]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.do ?? ''}</textarea>
+                                </td>
                                 <td class="text-center align-middle">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
                                 </td>
                             `;
                             tbody.appendChild(row);
-                            rowObatCount++;
+                            rowKlasifikasiCount++;
                         }
-                        // ---- LAB ----
-                        function tambahRowLab(data = null) {
-                            const tbody = document.getElementById('tbody-lab');
-                            const index = rowLabCount;
+                        // ---- ANALISA DATA ----
+                        function tambahRowAnalisa(data = null) {
+                            const tbody = document.getElementById('tbody-analisa');
+                            const index = rowAnalisaCount;
                             const row   = document.createElement('tr');
                             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
-                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][pemeriksaan]" value="${data?.pemeriksaan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][hasil]" value="${data?.hasil ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][nilai_normal]" value="${data?.nilai_normal ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td>
+                                    <textarea class="form-control form-control-sm" name="analisa[${index}][ds_do]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.ds_do ?? ''}</textarea>
+                                </td>
+                                <td>
+                                    <textarea class="form-control form-control-sm" name="analisa[${index}][etiologi]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.etiologi ?? ''}</textarea>
+                                </td>
+                                <td>
+                                    <textarea class="form-control form-control-sm" name="analisa[${index}][masalah]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.masalah ?? ''}</textarea>
+                                </td>
                                 <td class="text-center align-middle">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
                                 </td>
                             `;
                             tbody.appendChild(row);
-                            rowLabCount++;
+                            rowAnalisaCount++;
                         }
                         function hapusRow(btn) {
                             btn.closest('tr').remove();
                         }
                         // Load existing rows on page load
                         window.addEventListener('load', function () {
-                            if (existingObat && existingObat.length > 0) {
-                                existingObat.forEach(row => tambahRowObat(row));
+                            if (existingKlasifikasi && existingKlasifikasi.length > 0) {
+                                existingKlasifikasi.forEach(row => tambahRowKlasifikasi(row));
                             } else {
-                                tambahRowObat(); // default 1 row kosong
+                                tambahRowKlasifikasi(); // default 1 row kosong
                             }
-                            if (existingLab && existingLab.length > 0) {
-                                existingLab.forEach(row => tambahRowLab(row));
+                            if (existingAnalisa && existingAnalisa.length > 0) {
+                                existingAnalisa.forEach(row => tambahRowAnalisa(row));
                             } else {
-                                tambahRowLab(); // default 1 row kosong
+                                tambahRowAnalisa(); // default 1 row kosong
                             }
                             // Disable add buttons if readonly
                             if (isReadonly) {
-                                document.getElementById('btn-tambah-obat').setAttribute('disabled', 'disabled');
-                                document.getElementById('btn-tambah-lab').setAttribute('disabled', 'disabled');
+                                document.getElementById('btn-tambah-klasifikasi').setAttribute('disabled', 'disabled');
+                                document.getElementById('btn-tambah-analisa').setAttribute('disabled', 'disabled');
                             }
                         });
                         const existingData = <?= json_encode($existing_data) ?>;

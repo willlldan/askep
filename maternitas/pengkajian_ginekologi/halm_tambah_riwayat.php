@@ -72,7 +72,7 @@
             'keluhan_utama'         => $_POST['keluhanutama'] ?? '',
             'riwayat_keluhan_utama' => $_POST['riwayatkeluhanutama'] ?? '',
             'kesadaran'             => $_POST['kesadaran'] ?? '',
-            'umum'          => $_POST['umum'] ?? '',
+            'umum'                  => $_POST['umum'] ?? '',
             'bb_tb'                 => $_POST['bbtb'] ?? '',
             'lengan_atas'           => $_POST['lenganatas'] ?? '',
             'tekanan_darah'         => $_POST['tekanandarah'] ?? '',

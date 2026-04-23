@@ -2,7 +2,7 @@
 require_once "koneksi.php";
 require_once "utils.php";
 
-$form_id       = 5;
+$form_id       = 7;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
 $section_name  = 'laporan_persalinan';
@@ -855,49 +855,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                          </div>
                     </div> 
 
-                 <!-- ===================== TABEL LAB ===================== -->
-                    <p class="text-primary fw-bold mb-2">Klasifikasi Data</p>
-                    <table class="table table-bordered" id="tabel-klasifikasi_data">
-                        <thead>
-                            <tr>
-                                <th class="text-center" >No</th>
-                                <th class="text-center" >Data Subjektif (DS)</th>
-                                <th class="text-center">Data Objektif (DO)</th>
-                                <th class="text-center" style="width:60px">Aksi</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-klasifikasi">
-                            <!-- Dynamic rows masuk sini -->
-                        </tbody>
-                    </table>
-                    <div class="row mb-4">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-klasifikasi" onclick="tambahRowKlasifikasi()">+ Tambah data</button>
-                        </div>
-                    </div>
-                     <!-- ===================== TABEL LAB ===================== -->
-                    <p class="text-primary fw-bold mb-2">Analisa Data</p>
-                    <table class="table table-bordered" id="tabel-analisa">
-                        <thead>
-                            <tr>
-                                <th class="text-center" style="width:40px">NO</th>
-                                <th class="text-center">DS/DO</th>
-                                <th class="text-center">Etiologi</th>
-                                <th class="text-center">Masalah</th>
-                                <th class="text-center" style="width:60px">Aksi</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-analisa">
-                            <!-- Dynamic rows masuk sini -->
-                        </tbody>
-                    </table>
-                    <div class="row mb-4">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-analisa" onclick="tambahRowAnalisa()">+ Tambah data</button>
-                        </div>
-                    </div>
+                
                     
     
                <!-- TOMBOL SUBMIT -->

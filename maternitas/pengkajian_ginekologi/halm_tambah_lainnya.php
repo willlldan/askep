@@ -195,13 +195,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <main id="main" class="main">
 
-                 <?php include "maternitas/pengkajian_ginekologi/tab.php"; ?>
-
+    <?php include "maternitas/pengkajian_ginekologi/tab.php"; ?>
 
     <section class="section dashboard">
 
-        
-        
+        <!-- NOTIFIKASI -->
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success"><?= $_SESSION['success'];
+                                                unset($_SESSION['success']); ?></div>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger"><?= $_SESSION['error'];
+                                            unset($_SESSION['error']); ?></div>
+        <?php endif; ?>
+
         <div class="card">
             <div class="card-body">
                 <!-- Info status section (untuk dosen) -->
