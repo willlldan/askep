@@ -1,11 +1,11 @@
 <?php
-$jenismaternitas = $_GET['jenismaternitas'] ?? 'resume_antenatal_care';
+$jenismaternitas = $_GET['jenismaternitas'] ?? 'ginekologi';
 $submission_id = $_GET['submission_id'] ?? null;
 
 $titles = [
     'antenatal' => 'Pengkajian Asuhan Keperawatan Antenatal Care',
     'pascapartum' => 'Pengkajian Asuhan Keperawatan Pascapartum',
-    'resume_antenatal_care' => 'Resume Asuhan Keperawatan Antenatal Care',
+    'resume' => 'Resume Asuhan Keperawatan Antenatal Care',
     'inranatal' => 'Pengkajian Asuhan Keperawatan Inranatal Care',
     'ginekologi' => 'Pengkajian Asuhan Keperawatan Ginekologi'
 ];
@@ -33,8 +33,8 @@ $titles = [
                         Pengkajian Pascapartum
                     </option>
 
-                    <option value="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=resume_antenatal_care"
-                        <?= $jenismaternitas == 'resume_antenatal_care' ? 'selected' : '' ?>>
+                    <option value="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=resume"
+                        <?= $jenismaternitas == 'resume' ? 'selected' : '' ?>>
                         Resume Antenatal Care
                     </option>
 
@@ -59,7 +59,7 @@ $titles = [
 </div>
 
 <div class="pagetitle">
-    <h1><strong><?= $titles[$jenismaternitas] ?? 'Resume Asuhan Keperawatan Antenatal Care' ?></strong></h1>
+    <h1><strong><?= $titles[$jenismaternitas] ?? 'Pengkajian Asuhan Keperawatan Inranatal Care' ?></strong></h1>
 </div>
 <br>
 
@@ -72,87 +72,77 @@ $titles = [
     </div><!-- End Page Title -->
     <br>
 
-    <ul class="nav nav-tabs custom-tabs">
-        <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'identitas' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=identitas">
-        Identitas
+   <ul class="nav nav-tabs custom-tabs">
+
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? 'demografi') == 'demografi' ? 'active' : '' ?>"
+        href="?page=maternitas/pengkajian_ginekologi&tab=demografi <?php if($submission_id) echo '&submission_id=' . $submission_id; ?>" >
+        Data Demografi
         </a>
     </li>
+
     <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian_anamnesa' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=pengkajian_anamnesa">
-        Anamnesa & Antropometri
+        <a class="nav-link <?= ($_GET['tab'] ?? 'riwayat') == 'riwayat' ? 'active' : '' ?>"
+        href="?page=maternitas/pengkajian_ginekologi&tab=riwayat<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+        Riwayat Kehamilan dan Kesehatan
         </a>
     </li>
+
     <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian_tanda_vital' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=pengkajian_tanda_vital">
-        TTV & Pemeriksaan Umum
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajianfisik' ? 'active' : '' ?>"
+        href="?page=maternitas/pengkajian_ginekologi&tab=pengkajianfisik<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+        Pengkajian Fisik
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pemeriksaan_fisik' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=pemeriksaan_fisik">
-        Pemeriksaan Fisik
+
+    <!-- <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? 'riwayat') == 'pengkajianfungsional' ? 'active' : '' ?>"
+        href="?page=maternitas/pengkajian_ginekologi&tab=pengkajianfungsional">
+        Pengkajian Fungsional
         </a>
-    </li>
+    </li> -->
     <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'terapi_lab' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=terapi_lab">
-        Terapi  Lab
+        <a class="nav-link <?= ($_GET['tab'] ?? 'riwayat') == 'terapi_lab' ? 'active' : '' ?>"
+        href="?page=maternitas/pengkajian_ginekologi&tab=terapi_lab <?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+        Terapi Lab
         </a>
-    </li>
+</li>
     <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=lainnya">
+        <a class="nav-link <?= ($_GET['tab'] ?? 'riwayat') == 'lainnya' ? 'active' : '' ?>"
+        href="?page=maternitas/pengkajian_ginekologi&tab=lainnya<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Lainnya
         </a>
     </li>
-    <!-- <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'program_terapi' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=program_terapi">
-        Program Terapi
-        </a>
-    </li> -->
-
-    <!-- <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=pengkajian">
-        Pengkajian
-        </a>
-    </li> -->
 
     <!-- <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa_keperawatan' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=diagnosa_keperawatan">
-        Diagnosa Keperawatan
+        href="?page=maternitas/pengkajian_ginekologi&tab=diagnosa_keperawatan">
+        Diagnosa keperawatan
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'intervensi_keperawatan' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=intervensi_keperawatan">
-        Intervensi Keperawatan
+        href="?page=maternitas/pengkajian_ginekologi&tab=intervensi_keperawatan">
+        Intervensi keperawatan
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi_keperawatan' ? 'active' : '' ?>"
-       href="index.php?page=maternitas/resume_antenatal_care&tab=implementasi_keperawatan">
-        Implementasi Keperawatan
+        href="?page=maternitas/pengkajian_ginekologi&tab=implementasi_keperawatan">
+        Implementasi keperawatan
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi_keperawatan' ? 'active' : '' ?>"
-        href="index.php?page=maternitas/resume_antenatal_care&tab=evaluasi_keperawatan">
+        href="?page=maternitas/pengkajian_ginekologi&tab=evaluasi_keperawatan">
         Evaluasi keperawatan
         </a>
     </li> -->
 
     </ul>
-
 <style>
     .custom-tabs {
         border-bottom: 1px solid #dee2e6;

@@ -163,12 +163,28 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/pengkajian_inranatal_care':
 
-                $tab = $tab ?: 'laporanpersalinan';
+                $tab = $tab ?: 'umum';
 
                 switch ($tab) {
 
+                    case 'umum':
+                        include "maternitas/pengkajian_inranatal_care/halm_tambah_umum.php";
+                        break;
+                    case 'riwayat_persalinan':
+                    include "maternitas/pengkajian_inranatal_care/halm_tambah_riwayatpersalinan.php";
+                        break;
+                    case 'terapi_lab':
+                    include "maternitas/pengkajian_inranatal_care/halm_data_terapi_lab.php";
+                        break;
+
                     case 'laporanpersalinan':
-                        include "maternitas/pengkajian_inranatal_care/halm_tambah_laporanpersalinan.php";
+                    include "maternitas/pengkajian_inranatal_care/halm_tambah_laporanpersalinan.php";
+                        break;
+                        case 'analisa_data':
+                    include "maternitas/pengkajian_inranatal_care/halm_analisa_data.php";
+                        break;
+                    case 'lainnya':
+                    include "maternitas/pengkajian_inranatal_care/halm_tambah_lainnya.php";
                         break;
 
                     case 'diagnosa_keperawatan':
@@ -192,6 +208,7 @@ if (isset($_SESSION['id_user'])) {
                 }
 
                 break;
+
 
 
             // =====================
@@ -259,12 +276,28 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/pengkajian_ginekologi':
 
-                $tab = $tab ?: 'pengkajian';
+                $tab = $tab ?: 'demografi';
 
                 switch ($tab) {
 
-                    case 'pengkajian':
-                        include "maternitas/pengkajian_ginekologi/halm_tambah_pengkajian.php";
+                    case 'pengkajianfisik':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_pengkajianfisik.php";
+                        break;
+                    case 'demografi':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_demografi.php";
+                        break;
+                    case 'riwayat':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_riwayat.php";
+                        break;
+                   
+                    case 'pengkajianfungsional':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_pengkajianfungsional.php";
+                        break;
+                    case 'terapi_lab':
+                        include "maternitas/pengkajian_ginekologi/halm_data_terapi_lab.php";
+                        break;
+                    case 'lainnya':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_lainnya.php";
                         break;
 
                     case 'diagnosa_keperawatan':
