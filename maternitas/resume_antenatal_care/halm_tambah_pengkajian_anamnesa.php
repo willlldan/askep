@@ -5,7 +5,7 @@ require_once "utils.php";
 $form_id       = 4;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'anamnesa_antropometri ';
+$section_name  = 'anamnesa_antropometri';
 $section_label = 'Anamnesa Antropometri';
 
 // =============================================
@@ -33,8 +33,6 @@ if ($level === 'Dosen') {
 
 $existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
 $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
-$tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
-$rs_ruangan     = $submission['rs_ruangan'] ?? '';
 
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
@@ -44,9 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     if (isLocked($submission)) {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
-
-    $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
-    $rs_ruangan     = $_POST['rsruangan'] ?? '';
 
     $data = [
         'hpht'                => $_POST['hpht'] ?? '',
@@ -67,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
     } else {
         $submission_id = $submission['id'];
-        updateSubmissionHeader($submission_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
     }
 
 
@@ -115,55 +109,57 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <main id="main" class="main">
     <?php include "maternitas/resume_antenatal_care/tab.php"; ?>
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success"><?= $_SESSION['success'];
+                                            unset($_SESSION['success']); ?></div>
+    <?php endif; ?>
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert alert-danger"><?= $_SESSION['error'];
+                                        unset($_SESSION['error']); ?></div>
+    <?php endif; ?>
 
-        <!-- Info status section (untuk dosen) -->
-        <?php if  ($section_status): ?>
-            <?php
-            $badge = [
-                'draft'     => 'secondary',
-                'submitted' => 'primary',
-                'revision'  => 'warning',
-                'approved'  => 'success',
-            ];
-            ?>
+    <!-- Info status section (untuk dosen) -->
+    <?php if ($section_status): ?>
+        <?php
+        $badge = [
+            'draft'     => 'secondary',
+            'submitted' => 'primary',
+            'revision'  => 'warning',
+            'approved'  => 'success',
+        ];
+        ?>
 
-             <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                    | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>       
-            </div>
-        <?php endif; ?>
+        <div class="alert alert-<?= $badge[$section_status] ?>">
+            Status: <strong><?= ucfirst($section_status) ?></strong>
+            | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>
+        </div>
+    <?php endif; ?>
     <section class="section dashboard">
 
-        
+
         <div class="card">
             <div class="card-body">
-                
-              <h5 class="card-title mb-1"><strong>Pengkajian</strong></h5>
 
-                <!-- Bagian Kepala dan Rambut -->
+                <h5 class="card-title mb-1"><strong>Pengkajian</strong></h5>
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                    <!-- Bagian Kepala dan Rambut -->
 
                     <div class="row mb-2">
                         <label class="col-sm-2 col-form-label text-primary">
                             <strong>a. Anamnesa</strong>
                     </div>
-                    
+
                     <!-- HPHT -->
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>NPHT</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>HPHT</strong></label>
 
                         <div class="col-sm-9">
                             <textarea name="hpht" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('hpht', $existing_data) ?></textarea>
-                         </div>
-                    </div>        
+                                <?= $ro ?>><?= val('hpht', $existing_data) ?></textarea>
+                        </div>
+                    </div>
 
                     <!-- Status Gravida -->
                     <div class="row mb-3">
@@ -176,131 +172,128 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <label class="col-sm-2 col-form-label"><strong>G</strong></label>
 
                         <div class="col-sm-9">
-                            <textarea name="g" class="form-control" rows="2"<?= $ro ?>><?= val('g', $existing_data) ?></textarea>
-                         </div>
+                            <textarea name="g" class="form-control" rows="2" <?= $ro ?>><?= val('g', $existing_data) ?></textarea>
+                        </div>
                     </div>
-                    
-                 <!-- Bagian P -->
+
+                    <!-- Bagian P -->
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>P</strong></label>
 
                         <div class="col-sm-9">
-                            <textarea name="p" class="form-control" rows="2"<?= $ro ?>><?= val('p', $existing_data) ?>></textarea>
-                         </div>
-                    </div>   
-                    
-                 <!-- Bagian A -->
+                            <textarea name="p" class="form-control" rows="2" <?= $ro ?>><?= val('p', $existing_data) ?></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Bagian A -->
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>A</strong></label>
 
                         <div class="col-sm-9">
-                            <textarea name="a" class="form-control" rows="2"<?= $ro ?>><?= val('a', $existing_data) ?>></textarea>
-                         </div>
-                    </div>  
-                    
-             <!-- Usia Kehamilan -->
+                            <textarea name="a" class="form-control" rows="2" <?= $ro ?>><?= val('a', $existing_data) ?></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Usia Kehamilan -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Usia Kehamilan</strong></label>
 
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="usiakehamilan"value="<?= val('usia_kehamilan', $existing_data) ?>" <?= $ro ?>>
-                         </div>
-                    </div> 
-                    
-             <!-- Tapsiran Partus -->
+                            <input type="text" class="form-control" name="usiakehamilan" value="<?= val('usia_kehamilan', $existing_data) ?>" <?= $ro ?>>
+                        </div>
+                    </div>
+
+                    <!-- Tapsiran Partus -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Tapsiran Partus</strong></label>
 
                         <div class="col-sm-9">
                             <textarea name="tapsiranpartus" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('tapsiran_partus', $existing_data) ?></textarea></textarea>
-                         </div>
-                    </div>  
-                    
-             <!-- Riwayat Imunisasi TT (Saat Ini) -->
+                                <?= $ro ?>><?= val('tapsiran_partus', $existing_data) ?></textarea></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Riwayat Imunisasi TT (Saat Ini) -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Riwayat Imunisasi TT (Saat Ini)</strong></label>
 
                         <div class="col-sm-9">
                             <textarea name="riwayatimunisasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('riwayati_munisasi', $existing_data) ?></textarea>
-                         </div>
-                    </div> 
-                    
-             <!-- Riwayat Kehamilan Saat Ini -->
+                                <?= $ro ?>><?= val('riwayati_munisasi', $existing_data) ?></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Riwayat Kehamilan Saat Ini -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Riwayat Kehamilan Saat Ini</strong></label>
 
                         <div class="col-sm-9">
                             <textarea name="riwayatkehamilan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('riwayat_kehamilan', $existing_data) ?></textarea>
+                                <?= $ro ?>><?= val('riwayat_kehamilan', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
-                    
-             <!-- Riwayat Penyakit Ibu dan Keluarga -->
+                        </div>
+                    </div>
+
+                    <!-- Riwayat Penyakit Ibu dan Keluarga -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Riwayat Penyakit Ibu dan Keluarga</strong></label>
 
                         <div class="col-sm-9">
                             <textarea name="riwayatpenyakit" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('riwayat_penyakit', $existing_data) ?></textarea>
-                         </div>
+                                <?= $ro ?>><?= val('riwayat_penyakit', $existing_data) ?></textarea>
+                        </div>
                     </div>
-                 </div>
-            </div> 
-            
-          <div class="card">
+            </div>
+        </div>
+
+        <div class="card">
             <div class="card-body">
 
                 <div class="row mb-2">
-                        <label class="col-sm-8 col-form-label text-primary">
-                            <strong>b. Pemeriksaan Antropometri</strong>
-                    </div>
+                    <label class="col-sm-8 col-form-label text-primary">
+                        <strong>b. Pemeriksaan Antropometri</strong>
+                </div>
 
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-                
                 <!-- TB -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>TB</strong></label>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>TB</strong></label>
 
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="tb"value="<?= val('tb', $existing_data) ?>" <?= $ro ?>>
-                         </div>
-                    </div> 
-                
-                <!-- BB -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>BB</strong></label>
-
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="bb"value="<?= val('bb', $existing_data) ?>" <?= $ro ?>>
-                         </div>
-                    </div> 
-                    
-                <!-- LILA -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>LILA</strong></label>
-
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="lila"value="<?= val('lila', $existing_data) ?>" <?= $ro ?>>
-                         </div>
-                    </div> 
-</div>
-</div>  
-           <!-- TOMBOL SUBMIT -->
-                    <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-11 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="tb" value="<?= val('tb', $existing_data) ?>" <?= $ro ?>>
                     </div>
-                    <?php endif; ?>
-                </form>
+                </div>
+
+                <!-- BB -->
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>BB</strong></label>
+
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="bb" value="<?= val('bb', $existing_data) ?>" <?= $ro ?>>
+                    </div>
+                </div>
+
+                <!-- LILA -->
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>LILA</strong></label>
+
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="lila" value="<?= val('lila', $existing_data) ?>" <?= $ro ?>>
+                    </div>
+                </div>
             </div>
+        </div>
+        <!-- TOMBOL SUBMIT -->
+        <?php if (!$is_dosen): ?>
+            <div class="row mb-3">
+                <div class="col-sm-11 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        <?php endif; ?>
+        </form>
+        </div>
         </div>
 
         <!-- ================================ -->

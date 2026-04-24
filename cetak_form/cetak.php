@@ -6,6 +6,7 @@ require_once __DIR__ . '/../libs/dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
+
 $submission_id = $_GET['submission_id'] ?? null;
 
 if (!$submission_id) {
@@ -52,8 +53,8 @@ switch ($form_name) {
     case 'pengkajian_antenatal_care':
         include 'template_pdf_anc.php';
         break;
-    case 'pengkajian_postpartum':
-         include 'template_pdf_postpartum.php';
+    case 'pengkajian_pascapartum':
+         include 'template_pdf_pascapartum.php';
          break;
     case 'pengkajian_ginekologi':
         include 'template_pdf_ginekologi.php'; // Template untuk ginekologi
@@ -64,7 +65,9 @@ switch ($form_name) {
     case 'poli_jiwa':
         include 'template_pdf_poli_jiwa.php'; // Template untuk inranatal
         break;
-
+    case 'resume_antenatal_care':
+        include 'template_pdf_resume_anc.php';
+        break;
     default:
         include 'template_pdf_postpartum.php';
         break;
