@@ -1,9 +1,13 @@
 <?php
 
 $tabs = [
-    "format_resume_keperawatan",
-    "format_laporan_pendahuluan_imunisasi",
-    "format_laporan_poli",
+    "format_resume",
+    "analisa_resume",
+    "lainnya_resume",
+    "lp_imunisasi",
+    "poli_imunisasi",
+    "analisa_poli",
+    "lainnya_poli"
 ];
 
 $currentTab = $_GET['tab'] ?? 'format_resume_keperawatan';
