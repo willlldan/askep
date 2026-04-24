@@ -61,6 +61,10 @@ switch ($form_name) {
          include 'template_pdf_ruang_ok.php';
          break;
 
+    case 'format_resume':
+         include 'template_pdf_format_resume.php';
+         break;     
+
     default:
         include 'template_pdf_postpartum.php';
         break;
