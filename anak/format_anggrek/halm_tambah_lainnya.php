@@ -3,7 +3,7 @@
 require_once "koneksi.php";
 require_once "utils.php";
 
-$form_id       = 17;
+$form_id       = 8;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
 $section_name  = 'catatan_keperawatan';
@@ -195,13 +195,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <main id="main" class="main">
 
-                 <?php include "kmb/format_hd_kmb/tab.php"; ?>
-
+        <?php include "anak/format_anggrek/tab.php"; ?>
 
     <section class="section dashboard">
 
-        
-        
+        <!-- NOTIFIKASI -->
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success"><?= $_SESSION['success'];
+                                                unset($_SESSION['success']); ?></div>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger"><?= $_SESSION['error'];
+                                            unset($_SESSION['error']); ?></div>
+        <?php endif; ?>
+
         <div class="card">
             <div class="card-body">
                 <!-- Info status section (untuk dosen) -->

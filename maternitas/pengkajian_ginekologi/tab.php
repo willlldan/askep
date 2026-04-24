@@ -103,7 +103,7 @@ $titles = [
     </li> -->
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? 'riwayat') == 'terapi_lab' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_ginekologi&tab=terapi_lab <?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+        href="?page=maternitas/pengkajian_ginekologi&tab=terapi_lab<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Terapi Lab
         </a>
 </li>

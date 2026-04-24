@@ -67,6 +67,9 @@ switch ($form_name) {
     case 'pengkajian_inranatal_care':
         include 'template_pdf_inranatal_care.php'; // Template untuk inranatal
         break;
+    case 'poli_jiwa':
+        include 'template_pdf_poli_jiwa.php'; // Template untuk inranatal
+        break;
     case 'resume_antenatal_care':
         include 'template_pdf_resume_anc.php';
         break;
