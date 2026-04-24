@@ -56,6 +56,11 @@ switch ($form_name) {
     case 'pengkajian_pascapartum':
          include 'template_pdf_pascapartum.php';
          break;
+
+    case 'pengkajian_ruang_ok':
+         include 'template_pdf_ruang_ok.php';
+         break;
+
     case 'pengkajian_ginekologi':
         include 'template_pdf_ginekologi.php'; // Template untuk ginekologi
         break;

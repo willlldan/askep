@@ -614,20 +614,8 @@ if (isset($_SESSION['id_user'])) {
                         include "kmb/pengkajian_ruang_ok/halm_tambah_analisa.php";
                         break;
 
-                    case 'diagnosa':
-                        include "kmb/pengkajian_ruang_ok/halm_tambah_diagnosa.php";
-                        break;
-
-                    case 'rencana':
-                        include "kmb/pengkajian_ruang_ok/halm_tambah_rencana.php";
-                        break;
-
-                    case 'implementasi':
-                        include "kmb/pengkajian_ruang_ok/halm_tambah_implementasi.php";
-                        break;
-
-                    case 'evaluasi':
-                        include "kmb/pengkajian_ruang_ok/halm_tambah_evaluasi.php";
+                    case 'lainnya':
+                        include "kmb/pengkajian_ruang_ok/halm_tambah_lainnya.php";
                         break;
 
                     default:
@@ -775,20 +763,20 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'anak/format_resume':
 
-                $tab = $tab ?: 'format_resume_keperawatan';
+                $tab = $tab ?: 'resume_keperawatan';
 
                 switch ($tab) {
 
-                    case 'format_resume_keperawatan':
+                    case 'resume_keperawatan':
                         include "anak/format_resume/halm_tambah_format_resume_keperawatan.php";
                         break;
 
-                    case 'format_laporan_poli':
-                        include "anak/format_resume/halm_tambah_format_laporan_poli.php";
+                    case 'lp_imunisasi':
+                        include "anak/format_resume/halm_tambah_format_laporan_pendahuluan_imunisasi.php";
                         break;
 
-                    case 'format_laporan_pendahuluan_imunisasi':
-                        include "anak/format_resume/halm_tambah_format_laporan_imunisasi.php";
+                    case 'poli_imunisasi':
+                        include "anak/format_resume/halm_tambah_format_laporan_poli.php";
                         break;
 
                     default:
