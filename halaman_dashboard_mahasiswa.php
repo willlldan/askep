@@ -71,9 +71,17 @@ while ($row = $result->fetch_assoc()) {
                                             ?>
                                         </td>
                                         <td class="text-center">
-                                        <?php
-                                        // Periksa apakah 'department' ada di dalam array
-                                        $department = isset($form['department']) ? $form['department'] : 'default'; // 'default' adalah nilai cadangan
+                                            <?php
+                                            $url = "index.php?page=" . strtolower($form['department']) . "/{$form['slug']}&tab={$form['first_section']}";
+                                            if ($form['submission_id']) {
+                                                $url .= "&submission_id={$form['submission_id']}";
+                                            }
+                                            $isApproved = $form['status'] === 'approved';
+                                            ?>
+                                            <a href="<?= $url ?>" class="btn btn-sm <?= $isApproved ? 'btn-success' : 'btn-primary' ?>">
+                                                <i class="<?= $isApproved ? 'ri-eye-line' : 'ri-edit-line' ?> me-1"></i>
+                                                <?= $isApproved ? 'Lihat' : 'Isi Form' ?>
+                                            </a>
 
                                         $url = "index.php?page={$department}/{$form['slug']}&tab={$form['first_section']}";
                                         if ($form['submission_id']) {

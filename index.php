@@ -508,14 +508,6 @@ if (isset($_SESSION['id_user'])) {
 
                 switch ($tab) {
 
-                    case 'askep':
-                        include "kmb/format_kmb/halm_tambah_format_askep.php";
-                        break;
-
-                    case 'klasifikasi_data':
-                        include "kmb/format_kmb/halm_tambah_klasifikasi_data.php";
-                        break;
-
                     case 'analisa_data':
                         include "kmb/format_kmb/halm_tambah_analisa_data.php";
                         break;
@@ -536,8 +528,35 @@ if (isset($_SESSION['id_user'])) {
                         include "kmb/format_kmb/halm_tambah_evaluasi.php";
                         break;
 
+                    /* New */
+                    case 'konsep_keperawatan':
+                        include "kmb/format_kmb/halm_konsep_keperawatan.php";
+                        break;
+
+                    case 'pengkajian':
+                        include "kmb/format_kmb/halm_tambah_pengkajian.php";
+                        break;
+
+                    case 'pengkajian_gordon':
+                        include "kmb/format_kmb/halm_tambah_pengkajian_gordon.php";
+                        break;
+                    
+                    case 'data_biologis':
+                        include "kmb/format_kmb/halm_data_biologis.php";
+                        break;
+                    case 'data_biologis_1':
+                        include "kmb/format_kmb/halm_data_biologis_1.php";
+                        break;
+                    case 'klasifikasi_analisa_data':
+                        include "kmb/format_kmb/halm_klasifikasi_analisa_data.php";
+                        break;
+                    
+                    case 'lainnya':
+                        include "kmb/format_kmb/halm_tambah_lainnya.php";
+                        break;
+
                     default:
-                        include "kmb/format_kmb/halm_tambah_format_askep.php";
+                        include "kmb/format_kmb/halm_konsep_keperawatan.php";
                 }
 
                 break;
