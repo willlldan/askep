@@ -3,10 +3,10 @@ require_once "koneksi.php";
 require_once "utils.php";
 
 
-$form_id       = 19;
+$form_id       = 8;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'analisa';
+$section_name  = 'analisa_data';
 $section_label = 'Analisa Data';
 
 // =============================================
@@ -131,7 +131,8 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <main id="main" class="main">
 
-    <?php include "kmb/pengkajian_ruang_ok/tab.php"; ?>
+        <?php include "anak/format_anggrek/tab.php"; ?>
+
 
     <section class="section dashboard">
 
@@ -334,9 +335,6 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         Section ini sudah di-approve.
                     </div>
                 <?php endif; ?>
-
-                <?php include "tab_navigasi.php"; ?>
-
             </div>
         </div>
 

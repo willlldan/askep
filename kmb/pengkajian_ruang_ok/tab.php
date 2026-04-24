@@ -10,7 +10,6 @@ $titles = [
 ];
 ?>
 
-
 <div class="card">
     <div class="card-body">
         <div class="row mb-3 mt-3   ">
@@ -59,59 +58,34 @@ $titles = [
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lp_ruangok' ? 'active' : '' ?>"
-        href="index.php?page=kmb/pengkajian_ruang_ok&tab=lp_ruangok">
+        href="index.php?page=kmb/pengkajian_ruang_ok&tab=lp_ruangok<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Format Laporan Pendahuluan Ruang Ok</a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'ruang_operasi' ? 'active' : '' ?>"
-        href="index.php?page=kmb/pengkajian_ruang_ok&tab=ruang_operasi">
+        href="index.php?page=kmb/pengkajian_ruang_ok&tab=ruang_operasi<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Laporan Ruang Operasi
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'resume' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=resume">
-        Format Resume Ruang Ok
+       href="index.php?page=kmb/pengkajian_ruang_ok&tab=resume<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+        Format Resume Ruang OK
         </a>
     </li>
    
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=analisa">
+       href="index.php?page=kmb/pengkajian_ruang_ok&tab=analisa<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Analisa Data        </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=lainnya">
-        Lainnya        </a>
+       href="index.php?page=kmb/pengkajian_ruang_ok&tab=lainnya<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+        Lainnya</a>
     </li>
-    <!-- <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=diagnosa">
-        Diagnosa Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'rencana' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=rencana">
-        Rencana Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=implementasi">
-        Implementasi Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=evaluasi">
-        Evaluasi Keperawatan
-        </a>
-    </li> -->
-
-
+   
     </ul>
 
 <style>

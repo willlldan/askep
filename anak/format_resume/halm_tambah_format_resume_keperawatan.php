@@ -2,252 +2,181 @@
 require_once "koneksi.php";
 require_once "utils.php";
 
-if (isset($_POST['submit'])) {
-    $no_dokumen = $_POST['no_dokumen']; 
-    $status_dokumen = $_POST['status_dokumen'];
-    $tgl_keluar_dok = $_POST['tgl_keluar_dok'];
-    $perihal = $_POST['perihal'];
-    $tujuan = $_POST['tujuan'];
-    $label_arsip = $_POST['label_arsip'];
-    $rak_arsip = $_POST['rak_arsip'];    
-    $tgl_pinjam = $_POST['tgl_pinjam'];
-    $peminjaman = $_POST['peminjaman'];
-    $tgl_kembali = $_POST['tgl_kembali'];
-    $keterangan = $_POST['keterangan'];
-    $file_name = "";
+$form_id       = 10;
+$level         = $_SESSION['level'];
+$user_id       = $_SESSION['id_user'];
+$section_name  = 'resume_keperawatan';
+$section_label = 'Format Resume Keperawatan Poli Anak';
 
-    if (isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])) {
-        $target_dir = "maternitas/uploads/";
-        $file_name = date("YmdHis_") . basename($_FILES["file"]["name"]);
-        $target_file = $target_dir . $file_name;
-        $uploadOk = 1;
-        $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        // Lakukan validasi ukuran dan tipe file jika perlu
-        // ...
-
-        if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-            echo "Data maternitas berhasil ditambah.";
-        } else {
-            echo "Terjadi kesalahan saat melakukan tambah data maternitas.";
-        }
+// =============================================
+// DOSEN: ambil submission berdasarkan ?submission_id=
+// MAHASISWA: ambil submission milik sendiri
+// =============================================
+if ($level === 'Dosen') {
+    $submission_id_param = $_GET['submission_id'] ?? null;
+    if (!$submission_id_param) {
+        echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
+        exit;
     }
-
-    $sql = "INSERT INTO tbl_dok_keluar (
-            no_dokumen,                        
-            status_dokumen,       
-            tgl_keluar_dok,             
-            perihal,
-            tujuan,
-            label_arsip,      
-            rak_arsip,          
-            tgl_pinjam,
-            peminjaman,
-            tgl_kembali,
-            keterangan,
-            file 
-                    
-            ) VALUES (
-            '$no_dokumen',             
-            '$status_dokumen',   
-            '$tgl_keluar_dok',           
-            '$perihal',
-            '$tujuan',
-            '$label_arsip',
-            '$rak_arsip',            
-            '$tgl_pinjam',
-            '$peminjaman',
-            '$tgl_kembali',
-            '$keterangan',
-            '$file_name'
-            )";  
-                
-    if ($mysqli->query($sql) === TRUE) {
-        echo "<script>alert('Dokumen Keluar berhasil ditambah.')</script>";
-    } else {
-        echo "Error: " . $sql . "<br>" . $mysqli->error;
-    }
+    $stmt = $mysqli->prepare("
+        SELECT s.*, r.nama as dosen_name
+        FROM submissions s
+        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
+        WHERE s.id = ?
+    ");
+    $stmt->bind_param("i", $submission_id_param);
+    $stmt->execute();
+    $submission = $stmt->get_result()->fetch_assoc();
+} else {
+    $submission = getSubmission($user_id, $form_id, $mysqli);
 }
 
+$existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
+$section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
+$tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
+$rs_ruangan     = $submission['rs_ruangan'] ?? '';
+
+// =============================================
+// HANDLE POST - MAHASISWA SIMPAN DATA
+// =============================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
+
+    if (isLocked($submission)) {
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
+    }
+
+    $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
+    $rs_ruangan     = $_POST['rsruangan'] ?? '';
+
+    $data = [
+        'pengertian_kamar_operasi'  => $_POST['pengertian_kamar_operasi'] ?? '',
+        'ruang_kamar_operasi'       => $_POST['ruang_kamar_operasi'] ?? '',
+        'kamar_operasi'             => $_POST['kamar_operasi'] ?? '',
+        'persyaratan'               => $_POST['persyaratan'] ?? '',
+        'tata_cara'                 => $_POST['tata_cara'] ?? '',
+        'denah'                     => $_POST['denah'] ?? '',
+        'daftar_pustaka'            => $_POST['daftar_pustaka'] ?? '',
+    ];
+
+    if (!$submission) {
+        $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+    } else {
+        $submission_id = $submission['id'];
+        updateSubmissionHeader($submission_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+    }
+
+
+    saveSection($submission_id, $section_name, $section_label, $data, $mysqli);
+    updateSubmissionStatus($submission_id, $form_id, $mysqli);
+    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
+}
+
+// =============================================
+// HANDLE POST - DOSEN APPROVE / REVISI / KOMENTAR
+// =============================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
+    $submission_id = $submission['id'];
+    $dosen_id      = $user_id;
+    $action        = $_POST['action'] ?? '';
+    $comment       = $_POST['comment'] ?? '';
+
+    if ($action === 'approve') {
+        updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
+        if (!empty($comment)) {
+            saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
+        }
+    } elseif ($action === 'revision') {
+        if (empty($comment)) {
+            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
+        }
+        updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
+        saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
+    }
+
+    updateReviewer($submission_id, $dosen_id, $mysqli);
+    updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
+    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
+}
+
+// Load komentar section (untuk dosen & mahasiswa)
+$comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
+
+// Readonly jika mahasiswa + locked, atau jika dosen
+$is_dosen    = $level === 'Dosen';
+$is_readonly = $is_dosen || isLocked($submission);
+$ro          = $is_readonly ? 'readonly' : '';
+$ro_select   = $is_readonly ? 'disabled' : '';
 ?>
 
 <main id="main" class="main">
 
-    <!-- Card Identitas -->
-<div class="card">
+    <?php include "anak/format_resume/tab.php"; ?>
+
+    <section class="section dashboard">
+
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success"><?= $_SESSION['success'];
+                                                unset($_SESSION['success']); ?></div>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger"><?= $_SESSION['error'];
+                                            unset($_SESSION['error']); ?></div>
+        <?php endif; ?>
+
+        <!-- Info status section (untuk dosen) -->
+        <?php if  ($section_status): ?>
+            <?php
+            $badge = [
+                'draft'     => 'secondary',
+                'submitted' => 'primary',
+                'revision'  => 'warning',
+                'approved'  => 'success',
+            ];
+            ?>
+
+             <div class="alert alert-<?= $badge[$section_status] ?>">
+                Status: <strong><?= ucfirst($section_status) ?></strong>
+                    | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>       
+            </div>
+        <?php endif; ?>
+        <div class="card mt-3">
             <div class="card-body">
-    <h5 class="card-title"><strong>DATA MAHASISWA</strong></h5>
+                <form class="needs-validation" novalidate action="" method="POST">
 
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-                
-                <!-- Bagian Nama Mahasiswa -->
-                <div class="row mb-3">
-                    <label for="namamahasiswa" class="col-sm-2 col-form-label"><strong>Nama Mahasiswa</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="namamahasiswa" required>
-                        <div class="invalid-feedback">
-                            Harap isi Nama Mahasiswa.
+                    <div class="row mb-3 mt-3">
+                        <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" name="tglpengkajian"
+                                value="<?= htmlspecialchars($tgl_pengkajian) ?>" <?= $ro ?> required>
                         </div>
                     </div>
-                </div>
 
-                <!-- Bagian NPM -->
-                <div class="row mb-3">
-                    <label for="npm" class="col-sm-2 col-form-label"><strong>NPM</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="npm" required>
-                        <div class="invalid-feedback">
-                            Harap isi NPM.
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>RS/Ruangan</strong></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="rsruangan"
+                                value="<?= htmlspecialchars($rs_ruangan) ?>" <?= $ro ?> required>
                         </div>
                     </div>
-                </div>
 
-                <!-- Bagian Tanggal Pengkajian -->
-                <div class="row mb-3">
-                    <label for="tglpengkajian" class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
-                    <div class="col-sm-9">
-                        <input type="datetime-local" class="form-control" id="tglpengkajian" name="tglpengkajian" required>
-                        <div class="invalid-feedback">
-                            Harap isi Tanggal Pengkajian.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Bagian RS/Ruangan -->
-                <div class="row mb-3">
-                    <label for="rsruangan" class="col-sm-2 col-form-label"><strong>RS/Ruangan</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="rsruangan" required>
-                        <div class="invalid-feedback">
-                            Harap isi RS/Ruangan.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Jenis Maternitas -->
-
-               <?php
-                    $jenisAnak = $_GET['jenisAnak'] ?? 'poli_anak';
-                   
-                ?>
-
-                <div class="row mb-3">
-    <label for="jenisAnak" class="col-sm-2 col-form-label"><strong>Anak</strong></label>
-    <div class="col-sm-9">
-
-        <select class="form-select" name="jenisAnak"
-        onchange="window.location=this.value" required>
-
-        <option value="">Pilih</option>
-
-        <option value="index.php?page=anak/format_anggrek&tab=format_laporan_pendahuluan&jenisAnak=anggrek"
-        <?= $jenisAnak == 'anggrek' ? 'selected' : '' ?>>
-        Format Anggrek B
-        </option>
-
-        <option value="index.php?page=anak/format_aster&tab=format_laporan_pendahuluan&jenisAnak=aster"
-        <?= $jenisAnak == 'aster' ? 'selected' : '' ?>>
-        Format Aster
-        </option>
-
-        <option value="index.php?page=anak/format_resume&tab=format_laporan_pendahuluan&jenisAnak=poli_anak"
-        <?= $jenisAnak == 'poli_anak' ? 'selected' : '' ?>>
-        Format Resume Keperawatan Poli Anak
-        </option>
-
-        </select>
-
-        <div class="invalid-feedback">
-            Harap isi Jenis Anak.
-        </div>
-
-    </div>
-</div>
-
-             </div>
-    </div>
-    <!-- Card Identitas -->
-
-    <div class="pagetitle">
-        <h1><strong>Format Resume Keperawatan Anak di Puskesmas</strong></h1>
-    </div><!-- End Page Title -->
-    <br>
-<ul class="nav nav-tabs custom-tabs">
-
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? 'resume_keperawatan') == 'resume_keperawatan' ? 'active' : '' ?>"
-    href="index.php?page=anak/format_resume&tab=resume_keperawatan">
-Format Resume Keperawatan Poli Anak    </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? 'lp_imunisasi') == 'lp_imunisasi' ? 'active' : '' ?>"
-    href="index.php?page=anak/format_resume&tab=lp_imunisasi">
-Format Laporan Pendahuluan Imunisasi   </a>
-</li>
-<li class="nav-item">
-    <a class="nav-link <?= ($_GET['tab'] ?? 'poli_imunisasi') == 'poli_imunisasi' ? 'active' : '' ?>"
-    href="index.php?page=anak/format_resume&tab=poli_imunisasi">
-Format Laporan  Poli Imunisasi   </a>
-</li>
-</ul>
-
-
-    <style>
-    .custom-tabs {
-        border-bottom: 1px solid #dee2e6;
-    }
-
-    .custom-tabs .nav-link {
-        border: none;
-        background: transparent;
-        color: #f6f9ff;
-        font-weight: 500;
-        padding: 10px 20px;
-    }
-
-    .custom-tabs .nav-link:hover {
-        color: #4154f1;
-    }
-
-    .custom-tabs .nav-link.active {
-        border: none;
-        border-bottom: 3px solid #4154f1;
-        color: #4154f1;
-        font-weight: 600;
-        background: transparent;
-    }
-    </style>
-
-        <section class="section dashboard">
-       
-<div class="card">
-             <div class="card-body">
                                 
         <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-            <h5 class="card-title"><strong>Format Laporan  Poli Imunisasi</strong></h5>
+            <h5 class="card-title"><strong>Format Resume Keperawatan Poli Anak</strong></h5>
 
-            <!-- 1. Biodata Klien -->
-         
-        <form class="needs-validation" novalidate action="" method="POST">
 
            <!-- 1. Biodata Klien -->
-<div class="row mb-2">
-    <label class="col-sm-12 text-primary"><strong>1. Biodata Klien</strong></label>
-</div>
+            <div class="row mb-2">
+                <label class="col-sm-12 text-primary"><strong>1. Biodata Klien</strong></label>
+            </div>
 
-<!-- Nama Anak -->
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Nama Anak :</strong></label>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="nama_anak">
-        <textarea class="form-control mt-2" rows="2" placeholder="Kolom ini menampilkan revisi dari dosen. Jika ada revisi, tetap semangat mengerjakannya!" readonly></textarea>
-    </div>
-    <div class="col-sm-1 d-flex align-items-start">
-        <div class="form-check"><input class="form-check-input" type="checkbox"></div>
-    </div>
-</div>
+            <!-- Nama Anak -->
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label"><strong>Nama Anak</strong></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="nama_anak"
+                    value="<?= val('nama_anak', $existing_data) ?>" <?= $ro ?>></div>
+            </div>
 
 <!-- Jenis Kelamin -->
 <div class="row mb-3">

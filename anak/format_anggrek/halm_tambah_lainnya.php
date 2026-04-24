@@ -3,11 +3,11 @@
 require_once "koneksi.php";
 require_once "utils.php";
 
-$form_id       = 19;
+$form_id       = 8;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'lainnya';
-$section_label = 'Lainnya';
+$section_name  = 'catatan_keperawatan';
+$section_label = 'Catatan Keperawatan';
 
 // Ambil submission sesuai role
 if ($level === 'Dosen') {
@@ -195,13 +195,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <main id="main" class="main">
 
-                 <?php include "kmb/pengkajian_ruang_ok/tab.php"; ?>
-
+        <?php include "anak/format_anggrek/tab.php"; ?>
 
     <section class="section dashboard">
 
-        
-        
+        <!-- NOTIFIKASI -->
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success"><?= $_SESSION['success'];
+                                                unset($_SESSION['success']); ?></div>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger"><?= $_SESSION['error'];
+                                            unset($_SESSION['error']); ?></div>
+        <?php endif; ?>
+
         <div class="card">
             <div class="card-body">
                 <!-- Info status section (untuk dosen) -->
@@ -220,7 +227,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 <?php endif; ?>
 
-                <h5 class="card-title"><strong>Catatan Keperawatan</strong></h5>
+                <h5 class="card-title"><strong>Catatan KEPERAWATAN</strong></h5>
 
                 <form class="needs-validation" novalidate action="" method="POST">
 
@@ -282,7 +289,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <table class="table table-bordered" id="tabel-implementasi">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width:150px">No. Dx</th>
+                                <th class="text-center" style="width:70px">No. Dx</th>
                                 <th class="text-center" style="width:150px">Hari/Tanggal</th>
                                 <th class="text-center" style="width:110px">Jam</th>
                                 <th class="text-center">Implementasi</th>
@@ -308,7 +315,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <table class="table table-bordered" id="tabel-evaluasi">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width:150px">No. Dx</th>
+                                <th class="text-center" style="width:70px">No. Dx</th>
                                 <th class="text-center" style="width:150px">Hari/Tanggal</th>
                                 <th class="text-center" style="width:110px">Jam</th>
                                 <th class="text-center">Evaluasi (SOAP)</th>
@@ -336,7 +343,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         </div>
                     <?php endif; ?>
-                    
 
                     <script>
                         let rowDiagnosaCount = 1;
@@ -616,7 +622,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         const existingData = <?= json_encode($existing_data) ?>;
                     </script>
 
-                  
 
                 </form>
 
@@ -666,13 +671,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 Section ini sudah di-approve.
                             </div>
                         <?php endif; ?>
-
-                         <?php include "tab_navigasi.php"; ?>
-                         
                     </div>
                 </div>
 
-               
+                <?php include "tab_navigasi.php"; ?>
 
             </div>
         </div>

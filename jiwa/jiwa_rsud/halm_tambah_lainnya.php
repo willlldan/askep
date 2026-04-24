@@ -3,11 +3,11 @@
 require_once "koneksi.php";
 require_once "utils.php";
 
-$form_id       = 19;
+$form_id       = 14;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
 $section_name  = 'lainnya';
-$section_label = 'Lainnya';
+$section_label = 'lainnya';
 
 // Ambil submission sesuai role
 if ($level === 'Dosen') {
@@ -87,13 +87,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $diagnosa = [];
         if (!empty($_POST['diagnosa'])) {
             foreach ($_POST['diagnosa'] as $index => $row) {
-                if (empty($row['diagnosa']) && empty($row['tgl_ditemukan']) && empty($row['tgl_teratasi'])) {
+                if (empty($row['diagnosa'])) {
                     continue;
                 }
                 $diagnosa[] = [
                     'diagnosa'      => $row['diagnosa']      ?? '',
-                    'tgl_ditemukan' => $row['tgl_ditemukan'] ?? '',
-                    'tgl_teratasi'  => $row['tgl_teratasi']  ?? '',
+
                 ];
             }
         }
@@ -102,12 +101,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $intervensi = [];
         if (!empty($_POST['intervensi'])) {
             foreach ($_POST['intervensi'] as $index => $row) {
-                if (empty($row['diagnosa']) && empty($row['tujuan_kriteria']) && empty($row['intervensi'])) {
+                if (empty($row['diagnosa']) && empty($row['tujuan']) && empty($row['intervensi'])) {
                     continue;
                 }
                 $intervensi[] = [
                     'diagnosa'        => $row['diagnosa']        ?? '',
-                    'tujuan_kriteria' => $row['tujuan_kriteria'] ?? '',
+                    'tujuan' => $row['tujuan'] ?? '',
+                    'kriteria' => $row['kriteria'] ?? '',
                     'intervensi'      => $row['intervensi']      ?? '',
                 ];
             }
@@ -117,29 +117,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $implementasi = [];
         if (!empty($_POST['implementasi'])) {
             foreach ($_POST['implementasi'] as $index => $row) {
-                if (empty($row['no_dx']) && empty($row['hari_tgl']) && empty($row['implementasi'])) {
+                if (empty($row['hari_tgl']) && empty($row['implementasi']) && empty($row['diagnosa'])) {
                     continue;
                 }
                 $implementasi[] = [
-                    'no_dx'        => $row['no_dx']        ?? '',
-                    'hari_tgl'     => $row['hari_tgl']      ?? '',
-                    'jam'          => $row['jam']            ?? '',
-                    'implementasi' => $row['implementasi']  ?? '',
-                ];
-            }
-        }
-
-        // Proses dynamic rows evaluasi
-        $evaluasi = [];
-        if (!empty($_POST['evaluasi'])) {
-            foreach ($_POST['evaluasi'] as $index => $row) {
-                if (empty($row['no_dx']) && empty($row['hari_tgl']) && empty($row['evaluasi_s'])) {
-                    continue;
-                }
-                $evaluasi[] = [
-                    'no_dx'      => $row['no_dx']      ?? '',
-                    'hari_tgl'   => $row['hari_tgl']   ?? '',
-                    'jam'        => $row['jam']         ?? '',
+                    'hari_tgl'        => $row['hari_tgl']        ?? '',
+                    'implementasi'     => $row['implementasi']      ?? '',
+                    'diagnosa'          => $row['diagnosa']            ?? '',
                     'evaluasi_s' => $row['evaluasi_s']  ?? '',
                     'evaluasi_o' => $row['evaluasi_o']  ?? '',
                     'evaluasi_a' => $row['evaluasi_a']  ?? '',
@@ -148,11 +132,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
+        
+
         $data = [
             'diagnosa'     => $diagnosa,
             'intervensi'   => $intervensi,
             'implementasi' => $implementasi,
-            'evaluasi'     => $evaluasi,
+            
         ];
 
         if (!$submission) {
@@ -195,13 +181,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <main id="main" class="main">
 
-                 <?php include "kmb/pengkajian_ruang_ok/tab.php"; ?>
-
+    <?php include "jiwa/jiwa_rsud/tab.php"; ?>
 
     <section class="section dashboard">
 
-        
-        
+        <!-- NOTIFIKASI -->
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success"><?= $_SESSION['success'];
+                                                unset($_SESSION['success']); ?></div>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="alert alert-danger"><?= $_SESSION['error'];
+                                            unset($_SESSION['error']); ?></div>
+        <?php endif; ?>
+
         <div class="card">
             <div class="card-body">
                 <!-- Info status section (untuk dosen) -->
@@ -220,7 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 <?php endif; ?>
 
-                <h5 class="card-title"><strong>Catatan Keperawatan</strong></h5>
+                <h5 class="card-title"><strong>Catatan KEPERAWATAN</strong></h5>
 
                 <form class="needs-validation" novalidate action="" method="POST">
 
@@ -231,9 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Diagnosa</th>
-                                <th class="text-center" style="width:180px">Tanggal Ditemukan</th>
-                                <th class="text-center" style="width:180px">Tanggal Teratasi</th>
+                                <th class="text-center">Diagnosa Keperawatan</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
                         </thead>
@@ -257,8 +248,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Diagnosa</th>
-                                <th class="text-center">Tujuan dan Kriteria Hasil</th>
+                                <th class="text-center">Diagnosa Keperawatan</th>
+                                <th class="text-center">Tujuan</th>
+                                <th class="text-center">Kriteria Hasil </th>
                                 <th class="text-center">Intervensi</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
@@ -277,15 +269,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endif; ?>
 
                     <!-- ===================== TABEL IMPLEMENTASI ===================== -->
-                    <p class="text-primary fw-bold mb-2">Implementasi Keperawatan</p>
+                    <p class="text-primary fw-bold mb-2">Implementasi  dan Evaluasi</p>
 
                     <table class="table table-bordered" id="tabel-implementasi">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width:150px">No. Dx</th>
-                                <th class="text-center" style="width:150px">Hari/Tanggal</th>
-                                <th class="text-center" style="width:110px">Jam</th>
+                                 <th class="text-center" style="width:40px">No</th>
+                                <th class="text-center" style="width:150px">Hari/Tanggal/Jam</th>
+                                <th class="text-center" style="width:110px">Diagnosa Keperawatan</th>
                                 <th class="text-center">Implementasi</th>
+                                <th class="text-center">Evaluasi (SOAP)</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
                         </thead>
@@ -302,32 +295,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     <?php endif; ?>
 
-                    <!-- ===================== TABEL EVALUASI ===================== -->
-                    <p class="text-primary fw-bold mb-2">Evaluasi Keperawatan</p>
-
-                    <table class="table table-bordered" id="tabel-evaluasi">
-                        <thead>
-                            <tr>
-                                <th class="text-center" style="width:150px">No. Dx</th>
-                                <th class="text-center" style="width:150px">Hari/Tanggal</th>
-                                <th class="text-center" style="width:110px">Jam</th>
-                                <th class="text-center">Evaluasi (SOAP)</th>
-                                <th class="text-center" style="width:60px">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-evaluasi">
-                            <!-- Dynamic rows masuk sini -->
-                        </tbody>
-                    </table>
-
-                    <?php if (!$is_readonly): ?>
-                        <div class="row mb-4">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowEvaluasi()">+ Tambah Evaluasi</button>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-
                     <!-- TOMBOL SIMPAN (hanya mahasiswa) -->
                     <?php if (!$is_dosen): ?>
                         <div class="row mb-3">
@@ -336,18 +303,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         </div>
                     <?php endif; ?>
-                    
 
                     <script>
                         let rowDiagnosaCount = 1;
                         let rowIntervensiCount = 1;
                         let rowImplementasiCount = 1;
-                        let rowEvaluasiCount = 1;
+                        
 
                         const existingDiagnosa = <?= json_encode($existing_diagnosa) ?>;
                         const existingIntervensi = <?= json_encode($existing_intervensi) ?>;
                         const existingImplementasi = <?= json_encode($existing_implementasi) ?>;
-                        const existingEvaluasi = <?= json_encode($existing_evaluasi) ?>;
+                        
 
                         // ---- DIAGNOSA ----
                         function tambahRowDiagnosa(data = null) {
@@ -367,24 +333,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         ${isReadonly ? 'readonly' : ''}
                                     >${data?.diagnosa ?? ''}</textarea>
                                 </td>
-                                <td>
-                                    <input
-                                        type="date"
-                                        class="form-control form-control-sm"
-                                        name="diagnosa[${index}][tgl_ditemukan]"
-                                        value="${data?.tgl_ditemukan ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
-                                </td>
-                                <td>
-                                    <input
-                                        type="date"
-                                        class="form-control form-control-sm"
-                                        name="diagnosa[${index}][tgl_teratasi]"
-                                        value="${data?.tgl_teratasi ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
-                                </td>
+                              
                                 <td class="text-center align-middle">
                                     ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
                                 </td>
@@ -414,12 +363,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <td>
                                     <textarea
                                         class="form-control form-control-sm"
-                                        name="intervensi[${index}][tujuan_kriteria]"
+                                        name="intervensi[${index}][tujuan]"
                                         rows="2"
                                         style="resize:none; overflow:hidden;"
                                         oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                         ${isReadonly ? 'readonly' : ''}
-                                    >${data?.tujuan_kriteria ?? ''}</textarea>
+                                    >${data?.tujuan ?? ''}</textarea>
+                                </td>
+                                <td>
+                                    <textarea
+                                        class="form-control form-control-sm"
+                                        name="intervensi[${index}][kriteria]"
+                                        rows="2"
+                                        style="resize:none; overflow:hidden;"
+                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                        ${isReadonly ? 'readonly' : ''}
+                                    >${data?.kriteria ?? ''}</textarea>
                                 </td>
                                 <td>
                                     <textarea
@@ -446,18 +405,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             const row = document.createElement('tr');
                             const isReadonly = <?= json_encode($is_readonly) ?>;
                             row.innerHTML = `
+                             <td class="text-center align-middle">${index}</td>
                                 <td>
                                     <input
-                                        type="text"
-                                        class="form-control form-control-sm"
-                                        name="implementasi[${index}][no_dx]"
-                                        value="${data?.no_dx ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
-                                </td>
-                                <td>
-                                    <input
-                                        type="date"
+                                        type="datetime-local"
                                         class="form-control form-control-sm"
                                         name="implementasi[${index}][hari_tgl]"
                                         value="${data?.hari_tgl ?? ''}"
@@ -466,13 +417,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </td>
                                 <td>
                                     <input
-                                        type="time"
+                                        type="text"
                                         class="form-control form-control-sm"
-                                        name="implementasi[${index}][jam]"
-                                        value="${data?.jam ?? ''}"
+                                        name="implementasi[${index}][diagnosa]"
+                                        value="${data?.diagnosa ?? ''}"
                                         ${isReadonly ? 'readonly' : ''}
                                     >
                                 </td>
+                              
                                 <td>
                                     <textarea
                                         class="form-control form-control-sm"
@@ -483,54 +435,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         ${isReadonly ? 'readonly' : ''}
                                     >${data?.implementasi ?? ''}</textarea>
                                 </td>
-                                <td class="text-center align-middle">
-                                    ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
-                                </td>
-                            `;
-                            tbody.appendChild(row);
-                            rowImplementasiCount++;
-                        }
-
-                        // ---- EVALUASI ----
-                        function tambahRowEvaluasi(data = null) {
-                            const tbody = document.getElementById('tbody-evaluasi');
-                            const index = rowEvaluasiCount;
-                            const row = document.createElement('tr');
-                            const isReadonly = <?= json_encode($is_readonly) ?>;
-                            row.innerHTML = `
-                                <td>
-                                    <input
-                                        type="text"
-                                        class="form-control form-control-sm"
-                                        name="evaluasi[${index}][no_dx]"
-                                        value="${data?.no_dx ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
-                                </td>
-                                <td>
-                                    <input
-                                        type="date"
-                                        class="form-control form-control-sm"
-                                        name="evaluasi[${index}][hari_tgl]"
-                                        value="${data?.hari_tgl ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
-                                </td>
-                                <td>
-                                    <input
-                                        type="time"
-                                        class="form-control form-control-sm"
-                                        name="evaluasi[${index}][jam]"
-                                        value="${data?.jam ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
-                                </td>
-                                <td>
+                                 <td>
                                 <div class="mb-1 d-flex align-items-start gap-2">
                                     <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">S</label>
                                     <textarea
                                     class="form-control form-control-sm"
-                                    name="evaluasi[${index}][evaluasi_s]"
+                                    name="implementasi[${index}][evaluasi_s]"
                                     rows="2"
                                     style="resize:none; overflow:hidden;"
                                     oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -542,7 +452,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">O</label>
                                     <textarea
                                     class="form-control form-control-sm"
-                                    name="evaluasi[${index}][evaluasi_o]"
+                                    name="implementasi[${index}][evaluasi_o]"
                                     rows="2"
                                     style="resize:none; overflow:hidden;"
                                     oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -554,7 +464,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">A</label>
                                     <textarea
                                     class="form-control form-control-sm"
-                                    name="evaluasi[${index}][evaluasi_a]"
+                                    name="implementasi[${index}][evaluasi_a]"
                                     rows="2"
                                     style="resize:none; overflow:hidden;"
                                     oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -566,7 +476,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">P</label>
                                     <textarea
                                     class="form-control form-control-sm"
-                                    name="evaluasi[${index}][evaluasi_p]"
+                                    name="implementasi[${index}][evaluasi_p]"
                                     rows="2"
                                     style="resize:none; overflow:hidden;"
                                     oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -574,13 +484,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     >${data?.evaluasi_p ?? ''}</textarea>
                                 </div>
                                 </td>
+
                                 <td class="text-center align-middle">
                                     ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
                                 </td>
                             `;
                             tbody.appendChild(row);
-                            rowEvaluasiCount++;
+                            rowImplementasiCount++;
                         }
+
+                        
 
                         function hapusRow(btn) {
                             btn.closest('tr').remove();
@@ -616,7 +529,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         const existingData = <?= json_encode($existing_data) ?>;
                     </script>
 
-                  
 
                 </form>
 
@@ -666,13 +578,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 Section ini sudah di-approve.
                             </div>
                         <?php endif; ?>
-
-                         <?php include "tab_navigasi.php"; ?>
-                         
                     </div>
                 </div>
 
-               
+                <?php include "tab_navigasi.php"; ?>
 
             </div>
         </div>

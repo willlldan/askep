@@ -23,7 +23,7 @@ $nextTab = $tabs[$index + 1] ?? null;
 <div class="d-flex justify-content-between mt-4">
 
 <?php if($prevTab): ?>
-<a href="index.php?page=kmb/format_hd_kmb&tab=<?= $prevTab ?>" class="btn btn-secondary">
+<a href="index.php?page=kmb/format_hd_kmb&tab=<?= $prevTab ?><?php if ($submission_id) echo '&submission_id=' . $submission_id; ?>" class="btn btn-secondary">
 Sebelumnya
 </a>
 <?php else: ?>
@@ -31,7 +31,7 @@ Sebelumnya
 <?php endif; ?>
 
 <?php if($nextTab): ?>
-<a href="index.php?page=kmb/format_hd_kmb&tab=<?= $nextTab ?>" class="btn btn-primary">
+<a href="index.php?page=kmb/format_hd_kmb&tab=<?= $nextTab ?><?php if ($submission_id) echo '&submission_id=' . $submission_id; ?>" class="btn btn-primary">
 Selanjutnya
 </a>
 <?php endif; ?>
