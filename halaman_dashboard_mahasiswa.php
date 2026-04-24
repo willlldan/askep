@@ -72,7 +72,7 @@ while ($row = $result->fetch_assoc()) {
                                         </td>
                                         <td class="text-center">
                                             <?php
-                                            $url = "index.php?page=maternitas/{$form['slug']}&tab={$form['first_section']}";
+                                            $url = "index.php?page=" . strtolower($form['department']) . "/{$form['slug']}&tab={$form['first_section']}";
                                             if ($form['submission_id']) {
                                                 $url .= "&submission_id={$form['submission_id']}";
                                             }

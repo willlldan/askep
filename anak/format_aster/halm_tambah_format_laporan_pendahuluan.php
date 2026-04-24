@@ -2,73 +2,6 @@
 require_once "koneksi.php";
 require_once "utils.php";
 
-if (isset($_POST['submit'])) {
-    $no_dokumen = $_POST['no_dokumen']; 
-    $status_dokumen = $_POST['status_dokumen'];
-    $tgl_keluar_dok = $_POST['tgl_keluar_dok'];
-    $perihal = $_POST['perihal'];
-    $tujuan = $_POST['tujuan'];
-    $label_arsip = $_POST['label_arsip'];
-    $rak_arsip = $_POST['rak_arsip'];    
-    $tgl_pinjam = $_POST['tgl_pinjam'];
-    $peminjaman = $_POST['peminjaman'];
-    $tgl_kembali = $_POST['tgl_kembali'];
-    $keterangan = $_POST['keterangan'];
-    $file_name = "";
-
-    if (isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])) {
-        $target_dir = "maternitas/uploads/";
-        $file_name = date("YmdHis_") . basename($_FILES["file"]["name"]);
-        $target_file = $target_dir . $file_name;
-        $uploadOk = 1;
-        $file_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        // Lakukan validasi ukuran dan tipe file jika perlu
-        // ...
-
-        if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
-            echo "Data maternitas berhasil ditambah.";
-        } else {
-            echo "Terjadi kesalahan saat melakukan tambah data maternitas.";
-        }
-    }
-
-    $sql = "INSERT INTO tbl_dok_keluar (
-            no_dokumen,                        
-            status_dokumen,       
-            tgl_keluar_dok,             
-            perihal,
-            tujuan,
-            label_arsip,      
-            rak_arsip,          
-            tgl_pinjam,
-            peminjaman,
-            tgl_kembali,
-            keterangan,
-            file 
-                    
-            ) VALUES (
-            '$no_dokumen',             
-            '$status_dokumen',   
-            '$tgl_keluar_dok',           
-            '$perihal',
-            '$tujuan',
-            '$label_arsip',
-            '$rak_arsip',            
-            '$tgl_pinjam',
-            '$peminjaman',
-            '$tgl_kembali',
-            '$keterangan',
-            '$file_name'
-            )";  
-                
-    if ($mysqli->query($sql) === TRUE) {
-        echo "<script>alert('Dokumen Keluar berhasil ditambah.')</script>";
-    } else {
-        echo "Error: " . $sql . "<br>" . $mysqli->error;
-    }
-}
-
 ?>
 
 <main id="main" class="main">
@@ -4159,8 +4092,3 @@ if (isset($_POST['submit'])) {
 </section>                    <?php include "tab_navigasi.php"; ?>
 
 </main>
-
-
-
-    
-
