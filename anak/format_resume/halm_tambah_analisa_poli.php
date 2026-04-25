@@ -190,7 +190,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">DS/DO</th>
+                                <th class="text-center">Data</th>
                                 <th class="text-center">Etiologi</th>
                                 <th class="text-center">Masalah</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
