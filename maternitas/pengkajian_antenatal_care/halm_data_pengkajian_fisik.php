@@ -239,6 +239,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                             <textarea name="inspeksikepala" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('inspeksi_kepala', $existing_data) ?></textarea>
                         </div>
                     </div>
+                    
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Palpasi</strong></label>
                         <div class="col-sm-9">

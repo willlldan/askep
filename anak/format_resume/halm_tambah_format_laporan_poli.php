@@ -60,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'imunisasi_saat_ini'          => $_POST['imunisasi_saat_ini'] ?? '',
         'dosis_pemberian'             => $_POST['dosis_pemberian'] ?? '',
         'cara_pemberian'              => $_POST['cara_pemberian'] ?? '',
+        'reaksi_anak'                 => $_POST['reaksi_anak'] ?? '',
         'rencana_imunisasi'           => $_POST['rencana_imunisasi'] ?? '',
         'imunisasi_didapatkan'        => $_POST['imunisasi_didapatkan'] ?? '',
         'efek_dirumah'                => $_POST['efek_dirumah'] ?? '',

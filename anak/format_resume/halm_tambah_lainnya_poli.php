@@ -6,7 +6,7 @@ require_once "utils.php";
 $form_id       = 10;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'lainnya_resume';
+$section_name  = 'lainnya_poli';
 $section_label = 'Lainnya';
 
 // Ambil submission sesuai role
@@ -83,12 +83,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
         }
 
-        // Nama Klien, No Registrasi, Ruangan
-        $nama_klien    = $_POST['nama_klien'] ?? '';
-        $no_registrasi = $_POST['no_registrasi'] ?? '';
-        $ruangan       = $_POST['ruangan'] ?? '';
+        $nama_klien =
+            $_POST['nama_klien_perencanaan']
+            ?? $_POST['nama_klien_implementasi']
+            ?? $_POST['nama_klien_evaluasi']
+            ?? '';
 
-        // Proses dynamic rows diagnosa
+        $no_registrasi =
+            $_POST['no_registrasi_perencanaan']
+            ?? $_POST['no_registrasi_implementasi']
+            ?? $_POST['no_registrasi_evaluasi']
+            ?? '';
+
+        $ruangan =
+            $_POST['ruangan_perencanaan']
+            ?? $_POST['ruangan_implementasi']
+            ?? $_POST['ruangan_evaluasi']
+            ?? '';
+
+      // Proses dynamic rows diagnosa
         $diagnosa = [];
         if (!empty($_POST['diagnosa'])) {
             foreach ($_POST['diagnosa'] as $index => $row) {
@@ -102,11 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ];
             }
         }
-
-        // Nama Kline, No Registrasi, Ruangan
-        $nama_klien    = $_POST['nama_klien'] ?? '';
-        $no_registrasi = $_POST['no_registrasi'] ?? '';
-        $ruangan       = $_POST['ruangan'] ?? '';
 
         // Proses dynamic rows intervensi
         $intervensi = [];
@@ -214,8 +222,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <section class="section dashboard">
 
-        
-        
         <div class="card">
             <div class="card-body">
                 <!-- Info status section (untuk dosen) -->
@@ -271,7 +277,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Nama Klien</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nama_klien"
+                            <input type="text" class="form-control" name="nama_klien_perencanaan"
                             value="<?= val('nama_klien', $existing_data) ?>" <?= $ro ?>></div>
                     </div>
 
@@ -279,7 +285,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>No Registrasi</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="no_registrasi"
+                            <input type="text" class="form-control" name="no_registrasi_perencanaan"
                             value="<?= val('no_registrasi', $existing_data) ?>" <?= $ro ?>></div>
                     </div>
 
@@ -287,7 +293,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Ruangan</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="ruangan"
+                            <input type="text" class="form-control" name="ruangan_perencanaan"
                             value="<?= val('ruangan', $existing_data) ?>" <?= $ro ?>></div>
                     </div>
 
@@ -321,7 +327,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Nama Klien</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nama_klien"
+                            <input type="text" class="form-control" name="nama_klien_implementasi"
                             value="<?= val('nama_klien', $existing_data) ?>" <?= $ro ?>></div>
                     </div>
 
@@ -329,7 +335,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>No Registrasi</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="no_registrasi"
+                            <input type="text" class="form-control" name="no_registrasi_implementasi"
                             value="<?= val('no_registrasi', $existing_data) ?>" <?= $ro ?>></div>
                     </div>
 
@@ -337,7 +343,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Ruangan</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="ruangan"
+                            <input type="text" class="form-control" name="ruangan_implementasi"
                             value="<?= val('ruangan', $existing_data) ?>" <?= $ro ?>></div>
                     </div>
 
@@ -371,7 +377,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Nama Klien</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="nama_klien"
+                            <input type="text" class="form-control" name="nama_klien_evaluasi"
                             value="<?= val('nama_klien', $existing_data) ?>" <?= $ro ?>></div>
                     </div>
 
@@ -379,7 +385,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>No Registrasi</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="no_registrasi"
+                            <input type="text" class="form-control" name="no_registrasi_evaluasi"
                             value="<?= val('no_registrasi', $existing_data) ?>" <?= $ro ?>></div>
                     </div>
 
@@ -387,7 +393,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Ruangan</strong></label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="ruangan"
+                            <input type="text" class="form-control" name="ruangan_evaluasi"
                             value="<?= val('ruangan', $existing_data) ?>" <?= $ro ?>></div>
                     </div>
 

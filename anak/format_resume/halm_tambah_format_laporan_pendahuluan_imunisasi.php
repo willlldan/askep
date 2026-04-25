@@ -174,7 +174,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
     <label class="col-sm-2 col-form-label"><strong>4. Jenis-jenis Imunisasi Dasar</strong></label>
     <div class="col-sm-10">
         <small style="color:red;">
-            Penjelasan meliputi nama imunisasi, sasaran umur, dosis, cara pemberian, frekuensi pemberian, ,efek samping, penyakit yang dicegah dengan pemberian imunisasi (definisi, penyebab, tanda dan gejala
+            Penjelasan meliputi nama imunisasi, sasaran umur, dosis, cara pemberian, frekuensi pemberian, ,efek samping, penyakit yang dicegah dengan pemberian imunisasi (definisi, penyebab, tanda dan gejala)
         </small>
         <textarea name="jenis_imunisasi_dasar" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
         <?= $ro ?>><?= val('jenis_imunisasi_dasar',$existing_data) ?></textarea>

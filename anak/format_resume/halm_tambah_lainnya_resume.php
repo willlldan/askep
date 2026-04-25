@@ -6,7 +6,7 @@ require_once "utils.php";
 $form_id       = 10;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'lainnya_poli';
+$section_name  = 'lainnya_resume';
 $section_label = 'Lainnya Format Laporan Poli Imunisasi';
 
 // Ambil submission sesuai role
