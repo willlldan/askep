@@ -2,11 +2,11 @@
 require_once "koneksi.php";
 require_once "utils.php";
 
-$form_id       = 15;
+$form_id       = 14;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'format_resume';
-$section_label = 'Format Resume Keperawatan Jiwa';
+$section_name  = 'pengkajian_lanjut';
+$section_label = 'Format Pengkajian Lanjutan';
 
 // =============================================
 // DOSEN: ambil submission berdasarkan ?submission_id=
@@ -37,6 +37,7 @@ $tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
 $rs_ruangan     = $submission['rs_ruangan'] ?? '';
 $existing_analisa     = $existing_data['analisa']     ?? [];
 
+
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
 // =============================================
@@ -48,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
     $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
     $rs_ruangan     = $_POST['rsruangan'] ?? '';
-    // Proses dynamic rows evaluasi
+   // Proses dynamic rows evaluasi
          $analisa = [];
     if (!empty($_POST['analisa'])) {
         foreach ($_POST['analisa'] as $index => $row) {
@@ -62,26 +63,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             ];
         }
     }
+
     $data = [
         'analisa'     => $analisa,
-    'nama'                 => $_POST['nama'] ?? '',
-    'umur'                 => $_POST['umur'] ?? '',
-    'agama'                => $_POST['agama'] ?? '',
-    'status_perkawinan'    => $_POST['status_perkawinan'] ?? '',
-    'pekerjaan'            => $_POST['pekerjaan'] ?? '',
-    'alamat'               => $_POST['alamat'] ?? '',
-    'kunjungan_ke'         => $_POST['kunjungan_ke'] ?? '',
-    'diagnosa_medis'       => $_POST['diagnosa_medis'] ?? '',
-    'tanggal_pengkajian'   => $_POST['tanggal_pengkajian'] ?? '',
-    'alasan_masuk'                  => $_POST['alasan_masuk'] ?? '',
-    'riwayat_kesehatan_masa_lalu'  => $_POST['riwayat_kesehatan_masa_lalu'] ?? '',
-    'data_subjektif'                => $_POST['data_subjektif'] ?? '',
-    'data_objektif'                 => $_POST['data_objektif'] ?? '',
-    'daftar_masalah'                => $_POST['daftar_masalah'] ?? '',
-    'efek'                          => $_POST['efek'] ?? '',
-    'cara_problem'                  => $_POST['cara_problem'] ?? '',
-    'etilogoi'                      => $_POST['etilogoi'] ?? ''
-];
+        // XI. Aspek Medis
+    'diagnosa_medis'            => $_POST['diagnosa_medis'] ?? '',
+    'terapi_medik'              => $_POST['terapi_medik'] ?? '',
+
+    // XII. Data Fokus
+    'data_subjektif'            => $_POST['data_subjektif'] ?? '',
+    'data_objektif'             => $_POST['data_objektif'] ?? '',
+
+    // XIV. Daftar Masalah Keperawatan
+    'daftar_masalah_keperawatan' => $_POST['daftar_masalah_keperawatan'] ?? '',
+
+    // XV. Pohon Masalah
+    'efek'                      => $_POST['efek'] ?? '',
+    'cara_problem'              => $_POST['cara_problem'] ?? '',
+    'etiologi'                  => $_POST['etiologi'] ?? '',
+    ];
 
     if (!$submission) {
         $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
@@ -135,7 +135,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <main id="main" class="main">
 
-    <?php include "jiwa/poli_jiwa/tab.php"; ?>
+    <?php include "jiwa/jiwa_rsud/tab.php"; ?>
 
     <section class="section dashboard">
 
@@ -164,137 +164,39 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>       
             </div>
         <?php endif; ?>
-   
-    <div class="card">
-        <div class="card-body">
-            <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-                
-                <h5 class="card-title"><strong>FORMAT LAPORAN PENDAHULUAN PRAKTIK KLINIK KEPERAWATAN JIWA</strong></h5>
+       <div class="card">
+<div class="card-body">
 
-   <div class="row mb-3">
-    <div class="col-sm-12">
-        <label class="text-primary"><strong>A. PENGKAJIAN</strong></label>
-    </div>
+<form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+<h5 class="card-title"><strong>FORMAT PENGKAJIAN ANALISA KEPERAWATAN JIWA</strong></h5>
+<!-- XI. Aspek Medis -->
+<div class="row mb-2">
+    <label class="col-sm-4 col-form-label text-primary">
+        <strong>XI. Aspek Medis</strong>
+    </label>
 </div>
 
-<!-- IDENTITAS KLIEN -->
-<div class="row mb-3">
-    <div class="col-sm-12"><label><strong>1. IDENTITAS KLIEN</strong></label></div>
-</div>
-
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Nama</strong></label>
-    <div class="col-sm-10">
-        <input type="text" name="nama" class="form-control"
-               value="<?= val('nama', $existing_data) ?>" <?= $ro ?>>
-    </div>
-</div>
-
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Umur</strong></label>
-    <div class="col-sm-10">
-        <input type="number" name="umur" class="form-control"
-               value="<?= val('umur', $existing_data) ?>" <?= $ro ?>>
-    </div>
-</div>
-
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Agama</strong></label>
-    <div class="col-sm-10">
-        <input type="text" name="agama" class="form-control"
-               value="<?= val('agama', $existing_data) ?>" <?= $ro ?>>
-    </div>
-</div>
-
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
-    <div class="col-sm-10">
-        <input type="text" name="status_perkawinan" class="form-control"
-               value="<?= val('status_perkawinan', $existing_data) ?>" <?= $ro ?>>
-    </div>
-</div>
-
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
-    <div class="col-sm-10">
-        <input type="text" name="pekerjaan" class="form-control"
-               value="<?= val('pekerjaan', $existing_data) ?>" <?= $ro ?>>
-    </div>
-</div>
-
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
-    <div class="col-sm-10">
-        <textarea name="alamat" class="form-control" rows="3"
-                  style="overflow:hidden; resize:none;"
-                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                  <?= $ro ?>><?= val('alamat', $existing_data) ?></textarea>
-    </div>
-</div>
-
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Kunjungan ke</strong></label>
-    <div class="col-sm-10">
-        <input type="text" name="kunjungan_ke" class="form-control"
-               value="<?= val('kunjungan_ke', $existing_data) ?>" <?= $ro ?>>
-    </div>
-</div>
-
+<!-- Diagnosa Medis -->
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Diagnosa Medis</strong></label>
     <div class="col-sm-10">
-        <textarea name="diagnosa_medis" class="form-control" rows="3"
-                  style="overflow:hidden; resize:none;"
-                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                  <?= $ro ?>><?= val('diagnosa_medis', $existing_data) ?></textarea>
+        <input type="text" class="form-control" name="diagnosa_medis" value="<?= val('diagnosa_medis', $existing_data) ?>" <?= $ro ?>>
     </div>
 </div>
 
+<!-- Terapi Medik -->
 <div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
+    <label class="col-sm-2 col-form-label"><strong>Terapi Medik</strong></label>
     <div class="col-sm-10">
-        <input type="date" name="tanggal_pengkajian" class="form-control"
-               value="<?= val('tanggal_pengkajian', $existing_data) ?>" <?= $ro ?>>
-    </div>
-</div>
-<!-- 2. Alasan Masuk -->
-<div class="row mb-2">
-    <label class="col-sm-3 col-form-label">
-        <strong>2. Alasan Masuk</strong>
-    </label>
-</div>
-
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Alasan Masuk</strong></label>
-    <div class="col-sm-10">
-        <textarea name="alasan_masuk" class="form-control" rows="3"
-                  style="overflow:hidden; resize:none;"
-                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                  <?= $ro ?>><?= val('alasan_masuk', $existing_data) ?></textarea>
+        <input type="text" class="form-control" name="terapi_medik" value="<?= val('terapi_medik', $existing_data) ?>" <?= $ro ?>>
     </div>
 </div>
 
-<!-- 3. Riwayat Kesehatan Masa Lalu -->
+<!-- XII. Data Fokus -->
 <div class="row mb-2">
-    <label class="col-sm-5 col-form-label">
-        <strong>3. Riwayat Kesehatan Masa Lalu</strong>
-    </label>
-</div>
-
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Riwayat Kesehatan Masa Lalu</strong></label>
-    <div class="col-sm-10">
-        <textarea name="riwayat_kesehatan_masa_lalu" class="form-control" rows="3"
-                  style="overflow:hidden; resize:none;"
-                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                  <?= $ro ?>><?= val('riwayat_kesehatan_masa_lalu', $existing_data) ?></textarea>
-    </div>
-</div>
-
-<!-- 4. Data Fokus -->
-<div class="row mb-2">
-    <label class="col-sm-4 col-form-label">
-        <strong>4. Data Fokus</strong>
+    <label class="col-sm-4 col-form-label text-primary">
+        <strong>XII. Data Fokus</strong>
     </label>
 </div>
 
@@ -302,10 +204,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Data Subjektif</strong></label>
     <div class="col-sm-10">
-        <textarea name="data_subjektif" class="form-control" rows="3"
-                  style="overflow:hidden; resize:none;"
-                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                  <?= $ro ?>><?= val('data_subjektif', $existing_data) ?></textarea>
+        <textarea name="data_subjektif" class="form-control" rows="3" <?= $ro ?>><?= val('data_subjektif', $existing_data) ?></textarea>
     </div>
 </div>
 
@@ -313,13 +212,10 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Data Objektif</strong></label>
     <div class="col-sm-10">
-        <textarea name="data_objektif" class="form-control" rows="3"
-                  style="overflow:hidden; resize:none;"
-                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                  <?= $ro ?>><?= val('data_objektif', $existing_data) ?></textarea>
+        <textarea name="data_objektif" class="form-control" rows="3" <?= $ro ?>><?= val('data_objektif', $existing_data) ?></textarea>
     </div>
 </div>
-           <!-- ===================== TABEL ANALISA DATA ===================== -->
+ <!-- ===================== TABEL ANALISA DATA ===================== -->
                     <p class="text-primary fw-bold mb-2">XIII. Analisa Data</p>
                     <table class="table table-bordered" id="tabel-analisa">
                         <thead>
@@ -341,60 +237,53 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         </div>
                     </div>
                     <!-- TOMBOL SIMPAN -->
- <!-- 6. Daftar Masalah Keperawatan -->
+
+
+<!-- XIV. Daftar Masalah Keperawatan -->
 <div class="row mb-2">
-    <label class="col-sm-5 col-form-label">
-        <strong>6. Daftar Masalah Keperawatan</strong>
+    <label class="col-sm-5 col-form-label text-primary">
+        <strong>XIV. DAFTAR MASALAH KEPERAWATAN</strong>
     </label>
 </div>
 
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Daftar Masalah Keperawatan</strong></label>
     <div class="col-sm-10">
-        <textarea name="daftar_masalah" class="form-control" rows="3"
-                  style="overflow:hidden; resize:none;"
-                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                  <?= $ro ?>><?= val('daftar_masalah', $existing_data) ?></textarea>
+        <textarea name="daftar_masalah_keperawatan" class="form-control" rows="3" <?= $ro ?>><?= val('daftar_masalah_keperawatan', $existing_data) ?></textarea>
     </div>
 </div>
 
-<!-- 7. Pohon Masalah -->
+<!-- XV. Pohon Masalah -->
 <div class="row mb-2">
-    <label class="col-sm-5 col-form-label">
-        <strong>7. Pohon Masalah</strong>
+    <label class="col-sm-5 col-form-label text-primary">
+        <strong>XV. POHON MASALAH</strong>
     </label>
 </div>
 
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Efek</strong></label>
     <div class="col-sm-10">
-        <input type="text" class="form-control" name="efek"
-               value="<?= val('efek', $existing_data) ?>" <?= $ro ?>>
+        <textarea name="efek" class="form-control" rows="3" <?= $ro ?>><?= val('efek', $existing_data) ?></textarea>
     </div>
 </div>
 
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Cara Problem</strong></label>
-    <div class="col-sm-9">
-        <textarea name="cara_problem" class="form-control" rows="3"
-                  style="overflow:hidden; resize:none;"
-                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                  <?= $ro ?>><?= val('cara_problem', $existing_data) ?></textarea>
+    <div class="col-sm-10">
+        <textarea name="cara_problem" class="form-control" rows="3" <?= $ro ?>><?= val('cara_problem', $existing_data) ?></textarea>
     </div>
 </div>
 
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Etiologi</strong></label>
-    <div class="col-sm-9">
-        <textarea name="etilogoi" class="form-control" rows="3"
-                  style="overflow:hidden; resize:none;"
-                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                  <?= $ro ?>><?= val('etilogoi', $existing_data) ?></textarea>
+    <div class="col-sm-10">
+        <textarea name="etiologi" class="form-control" rows="3" <?= $ro ?>><?= val('etiologi', $existing_data) ?></textarea>
     </div>
 </div>
             
-           
-<!-- TOMBOL SUBMIT -->
+        
+      
+            <!-- TOMBOL SUBMIT -->
                     <?php if (!$is_dosen): ?>
                     <div class="row mb-3">
                         <div class="col-sm-11 d-flex justify-content-end">
@@ -405,7 +294,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 </form>
             </div>
         </div>
-        <script>
+           <script>
                         let rowAnalisaCount     = 1;
                         const existingAnalisa     = <?= json_encode($existing_analisa) ?>;
                         const isReadonly = <?= json_encode($is_readonly) ?>;
@@ -505,4 +394,3 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
     </section>
 </main>
-
