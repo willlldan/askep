@@ -81,6 +81,11 @@ $titles = [
     </li>
 
     <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'data_biologis_2' ? 'active' : '' ?>"
+            href="index.php?page=kmb/format_kmb&tab=data_biologis_2"> Data Biologis 2 </a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'klasifikasi_analisa_data' ? 'active' : '' ?>"
             href="index.php?page=kmb/format_kmb&tab=klasifikasi_analisa_data"> Klasifikasi Analisa Data </a>
     </li>

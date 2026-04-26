@@ -52,9 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     }
     $data = [];
     $text_fields = ['bentuk_kepala', 'nyeridada', 'benjolan_kepala', 'penyebaran_merata', 'warna_rambut', 'rambut_dicabut', 'kelainan_rambut', 'ekspresi_wajah', 'simetris_wajah', 'udema_wajah', 'kelainan_wajah', 'penglihatan', 'visus_kanan', 'visus_kiri', 'lapang_pandang', 'keadaan_mata', 'konjungtiva', 'lesi_mata', 'sclera', 'pupil', 'bola_mata', 'kelainan_mata', 'pendengaran_kiri', 'pendengaran_kanan', 'nyeri_Kiri', 'nyeri_kanan', 'serumen', 'kelainan_telinga', 'bau', 'sekresi', 'warna_hidung', 'mukosa_hidung', 'pembengkakan', 'cuping_hidung', 'kelainan_hidung', 'bibir', 'simetris', 'kelembaban', 'caries', 'jumlah_gigi', 'warna_gigi', 'gigi_palsu_jumlah', 'letak', 'lidah', 'lesi_lidah', 'panas/dingin', 'asampahit', 'manis', 'refleks', 'tonsil', 'sekret_mulut', 'sekret_mulut_warna', 'leher_simetris', 'kelenjar', 'jvp', 'refleks_menelan', 'kelainan_leher'];
-    foreach ($text_fields as $f) {
-        $data[$f] = $_POST[$f] ?? '';
-    }
+    foreach ($text_fields as $f) { $data[$f] = $_POST[$f] ?? ''; }
     $checkbox_fields = ['bau_mulut'];
     foreach ($checkbox_fields as $cf) {
         $data[$cf] = json_encode(isset($_POST[$cf]) ? (array)$_POST[$cf] : []);
@@ -75,9 +73,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 // =============================================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
     $submission_id = $submission['id'];
-    $dosen_id = $user_id;
-    $action = $_POST['action'] ?? '';
-    $comment = $_POST['comment'] ?? '';
+    $dosen_id      = $user_id;
+    $action        = $_POST['action'] ?? '';
+    $comment       = $_POST['comment'] ?? '';
     if ($action === 'approve') {
         updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
         if (!empty($comment)) saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
@@ -92,25 +90,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
 }
 
 $comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
-
 ?>
-
 <main id="main" class="main">
     <?php include "kmb/format_kmb/tab.php"; ?>
 
     <section class="section dashboard">
 
         <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
+            <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
         <?php endif; ?>
         <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
+            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
         <?php endif; ?>
 
         <?php if ($section_status): ?>
-            <?php $badge = ['draft' => 'secondary', 'submitted' => 'primary', 'revision' => 'warning', 'approved' => 'success']; ?>
+            <?php $badge = ['draft'=>'secondary','submitted'=>'primary','revision'=>'warning','approved'=>'success']; ?>
             <div class="alert alert-<?= $badge[$section_status] ?>">
                 Status: <strong><?= ucfirst($section_status) ?></strong>
                 | Reviewed by: <strong><?= $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-' ?></strong>
@@ -143,14 +137,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="nyeridada" value="ya" id="nyeridada_ya">
+                                <input class="form-check-input" type="radio" name="nyeridada" value="ya" id="nyeridada_ya" <?= $ro_disabled ?> <?= ($existing_data['nyeridada'] ?? '') === 'ya' ? 'checked' : '' ?>>
                                 <label class="form-check-label" for="nyeridada_ya">Ya</label>
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="nyeridada" value="tidak" id="nyeridada_tidak">
+                                <input class="form-check-input" type="radio" name="nyeridada" value="tidak" id="nyeridada_tidak" <?= $ro_disabled ?> <?= ($existing_data['nyeridada'] ?? '') === 'tidak' ? 'checked' : '' ?>>
                                 <label class="form-check-label" for="nyeridada_tidak">Tidak</label>
                             </div>
                         </div>
@@ -162,14 +156,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="benjolan_kepala" value="ya" id="benjolan_kepala_ya">
+                                <input class="form-check-input" type="radio" name="benjolan_kepala" value="ya" id="benjolan_kepala_ya" <?= $ro_disabled ?> <?= ($existing_data['benjolan_kepala'] ?? '') === 'ya' ? 'checked' : '' ?>>
                                 <label class="form-check-label" for="benjolan_kepala_ya">Ya</label>
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="benjolan_kepala" value="tidak" id="benjolan_kepala_tidak">
+                                <input class="form-check-input" type="radio" name="benjolan_kepala" value="tidak" id="benjolan_kepala_tidak" <?= $ro_disabled ?> <?= ($existing_data['benjolan_kepala'] ?? '') === 'tidak' ? 'checked' : '' ?>>
                                 <label class="form-check-label" for="benjolan_kepala_tidak">Tidak</label>
                             </div>
                         </div>
@@ -188,14 +182,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="penyebaran_merata" value="ya" id="penyebaran_merata_ya">
+                                <input class="form-check-input" type="radio" name="penyebaran_merata" value="ya" id="penyebaran_merata_ya" <?= $ro_disabled ?> <?= ($existing_data['penyebaran_merata'] ?? '') === 'ya' ? 'checked' : '' ?>>
                                 <label class="form-check-label" for="penyebaran_merata_ya">Ya</label>
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="penyebaran_merata" value="tidak" id="penyebaran_merata_tidak">
+                                <input class="form-check-input" type="radio" name="penyebaran_merata" value="tidak" id="penyebaran_merata_tidak" <?= $ro_disabled ?> <?= ($existing_data['penyebaran_merata'] ?? '') === 'tidak' ? 'checked' : '' ?>>
                                 <label class="form-check-label" for="penyebaran_merata_tidak">Tidak</label>
                             </div>
                         </div>
@@ -973,33 +967,33 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bau_mulut" value="uranium">
-                                <label class="form-check-label">Uranium + / -</label>
+                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="uranium" id="cb_bau_mulut_uranium" <?= $ro_disabled ?> <?= in_array('uranium', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="cb_bau_mulut_uranium">Uranium + / -</label>
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bau_mulut" value="amoniak">
-                                <label class="form-check-label">Amoniak + / - </label>
+                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="amoniak" id="cb_bau_mulut_amoniak" <?= $ro_disabled ?> <?= in_array('amoniak', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="cb_bau_mulut_amoniak">Amoniak + / - </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bau_mulut" value="aceton">
-                                <label class="form-check-label">Aceton + / -</label>
+                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="aceton" id="cb_bau_mulut_aceton" <?= $ro_disabled ?> <?= in_array('aceton', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="cb_bau_mulut_aceton">Aceton + / -</label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bau_mulut" value="busuk">
-                                <label class="form-check-label">Busuk + / - </label>
+                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="busuk" id="cb_bau_mulut_busuk" <?= $ro_disabled ?> <?= in_array('busuk', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="cb_bau_mulut_busuk">Busuk + / - </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bau_mulut" value="alkohol">
-                                <label class="form-check-label">Alkohol + / -</label>
+                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="alkohol" id="cb_bau_mulut_alkohol" <?= $ro_disabled ?> <?= in_array('alkohol', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="cb_bau_mulut_alkohol">Alkohol + / -</label>
                             </div>
                         </div>
                     </div>
@@ -1136,11 +1130,11 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     </div>
                     <!-- TOMBOL SIMPAN -->
                     <?php if (!$is_dosen): ?>
-                        <div class="row mb-3">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
-                            </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
                         </div>
+                    </div>
                     <?php endif; ?>
 
                 </form>

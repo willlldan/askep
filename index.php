@@ -171,20 +171,20 @@ if (isset($_SESSION['id_user'])) {
                         include "maternitas/pengkajian_inranatal_care/halm_tambah_umum.php";
                         break;
                     case 'riwayat_persalinan':
-                    include "maternitas/pengkajian_inranatal_care/halm_tambah_riwayatpersalinan.php";
+                        include "maternitas/pengkajian_inranatal_care/halm_tambah_riwayatpersalinan.php";
                         break;
                     case 'terapi_lab':
-                    include "maternitas/pengkajian_inranatal_care/halm_data_terapi_lab.php";
+                        include "maternitas/pengkajian_inranatal_care/halm_data_terapi_lab.php";
                         break;
 
                     case 'laporanpersalinan':
-                    include "maternitas/pengkajian_inranatal_care/halm_tambah_laporanpersalinan.php";
+                        include "maternitas/pengkajian_inranatal_care/halm_tambah_laporanpersalinan.php";
                         break;
-                        case 'analisa_data':
-                    include "maternitas/pengkajian_inranatal_care/halm_analisa_data.php";
+                    case 'analisa_data':
+                        include "maternitas/pengkajian_inranatal_care/halm_analisa_data.php";
                         break;
                     case 'lainnya':
-                    include "maternitas/pengkajian_inranatal_care/halm_tambah_lainnya.php";
+                        include "maternitas/pengkajian_inranatal_care/halm_tambah_lainnya.php";
                         break;
 
                     case 'diagnosa_keperawatan':
@@ -289,7 +289,7 @@ if (isset($_SESSION['id_user'])) {
                     case 'riwayat':
                         include "maternitas/pengkajian_ginekologi/halm_tambah_riwayat.php";
                         break;
-                   
+
                     case 'pengkajianfungsional':
                         include "maternitas/pengkajian_ginekologi/halm_tambah_pengkajianfungsional.php";
                         break;
@@ -540,17 +540,20 @@ if (isset($_SESSION['id_user'])) {
                     case 'pengkajian_gordon':
                         include "kmb/format_kmb/halm_tambah_pengkajian_gordon.php";
                         break;
-                    
+
                     case 'data_biologis':
                         include "kmb/format_kmb/halm_data_biologis.php";
                         break;
                     case 'data_biologis_1':
                         include "kmb/format_kmb/halm_data_biologis_1.php";
                         break;
+                    case 'data_biologis_2':
+                        include "kmb/format_kmb/halm_data_biologis_2.php";
+                        break;
                     case 'klasifikasi_analisa_data':
                         include "kmb/format_kmb/halm_klasifikasi_analisa_data.php";
                         break;
-                    
+
                     case 'lainnya':
                         include "kmb/format_kmb/halm_tambah_lainnya.php";
                         break;

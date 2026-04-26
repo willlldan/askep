@@ -5,6 +5,7 @@ $tabs = [
     "pengkajian",
     "pengkajian_gordon",
     "data_biologis_1",
+    "data_biologis_2",
     "klasifikasi_analisa_data",
     "analisa_data",
     "rencana",
