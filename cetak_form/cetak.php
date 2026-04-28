@@ -64,6 +64,15 @@ switch ($form_name) {
     case 'poli_jiwa':
         include 'template_pdf_poli_jiwa.php'; // Template untuk inranatal
         break;
+    case 'format_anggrek':
+        include 'template_pdf_format_anggrek.php'; // Template untuk inranatal
+        break;
+    case 'jiwa_rsud':
+        include 'template_pdf_jiwa_rsud.php'; // Template untuk inranatal
+        break;
+    case 'format_hd_kmb':
+        include 'template_pdf_hd_kmb.php'; // Template untuk inranatal
+        break;
 
     default:
         include 'template_pdf_postpartum.php';

@@ -3,205 +3,205 @@
 require_once "koneksi.php";
 require_once "utils.php";
 
-// $form_id       = 1;
-// $level         = $_SESSION['level'];
-// $user_id       = $_SESSION['id_user'];
-// $section_name  = 'catatan_keperawatan';
-// $section_label = 'Catatan Keperawatan';
+$form_id       = 18;
+$level         = $_SESSION['level'];
+$user_id       = $_SESSION['id_user'];
+$section_name  = 'lainnya';
+$section_label = 'lainnya';
 
-// // Ambil submission sesuai role
-// if ($level === 'Dosen') {
-//     $submission_id_param = $_GET['submission_id'] ?? null;
-//     if (!$submission_id_param) {
-//         echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
-//         exit;
-//     }
-//     $stmt = $mysqli->prepare("
-//         SELECT s.*, r.nama as dosen_name
-//         FROM submissions s
-//         LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
-//         WHERE s.id = ?
-//     ");
-//     $stmt->bind_param("i", $submission_id_param);
-//     $stmt->execute();
-//     $submission = $stmt->get_result()->fetch_assoc();
-// } else {
-//     $submission = getSubmission($user_id, $form_id, $mysqli);
-// }
+// Ambil submission sesuai role
+if ($level === 'Dosen') {
+    $submission_id_param = $_GET['submission_id'] ?? null;
+    if (!$submission_id_param) {
+        echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
+        exit;
+    }
+    $stmt = $mysqli->prepare("
+        SELECT s.*, r.nama as dosen_name
+        FROM submissions s
+        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
+        WHERE s.id = ?
+    ");
+    $stmt->bind_param("i", $submission_id_param);
+    $stmt->execute();
+    $submission = $stmt->get_result()->fetch_assoc();
+} else {
+    $submission = getSubmission($user_id, $form_id, $mysqli);
+}
 
-// $existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
-// $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
+$existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
+$section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
 
-// // Load existing dynamic rows
-// $existing_diagnosa     = $existing_data['diagnosa']     ?? [];
-// $existing_intervensi   = $existing_data['intervensi']   ?? [];
-// $existing_implementasi = $existing_data['implementasi'] ?? [];
-// $existing_evaluasi     = $existing_data['evaluasi']     ?? [];
+// Load existing dynamic rows
+$existing_diagnosa     = $existing_data['diagnosa']     ?? [];
+$existing_rencana   = $existing_data['rencana']   ?? [];
+$existing_implementasi = $existing_data['implementasi'] ?? [];
+$existing_evaluasi     = $existing_data['evaluasi']     ?? [];
 
-// // Komentar section
-// $comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
+// Komentar section
+$comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
 
-// // Readonly jika mahasiswa + locked, atau jika dosen
-// $is_dosen    = $level === 'Dosen';
-// $is_readonly = $is_dosen || isLocked($submission);
-// $ro          = $is_readonly ? 'readonly' : '';
-// $ro_select   = $is_readonly ? 'disabled' : '';
+// Readonly jika mahasiswa + locked, atau jika dosen
+$is_dosen    = $level === 'Dosen';
+$is_readonly = $is_dosen || isLocked($submission);
+$ro          = $is_readonly ? 'readonly' : '';
+$ro_select   = $is_readonly ? 'disabled' : '';
 
-// $can_submit = false;
-// if ($submission && !$is_dosen && $submission['status'] === 'draft') {
+$can_submit = false;
+if ($submission && !$is_dosen && $submission['status'] === 'draft') {
 
-//     // Ambil count_section dari forms
-//     $stmt = $mysqli->prepare("SELECT count_section FROM forms WHERE id = ?");
-//     $stmt->bind_param("i", $form_id);
-//     $stmt->execute();
-//     $count_section = $stmt->get_result()->fetch_assoc()['count_section'];
+    // Ambil count_section dari forms
+    $stmt = $mysqli->prepare("SELECT count_section FROM forms WHERE id = ?");
+    $stmt->bind_param("i", $form_id);
+    $stmt->execute();
+    $count_section = $stmt->get_result()->fetch_assoc()['count_section'];
 
-//     // Ambil total section yang sudah diisi
-//     $stmt = $mysqli->prepare("SELECT COUNT(*) as filled FROM submission_sections WHERE submission_id = ?");
-//     $stmt->bind_param("i", $submission['id']);
-//     $stmt->execute();
-//     $total_filled = $stmt->get_result()->fetch_assoc()['filled'];
+    // Ambil total section yang sudah diisi
+    $stmt = $mysqli->prepare("SELECT COUNT(*) as filled FROM submission_sections WHERE submission_id = ?");
+    $stmt->bind_param("i", $submission['id']);
+    $stmt->execute();
+    $total_filled = $stmt->get_result()->fetch_assoc()['filled'];
 
-//     $can_submit = $total_filled >= $count_section;
-// }
+    $can_submit = $total_filled >= $count_section;
+}
 
 
-// // POST handler
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// POST handler
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-//     if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submit_to_dosen') {
-//         $result = submitSubmission($submission['id'], $mysqli);
-//         if ($result['success']) {
-//             redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disubmit ke dosen!');
-//         } else {
-//             redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $result['message']);
-//         }
-//     }
-//     // Mahasiswa: simpan data
-//     if ($level === 'Mahasiswa') {
-//         if (isLocked($submission)) {
-//             redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
-//         }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submit_to_dosen') {
+        $result = submitSubmission($submission['id'], $mysqli);
+        if ($result['success']) {
+            redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disubmit ke dosen!');
+        } else {
+            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $result['message']);
+        }
+    }
+    // Mahasiswa: simpan data
+    if ($level === 'Mahasiswa') {
+        if (isLocked($submission)) {
+            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
+        }
 
-//         // Proses dynamic rows diagnosa
-//         $diagnosa = [];
-//         if (!empty($_POST['diagnosa'])) {
-//             foreach ($_POST['diagnosa'] as $index => $row) {
-//                 if (empty($row['diagnosa']) && empty($row['tgl_ditemukan']) && empty($row['tgl_teratasi'])) {
-//                     continue;
-//                 }
-//                 $diagnosa[] = [
-//                     'diagnosa'      => $row['diagnosa']      ?? '',
-//                     'tgl_ditemukan' => $row['tgl_ditemukan'] ?? '',
-//                     'tgl_teratasi'  => $row['tgl_teratasi']  ?? '',
-//                 ];
-//             }
-//         }
+        // Proses dynamic rows diagnosa
+        $diagnosa = [];
+        if (!empty($_POST['diagnosa'])) {
+            foreach ($_POST['diagnosa'] as $index => $row) {
+                if (empty($row['diagnosa']) && empty($row['tgl_ditemukan']) && empty($row['tgl_teratasi'])) {
+                    continue;
+                }
+                $diagnosa[] = [
+                    'diagnosa'      => $row['diagnosa']      ?? '',
+                    'tgl_ditemukan' => $row['tgl_ditemukan'] ?? '',
+                    'tgl_teratasi'  => $row['tgl_teratasi']  ?? '',
+                ];
+            }
+        }
 
-//         // Proses dynamic rows intervensi
-//         $intervensi = [];
-//         if (!empty($_POST['intervensi'])) {
-//             foreach ($_POST['intervensi'] as $index => $row) {
-//                 if (empty($row['diagnosa']) && empty($row['tujuan_kriteria']) && empty($row['intervensi'])) {
-//                     continue;
-//                 }
-//                 $intervensi[] = [
-//                     'diagnosa'        => $row['diagnosa']        ?? '',
-//                     'tujuan_kriteria' => $row['tujuan_kriteria'] ?? '',
-//                     'intervensi'      => $row['intervensi']      ?? '',
-//                 ];
-//             }
-//         }
+        // Proses dynamic rows rencana
+        $rencana = [];
+        if (!empty($_POST['rencana'])) {
+            foreach ($_POST['rencana'] as $index => $row) {
+                if (empty($row['diagnosa']) && empty($row['tujuan_kriteria']) && empty($row['rencana'])) {
+                    continue;
+                }
+                $rencana[] = [
+                    'diagnosa'        => $row['diagnosa']        ?? '',
+                    'tujuan_kriteria' => $row['tujuan_kriteria'] ?? '',
+                    'rencana'      => $row['rencana']      ?? '',
+                ];
+            }
+        }
 
-//         // Proses dynamic rows implementasi
-//         $implementasi = [];
-//         if (!empty($_POST['implementasi'])) {
-//             foreach ($_POST['implementasi'] as $index => $row) {
-//                 if (empty($row['no_dx']) && empty($row['hari_tgl']) && empty($row['implementasi'])) {
-//                     continue;
-//                 }
-//                 $implementasi[] = [
-//                     'no_dx'        => $row['no_dx']        ?? '',
-//                     'hari_tgl'     => $row['hari_tgl']      ?? '',
-//                     'jam'          => $row['jam']            ?? '',
-//                     'implementasi' => $row['implementasi']  ?? '',
-//                 ];
-//             }
-//         }
+        // Proses dynamic rows implementasi
+        $implementasi = [];
+        if (!empty($_POST['implementasi'])) {
+            foreach ($_POST['implementasi'] as $index => $row) {
+                if (empty($row['no_dx']) && empty($row['hari_tgl']) && empty($row['implementasi'])) {
+                    continue;
+                }
+                $implementasi[] = [
+                    'no_dx'        => $row['no_dx']        ?? '',
+                    'hari_tgl'     => $row['hari_tgl']      ?? '',
+                    'jam'          => $row['jam']            ?? '',
+                    'implementasi' => $row['implementasi']  ?? '',
+                ];
+            }
+        }
 
-//         // Proses dynamic rows evaluasi
-//         $evaluasi = [];
-//         if (!empty($_POST['evaluasi'])) {
-//             foreach ($_POST['evaluasi'] as $index => $row) {
-//                 if (empty($row['no_dx']) && empty($row['hari_tgl']) && empty($row['evaluasi_s'])) {
-//                     continue;
-//                 }
-//                 $evaluasi[] = [
-//                     'no_dx'      => $row['no_dx']      ?? '',
-//                     'hari_tgl'   => $row['hari_tgl']   ?? '',
-//                     'jam'        => $row['jam']         ?? '',
-//                     'evaluasi_s' => $row['evaluasi_s']  ?? '',
-//                     'evaluasi_o' => $row['evaluasi_o']  ?? '',
-//                     'evaluasi_a' => $row['evaluasi_a']  ?? '',
-//                     'evaluasi_p' => $row['evaluasi_p']  ?? '',
-//                 ];
-//             }
-//         }
+        // Proses dynamic rows evaluasi
+        $evaluasi = [];
+        if (!empty($_POST['evaluasi'])) {
+            foreach ($_POST['evaluasi'] as $index => $row) {
+                if (empty($row['no_dx']) && empty($row['hari_tgl']) && empty($row['evaluasi_s'])) {
+                    continue;
+                }
+                $evaluasi[] = [
+                    'no_dx'      => $row['no_dx']      ?? '',
+                    'hari_tgl'   => $row['hari_tgl']   ?? '',
+                    'jam'        => $row['jam']         ?? '',
+                    'evaluasi_s' => $row['evaluasi_s']  ?? '',
+                    'evaluasi_o' => $row['evaluasi_o']  ?? '',
+                    'evaluasi_a' => $row['evaluasi_a']  ?? '',
+                    'evaluasi_p' => $row['evaluasi_p']  ?? '',
+                ];
+            }
+        }
 
-//         $data = [
-//             'diagnosa'     => $diagnosa,
-//             'intervensi'   => $intervensi,
-//             'implementasi' => $implementasi,
-//             'evaluasi'     => $evaluasi,
-//         ];
+        $data = [
+            'diagnosa'     => $diagnosa,
+            'rencana'   => $rencana,
+            'implementasi' => $implementasi,
+            'evaluasi'     => $evaluasi,
+        ];
 
-//         if (!$submission) {
-//             $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
-//         } else {
-//             $submission_id = $submission['id'];
-//         }
+        if (!$submission) {
+            $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
+        } else {
+            $submission_id = $submission['id'];
+        }
 
-//         saveSection($submission_id, $section_name, $section_label, $data, $mysqli);
-//         updateSubmissionStatus($submission_id, $form_id, $mysqli);
-//         redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
-//     }
-//     // Dosen: approve/revisi/komentar
-//     if ($level === 'Dosen') {
-//         $submission_id = $submission['id'];
-//         $dosen_id      = $user_id;
-//         $action        = $_POST['action'] ?? '';
-//         $comment       = $_POST['comment'] ?? '';
+        saveSection($submission_id, $section_name, $section_label, $data, $mysqli);
+        updateSubmissionStatus($submission_id, $form_id, $mysqli);
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
+    }
+    // Dosen: approve/revisi/komentar
+    if ($level === 'Dosen') {
+        $submission_id = $submission['id'];
+        $dosen_id      = $user_id;
+        $action        = $_POST['action'] ?? '';
+        $comment       = $_POST['comment'] ?? '';
 
-//         if ($action === 'approve') {
-//             updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
-//             if (!empty($comment)) {
-//                 saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-//             }
-//         } elseif ($action === 'revision') {
-//             if (empty($comment)) {
-//                 redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
-//             }
-//             updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
-//             saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-//         }
+        if ($action === 'approve') {
+            updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
+            if (!empty($comment)) {
+                saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
+            }
+        } elseif ($action === 'revision') {
+            if (empty($comment)) {
+                redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
+            }
+            updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
+            saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
+        }
 
-//         updateReviewer($submission_id, $dosen_id, $mysqli);
-//         updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
-//         redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
-//     }
-// }
+        updateReviewer($submission_id, $dosen_id, $mysqli);
+        updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
+    }
+}
 
 ?>
 
 <main id="main" class="main">
 
-                 <?php include "kmb/format_kmb/tab.php"; ?>
+    <?php include "kmb/format_kmb/tab.php"; ?>
 
 
     <section class="section dashboard">
 
-        
-        
+
+
         <div class="card">
             <div class="card-body">
                 <!-- Info status section (untuk dosen) -->
@@ -251,19 +251,19 @@ require_once "utils.php";
                     <?php endif; ?>
 
                     <!-- ===================== TABEL INTERVENSI ===================== -->
-                    <p class="text-primary fw-bold mb-2">Intervensi Keperawatan</p>
+                    <p class="text-primary fw-bold mb-2">Rencana Keperawatan</p>
 
-                    <table class="table table-bordered" id="tabel-intervensi">
+                    <table class="table table-bordered" id="tabel-rencana">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
                                 <th class="text-center">Diagnosa</th>
                                 <th class="text-center">Tujuan dan Kriteria Hasil</th>
-                                <th class="text-center">Intervensi</th>
+                                <th class="text-center">Rencana</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="tbody-intervensi">
+                        <tbody id="tbody-rencana">
                             <!-- Dynamic rows masuk sini -->
                         </tbody>
                     </table>
@@ -271,7 +271,7 @@ require_once "utils.php";
                     <?php if (!$is_readonly): ?>
                         <div class="row mb-4">
                             <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowIntervensi()">+ Tambah Intervensi</button>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowRencana()">+ Tambah Rencana</button>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -339,12 +339,12 @@ require_once "utils.php";
 
                     <script>
                         let rowDiagnosaCount = 1;
-                        let rowIntervensiCount = 1;
+                        let rowRencanaCount = 1;
                         let rowImplementasiCount = 1;
                         let rowEvaluasiCount = 1;
 
                         const existingDiagnosa = <?= json_encode($existing_diagnosa) ?>;
-                        const existingIntervensi = <?= json_encode($existing_intervensi) ?>;
+                        const existingRencana = <?= json_encode($existing_rencana) ?>;
                         const existingImplementasi = <?= json_encode($existing_implementasi) ?>;
                         const existingEvaluasi = <?= json_encode($existing_evaluasi) ?>;
 
@@ -393,9 +393,9 @@ require_once "utils.php";
                         }
 
                         // ---- INTERVENSI ----
-                        function tambahRowIntervensi(data = null) {
-                            const tbody = document.getElementById('tbody-intervensi');
-                            const index = rowIntervensiCount;
+                        function tambahRowRencana(data = null) {
+                            const tbody = document.getElementById('tbody-rencana');
+                            const index = rowRencanaCount;
                             const row = document.createElement('tr');
                             const isReadonly = <?= json_encode($is_readonly) ?>;
                             row.innerHTML = `
@@ -403,7 +403,7 @@ require_once "utils.php";
                                 <td>
                                     <textarea
                                         class="form-control form-control-sm"
-                                        name="intervensi[${index}][diagnosa]"
+                                        name="rencana[${index}][diagnosa]"
                                         rows="2"
                                         style="resize:none; overflow:hidden;"
                                         oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -413,7 +413,7 @@ require_once "utils.php";
                                 <td>
                                     <textarea
                                         class="form-control form-control-sm"
-                                        name="intervensi[${index}][tujuan_kriteria]"
+                                        name="rencana[${index}][tujuan_kriteria]"
                                         rows="2"
                                         style="resize:none; overflow:hidden;"
                                         oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -423,19 +423,19 @@ require_once "utils.php";
                                 <td>
                                     <textarea
                                         class="form-control form-control-sm"
-                                        name="intervensi[${index}][intervensi]"
+                                        name="rencana[${index}][rencana]"
                                         rows="2"
                                         style="resize:none; overflow:hidden;"
                                         oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                         ${isReadonly ? 'readonly' : ''}
-                                    >${data?.intervensi ?? ''}</textarea>
+                                    >${data?.rencana ?? ''}</textarea>
                                 </td>
                                 <td class="text-center align-middle">
                                     ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
                                 </td>
                             `;
                             tbody.appendChild(row);
-                            rowIntervensiCount++;
+                            rowRencanaCount++;
                         }
 
                         // ---- IMPLEMENTASI ----
@@ -593,10 +593,10 @@ require_once "utils.php";
                                 tambahRowDiagnosa();
                             }
 
-                            if (existingIntervensi && existingIntervensi.length > 0) {
-                                existingIntervensi.forEach(row => tambahRowIntervensi(row));
+                            if (existingRencana && existingRencana.length > 0) {
+                                existingRencana.forEach(row => tambahRowRencana(row));
                             } else {
-                                tambahRowIntervensi();
+                                tambahRowRencana();
                             }
 
                             if (existingImplementasi && existingImplementasi.length > 0) {

@@ -737,7 +737,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <td><input type="text" class="form-control" name="mandi_cara_sekarang" value="<?= val('mandi_cara_sekarang', $existing_data) ?>" <?= $ro ?> ></td>
                     </tr>
                     <tr>
-                        <td><strong>Mandi - Tempat</strong></td>
+                        <td><strong>Mandi - Alat Mandi</strong></td>
                         <td><input type="text" class="form-control" name="mandi_tempat_sebelum" value="<?= val('mandi_tempat_sebelum', $existing_data) ?>" <?= $ro ?> ></td>
                         <td><input type="text" class="form-control" name="mandi_tempat_sekarang" value="<?= val('mandi_tempat_sekarang', $existing_data) ?>" <?= $ro ?> ></td>
                     </tr>

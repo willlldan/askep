@@ -48,7 +48,7 @@ $titles = [
 </div>
 
 <div class="pagetitle">
-    <h1><strong><?= $titles[$jenisAnak] ?? 'Pengkajian Asuhan Anak' ?></strong></h1>
+    <h1><strong><?= $titles[$jenisAnak] ?? 'Asuhan Keperawatan Anak Anggrek B' ?></strong></h1>
 </div>
 <br>
 <ul class="nav nav-tabs custom-tabs">

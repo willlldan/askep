@@ -57,8 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             'pendidikan'                            => $_POST['pendidikan'] ?? '',
             'pekerjaan'                             => $_POST['pekerjaan'] ?? '',
             'alamat'                                => $_POST['alamat'] ?? '',
-            'tgl_pengkajian'                        => $_POST['tgl_masuk_rs'] ?? '',
-
+            'tgl_masuk_rs'                        => $_POST['tgl_pengkajian1'] ?? '',
+            'tgl_pengkajian1'                        => $_POST['tgl_masuk_rs'] ?? '',
             'diagnosa_medik'                        => $_POST['diagnosa_medik'] ?? '',
             'golongan_darah'                        => $_POST['golongan_darah'] ?? '',
             'no_registrasi'                         => $_POST['no_registrasi'] ?? '',
@@ -266,7 +266,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
     <div class="row mb-3">
         <label for="tgl_pengkajian" class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
         <div class="col-sm-9"> 
-            <input type="date" class="form-control" name="tgl_pengkajian" value="<?= val('tgl_pengkajian', $existing_data) ?>" <?= $ro ?>>
+            <input type="date" class="form-control" name="tgl_pengkajian1" value="<?= val('tgl_pengkajian1', $existing_data) ?>" <?= $ro ?>>
        
         </div>
     </div>

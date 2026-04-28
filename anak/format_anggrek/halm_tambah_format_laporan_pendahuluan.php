@@ -5,8 +5,8 @@ require_once "utils.php";
 $form_id       = 8;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'data_demografi';
-$section_label = 'Data Demografi';
+$section_name  = 'format_lp';
+$section_label = 'Format Laporan Pendahuluan';
 
 // =============================================
 // DOSEN: ambil submission berdasarkan ?submission_id=
