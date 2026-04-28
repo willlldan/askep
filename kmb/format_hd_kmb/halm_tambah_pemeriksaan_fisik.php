@@ -533,6 +533,7 @@ $ro_disabled = $is_readonly ? 'disabled' : '';
         <input type="text" class="form-control" name="kelainan_mata" value="<?= $existing_data['kelainan_mata'] ?? '' ?>" <?= $ro ?>>
     </div>
 </div>
+
  <div class="row mb-2">
     <label class="col-sm-12 text-primary"><strong>e. Telinga</strong></label>
 </div>
