@@ -168,6 +168,11 @@ include 'template_pdf.php';
         <div class="field-sep">:</div>
         <div class="field-value"><?= p($pengkajian['rm']) ?></div>
     </div>
+    <div class="field-row d-flex gap-3 mb-2">
+        <div class="field-label">Informasi</div>
+        <div class="field-sep">:</div>
+        <div class="field-value"><?= p($pengkajian['informasi']) ?></div>
+    </div>
      <h3 class="mt-5">II. ALASAN MASUK</h3>
 
     <!-- ALASAN MASUK -->
@@ -233,6 +238,11 @@ include 'template_pdf.php';
         </tr>
     </tbody>
 </table>
+<div class="field-row d-flex gap-3 mb-2">
+        <div class="field-label">Jelaskan No 1,2,3</div>
+        <div class="field-sep">:</div>
+        <div class="field-value"><?= p($pengkajian['penjelasan_kejadian']) ?></div>
+    </div>
 
 <div class="field-row d-flex gap-3 mb-2">
     <div class="field-label" style="min-width:200px;">4. Adakah anggota keluarga yang mengalami gangguan jiwa</div>
@@ -272,9 +282,7 @@ include 'template_pdf.php';
     <div class="field-value"><?= p($pengkajian['pengalaman_masa_lalu']) ?></div>
 </div>
 <!-- Penjelasan tambahan -->
-<div style="margin-top:10px;">
-    <strong>Jelaskan No. 1, 2, 3 :</strong> <?= p($pengkajian['penjelasan_trauma'] ?? '') ?>
-</div>
+
 <h3>IV. Pemeriksaan Fisik</h3>
 
 <!-- 1. Tanda Vital -->
@@ -317,6 +325,11 @@ include 'template_pdf.php';
     <div class="field-label" style="min-width:180px;">Ada Keluhan Fisik</div>
     <div class="field-sep">:</div>
     <div class="field-value"><?= ($pengkajian['keluhan_fisik'] ) ?></div>
+</div>
+<div class="field-row d-flex gap-3 mb-2">
+    <div class="field-label" style="min-width:180px;">Penjelasan</div>
+    <div class="field-sep">:</div>
+    <div class="field-value"><?= ($pengkajian['penjelasan'] ) ?></div>
 </div>
 
 <h3>V. Psikososial</h3>
