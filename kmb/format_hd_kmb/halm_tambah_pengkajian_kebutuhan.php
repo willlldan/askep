@@ -810,7 +810,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
         <strong>Tanggal Pemeriksaan</strong>
     </div>
     <div class="col-sm-9">
-        <input type="date" class="form-control" name="tanggal_pemeriksaan">
+        <input type="date" class="form-control" name="tanggal_pemeriksaan" value="<?= val('tanggal_pemeriksaan', $existing_data) ?>" <?= $ro ?>>
        
 </div>
 </div>
