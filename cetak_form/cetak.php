@@ -80,6 +80,10 @@ switch ($form_name) {
         include 'template_pdf_hd_kmb.php'; // Template untuk inranatal
         break;
 
+    case 'format_ressume':
+        include 'template_pdf_format_resume.php';
+        break;  
+
     case 'resume_antenatal_care':
         include 'template_pdf_resume_anc.php';
         break;
@@ -87,7 +91,7 @@ switch ($form_name) {
         include 'template_pdf_kmb.php';
         break;
     default:
-        include 'template_pdf_postpartum.php';
+        include 'template_pdf_format_resume.php';
         break;
 }
 

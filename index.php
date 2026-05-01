@@ -831,13 +831,21 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'anak/format_resume':
 
-                $tab = $tab ?: 'resume_keperawatan';
+                $tab = $tab ?: 'format_resume_keperawatan';
 
                 switch ($tab) {
 
                     case 'resume_keperawatan':
                         include "anak/format_resume/halm_tambah_format_resume_keperawatan.php";
                         break;
+
+                    case 'analisa_resume':
+                        include "anak/format_resume/halm_tambah_analisa_resume.php";
+                        break;  
+                        
+                    case 'lainnya_resume':
+                        include "anak/format_resume/halm_tambah_lainnya_resume.php";
+                        break;      
 
                     case 'lp_imunisasi':
                         include "anak/format_resume/halm_tambah_format_laporan_pendahuluan_imunisasi.php";
@@ -846,6 +854,14 @@ if (isset($_SESSION['id_user'])) {
                     case 'poli_imunisasi':
                         include "anak/format_resume/halm_tambah_format_laporan_poli.php";
                         break;
+
+                    case 'analisa_poli':
+                        include "anak/format_resume/halm_tambah_analisa_poli.php";
+                        break;  
+                        
+                    case 'lainnya_poli':
+                        include "anak/format_resume/halm_tambah_lainnya_poli.php";
+                        break;      
 
                     default:
                         include "anak/format_resume/halm_tambah_format_resume_keperawatan.php";
