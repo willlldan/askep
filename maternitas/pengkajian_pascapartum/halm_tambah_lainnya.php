@@ -61,6 +61,8 @@ if ($submission && !$is_dosen && $submission['status'] === 'draft') {
     $stmt->bind_param("i", $submission['id']);
     $stmt->execute();
     $total_filled = $stmt->get_result()->fetch_assoc()['filled'];
+    
+    echo "ini total filled: " . $total_filled;
 
     $can_submit = $total_filled >= $count_section;
 }

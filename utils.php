@@ -389,6 +389,7 @@ function createSubmission($user_id, $form_id, $tanggal_pengkajian, $rs_ruangan, 
  */
 function updateSubmissionHeader($submission_id, $tanggal_pengkajian, $rs_ruangan, $mysqli)
 {
+echo "updateSubmissionHeader called with: $submission_id, $tanggal_pengkajian, $rs_ruangan"; die;
     $stmt = $mysqli->prepare("
         UPDATE submissions 
         SET tanggal_pengkajian = ?, rs_ruangan = ?, updated_at = NOW()
@@ -629,4 +630,89 @@ function updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli)
     $stmt3 = $mysqli->prepare("UPDATE submissions SET status = ? WHERE id = ?");
     $stmt3->bind_param("si", $new_status, $submission_id);
     $stmt3->execute();
+}
+
+/**
+ *
+ * uploadImage($file, $upload_dir, $quality)
+ *
+ * @param array  $file        → $_FILES['nama_field']
+ * @param string $upload_dir  → folder tujuan, contoh: 'uploads/kdm/'
+ * @param int    $quality     → kualitas kompresi 0-100 (default 50)
+ *
+ * @return array [
+ *   'success' => true/false,
+ *   'path'    => 'uploads/kdm/filename.jpg',  // path relatif untuk disimpan ke DB
+ *   'error'   => 'pesan error jika gagal'
+ * ]
+ * ============================================================
+ */
+ 
+function uploadImage(array $file, string $upload_dir, int $quality = 50): array
+{
+    // ---- 1. Cek ada file yang diupload ----
+    if (empty($file['name']) || $file['error'] !== UPLOAD_ERR_OK) {
+        return ['success' => false, 'error' => 'Tidak ada file yang diupload.'];
+    }
+ 
+    // ---- 2. Validasi tipe file ----
+    $allowed_mime = ['image/jpeg', 'image/png', 'image/webp'];
+    $finfo        = finfo_open(FILEINFO_MIME_TYPE);
+    $mime_type    = finfo_file($finfo, $file['tmp_name']);
+    finfo_close($finfo);
+ 
+    if (!in_array($mime_type, $allowed_mime)) {
+        return ['success' => false, 'error' => 'Tipe file tidak didukung. Hanya JPG, PNG, dan WebP.'];
+    }
+ 
+    // ---- 3. Validasi ukuran max 2MB ----
+    $max_size = 2 * 1024 * 1024; // 2MB dalam bytes
+    if ($file['size'] > $max_size) {
+        return ['success' => false, 'error' => 'Ukuran file maksimal 2MB.'];
+    }
+ 
+    // ---- 4. Buat folder jika belum ada ----
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0755, true);
+    }
+ 
+    // ---- 5. Generate nama file unik ----
+    $extension = match($mime_type) {
+        'image/jpeg' => 'jpg',
+        'image/png'  => 'png',
+        'image/webp' => 'webp',
+    };
+    $filename  = date('YmdHis') . '_' . bin2hex(random_bytes(4)) . '.' . $extension;
+    $dest_path = rtrim($upload_dir, '/') . '/' . $filename;
+ 
+    // ---- 6. Load gambar dari tmp ----
+    $image = match($mime_type) {
+        'image/jpeg' => imagecreatefromjpeg($file['tmp_name']),
+        'image/png'  => imagecreatefrompng($file['tmp_name']),
+        'image/webp' => imagecreatefromwebp($file['tmp_name']),
+    };
+ 
+    if (!$image) {
+        return ['success' => false, 'error' => 'Gagal memproses gambar.'];
+    }
+ 
+    // ---- 7. Compress & simpan ----
+    $saved = match($mime_type) {
+        'image/jpeg' => imagejpeg($image, $dest_path, $quality),
+        // PNG quality: skala 0-9, konversi dari 0-100
+        'image/png'  => imagepng($image, $dest_path, (int) round((100 - $quality) / 11)),
+        'image/webp' => imagewebp($image, $dest_path, $quality),
+    };
+ 
+    imagedestroy($image);
+ 
+    if (!$saved) {
+        return ['success' => false, 'error' => 'Gagal menyimpan gambar.'];
+    }
+ 
+    return [
+        'success' => true,
+        'path'    => $dest_path,
+        'error'   => '',
+    ];
 }

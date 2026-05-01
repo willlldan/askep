@@ -5,7 +5,7 @@ require_once "utils.php";
 $form_id       = 4;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'ttv_pemeriksaan_umum ';
+$section_name  = 'ttv_pemeriksaan_umum';
 $section_label = 'TTV & Pemeriksaan Umum';
 
 // =============================================
@@ -33,8 +33,6 @@ if ($level === 'Dosen') {
 
 $existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
 $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
-$tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
-$rs_ruangan     = $submission['rs_ruangan'] ?? '';
 
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
@@ -53,14 +51,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'nadi'             => $_POST['nadi'] ?? '',
         'suhu'             => $_POST['suhu'] ?? '',
         'pernapasan'       => $_POST['pernapasan'] ?? '',
-        'keluhan'          => $_POST['keluhan'] ?? '',
+        'keluhan_utama'          => $_POST['keluhan_utama'] ?? '',
+        'riwayat_keluhan_utama'   => $_POST['riwayat_keluhan_utama'] ?? '',
     ];
 
     if (!$submission) {
         $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
     } else {
         $submission_id = $submission['id'];
-        updateSubmissionHeader($submission_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
     }
 
 
@@ -108,109 +106,112 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <main id="main" class="main">
     <?php include "maternitas/resume_antenatal_care/tab.php"; ?>
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success"><?= $_SESSION['success'];
+                                            unset($_SESSION['success']); ?></div>
+    <?php endif; ?>
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert alert-danger"><?= $_SESSION['error'];
+                                        unset($_SESSION['error']); ?></div>
+    <?php endif; ?>
 
-        <!-- Info status section (untuk dosen) -->
-        <?php if  ($section_status): ?>
-            <?php
-            $badge = [
-                'draft'     => 'secondary',
-                'submitted' => 'primary',
-                'revision'  => 'warning',
-                'approved'  => 'success',
-            ];
-            ?>
+    <!-- Info status section (untuk dosen) -->
+    <?php if ($section_status): ?>
+        <?php
+        $badge = [
+            'draft'     => 'secondary',
+            'submitted' => 'primary',
+            'revision'  => 'warning',
+            'approved'  => 'success',
+        ];
+        ?>
 
-             <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                    | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>       
-            </div>
-        <?php endif; ?>
+        <div class="alert alert-<?= $badge[$section_status] ?>">
+            Status: <strong><?= ucfirst($section_status) ?></strong>
+            | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>
+        </div>
+    <?php endif; ?>
     <section class="section dashboard">
-         <div class="card">
+        <div class="card">
             <div class="card-body">
 
                 <h5 class="card-title"> <strong>c. Tanda-tanda Vital</strong></h5>
 
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-                        
-                <!-- Tekanan Darah -->
+
+                    <!-- Tekanan Darah -->
                     <div class="row mb-3 align-items-center">
                         <label class="col-sm-2 col-form-label"><strong>Tekanan Darah</strong></label>
                         <div class="col-sm-3">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="tekanandarah" value="<?= val('tekanan_darah', $existing_data) ?>" <?= $ro ?>>
-                        </div>    
-                    </div>
-                                
-                    <!-- Nadi -->
-                    <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
-                    <div class="col-sm-3">
-                        <div class="input-group">
-                                <input type="text" class="form-control" name="nadi"value="<?= val('nadi', $existing_data) ?>" <?= $ro ?>>
-                        </div> 
-                    </div>
-                </div>
-
-                    <!-- Suhu -->
-                        <div class="row mb-3 align-items-center">
-                            <label class="col-sm-2 col-form-label"><strong>Suhu</strong></label>
-                            <div class="col-sm-3">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="suhu" value="<?= val('suhu', $existing_data) ?>" <?= $ro ?>>
-                            </div>    
+                            </div>
                         </div>
 
-                    <!-- Pernapasan -->
-                    <label class="col-sm-2 col-form-label"><strong>Pernapasan</strong></label>
-                    <div class="col-sm-3">
-                        <div class="input-group">
+                        <!-- Nadi -->
+                        <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="nadi" value="<?= val('nadi', $existing_data) ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Suhu -->
+                    <div class="row mb-3 align-items-center">
+                        <label class="col-sm-2 col-form-label"><strong>Suhu</strong></label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="suhu" value="<?= val('suhu', $existing_data) ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+                        <!-- Pernapasan -->
+                        <label class="col-sm-2 col-form-label"><strong>Pernapasan</strong></label>
+                        <div class="col-sm-3">
+                            <div class="input-group">
                                 <input type="text" class="form-control" name="pernapasan" value="<?= val('pernapasan', $existing_data) ?>" <?= $ro ?>>
                             </div>
                         </div>
                     </div>
-                    </div>
-                      <div class="card">
-            <div class="card-body">
+            </div>
+            <div class="card">
+                <div class="card-body">
 
-                <h5 class="card-title"> <strong>d. Pemeriksaan Umum</strong></h5>
-                <label class="col-sm-2 col-form-label"><strong>Keluhan Utama</strong></label>
-
-
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-                
-                <!-- Bagian Pemeriksaan -->
-                <div class="row mb-3">
-                    <label for="pemeriksaan" class="col-sm-2 col-form-label"><strong>Riwayat Keluhan Utama</strong></label>
-                    <div class="col-sm-9">
-                        <textarea name="keluhan" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
-                        <?= $ro ?>><?= val('keluhan', $existing_data) ?></textarea>
-                        
-                      
-                         </div>
-                    </div>
-</div>
-</div>
-</div>
-           <!-- TOMBOL SUBMIT -->
-                    <?php if (!$is_dosen): ?>
+                    <h5 class="card-title"> <strong>d. Pemeriksaan Umum</strong></h5>
                     <div class="row mb-3">
-                        <div class="col-sm-11 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        <label for="pemeriksaan" class="col-sm-2 col-form-label"><strong> Keluhan Utama</strong></label>
+                        <div class="col-sm-9">
+                            <textarea name="keluhan_utama" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('keluhan_utama', $existing_data) ?></textarea>
+
+
                         </div>
                     </div>
-                    <?php endif; ?>
-                </form>
+                    <!-- Bagian Pemeriksaan -->
+                    <div class="row mb-3">
+                        <label for="pemeriksaan" class="col-sm-2 col-form-label"><strong>Riwayat Keluhan Utama</strong></label>
+                        <div class="col-sm-9">
+                            <textarea name="riwayat_keluhan_utama" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('riwayat_keluhan_utama', $existing_data) ?></textarea>
+
+
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+        <!-- TOMBOL SUBMIT -->
+        <?php if (!$is_dosen): ?>
+            <div class="row mb-3">
+                <div class="col-sm-11 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </div>
+        <?php endif; ?>
+        </form>
+        </div>
         </div>
 
         <!-- ================================ -->

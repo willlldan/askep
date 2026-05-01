@@ -2,7 +2,7 @@
 require_once "koneksi.php";
 require_once "utils.php";
 
-$form_id       = 18;
+$form_id       = 15;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
 $section_name  = 'data_biologis_2';
@@ -50,9 +50,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     if (isLocked($submission)) {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
-    $text_fields = ['bentuk_dada', 'pengembangan_dada', 'perbandingan_dada', 'otot_pernafasan', 'frekuensi_nafas', 'teratur_nafas', 'irama_nafas', 'sesak_nafas', 'taktil_fremitus', 'perkusi_paru', 'suara_nafas_uraian', 'bunyi_abnormal', 'abnormal', 's1_jantung', 's2_jantung', 'bunyi_jantung', 'pulsasi_jantung', 'irama_jantung', 'bising_usus', 'bising_usus_kali', 'benjolan_abdomen', 'benjolan_letak', 'nyeri_abdomen', 'nyeri_letak', 'perkusi_abdomen', 'kelainan_abdomen', 'bentuk_genetalia', 'radang_genetalia', 'sekret_genetalia', 'skrotum_bengkak', 'rektum_benjolan', 'lesi_genetalia', 'kelainan_genetalia', 'atas_simetris', 'sensasi_halus', 'sensasi_tajam', 'sensasi_panas', 'sensasi_dingin', 'rom_atas', 'refleks_bisep', 'refleks_trisep', 'pembengkakan_atas', 'kelembaban_atas', 'temperatur_atas', 'otot_tangan_kanan', 'otot_tangan_kiri', 'kelainan_ekstremitas_atas', 'bawah_simetris', 'bawah_sensasi_halus', 'bawah_sensasi_tajam', 'bawah_sensasi_panas', 'bawah_sensasi_dingin', 'rom_bawah', 'refleks_babinski', 'varises', 'pembengkakan_bawah', 'kelembaban_bawah', 'temperatur_bawah', 'otot_kaki_kanan', 'otot_kaki_kiri', 'kelainan_ekstremitas_bawah', 'warna_kulit', 'turgor_kulit', 'edema_kulit', 'pada_daerah', 'luka_kulit', 'karakteristik_luka', 'tekstur_kulit', 'kelainan_kulit', 'clubbing_finger', 'capillary_refill_time', 'nervus1_penciuman', 'nervus2_penglihatan', 'konstriksi_pupil', 'gerakan_kelopak', 'gerakan_bola_mata', 'gerakan_mata_bawah', 'refleks_dagu', 'refleks_cornea', 'pengecapan_depan', 'fungsi_pendengaran', 'refleks_menelan', 'refleks_muntah', 'pengecapan_belakang', 'suara_pasien', 'gerakan_kepala', 'angkat_bahu', 'deviasi_lidah', 'kaku_kuduk', 'kernig_sign', 'refleks_brudzinski'];
+    $text_fields = ['bentuk_dada', 'pengembangan_dada', 'perbandingan_dada', 'otot_pernafasan', 'frekuensi_nafas', 'teratur_nafas', 'irama_nafas', 'suara_nafas', 'sesak_nafas', 'taktil_fremitus', 'perkusi_paru', 'suara_nafas_uraian', 'bunyi_abnormal', 'abnormal', 's1_jantung', 's2_jantung', 'bunyi_jantung', 'pulsasi_jantung', 'irama_jantung', 'bising_usus', 'bising_usus_kali', 'benjolan_abdomen', 'benjolan_letak', 'nyeri_abdomen', 'nyeri_letak', 'perkusi_abdomen', 'kelainan_abdomen', 'bentuk_genetalia', 'radang_genetalia', 'sekret_genetalia', 'skrotum_bengkak', 'rektum_benjolan', 'lesi_genetalia', 'kelainan_genetalia', 'atas_simetris', 'sensasi_halus', 'sensasi_tajam', 'sensasi_panas', 'sensasi_dingin', 'rom_atas', 'refleks_bisep', 'refleks_trisep', 'pembengkakan_atas', 'kelembaban_atas', 'temperatur_atas', 'kelembaban_kulit', 'otot_tangan_kanan', 'otot_tangan_kiri', 'kelainan_ekstremitas_atas', 'bawah_simetris', 'bawah_sensasi_halus', 'bawah_sensasi_tajam', 'bawah_sensasi_panas', 'bawah_sensasi_dingin', 'rom_bawah', 'refleks_babinski', 'varises_bawah', 'pembengkakan_bawah', 'kelembaban_bawah', 'temperatur_bawah', 'otot_kaki_kanan', 'otot_kaki_kiri', 'kelainan_ekstremitas_bawah', 'warna_kulit', 'turgor_kulit', 'edema_kulit', 'pada_daerah', 'luka_kulit', 'karakteristik_luka', 'tekstur_kulit', 'kelainan_kulit', 'clubbing_finger', 'capillary_refill_time', 'nervus1_penciuman', 'nervus2_penglihatan', 'konstriksi_pupil', 'gerakan_kelopak', 'gerakan_bola_mata', 'gerakan_mata_bawah', 'refleks_dagu', 'refleks_cornea', 'pengecapan_depan', 'fungsi_pendengaran', 'refleks_menelan', 'refleks_muntah', 'pengecapan_belakang', 'suara_pasien', 'gerakan_kepala', 'angkat_bahu', 'deviasi_lidah', 'kaku_kuduk', 'kernig_sign', 'refleks_brudzinski'];
     $data = [];
-    foreach ($text_fields as $f) { $data[$f] = $_POST[$f] ?? ''; }
+    foreach ($text_fields as $f) {
+        $data[$f] = $_POST[$f] ?? '';
+    }
     foreach ($checkbox_fields as $cf) {
         $data[$cf] = json_encode(isset($_POST[$cf]) ? (array)$_POST[$cf] : []);
     }
@@ -96,14 +98,16 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
     <section class="section dashboard">
 
         <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
+            <div class="alert alert-success"><?= $_SESSION['success'];
+                                                unset($_SESSION['success']); ?></div>
         <?php endif; ?>
         <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
+            <div class="alert alert-danger"><?= $_SESSION['error'];
+                                            unset($_SESSION['error']); ?></div>
         <?php endif; ?>
 
         <?php if ($section_status): ?>
-            <?php $badge = ['draft'=>'secondary','submitted'=>'primary','revision'=>'warning','approved'=>'success']; ?>
+            <?php $badge = ['draft' => 'secondary', 'submitted' => 'primary', 'revision' => 'warning', 'approved' => 'success']; ?>
             <div class="alert alert-<?= $badge[$section_status] ?>">
                 Status: <strong><?= ucfirst($section_status) ?></strong>
                 | Reviewed by: <strong><?= $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-' ?></strong>
@@ -176,7 +180,6 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             </div>
                         </div>
 
-                        <!-- Letak Gigi Palsu -->
                         <div class="col-sm-2">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="teratur_nafas" value="teratur" id="teratur_nafas_teratur" <?= $ro_disabled ?> <?= ($existing_data['teratur_nafas'] ?? '') === 'teratur' ? 'checked' : '' ?>>
@@ -248,17 +251,13 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                         </div>
                     </div>
 
-                    <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>Suara Nafas</strong></label>
-                    </div>
-
                     <div class="row mb-3 align-items-center">
-                        <label class="col-sm-2 col-form-label"><strong>Frekuensi Nafas</strong></label>
-                        <!-- Letak Gigi Palsu -->
+                        <label class="col-sm-2 col-form-label"><strong>Suara Nafas</strong></label>
+
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="teratur_nafas" value="teratur" id="teratur_nafas_teratur" <?= $ro_disabled ?> <?= ($existing_data['teratur_nafas'] ?? '') === 'teratur' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="teratur_nafas_teratur">Normal</label>
+                                <input class="form-check-input" type="radio" name="suara_nafas" value="teratur" id="suara_nafas_teratur" <?= $ro_disabled ?> <?= ($existing_data['suara_nafas'] ?? '') === 'teratur' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="suara_nafas_teratur">Normal</label>
                             </div>
                         </div>
                         <div class="col-sm-7">
@@ -834,14 +833,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                         <div class="col-sm-2"><strong>Pembengkakan</strong></div>
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="pembengkakan" value="ya" id="pembengkakan_ya" <?= $ro_disabled ?> <?= ($existing_data['pembengkakan'] ?? '') === 'ya' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="pembengkakan_ya">Ya</label>
+                                <input class="form-check-input" type="radio" name="pembengkakan_atas" value="ya" id="pembengkakan_atas_ya" <?= $ro_disabled ?> <?= ($existing_data['pembengkakan_atas'] ?? '') === 'ya' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="pembengkakan_atas_ya">Ya</label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="pembengkakan" value="tidak" id="pembengkakan_tidak" <?= $ro_disabled ?> <?= ($existing_data['pembengkakan'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="pembengkakan_tidak">Tidak</label>
+                                <input class="form-check-input" type="radio" name="pembengkakan_atas" value="tidak" id="pembengkakan_atas_tidak" <?= $ro_disabled ?> <?= ($existing_data['pembengkakan_atas'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="pembengkakan_atas_tidak">Tidak</label>
                             </div>
                         </div>
                     </div>
@@ -850,14 +849,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                         <div class="col-sm-2"><strong>Kelembaban</strong></div>
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="kelembaban" value="lembab" id="kelembaban_lembab" <?= $ro_disabled ?> <?= ($existing_data['kelembaban'] ?? '') === 'lembab' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="kelembaban_lembab">Lembab</label>
+                                <input class="form-check-input" type="radio" name="kelembaban_atas" value="lembab" id="kelembaban_atas_lembab" <?= $ro_disabled ?> <?= ($existing_data['kelembaban_atas'] ?? '') === 'lembab' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="kelembaban_atas_lembab">Lembab</label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="kelembaban" value="kering" id="kelembaban_kering" <?= $ro_disabled ?> <?= ($existing_data['kelembaban'] ?? '') === 'kering' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="kelembaban_kering">Kering</label>
+                                <input class="form-check-input" type="radio" name="kelembaban_atas" value="kering" id="kelembaban_atas_kering" <?= $ro_disabled ?> <?= ($existing_data['kelembaban_atas'] ?? '') === 'kering' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="kelembaban_atas_kering">Kering</label>
                             </div>
                         </div>
                     </div>
@@ -866,14 +865,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                         <div class="col-sm-2"><strong>Temperatur</strong></div>
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="temperatur" value="panas" id="temperatur_panas" <?= $ro_disabled ?> <?= ($existing_data['temperatur'] ?? '') === 'panas' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="temperatur_panas">Panas</label>
+                                <input class="form-check-input" type="radio" name="temperatur_atas" value="panas" id="temperatur_atas_panas" <?= $ro_disabled ?> <?= ($existing_data['temperatur_atas'] ?? '') === 'panas' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="temperatur_atas_panas">Panas</label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="temperatur" value="dingin" id="temperatur_dingin" <?= $ro_disabled ?> <?= ($existing_data['temperatur'] ?? '') === 'dingin' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="temperatur_dingin">Dingin</label>
+                                <input class="form-check-input" type="radio" name="temperatur_atas" value="dingin" id="temperatur_atas_dingin" <?= $ro_disabled ?> <?= ($existing_data['temperatur_atas'] ?? '') === 'dingin' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="temperatur_atas_dingin">Dingin</label>
                             </div>
                         </div>
                     </div>
@@ -922,14 +921,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="bawah_simetris" value="ya" id="bawah_simetris_ya" <?= $ro_disabled ?> <?= ($existing_data['bawah_simetris'] ?? '') === 'ya' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="bawah_simetris_ya">Ya</label>
+                                    <label class="form-check-label" for="bawah_simetris_ya">Ya</label>
                                 </div>
                             </div>
 
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="bawah_simetris" value="tidak" id="bawah_simetris_tidak" <?= $ro_disabled ?> <?= ($existing_data['bawah_simetris'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="bawah_simetris_tidak">Tidak</label>
+                                    <label class="form-check-label" for="bawah_simetris_tidak">Tidak</label>
                                 </div>
                             </div>
                         </div>
@@ -940,14 +939,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="bawah_sensasi_halus" value="ada" id="bawah_sensasi_halus_ada" <?= $ro_disabled ?> <?= ($existing_data['bawah_sensasi_halus'] ?? '') === 'ada' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="bawah_sensasi_halus_ada">Ada</label>
+                                    <label class="form-check-label" for="bawah_sensasi_halus_ada">Ada</label>
                                 </div>
                             </div>
 
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="bawah_sensasi_halus" value="tidak" id="bawah_sensasi_halus_tidak" <?= $ro_disabled ?> <?= ($existing_data['bawah_sensasi_halus'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="bawah_sensasi_halus_tidak">Tidak</label>
+                                    <label class="form-check-label" for="bawah_sensasi_halus_tidak">Tidak</label>
                                 </div>
                             </div>
                         </div>
@@ -958,14 +957,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="bawah_sensasi_tajam" value="ada" id="bawah_sensasi_tajam_ada" <?= $ro_disabled ?> <?= ($existing_data['bawah_sensasi_tajam'] ?? '') === 'ada' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="bawah_sensasi_tajam_ada">Ada</label>
+                                    <label class="form-check-label" for="bawah_sensasi_tajam_ada">Ada</label>
                                 </div>
                             </div>
 
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="bawah_sensasi_tajam" value="tidak" id="bawah_sensasi_tajam_tidak" <?= $ro_disabled ?> <?= ($existing_data['bawah_sensasi_tajam'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="bawah_sensasi_tajam_tidak">Tidak</label>
+                                    <label class="form-check-label" for="bawah_sensasi_tajam_tidak">Tidak</label>
                                 </div>
                             </div>
                         </div>
@@ -976,14 +975,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="bawah_sensasi_panas" value="ada" id="bawah_sensasi_panas_ada" <?= $ro_disabled ?> <?= ($existing_data['bawah_sensasi_panas'] ?? '') === 'ada' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="bawah_sensasi_panas_ada">Ada</label>
+                                    <label class="form-check-label" for="bawah_sensasi_panas_ada">Ada</label>
                                 </div>
                             </div>
 
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="bawah_sensasi_panas" value="tidak" id="bawah_sensasi_panas_tidak" <?= $ro_disabled ?> <?= ($existing_data['bawah_sensasi_panas'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="bawah_sensasi_panas_tidak">Tidak</label>
+                                    <label class="form-check-label" for="bawah_sensasi_panas_tidak">Tidak</label>
                                 </div>
                             </div>
                         </div>
@@ -994,14 +993,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="bawah_sensasi_dingin" value="ada" id="bawah_sensasi_dingin_ada" <?= $ro_disabled ?> <?= ($existing_data['bawah_sensasi_dingin'] ?? '') === 'ada' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="bawah_sensasi_dingin_ada">Ada</label>
+                                    <label class="form-check-label" for="bawah_sensasi_dingin_ada">Ada</label>
                                 </div>
                             </div>
 
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="bawah_sensasi_dingin" value="tidak" id="bawah_sensasi_dingin_tidak" <?= $ro_disabled ?> <?= ($existing_data['bawah_sensasi_dingin'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="bawah_sensasi_dingin_tidak">Tidak</label>
+                                    <label class="form-check-label" for="bawah_sensasi_dingin_tidak">Tidak</label>
                                 </div>
                             </div>
                         </div>
@@ -1012,14 +1011,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="rom_bawah" value="dapat" id="rom_bawah_dapat" <?= $ro_disabled ?> <?= ($existing_data['rom_bawah'] ?? '') === 'dapat' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="rom_bawah_dapat">Dapat</label>
+                                    <label class="form-check-label" for="rom_bawah_dapat">Dapat</label>
                                 </div>
                             </div>
 
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="rom_bawah" value="tidak" id="rom_bawah_tidak" <?= $ro_disabled ?> <?= ($existing_data['rom_bawah'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="rom_bawah_tidak">Tidak</label>
+                                    <label class="form-check-label" for="rom_bawah_tidak">Tidak</label>
                                 </div>
                             </div>
                         </div>
@@ -1030,14 +1029,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="refleks_babinski" value="ada" id="refleks_babinski_ada" <?= $ro_disabled ?> <?= ($existing_data['refleks_babinski'] ?? '') === 'ada' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="refleks_babinski_ada">Ada</label>
+                                    <label class="form-check-label" for="refleks_babinski_ada">Ada</label>
                                 </div>
                             </div>
 
                             <div class="col-sm-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="refleks_babinski" value="tidak" id="refleks_babinski_tidak" <?= $ro_disabled ?> <?= ($existing_data['refleks_babinski'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="refleks_babinski_tidak">Tidak</label>
+                                    <label class="form-check-label" for="refleks_babinski_tidak">Tidak</label>
                                 </div>
                             </div>
                         </div>
@@ -1048,14 +1047,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
                             <div class="col-sm-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="pembengkakan" value="ya" id="pembengkakan_ya" <?= $ro_disabled ?> <?= ($existing_data['pembengkakan'] ?? '') === 'ya' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="pembengkakan_ya">Ya</label>
+                                    <input class="form-check-input" type="radio" name="pembengkakan_bawah" value="ya" id="pembengkakan_bawah_ya" <?= $ro_disabled ?> <?= ($existing_data['pembengkakan_bawah'] ?? '') === 'ya' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="pembengkakan_bawah_ya">Ya</label>
                                 </div>
                             </div>
                             <div class="col-sm-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="pembengkakan" value="tidak" id="pembengkakan_tidak" <?= $ro_disabled ?> <?= ($existing_data['pembengkakan'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="pembengkakan_tidak">Tidak</label>
+                                    <input class="form-check-input" type="radio" name="pembengkakan_bawah" value="tidak" id="pembengkakan_bawah_tidak" <?= $ro_disabled ?> <?= ($existing_data['pembengkakan_bawah'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="pembengkakan_bawah_tidak">Tidak</label>
                                 </div>
                             </div>
                         </div>
@@ -1065,14 +1064,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             <div class="col-sm-2"><strong>Varises</strong></div>
                             <div class="col-sm-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="varises" value="ada" id="varises_ada" <?= $ro_disabled ?> <?= ($existing_data['varises'] ?? '') === 'ada' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="varises_ada">Ada</label>
+                                    <input class="form-check-input" type="radio" name="varises_bawah" value="ada" id="varises_bawah_ada" <?= $ro_disabled ?> <?= ($existing_data['varises_bawah'] ?? '') === 'ada' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="varises_bawah_ada">Ada</label>
                                 </div>
                             </div>
                             <div class="col-sm-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="varises" value="tidak" id="varises_tidak" <?= $ro_disabled ?> <?= ($existing_data['varises'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="varises_tidak">Tidak</label>
+                                    <input class="form-check-input" type="radio" name="varises_bawah" value="tidak" id="varises_bawah_tidak" <?= $ro_disabled ?> <?= ($existing_data['varises_bawah'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="varises_bawah_tidak">Tidak</label>
                                 </div>
                             </div>
                         </div>
@@ -1082,14 +1081,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             <div class="col-sm-2"><strong>Kelembaban</strong></div>
                             <div class="col-sm-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="kelembaban" value="lembab" id="kelembaban_lembab" <?= $ro_disabled ?> <?= ($existing_data['kelembaban'] ?? '') === 'lembab' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="kelembaban_lembab">Lembab</label>
+                                    <input class="form-check-input" type="radio" name="kelembaban_bawah" value="lembab" id="kelembaban_bawah_lembab" <?= $ro_disabled ?> <?= ($existing_data['kelembaban_bawah'] ?? '') === 'lembab' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="kelembaban_bawah_lembab">Lembab</label>
                                 </div>
                             </div>
                             <div class="col-sm-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="kelembaban" value="kering" id="kelembaban_kering" <?= $ro_disabled ?> <?= ($existing_data['kelembaban'] ?? '') === 'kering' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="kelembaban_kering">Kering</label>
+                                    <input class="form-check-input" type="radio" name="kelembaban_bawah" value="kering" id="kelembaban_bawah_kering" <?= $ro_disabled ?> <?= ($existing_data['kelembaban_bawah'] ?? '') === 'kering' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="kelembaban_bawah_kering">Kering</label>
                                 </div>
                             </div>
                         </div>
@@ -1099,14 +1098,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             <div class="col-sm-2"><strong>Temperatur</strong></div>
                             <div class="col-sm-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="temperatur" value="panas" id="temperatur_panas" <?= $ro_disabled ?> <?= ($existing_data['temperatur'] ?? '') === 'panas' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="temperatur_panas">Panas</label>
+                                    <input class="form-check-input" type="radio" name="temperatur_bawah" value="panas" id="temperatur_bawah_panas" <?= $ro_disabled ?> <?= ($existing_data['temperatur_bawah'] ?? '') === 'panas' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="temperatur_bawah_panas">Panas</label>
                                 </div>
                             </div>
                             <div class="col-sm-2">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="temperatur" value="dingin" id="temperatur_dingin" <?= $ro_disabled ?> <?= ($existing_data['temperatur'] ?? '') === 'dingin' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="temperatur_dingin">Dingin</label>
+                                    <input class="form-check-input" type="radio" name="temperatur_bawah" value="dingin" id="temperatur_bawah_dingin" <?= $ro_disabled ?> <?= ($existing_data['temperatur_bawah'] ?? '') === 'dingin' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="temperatur_bawah_dingin">Dingin</label>
                                 </div>
                             </div>
                         </div>
@@ -1127,432 +1126,434 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                                 </div>
 
                             </div>
-
-                            <!-- Kelainan -->
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label"><strong>Kelainan</strong></div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="kelainan_genetalia" value="<?= htmlspecialchars($existing_data['kelainan_genetalia'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-                            <div class="row mb-2">
-                                <label class="col-sm-12 text-primary"><strong>o. Kulit</strong></label>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Warna</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="warna_kulit" value="<?= htmlspecialchars($existing_data['warna_kulit'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-sm-2"><strong>Turgor</strong>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="turgor_kulit" value="elastis" id="turgor_kulit_elastis" <?= $ro_disabled ?> <?= ($existing_data['turgor_kulit'] ?? '') === 'elastis' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="turgor_kulit_elastis">Elastis</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="turgor_kulit" value="menurun" id="turgor_kulit_menurun" <?= $ro_disabled ?> <?= ($existing_data['turgor_kulit'] ?? '') === 'menurun' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="turgor_kulit_menurun">Tidak</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-sm-2"><strong>Kelembaban</strong>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="kelembaban" value="lembab" id="kelembaban_lembab" <?= $ro_disabled ?> <?= ($existing_data['kelembaban'] ?? '') === 'lembab' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="kelembaban_lembab">Lembab</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="kelembaban" value="kering" id="kelembaban_kering" <?= $ro_disabled ?> <?= ($existing_data['kelembaban'] ?? '') === 'kering' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="kelembaban_kering">Kering</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3 align-items-center">
-                                <label class="col-sm-2 col-form-label"><strong>Edema</strong></label>
-                                <!-- Letak Gigi Palsu -->
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="edema_kulit" value="ada" id="edema_kulit_ada" <?= $ro_disabled ?> <?= ($existing_data['edema_kulit'] ?? '') === 'ada' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="edema_kulit_ada">Ada</label>
-                                    </div>
-
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="edema_kulit" value="tidak" id="edema_kulit_tidak" <?= $ro_disabled ?> <?= ($existing_data['edema_kulit'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="edema_kulit_tidak">Tidak</label>
-                                    </div>
-
-                                </div>
-
-                                <div class="col-sm-5">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="pada_daerah" value="<?= htmlspecialchars($existing_data['pada_daerah'] ?? '') ?>" <?= $ro ?>>
-                                        <span class="input-group-text">Pada Daerah</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3 align-items-center">
-                                <label class="col-sm-2 col-form-label"><strong>Luka</strong></label>
-                                <!-- Letak Gigi Palsu -->
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="luka_kulit" value="ada" id="luka_kulit_ada" <?= $ro_disabled ?> <?= ($existing_data['luka_kulit'] ?? '') === 'ada' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="luka_kulit_ada">Ada</label>
-                                    </div>
-
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="luka_kulit" value="tidak" id="luka_kulit_tidak" <?= $ro_disabled ?> <?= ($existing_data['luka_kulit'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="luka_kulit_tidak">Tidak</label>
-                                    </div>
-
-                                </div>
-
-                                <div class="col-sm-5">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="pada_daerah" value="<?= htmlspecialchars($existing_data['pada_daerah'] ?? '') ?>" <?= $ro ?>>
-                                        <span class="input-group-text">Pada Daerah</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Karakteristik Luka</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="karakteristik_luka" value="<?= htmlspecialchars($existing_data['karakteristik_luka'] ?? '') ?>" <?= $ro ?>>
-
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-sm-2"><strong>Tekstur</strong>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tekstur_kulit" value="licin" id="tekstur_kulit_licin" <?= $ro_disabled ?> <?= ($existing_data['tekstur_kulit'] ?? '') === 'licin' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="tekstur_kulit_licin">Licin</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tekstur_kulit" value="keriput" id="tekstur_kulit_keriput" <?= $ro_disabled ?> <?= ($existing_data['tekstur_kulit'] ?? '') === 'keriput' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="tekstur_kulit_keriput">Keriput</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="tekstur_kulit" value="kasar" id="tekstur_kulit_kasar" <?= $ro_disabled ?> <?= ($existing_data['tekstur_kulit'] ?? '') === 'kasar' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="tekstur_kulit_kasar">Kasar</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Kelainan</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="kelainan_kulit" value="<?= htmlspecialchars($existing_data['kelainan_kulit'] ?? '') ?>" <?= $ro ?>>
-
-                                </div>
-                            </div>
-                            <div class="row mb-2">
-                                <label class="col-sm-12 text-primary"><strong>p. Kuku</strong></label>
-                            </div>
-                            <div class="row mb-2">
-                                <div class="col-sm-2"><strong>Clubbing Finger</strong>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="clubbing_finger" value="ya" id="clubbing_finger_ya" <?= $ro_disabled ?> <?= ($existing_data['clubbing_finger'] ?? '') === 'ya' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="clubbing_finger_ya">Ya</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="clubbing_finger" value="tidak" id="clubbing_finger_tidak" <?= $ro_disabled ?> <?= ($existing_data['clubbing_finger'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="clubbing_finger_tidak">Tidak</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Capillary Refill Time</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="capillary_refill_time" value="<?= htmlspecialchars($existing_data['capillary_refill_time'] ?? '') ?>" <?= $ro ?>>
-
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Keadaan</strong>
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-2">
-                                <label class="col-sm-12 text-primary"><strong>q. Status Neurologi</strong></label>
-                            </div>
-
-
-
-
-                            <div class="row mb-2">
-                                <label class="col-sm-12"><strong>1) Saraf-saraf Kranial</strong></label>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>a) Nervus I (Olfactorius) - Penciuman</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="nervus1_penciuman" value="<?= htmlspecialchars($existing_data['nervus1_penciuman'] ?? '') ?>" <?= $ro ?>>
-
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>b) Nervus II (Opticus) - Penglihatan</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="nervus2_penglihatan" value="<?= htmlspecialchars($existing_data['nervus2_penglihatan'] ?? '') ?>" <?= $ro ?>>
-
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-2">
-                                <label class="col-sm-12"><strong>c) Nervus III, IV, VI (Oculomotorius, Trochlearis, Abducens)</strong></label>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Konstriksi Pupil</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="konstriksi_pupil" value="<?= htmlspecialchars($existing_data['konstriksi_pupil'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong> <label class="col-sm-11 col-form-label"><strong>Gerakan Kelopak Mata</strong></label>
-                                    </strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="gerakan_kelopak" value="<?= htmlspecialchars($existing_data['gerakan_kelopak'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Pergerakan Bola Mata</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="gerakan_bola_mata" value="<?= htmlspecialchars($existing_data['gerakan_bola_mata'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Pergerakan Mata ke Bawah & Dalam</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="gerakan_mata_bawah" value="<?= htmlspecialchars($existing_data['gerakan_mata_bawah'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-
-
-                            <div class="row mb-2">
-                                <label class="col-sm-12"><strong>d) Nervus V (Trigeminus)</strong></label>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Refleks Dagu</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="refleks_dagu" value="<?= htmlspecialchars($existing_data['refleks_dagu'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Refleks Cornea</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="refleks_cornea" value="<?= htmlspecialchars($existing_data['refleks_cornea'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-2">
-                                <label class="col-sm-12"><strong>e) Nervus VII (Facialis)</strong></label>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Pengecapan 2/3 Lidah Bagian Depan</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="pengecapan_depan" value="<?= htmlspecialchars($existing_data['pengecapan_depan'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-2">
-                                <label class="col-sm-12"><strong>f) Nervus VIII (Acusticus)</strong></label>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Fungsi Pendengaran</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="fungsi_pendengaran" value="<?= htmlspecialchars($existing_data['fungsi_pendengaran'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-2">
-                                <label class="col-sm-12"><strong>g) Nervus IX & X (Glossopharyngeus dan Vagus)</strong></label>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Refleks Menelan</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="refleks_menelan" value="<?= htmlspecialchars($existing_data['refleks_menelan'] ?? '') ?>" <?= $ro ?>>
-
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Refleks Muntah</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="refleks_muntah" value="<?= htmlspecialchars($existing_data['refleks_muntah'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Pengecapan 1/3 Lidah Belakang</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="pengecapan_belakang" value="<?= htmlspecialchars($existing_data['pengecapan_belakang'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Suara</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="suara_pasien" value="<?= htmlspecialchars($existing_data['suara_pasien'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-2">
-                                <label class="col-sm-12"><strong>h) Nervus XI (Assesorius)</strong></label>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Memalingkan Kepala</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="gerakan_kepala" value="<?= htmlspecialchars($existing_data['gerakan_kepala'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Mengangkat Bahu</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="angkat_bahu" value="<?= htmlspecialchars($existing_data['angkat_bahu'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-
-                            <div class="row mb-2">
-                                <label class="col-sm-12"><strong>i) Nervus XII (Hypoglossus)</strong></label>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Deviasi Lidah</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="deviasi_lidah" value="<?= htmlspecialchars($existing_data['deviasi_lidah'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-                            <div class="row mb-2">
-                                <label class="col-sm-12"><strong>2) Tanda-tanda Peradangan Selaput Otak</strong></label>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Kaku Kuduk</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="kaku_kuduk" value="<?= htmlspecialchars($existing_data['kaku_kuduk'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Kernig Sign</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="kernig_sign" value="<?= htmlspecialchars($existing_data['kernig_sign'] ?? '') ?>" <?= $ro ?>>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-sm-2 col-form-label">
-                                    <strong>Refleks Brudzinski</strong>
-                                </div>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="refleks_brudzinski" value="<?= htmlspecialchars($existing_data['refleks_brudzinski'] ?? '') ?>" <?= $ro ?>>
-
-                                </div>
-                            </div>
-
-                    <!-- TOMBOL SIMPAN -->
-                    <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
                         </div>
-                    </div>
-                    <?php endif; ?>
+
+                        <!-- Kelainan -->
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label"><strong>Kelainan</strong></div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="kelainan_genetalia" value="<?= htmlspecialchars($existing_data['kelainan_genetalia'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <label class="col-sm-12 text-primary"><strong>o. Kulit</strong></label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Warna</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="warna_kulit" value="<?= htmlspecialchars($existing_data['warna_kulit'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-2"><strong>Turgor</strong>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="turgor_kulit" value="elastis" id="turgor_kulit_elastis" <?= $ro_disabled ?> <?= ($existing_data['turgor_kulit'] ?? '') === 'elastis' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="turgor_kulit_elastis">Elastis</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="turgor_kulit" value="menurun" id="turgor_kulit_menurun" <?= $ro_disabled ?> <?= ($existing_data['turgor_kulit'] ?? '') === 'menurun' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="turgor_kulit_menurun">Tidak</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-2"><strong>Kelembaban</strong>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="kelembaban_kulit" value="lembab" id="kelembaban_kulit_lembab" <?= $ro_disabled ?> <?= ($existing_data['kelembaban_kulit'] ?? '') === 'lembab' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="kelembaban_kulit_lembab">Lembab</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="kelembaban_kulit" value="kering" id="kelembaban_kulit_kering" <?= $ro_disabled ?> <?= ($existing_data['kelembaban_kulit'] ?? '') === 'kering' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="kelembaban_kulit_kering">Kering</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 align-items-center">
+                            <label class="col-sm-2 col-form-label"><strong>Edema</strong></label>
+                            <!-- Letak Gigi Palsu -->
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="edema_kulit" value="ada" id="edema_kulit_ada" <?= $ro_disabled ?> <?= ($existing_data['edema_kulit'] ?? '') === 'ada' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="edema_kulit_ada">Ada</label>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="edema_kulit" value="tidak" id="edema_kulit_tidak" <?= $ro_disabled ?> <?= ($existing_data['edema_kulit'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="edema_kulit_tidak">Tidak</label>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-5">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="pada_daerah" value="<?= htmlspecialchars($existing_data['pada_daerah'] ?? '') ?>" <?= $ro ?>>
+                                    <span class="input-group-text">Pada Daerah</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3 align-items-center">
+                            <label class="col-sm-2 col-form-label"><strong>Luka</strong></label>
+                            <!-- Letak Gigi Palsu -->
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="luka_kulit" value="ada" id="luka_kulit_ada" <?= $ro_disabled ?> <?= ($existing_data['luka_kulit'] ?? '') === 'ada' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="luka_kulit_ada">Ada</label>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="luka_kulit" value="tidak" id="luka_kulit_tidak" <?= $ro_disabled ?> <?= ($existing_data['luka_kulit'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="luka_kulit_tidak">Tidak</label>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-5">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="pada_daerah" value="<?= htmlspecialchars($existing_data['pada_daerah'] ?? '') ?>" <?= $ro ?>>
+                                    <span class="input-group-text">Pada Daerah</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Karakteristik Luka</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="karakteristik_luka" value="<?= htmlspecialchars($existing_data['karakteristik_luka'] ?? '') ?>" <?= $ro ?>>
+
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-2"><strong>Tekstur</strong>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tekstur_kulit" value="licin" id="tekstur_kulit_licin" <?= $ro_disabled ?> <?= ($existing_data['tekstur_kulit'] ?? '') === 'licin' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="tekstur_kulit_licin">Licin</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tekstur_kulit" value="keriput" id="tekstur_kulit_keriput" <?= $ro_disabled ?> <?= ($existing_data['tekstur_kulit'] ?? '') === 'keriput' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="tekstur_kulit_keriput">Keriput</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="tekstur_kulit" value="kasar" id="tekstur_kulit_kasar" <?= $ro_disabled ?> <?= ($existing_data['tekstur_kulit'] ?? '') === 'kasar' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="tekstur_kulit_kasar">Kasar</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Kelainan</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="kelainan_kulit" value="<?= htmlspecialchars($existing_data['kelainan_kulit'] ?? '') ?>" <?= $ro ?>>
+
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-sm-12 text-primary"><strong>p. Kuku</strong></label>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-2"><strong>Clubbing Finger</strong>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="clubbing_finger" value="ya" id="clubbing_finger_ya" <?= $ro_disabled ?> <?= ($existing_data['clubbing_finger'] ?? '') === 'ya' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="clubbing_finger_ya">Ya</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="clubbing_finger" value="tidak" id="clubbing_finger_tidak" <?= $ro_disabled ?> <?= ($existing_data['clubbing_finger'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="clubbing_finger_tidak">Tidak</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Capillary Refill Time</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="capillary_refill_time" value="<?= htmlspecialchars($existing_data['capillary_refill_time'] ?? '') ?>" <?= $ro ?>>
+
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Keadaan</strong>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-2">
+                            <label class="col-sm-12 text-primary"><strong>q. Status Neurologi</strong></label>
+                        </div>
+
+
+
+
+                        <div class="row mb-2">
+                            <label class="col-sm-12"><strong>1) Saraf-saraf Kranial</strong></label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>a) Nervus I (Olfactorius) - Penciuman</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="nervus1_penciuman" value="<?= htmlspecialchars($existing_data['nervus1_penciuman'] ?? '') ?>" <?= $ro ?>>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>b) Nervus II (Opticus) - Penglihatan</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="nervus2_penglihatan" value="<?= htmlspecialchars($existing_data['nervus2_penglihatan'] ?? '') ?>" <?= $ro ?>>
+
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-2">
+                            <label class="col-sm-12"><strong>c) Nervus III, IV, VI (Oculomotorius, Trochlearis, Abducens)</strong></label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Konstriksi Pupil</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="konstriksi_pupil" value="<?= htmlspecialchars($existing_data['konstriksi_pupil'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong> <label class="col-sm-11 col-form-label"><strong>Gerakan Kelopak Mata</strong></label>
+                                </strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="gerakan_kelopak" value="<?= htmlspecialchars($existing_data['gerakan_kelopak'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Pergerakan Bola Mata</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="gerakan_bola_mata" value="<?= htmlspecialchars($existing_data['gerakan_bola_mata'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Pergerakan Mata ke Bawah & Dalam</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="gerakan_mata_bawah" value="<?= htmlspecialchars($existing_data['gerakan_mata_bawah'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row mb-2">
+                            <label class="col-sm-12"><strong>d) Nervus V (Trigeminus)</strong></label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Refleks Dagu</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="refleks_dagu" value="<?= htmlspecialchars($existing_data['refleks_dagu'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Refleks Cornea</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="refleks_cornea" value="<?= htmlspecialchars($existing_data['refleks_cornea'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-2">
+                            <label class="col-sm-12"><strong>e) Nervus VII (Facialis)</strong></label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Pengecapan 2/3 Lidah Bagian Depan</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="pengecapan_depan" value="<?= htmlspecialchars($existing_data['pengecapan_depan'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-2">
+                            <label class="col-sm-12"><strong>f) Nervus VIII (Acusticus)</strong></label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Fungsi Pendengaran</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="fungsi_pendengaran" value="<?= htmlspecialchars($existing_data['fungsi_pendengaran'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-2">
+                            <label class="col-sm-12"><strong>g) Nervus IX & X (Glossopharyngeus dan Vagus)</strong></label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Refleks Menelan</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="refleks_menelan" value="<?= htmlspecialchars($existing_data['refleks_menelan'] ?? '') ?>" <?= $ro ?>>
+
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Refleks Muntah</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="refleks_muntah" value="<?= htmlspecialchars($existing_data['refleks_muntah'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Pengecapan 1/3 Lidah Belakang</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="pengecapan_belakang" value="<?= htmlspecialchars($existing_data['pengecapan_belakang'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Suara</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="suara_pasien" value="<?= htmlspecialchars($existing_data['suara_pasien'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-2">
+                            <label class="col-sm-12"><strong>h) Nervus XI (Assesorius)</strong></label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Memalingkan Kepala</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="gerakan_kepala" value="<?= htmlspecialchars($existing_data['gerakan_kepala'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Mengangkat Bahu</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="angkat_bahu" value="<?= htmlspecialchars($existing_data['angkat_bahu'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-2">
+                            <label class="col-sm-12"><strong>i) Nervus XII (Hypoglossus)</strong></label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Deviasi Lidah</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="deviasi_lidah" value="<?= htmlspecialchars($existing_data['deviasi_lidah'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <label class="col-sm-12"><strong>2) Tanda-tanda Peradangan Selaput Otak</strong></label>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Kaku Kuduk</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="kaku_kuduk" value="<?= htmlspecialchars($existing_data['kaku_kuduk'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Kernig Sign</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="kernig_sign" value="<?= htmlspecialchars($existing_data['kernig_sign'] ?? '') ?>" <?= $ro ?>>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label">
+                                <strong>Refleks Brudzinski</strong>
+                            </div>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="refleks_brudzinski" value="<?= htmlspecialchars($existing_data['refleks_brudzinski'] ?? '') ?>" <?= $ro ?>>
+
+                            </div>
+                        </div>
+
+                        <!-- TOMBOL SIMPAN -->
+                        <?php if (!$is_dosen): ?>
+                            <div class="row mb-3">
+                                <div class="col-sm-12 d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
+                                </div>
+                            </div>
+                        <?php endif; ?>
 
                 </form>
             </div>
+        </div>
         </div>
 
         <!-- KOMENTAR & ACTION DOSEN -->

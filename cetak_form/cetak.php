@@ -6,6 +6,7 @@ require_once __DIR__ . '/../libs/dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
+
 $submission_id = $_GET['submission_id'] ?? null;
 
 if (!$submission_id) {
@@ -14,7 +15,7 @@ if (!$submission_id) {
 
 // Ambil data submission
 $stmt = $mysqli->prepare("
-    SELECT s.*, u.nama as mahasiswa_name, u.npm, f.slug
+    SELECT s.*, u.nama as mahasiswa_name, u.npm, f.slug, f.form_name
     FROM submissions s
     JOIN tbl_user u ON s.user_id = u.id_user
     JOIN forms f ON s.form_id = f.id
@@ -25,6 +26,7 @@ $stmt->bind_param("i", $submission_id);
 $stmt->execute();
 $submission = $stmt->get_result()->fetch_assoc();
 $form_name = $submission['slug'];
+$form_name_readable = strtolower(str_replace(' ', '_', $submission['form_name']));
 
 if (!$submission) {
     die("Submission tidak ditemukan.");
@@ -52,8 +54,12 @@ switch ($form_name) {
     case 'pengkajian_antenatal_care':
         include 'template_pdf_anc.php';
         break;
-    case 'pengkajian_postpartum':
-         include 'template_pdf_postpartum.php';
+    case 'pengkajian_pascapartum':
+         include 'template_pdf_pascapartum.php';
+         break;
+
+    case 'pengkajian_ruang_ok':
+         include 'template_pdf_ruang_ok.php';
          break;
     case 'pengkajian_ginekologi':
         include 'template_pdf_ginekologi.php'; // Template untuk ginekologi
@@ -74,6 +80,12 @@ switch ($form_name) {
         include 'template_pdf_hd_kmb.php'; // Template untuk inranatal
         break;
 
+    case 'resume_antenatal_care':
+        include 'template_pdf_resume_anc.php';
+        break;
+    case 'format_kmb':
+        include 'template_pdf_kmb.php';
+        break;
     default:
         include 'template_pdf_postpartum.php';
         break;
@@ -83,9 +95,10 @@ $html = ob_get_clean();
 
 // Generate PDF
 $options = new Options();
-$options->set('isHtml5ParserEnabled', true);
-$options->set('isRemoteEnabled', false);
+$options->set('isHtml5ParserEnabled', false);
+$options->set('isRemoteEnabled', true);
 $options->set('defaultFont', 'Arial');
+$options->set('chuckSize', 512);
 // $options->set('margin_top', 20);
 // $options->set('margin_bottom', 20);
 // $options->set('margin_left', 20);
@@ -94,7 +107,9 @@ $options->set('defaultFont', 'Arial');
 $dompdf = new Dompdf($options);
 $dompdf->loadHtml($html, 'UTF-8');
 $dompdf->setPaper('A4', 'portrait');
+set_time_limit(0);
+$dompdf->render();
 // Tambahin ini setelah setPaper
 $dompdf->render();
-$dompdf->stream('Pengkajian_ANC_' . $submission['npm'] . '.pdf', ['Attachment' => true]);
+$dompdf->stream($form_name_readable . '_' . $submission['npm'] . '.pdf', ['Attachment' => true]);
 exit;

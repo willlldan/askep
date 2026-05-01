@@ -59,39 +59,39 @@ $titles = [
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'konsep_keperawatan' ? 'active' : '' ?>"
-            href="index.php?page=kmb/format_kmb&tab=konsep_keperawatan"> Konsep Keperawatan </a>
+            href="index.php?page=kmb/format_kmb&jeniskmb=<?= $jeniskmb ?>&tab=konsep_keperawatan"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Konsep Keperawatan </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian' ? 'active' : '' ?>"
-            href="index.php?page=kmb/format_kmb&tab=pengkajian"> Pengkajian </a>
+            href="index.php?page=kmb/format_kmb&jeniskmb=<?= $jeniskmb ?>&tab=pengkajian"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Pengkajian </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian_gordon' ? 'active' : '' ?>"
-            href="index.php?page=kmb/format_kmb&tab=pengkajian_gordon"> Pengkajian FX Gordon </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'data_biologis' ? 'active' : '' ?>"
-            href="index.php?page=kmb/format_kmb&tab=data_biologis"> Data Biologis </a>
+            href="index.php?page=kmb/format_kmb&jeniskmb=<?= $jeniskmb ?>&tab=pengkajian_gordon"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Pengkajian FX Gordon </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'data_biologis_1' ? 'active' : '' ?>"
-            href="index.php?page=kmb/format_kmb&tab=data_biologis_1"> Data Biologis 1 </a>
+            href="index.php?page=kmb/format_kmb&jeniskmb=<?= $jeniskmb ?>&tab=data_biologis_1"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Data Biologis 1 </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'data_biologis_2' ? 'active' : '' ?>"
-            href="index.php?page=kmb/format_kmb&tab=data_biologis_2"> Data Biologis 2 </a>
+            href="index.php?page=kmb/format_kmb&jeniskmb=<?= $jeniskmb ?>&tab=data_biologis_2"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Data Biologis 2 </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'data_biologis_3' ? 'active' : '' ?>"
+            href="index.php?page=kmb/format_kmb&jeniskmb=<?= $jeniskmb ?>&tab=data_biologis_3"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Data Biologis 3 </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'klasifikasi_analisa_data' ? 'active' : '' ?>"
-            href="index.php?page=kmb/format_kmb&tab=klasifikasi_analisa_data"> Klasifikasi Analisa Data </a>
+            href="index.php?page=kmb/format_kmb&jeniskmb=<?= $jeniskmb ?>&tab=klasifikasi_analisa_data"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Klasifikasi Analisa Data </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya' ? 'active' : '' ?>"
-            href="index.php?page=kmb/format_kmb&tab=lainnya"> Lainnya </a>
+            href="index.php?page=kmb/format_kmb&jeniskmb=<?= $jeniskmb ?>&tab=lainnya"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Lainnya </a>
     </li>
 </ul>
 
