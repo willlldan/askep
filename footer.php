@@ -39,35 +39,73 @@
 </script>
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
 
-document.addEventListener("DOMContentLoaded", function(){
+        // simpan semua input otomatis
+        document.querySelectorAll("input, select, textarea").forEach(function(el) {
 
-    // simpan semua input otomatis
-    document.querySelectorAll("input, select, textarea").forEach(function(el){
+            el.addEventListener("input", function() {
+                if (el.type === 'checkbox') {
+                    let saved = JSON.parse(localStorage.getItem(el.name) || '[]');
+                    if (el.checked) {
+                        if (!saved.includes(el.value)) saved.push(el.value);
+                    } else {
+                        saved = saved.filter(v => v !== el.value);
+                    }
+                    localStorage.setItem(el.name, JSON.stringify(saved));
+                    return;
+                }
 
-        el.addEventListener("input", function(){
-            if(el.name){
-                localStorage.setItem(el.name, el.value);
+                // ✅ TAMBAH INI
+                if (el.type === 'radio') {
+                    if (el.checked) {
+                        localStorage.setItem(el.name, el.value);
+                    }
+                    return;
+                }
+
+                if (el.name) {
+                    localStorage.setItem(el.name, el.value);
+                }
+            });
+
+        });
+
+        // load ulang saat halaman dibuka
+        document.querySelectorAll("input, select, textarea").forEach(function(el) {
+            if (el.name) {
+                let value = localStorage.getItem(el.name);
+                if (el.type === 'file') return;
+
+                if (el.type === 'checkbox') {
+                    let saved = [];
+                    try {
+                        saved = JSON.parse(localStorage.getItem(el.name) || '[]');
+                        if (!Array.isArray(saved)) saved = [];
+                    } catch (e) {
+                        localStorage.removeItem(el.name);
+                    }
+                    if (saved.includes(el.value)) {
+                        el.checked = true;
+                    }
+                    return;
+                }
+
+                // ✅ TAMBAH INI
+                if (el.type === 'radio') {
+                    if (value && el.value === value) {
+                        el.checked = true;
+                    }
+                    return;
+                }
+
+                if (value) {
+                    el.value = value;
+                }
             }
         });
 
     });
-
-    // load ulang saat halaman dibuka
-    document.querySelectorAll("input, select, textarea").forEach(function(el){
-
-        if(el.name){
-            let value = localStorage.getItem(el.name);
-
-            if(value){
-                el.value = value;
-            }
-        }
-
-    });
-
-});
-
 </script>
 
 </body>

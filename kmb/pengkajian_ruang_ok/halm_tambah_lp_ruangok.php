@@ -162,8 +162,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 <h5 class="card-title"><strong>A.	KONSEP DASAR KAMAR BEDAH</strong></h5>
 
                
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+             
                 
                     <!-- Bagian Inisial Pasien -->
 

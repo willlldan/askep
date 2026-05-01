@@ -59,31 +59,37 @@ $titles = [
 
    <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? 'lp_ruanghd') == 'lp_ruanghd' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=lp_ruanghd">
+        href="index.php?page=kmb/format_hd_kmb&tab=lp_ruanghd<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
             Format Laporan Pendahuluan Ruang HD</a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'format_hd' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=format_hd">
+        href="index.php?page=kmb/format_hd_kmb&tab=format_hd<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
 Format Hermodalisa (HD) </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=pengkajian">
+        href="index.php?page=kmb/format_hd_kmb&tab=pengkajian<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Pengkajian
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pemeriksaan_fisik' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=pemeriksaan_fisik">
+        href="index.php?page=kmb/format_hd_kmb&tab=pemeriksaan_fisik<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Pemeriksaan Fisik
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian_kebutuhan' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=pengkajian_kebutuhan">
+        href="index.php?page=kmb/format_hd_kmb&tab=pengkajian_kebutuhan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Pengkajian Kebutuhan
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa_data' ? 'active' : '' ?>"
+           href="index.php?page=kmb/format_hd_kmb&tab=analisa_data<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
+           Analisa Data
         </a>
     </li>
    
@@ -101,7 +107,7 @@ Rencana Keperawatan        </a>
     </li> -->
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya' ? 'active' : '' ?>"
-        href="index.php?page=kmb/format_hd_kmb&tab=lainnya">
+        href="index.php?page=kmb/format_hd_kmb&tab=lainnya<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         lainnya
         </a>
     </li>

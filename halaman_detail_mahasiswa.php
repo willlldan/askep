@@ -97,6 +97,8 @@ while ($row = $result->fetch_assoc()) {
                                         <td><?= htmlspecialchars($sub['form_name']) ?></td>
                                         <td class="text-center">
                                             <?php
+                                            $departmentSlug = urlencode(strtolower($sub['department'])); // slug dari departemen
+                                            $tab = !empty($sub['first_section']) ? $sub['first_section'] : 'default'; // fallback jika kosong
                                             $statusMap = [
                                                 'draft'     => ['label' => 'Draft',     'class' => 'secondary'],
                                                 'submitted' => ['label' => 'Submitted', 'class' => 'primary'],
@@ -114,7 +116,7 @@ while ($row = $result->fetch_assoc()) {
                                         </td>
                                         <td class="text-center">
                                             <?php if (in_array($sub['status'], ['submitted', 'revision', 'approved'])): ?>
-                                                <a href="index.php?page=maternitas/<?= $sub['slug'] ?>&tab=<?= $sub['first_section'] ?>&submission_id=<?= $sub['submission_id'] ?>"
+                                                <a href="index.php?page=<?= $departmentSlug ?>/<?= $sub['slug'] ?>&tab=<?= $sub['first_section'] ?>&submission_id=<?= $sub['submission_id'] ?>"
                                                     class="btn btn-sm btn-primary">
                                                     <i class="ri-edit-line me-1"></i> Review
                                                 </a>
