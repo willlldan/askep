@@ -260,7 +260,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>1. Merokok / Alkohol?</strong></label>
                         <div class="col-sm-9">
-                            <textarea class="form-control" rows="3" name="merokok" style="display:block; overflow:hidden; resize: none;"
+                            <textarea class="form-control" rows="3" name="merokok" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['merokok'] ?? '') ?></textarea>
                         </div>
                     </div>
@@ -269,7 +269,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>2. Pemeriksaan kesehatan rutin?</strong></label>
                         <div class="col-sm-9">
-                            <textarea class="form-control" rows="3" name="pemeriksaan_rutin" style="display:block; overflow:hidden; resize: none;"
+                            <textarea class="form-control" rows="3" name="pemeriksaan_rutin" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['pemeriksaan_rutin'] ?? '') ?></textarea>
                         </div>
                     </div>
@@ -278,7 +278,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>3. Pendapat pasien tentang keadaan kesehatannya saat ini</strong></label>
                         <div class="col-sm-9">
-                            <textarea class="form-control" rows="4" name="pendapat_kesehatan" style="display:block; overflow:hidden; resize: none;"
+                            <textarea class="form-control" rows="4" name="pendapat_kesehatan" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['pendapat_kesehatan'] ?? '') ?></textarea>
                         </div>
                     </div>
@@ -287,7 +287,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>4. Persepsi pasien tentang berat ringannya penyakit</strong></label>
                         <div class="col-sm-9">
-                            <textarea class="form-control" rows="4" name="persepsi_penyakit" style="display:block; overflow:hidden; resize: none;"
+                            <textarea class="form-control" rows="4" name="persepsi_penyakit" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['persepsi_penyakit'] ?? '') ?></textarea>
                         </div>
                     </div>
@@ -296,7 +296,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>5. Persepsi tentang tingkat kesembuhan</strong></label>
                         <div class="col-sm-9">
-                            <textarea class="form-control" rows="3" name="tingkat_kesembuhan" style="display:block; overflow:hidden; resize: none;"
+                            <textarea class="form-control" rows="3" name="tingkat_kesembuhan" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['tingkat_kesembuhan'] ?? '') ?></textarea>
                         </div>
                     </div>
@@ -691,32 +691,32 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                                             <tr>
                                                 <td>1</td>
                                                 <td><strong>Frekuensi Makan</strong></td>
-                                                <td><input type="text" class="form-control" name="frekuensi_makan_sebelum" value="<?= htmlspecialchars($existing_data["frekuensi_makan_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="frekuensi_makan_sekarang" value="<?= htmlspecialchars($existing_data["frekuensi_makan_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="frekuensi_makan_sebelum" value="<?= htmlspecialchars($existing_data["frekuensi_makan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="frekuensi_makan_sekarang" value="<?= htmlspecialchars($existing_data["frekuensi_makan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>2</td>
                                                 <td><strong>Selera Makan</strong></td>
-                                                <td><input type="text" class="form-control" name="selera_makan_sebelum" value="<?= htmlspecialchars($existing_data["selera_makan_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="selera_makan_sekarang" value="<?= htmlspecialchars($existing_data["selera_makan_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="selera_makan_sebelum" value="<?= htmlspecialchars($existing_data["selera_makan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="selera_makan_sekarang" value="<?= htmlspecialchars($existing_data["selera_makan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>3</td>
                                                 <td><strong>Menu Makanan</strong></td>
-                                                <td><input type="text" class="form-control" name="menu_makan_sebelum" value="<?= htmlspecialchars($existing_data["menu_makan_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="menu_makan_sekarang" value="<?= htmlspecialchars($existing_data["menu_makan_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="menu_makan_sebelum" value="<?= htmlspecialchars($existing_data["menu_makan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="menu_makan_sekarang" value="<?= htmlspecialchars($existing_data["menu_makan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>4</td>
                                                 <td><strong>Ritual Saat Makan</strong></td>
-                                                <td><input type="text" class="form-control" name="ritual_makan_sebelum" value="<?= htmlspecialchars($existing_data["ritual_makan_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="ritual_makan_sekarang" value="<?= htmlspecialchars($existing_data["ritual_makan_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="ritual_makan_sebelum" value="<?= htmlspecialchars($existing_data["ritual_makan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="ritual_makan_sekarang" value="<?= htmlspecialchars($existing_data["ritual_makan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>5</td>
                                                 <td><strong>Bantuan Makan Parenteral</strong></td>
-                                                <td><input type="text" class="form-control" name="bantuan_makan_sebelum" value="<?= htmlspecialchars($existing_data["bantuan_makan_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bantuan_makan_sekarang" value="<?= htmlspecialchars($existing_data["bantuan_makan_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bantuan_makan_sebelum" value="<?= htmlspecialchars($existing_data["bantuan_makan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bantuan_makan_sekarang" value="<?= htmlspecialchars($existing_data["bantuan_makan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -746,20 +746,20 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                                             <tr>
                                                 <td>1</td>
                                                 <td><strong>Jenis Minuman</strong></td>
-                                                <td><input type="text" class="form-control" name="jenis_minum_sebelum" value="<?= htmlspecialchars($existing_data["jenis_minum_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="jenis_minum_sekarang" value="<?= htmlspecialchars($existing_data["jenis_minum_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="jenis_minum_sebelum" value="<?= htmlspecialchars($existing_data["jenis_minum_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="jenis_minum_sekarang" value="<?= htmlspecialchars($existing_data["jenis_minum_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>2</td>
                                                 <td><strong>Jumlah Cairan</strong></td>
-                                                <td><input type="text" class="form-control" name="jumlah_cairan_sebelum" value="<?= htmlspecialchars($existing_data["jumlah_cairan_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="jumlah_cairan_sekarang" value="<?= htmlspecialchars($existing_data["jumlah_cairan_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="jumlah_cairan_sebelum" value="<?= htmlspecialchars($existing_data["jumlah_cairan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="jumlah_cairan_sekarang" value="<?= htmlspecialchars($existing_data["jumlah_cairan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>3</td>
                                                 <td><strong>Bantuan Cairan Parenteral</strong></td>
-                                                <td><input type="text" class="form-control" name="bantuan_cairan_sebelum" value="<?= htmlspecialchars($existing_data["bantuan_cairan_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bantuan_cairan_sekarang" value="<?= htmlspecialchars($existing_data["bantuan_cairan_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bantuan_cairan_sebelum" value="<?= htmlspecialchars($existing_data["bantuan_cairan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bantuan_cairan_sekarang" value="<?= htmlspecialchars($existing_data["bantuan_cairan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -786,38 +786,38 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                                             <tr>
                                                 <td>1</td>
                                                 <td><strong>Frekuensi (Waktu)</strong></td>
-                                                <td><input type="text" class="form-control" name="bab_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["bab_frekuensi_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bab_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["bab_frekuensi_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bab_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["bab_frekuensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bab_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["bab_frekuensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>2</td>
                                                 <td><strong>Konsistensi</strong></td>
-                                                <td><input type="text" class="form-control" name="bab_konsistensi_sebelum" value="<?= htmlspecialchars($existing_data["bab_konsistensi_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bab_konsistensi_sekarang" value="<?= htmlspecialchars($existing_data["bab_konsistensi_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bab_konsistensi_sebelum" value="<?= htmlspecialchars($existing_data["bab_konsistensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bab_konsistensi_sekarang" value="<?= htmlspecialchars($existing_data["bab_konsistensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>3</td>
                                                 <td><strong>Warna</strong></td>
-                                                <td><input type="text" class="form-control" name="bab_warna_sebelum" value="<?= htmlspecialchars($existing_data["bab_warna_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bab_warna_sekarang" value="<?= htmlspecialchars($existing_data["bab_warna_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bab_warna_sebelum" value="<?= htmlspecialchars($existing_data["bab_warna_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bab_warna_sekarang" value="<?= htmlspecialchars($existing_data["bab_warna_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>4</td>
                                                 <td><strong>Bau</strong></td>
-                                                <td><input type="text" class="form-control" name="bab_bau_sebelum" value="<?= htmlspecialchars($existing_data["bab_bau_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bab_bau_sekarang" value="<?= htmlspecialchars($existing_data["bab_bau_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bab_bau_sebelum" value="<?= htmlspecialchars($existing_data["bab_bau_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bab_bau_sekarang" value="<?= htmlspecialchars($existing_data["bab_bau_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>5</td>
                                                 <td><strong>Kesulitan saat BAB</strong></td>
-                                                <td><input type="text" class="form-control" name="bab_kesulitan_sebelum" value="<?= htmlspecialchars($existing_data["bab_kesulitan_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bab_kesulitan_sekarang" value="<?= htmlspecialchars($existing_data["bab_kesulitan_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bab_kesulitan_sebelum" value="<?= htmlspecialchars($existing_data["bab_kesulitan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bab_kesulitan_sekarang" value="<?= htmlspecialchars($existing_data["bab_kesulitan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>6</td>
                                                 <td><strong>Penggunaan Obat Pencahar</strong></td>
-                                                <td><input type="text" class="form-control" name="bab_obat_sebelum" value="<?= htmlspecialchars($existing_data["bab_obat_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bab_obat_sekarang" value="<?= htmlspecialchars($existing_data["bab_obat_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bab_obat_sebelum" value="<?= htmlspecialchars($existing_data["bab_obat_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bab_obat_sekarang" value="<?= htmlspecialchars($existing_data["bab_obat_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -847,32 +847,32 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                                             <tr>
                                                 <td>1</td>
                                                 <td><strong>Frekuensi (Waktu)</strong></td>
-                                                <td><input type="text" class="form-control" name="bak_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["bak_frekuensi_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bak_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["bak_frekuensi_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bak_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["bak_frekuensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bak_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["bak_frekuensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>2</td>
                                                 <td><strong>Warna</strong></td>
-                                                <td><input type="text" class="form-control" name="bak_warna_sebelum" value="<?= htmlspecialchars($existing_data["bak_warna_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bak_warna_sekarang" value="<?= htmlspecialchars($existing_data["bak_warna_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bak_warna_sebelum" value="<?= htmlspecialchars($existing_data["bak_warna_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bak_warna_sekarang" value="<?= htmlspecialchars($existing_data["bak_warna_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>3</td>
                                                 <td><strong>Bau</strong></td>
-                                                <td><input type="text" class="form-control" name="bak_bau_sebelum" value="<?= htmlspecialchars($existing_data["bak_bau_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bak_bau_sekarang" value="<?= htmlspecialchars($existing_data["bak_bau_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bak_bau_sebelum" value="<?= htmlspecialchars($existing_data["bak_bau_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bak_bau_sekarang" value="<?= htmlspecialchars($existing_data["bak_bau_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>4</td>
                                                 <td><strong>Kesulitan saat BAK</strong></td>
-                                                <td><input type="text" class="form-control" name="bak_kesulitan_sebelum" value="<?= htmlspecialchars($existing_data["bak_kesulitan_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bak_kesulitan_sekarang" value="<?= htmlspecialchars($existing_data["bak_kesulitan_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bak_kesulitan_sebelum" value="<?= htmlspecialchars($existing_data["bak_kesulitan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bak_kesulitan_sekarang" value="<?= htmlspecialchars($existing_data["bak_kesulitan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>5</td>
                                                 <td><strong>Penggunaan Obat Diuretik</strong></td>
-                                                <td><input type="text" class="form-control" name="bak_obat_sebelum" value="<?= htmlspecialchars($existing_data["bak_obat_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="bak_obat_sekarang" value="<?= htmlspecialchars($existing_data["bak_obat_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="bak_obat_sebelum" value="<?= htmlspecialchars($existing_data["bak_obat_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="bak_obat_sekarang" value="<?= htmlspecialchars($existing_data["bak_obat_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -902,25 +902,25 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                                             <tr>
                                                 <td rowspan="2">1</td>
                                                 <td><strong>Jam Tidur - Siang</strong></td>
-                                                <td><input type="text" class="form-control" name="tidur_siang_sebelum" value="<?= htmlspecialchars($existing_data["tidur_siang_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="tidur_siang_sekarang" value="<?= htmlspecialchars($existing_data["tidur_siang_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="tidur_siang_sebelum" value="<?= htmlspecialchars($existing_data["tidur_siang_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="tidur_siang_sekarang" value="<?= htmlspecialchars($existing_data["tidur_siang_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Jam Tidur - Malam</strong></td>
-                                                <td><input type="text" class="form-control" name="tidur_malam_sebelum" value="<?= htmlspecialchars($existing_data["tidur_malam_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="tidur_malam_sekarang" value="<?= htmlspecialchars($existing_data["tidur_malam_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="tidur_malam_sebelum" value="<?= htmlspecialchars($existing_data["tidur_malam_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="tidur_malam_sekarang" value="<?= htmlspecialchars($existing_data["tidur_malam_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>2</td>
                                                 <td><strong>Kesulitan Tidur</strong></td>
-                                                <td><input type="text" class="form-control" name="kesulitan_tidur_sebelum" value="<?= htmlspecialchars($existing_data["kesulitan_tidur_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="kesulitan_tidur_sekarang" value="<?= htmlspecialchars($existing_data["kesulitan_tidur_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="kesulitan_tidur_sebelum" value="<?= htmlspecialchars($existing_data["kesulitan_tidur_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="kesulitan_tidur_sekarang" value="<?= htmlspecialchars($existing_data["kesulitan_tidur_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td>3</td>
                                                 <td><strong>Kebiasaan Sebelum Tidur</strong></td>
-                                                <td><input type="text" class="form-control" name="kebiasaan_tidur_sebelum" value="<?= htmlspecialchars($existing_data["kebiasaan_tidur_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="kebiasaan_tidur_sekarang" value="<?= htmlspecialchars($existing_data["kebiasaan_tidur_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="kebiasaan_tidur_sebelum" value="<?= htmlspecialchars($existing_data["kebiasaan_tidur_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="kebiasaan_tidur_sekarang" value="<?= htmlspecialchars($existing_data["kebiasaan_tidur_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -950,51 +950,51 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                                             <tr>
                                                 <td rowspan="3">1</td>
                                                 <td><strong>Mandi - Frekuensi</strong></td>
-                                                <td><input type="text" class="form-control" name="mandi_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["mandi_frekuensi_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="mandi_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["mandi_frekuensi_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="mandi_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["mandi_frekuensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="mandi_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["mandi_frekuensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Mandi - Cara</strong></td>
-                                                <td><input type="text" class="form-control" name="mandi_cara_sebelum" value="<?= htmlspecialchars($existing_data["mandi_cara_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="mandi_cara_sekarang" value="<?= htmlspecialchars($existing_data["mandi_cara_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="mandi_cara_sebelum" value="<?= htmlspecialchars($existing_data["mandi_cara_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="mandi_cara_sekarang" value="<?= htmlspecialchars($existing_data["mandi_cara_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Mandi - Tempat</strong></td>
-                                                <td><input type="text" class="form-control" name="mandi_tempat_sebelum" value="<?= htmlspecialchars($existing_data["mandi_tempat_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="mandi_tempat_sekarang" value="<?= htmlspecialchars($existing_data["mandi_tempat_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="mandi_tempat_sebelum" value="<?= htmlspecialchars($existing_data["mandi_tempat_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="mandi_tempat_sekarang" value="<?= htmlspecialchars($existing_data["mandi_tempat_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td rowspan="2">2</td>
                                                 <td><strong>Cuci Rambut - Frekuensi</strong></td>
-                                                <td><input type="text" class="form-control" name="rambut_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["rambut_frekuensi_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="rambut_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["rambut_frekuensi_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="rambut_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["rambut_frekuensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="rambut_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["rambut_frekuensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Cuci Rambut - Cara</strong></td>
-                                                <td><input type="text" class="form-control" name="rambut_cara_sebelum" value="<?= htmlspecialchars($existing_data["rambut_cara_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="rambut_cara_sekarang" value="<?= htmlspecialchars($existing_data["rambut_cara_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="rambut_cara_sebelum" value="<?= htmlspecialchars($existing_data["rambut_cara_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="rambut_cara_sekarang" value="<?= htmlspecialchars($existing_data["rambut_cara_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td rowspan="2">3</td>
                                                 <td><strong>Gunting Kuku - Frekuensi</strong></td>
-                                                <td><input type="text" class="form-control" name="kuku_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["kuku_frekuensi_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="kuku_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["kuku_frekuensi_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="kuku_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["kuku_frekuensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="kuku_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["kuku_frekuensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Gunting Kuku - Cara</strong></td>
-                                                <td><input type="text" class="form-control" name="kuku_cara_sebelum" value="<?= htmlspecialchars($existing_data["kuku_cara_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="kuku_cara_sekarang" value="<?= htmlspecialchars($existing_data["kuku_cara_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="kuku_cara_sebelum" value="<?= htmlspecialchars($existing_data["kuku_cara_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="kuku_cara_sekarang" value="<?= htmlspecialchars($existing_data["kuku_cara_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td rowspan="2">4</td>
                                                 <td><strong>Gosok Gigi - Frekuensi</strong></td>
-                                                <td><input type="text" class="form-control" name="gigi_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["gigi_frekuensi_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="gigi_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["gigi_frekuensi_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="gigi_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["gigi_frekuensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="gigi_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["gigi_frekuensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                             <tr>
                                                 <td><strong>Gosok Gigi - Cara</strong></td>
-                                                <td><input type="text" class="form-control" name="gigi_cara_sebelum" value="<?= htmlspecialchars($existing_data["gigi_cara_sebelum"] ?? "") ?>"></td>
-                                                <td><input type="text" class="form-control" name="gigi_cara_sekarang" value="<?= htmlspecialchars($existing_data["gigi_cara_sekarang"] ?? "") ?>"></td>
+                                                <td><input type="text" class="form-control" name="gigi_cara_sebelum" value="<?= htmlspecialchars($existing_data["gigi_cara_sebelum"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="gigi_cara_sekarang" value="<?= htmlspecialchars($existing_data["gigi_cara_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1018,9 +1018,10 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                 </form>
 
 
-                <?php include "tab_navigasi.php"; ?>
+
             </div>
         </div>
+        </div>  
 
         <!-- SECTION KOMENTAR & ACTION DOSEN -->
         <div class="card mt-3">
@@ -1061,6 +1062,8 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
             </div>
         </div>
+
+        <?php include "tab_navigasi.php"; ?>
 
     </section>
 </main>

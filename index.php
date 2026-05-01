@@ -550,6 +550,9 @@ if (isset($_SESSION['id_user'])) {
                     case 'data_biologis_2':
                         include "kmb/format_kmb/halm_data_biologis_2.php";
                         break;
+                    case 'data_biologis_3':
+                        include "kmb/format_kmb/halm_data_biologis_3.php";
+                        break;
                     case 'klasifikasi_analisa_data':
                         include "kmb/format_kmb/halm_klasifikasi_analisa_data.php";
                         break;
@@ -646,11 +649,11 @@ if (isset($_SESSION['id_user'])) {
 
                 break;
 
-         
+
             // =====================
             // Jiwa Jiwa RSUD
             // =====================
-             case 'jiwa/jiwa_rsud':
+            case 'jiwa/jiwa_rsud':
 
                 $tab = $tab ?: 'format_laporan_pendahuluan';
 
@@ -658,32 +661,32 @@ if (isset($_SESSION['id_user'])) {
 
                     case 'format_laporan_pendahuluan':
                         include "jiwa/jiwa_rsud/halm_tambah_format_laporan_pendahuluan.php";
-                    break;
+                        break;
 
                     case 'pengkajian':
                         include "jiwa/jiwa_rsud/halm_tambah_pengkajian.php";
-                    break;
-    
+                        break;
+
                     case 'pengkajianlanjutan':
                         include "jiwa/jiwa_rsud/halm_tambah_pengkajianlanjutan.php";
-                    break;
+                        break;
 
                     case 'lainnya':
                         include "jiwa/jiwa_rsud/halm_tambah_lainnya.php";
-                    break;
+                        break;
                     case 'lainnya1':
                         include "jiwa/jiwa_rsud/halm_tambah_lainnya_copy.php";
-                    break;
+                        break;
 
                     default:
                         include "jiwa/jiwa_rsud/halm_tambah_format_laporan_pendahuluan.php";
                 }
 
-                break ;
+                break;
 
-                // =====================
-                // Jiwa Poli Jiwa
-                // =====================
+            // =====================
+            // Jiwa Poli Jiwa
+            // =====================
             case 'jiwa/poli_jiwa':
 
                 $tab = $tab ?: 'halm_tambah_praktik_klinik_keperawatan_jiwa';
@@ -692,21 +695,21 @@ if (isset($_SESSION['id_user'])) {
 
                     case 'halm_tambah_praktik_klinik_keperawatan_jiwa':
                         include "jiwa/poli_jiwa/halm_tambah_praktik_klinik_keperawatan_jiwa.php";
-                    break;
+                        break;
 
                     case 'format_resume':
                         include "jiwa/poli_jiwa/halm_tambah_format_resume.php";
-                    break;
+                        break;
 
                     case 'lainnya':
                         include "jiwa/poli_jiwa/halm_tambah_lainnya.php";
-                    break;
+                        break;
 
                     default:
                         include "jiwa/poli_jiwa/halm_tambah_praktik_klinik_keperawatan_jiwa.php";
                 }
 
-            break;
+                break;
 
 
             // =====================
@@ -725,7 +728,7 @@ if (isset($_SESSION['id_user'])) {
                     case 'pengkajian':
                         include "anak/format_anggrek/halm_tambah_pengkajian.php";
                         break;
-                    
+
                     case 'pengkajian_riwayat':
                         include "anak/format_anggrek/halm_tambah_pengkajian_riwayat.php";
                         break;
@@ -738,7 +741,7 @@ if (isset($_SESSION['id_user'])) {
                     case 'lainnya':
                         include "anak/format_anggrek/halm_tambah_lainnya.php";
                         break;
-                    
+
 
                     case 'diagnosa':
                         include "anak/format_anggrek/halm_tambah_diagnosa.php";
@@ -767,9 +770,23 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'anak/format_aster':
 
-                $tab = $tab ?: 'format_laporan_pendahuluan';
+                $tab = $tab ?: 'identitas_riwayat';
 
                 switch ($tab) {
+
+                    case 'identitas_riwayat':
+                        include "anak/format_aster/halm_identitas_riwayat.php";
+                        break;
+
+                    case 'keadaan_bayi':
+                        include "anak/format_aster/halm_keadaan_bayi.php";
+                        break;
+
+                    case 'pengkajian_umum':
+                        include "anak/format_aster/halm_pengkajian_umum.php";
+                        break;
+
+                    //bawah yg lama
 
                     case 'format_laporan_pendahuluan':
                         include "anak/format_aster/halm_tambah_format_laporan_pendahuluan.php";

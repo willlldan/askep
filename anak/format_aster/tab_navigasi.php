@@ -1,6 +1,9 @@
 <?php
 
 $tabs = [
+    "identitas_riwayat",
+    "keadaan_bayi",
+    "pengkajian_umum",
     "format_laporan_pendahuluan",
     "diagnosa",
     "rencana",

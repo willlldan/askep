@@ -152,6 +152,10 @@
             vertical-align: top;
         }
 
+        .checklist {
+            font-family: 'DejaVu Sans', sans-serif;
+        }
+
         @page {
             margin-top: 2cm;
             margin-bottom: 2cm;

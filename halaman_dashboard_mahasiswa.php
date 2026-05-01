@@ -82,25 +82,14 @@ while ($row = $result->fetch_assoc()) {
                                                 <i class="<?= $isApproved ? 'ri-eye-line' : 'ri-edit-line' ?> me-1"></i>
                                                 <?= $isApproved ? 'Lihat' : 'Isi Form' ?>
                                             </a>
-
-                                        $url = "index.php?page={$department}/{$form['slug']}&tab={$form['first_section']}";
-                                        if ($form['submission_id']) {
-                                            $url .= "&submission_id={$form['submission_id']}";
-                                        }
-                                        $isApproved = $form['status'] === 'approved';
-                                        ?>
-                                        <a href="<?= $url ?>" class="btn btn-sm <?= $isApproved ? 'btn-success' : 'btn-primary' ?>">
-                                            <i class="<?= $isApproved ? 'ri-eye-line' : 'ri-edit-line' ?> me-1"></i>
-                                            <?= $isApproved ? 'Lihat' : 'Isi Form' ?>
-                                        </a>
-
-                                        <a href="cetak_form/cetak.php?submission_id=<?= $form['submission_id'] ?>"
-                                            class="btn btn-sm btn-success<?= ($form['status'] !== 'approved' ? ' disabled' : '') ?>"
-                                            target="_blank"
-                                            <?= ($form['status'] !== 'approved' ? 'tabindex="-1" aria-disabled="true" onclick="return false;"' : '') ?>>
-                                            <i class="ri-printer-line me-1"></i> Cetak
-                                        </a>
-                                    </td>
+                                            
+                                            <a href="cetak_form/cetak.php?submission_id=<?= $form['submission_id'] ?>"
+                                                class="btn btn-sm btn-success<?= ($form['status'] !== 'approved' ? ' disabled' : '') ?>"
+                                                target="_blank"
+                                                <?= ($form['status'] !== 'approved' ? 'tabindex="-1" aria-disabled="true" onclick="return false;"' : '') ?>>
+                                                <i class="ri-printer-line me-1"></i> Cetak
+                                            </a>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

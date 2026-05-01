@@ -60,6 +60,27 @@ $titles = [
 <ul class="nav nav-tabs custom-tabs">
 
     <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? 'identitas_riwayat') == 'identitas_riwayat' ? 'active' : '' ?>"
+            href="index.php?page=anak/format_aster&tab=identitas_riwayat">
+            Identitas dan Riwayat
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? 'keadaan_bayi') == 'keadaan_bayi' ? 'active' : '' ?>"
+            href="index.php?page=anak/format_aster&tab=keadaan_bayi">
+            Keadaan Bayi
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? 'pengkajian_umum') == 'pengkajian_umum' ? 'active' : '' ?>"
+            href="index.php?page=anak/format_aster&tab=pengkajian_umum">
+            Pengkajian Umum
+        </a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? 'format_laporan_pendahuluan') == 'format_laporan_pendahuluan' ? 'active' : '' ?>"
             href="index.php?page=anak/format_aster&tab=format_laporan_pendahuluan">
             Format Pengkajian Bayi Baru Lahir
