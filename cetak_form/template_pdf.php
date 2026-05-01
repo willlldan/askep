@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <style>
+        
        
         body {
             font-family: Arial, sans-serif;
@@ -101,7 +102,9 @@
             vertical-align: top;
             border-bottom: 1px solid #ccc;
             padding-bottom: 1px;
+            flex: 1; /* supaya nilai bisa fleksibel */
         }
+      
 
         .field-row-inline {
             display: table;

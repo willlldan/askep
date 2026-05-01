@@ -343,7 +343,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
         </div>
 
 <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Waktu Operasi</strong></label>
+                <label class="col-sm-2 col-form-label"><strong>Waktu HD</strong></label>
 
                 <div class="col-sm-9">
                     <div class="row">
@@ -518,33 +518,16 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <label class="col-sm-12 text-primary"><strong>F. Prosedur Kerja</strong></label>
 </div>
 <p>(Tuliskan suatu tindakan yang diberikan mulai dari persiapan sampai selesai melakukan HD)</p>
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>Kelainan</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="kelainan_mata" value="<?= val('kelainan_mata', $existing_data) ?>" <?= $ro ?>>
-       
-        </div>
-        </div>
+
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>1.	Pre HD</strong></label>
 
 <div class="col-sm-9">
 <input type="text" class="form-control" name="pre" value="<?= val('pre', $existing_data) ?>" <?= $ro ?>>
 
+</div>
+</div>
 
-</div>
-</div>
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>Kelainan</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="kelainan_pre" value="<?= val('kelainan_pre', $existing_data) ?>" <?= $ro ?>>
-    
-        </div>
-        </div>
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>2.	Post HD</strong></label>
 
@@ -554,15 +537,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 </div>
 </div>
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>Kelainan</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="kelainan_pos" value="<?= val('kelainan_pos', $existing_data) ?>" <?= $ro ?>>
-       
-        </div>
-        </div>
+
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>3.	Observasi</strong></label>
 
@@ -572,15 +547,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 </div>
 </div>
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>Kelainan</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="kelainan_observasi" value="<?= val('djj', $existing_data) ?>" <?= $ro ?>>
-      
-        </div>
-        </div>
+
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>4.	Respon terhadap tindakan HD</strong></label>
 
@@ -589,15 +556,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
  
 </div>
 </div>
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>Kelainan</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="kelainan" value="<?= val('kelainan', $existing_data) ?>" <?= $ro ?>>
-    
-        </div>
-        </div>
+
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>5.	Hasil yang diperoleh</strong></label>
 
@@ -646,8 +605,6 @@ $ro_select   = $is_readonly ? 'disabled' : '';
         </div>
 
 
-</div>
-        </div>
          <script>
                         let rowPemeriksaanCount = 1;
                         let rowLabCount  = 1;

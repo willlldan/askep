@@ -502,6 +502,10 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             // KMB Format KMB
             // =====================
+          
+            // =====================
+            // KMB Format KMB
+            // =====================
             case 'kmb/format_kmb':
 
                 $tab = $tab ?: 'format_askep';
@@ -540,6 +544,7 @@ if (isset($_SESSION['id_user'])) {
                     case 'pengkajian_gordon':
                         include "kmb/format_kmb/halm_tambah_pengkajian_gordon.php";
                         break;
+                    
 
                     case 'data_biologis':
                         include "kmb/format_kmb/halm_data_biologis.php";
@@ -547,6 +552,10 @@ if (isset($_SESSION['id_user'])) {
                     case 'data_biologis_1':
                         include "kmb/format_kmb/halm_data_biologis_1.php";
                         break;
+                    case 'klasifikasi_analisa_data':
+                        include "kmb/format_kmb/halm_klasifikasi_analisa_data.php";
+                        break;
+                    
                     case 'data_biologis_2':
                         include "kmb/format_kmb/halm_data_biologis_2.php";
                         break;
@@ -594,6 +603,9 @@ if (isset($_SESSION['id_user'])) {
 
                     case 'pengkajian_kebutuhan':
                         include "kmb/format_hd_kmb/halm_tambah_pengkajian_kebutuhan.php";
+                        break;
+                         case 'analisa_data':
+                        include "kmb/format_hd_kmb/halm_analisa_data.php";
                         break;
 
                     case 'lainnya':

@@ -16,6 +16,24 @@ include 'template_pdf.php';
         <!-- HEADER -->
         <h1>Format Pengkajian Pendahuluan</h1>
         <h2>PRAKTIK KLINIK KEPERAWATAN JIWA</h2>
+        <table class="header-table">
+            <tr>
+                <td width="25%"><strong>Nama Mahasiswa</strong></td>
+                <td width="2%">:</td>
+                <td width="23%"><?= p($submission['mahasiswa_name']) ?></td>
+                <td width="25%"><strong>Tanggal Pengkajian</strong></td>
+                <td width="2%">:</td>
+                <td><?= p($submission['tanggal_pengkajian']) ?></td>
+            </tr>
+            <tr>
+                <td><strong>NPM</strong></td>
+                <td>:</td>
+                <td><?= p($submission['npm']) ?></td>
+                <td><strong>RS/Ruangan</strong></td>
+                <td>:</td>
+                <td><?= p($submission['rs_ruangan']) ?></td>
+            </tr> 
+        </table>
 
 <h4>A. Masalah Keperawatan Utama</h4>
 <div class="field-row">

@@ -1,4 +1,4 @@
-<?php
+<<?php
 require_once "koneksi.php";
 require_once "utils.php";
 
@@ -35,7 +35,8 @@ $existing_data  = $submission ? getSectionData($submission['id'], $section_name,
 $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
 $tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
 $rs_ruangan     = $submission['rs_ruangan'] ?? '';
-$existing_evaluasi     = $existing_data['evaluasi']     ?? [];
+$existing_analisa     = $existing_data['analisa']     ?? [];
+
 
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
@@ -49,125 +50,104 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
     $rs_ruangan     = $_POST['rsruangan'] ?? '';
    // Proses dynamic rows evaluasi
-        
+         $analisa = [];
+    if (!empty($_POST['analisa'])) {
+        foreach ($_POST['analisa'] as $index => $row) {
+            if (empty($row['data_subjektif_analisa']) && empty($row['data_objektif_analisa']) && empty($row['masalah'])) {
+                continue;
+            }
+            $analisa[] = [
+                'data_subjektif_analisa'   => $row['data_subjektif_analisa']   ?? '',
+                'data_objektif_analisa' => $row['data_objektif_analisa'] ?? '',
+                'masalah'  => $row['masalah']  ?? '',
+            ];
+        }
+    }
+
     $data = [
-        // I. Identitas Klien
-    'ruang_rawat'         => $_POST['ruang_rawat'] ?? '',
-    'tanggal_rawat'       => $_POST['tanggal_rawat'] ?? '',
-    'nama_klien'          => $_POST['nama_klien'] ?? '',
-    'jenis_kelamin'       => $_POST['jenis_kelamin'] ?? '',
-    'tanggal_pengkajian'  => $_POST['tanggal_pengkajian'] ?? '',
-    'umur'                => $_POST['umur'] ?? '',
-    'rm'                  => $_POST['rm'] ?? '',
-    'informasi'           => $_POST['informasi'] ?? '',
-    
-    // II. Alasan Masuk
-    'alasanmasuk'         => $_POST['alasanmasuk'] ?? '',
-
-    // III. Faktor Predisposisi
-        'aniaya_fisik_pelaku'   => $_POST['aniaya_fisik_pelaku'] ?? '',
-        'aniaya_fisik_korban'   => $_POST['aniaya_fisik_korban'] ?? '',
-        'aniaya_fisik_saksi'    => $_POST['aniaya_fisik_saksi'] ?? '',
-
-        'aniaya_seksual_pelaku' => $_POST['aniaya_seksual_pelaku'] ?? '',
-        'aniaya_seksual_korban' => $_POST['aniaya_seksual_korban'] ?? '',
-        'aniaya_seksual_saksi'  => $_POST['aniaya_seksual_saksi'] ?? '',
-
-        'penolakan_pelaku'      => $_POST['penolakan_pelaku'] ?? '',
-        'penolakan_korban'      => $_POST['penolakan_korban'] ?? '',
-        'penolakan_saksi'       => $_POST['penolakan_saksi'] ?? '',
-
-        'kekerasan_keluarga_pelaku' => $_POST['kekerasan_keluarga_pelaku'] ?? '',
-        'kekerasan_keluarga_korban' => $_POST['kekerasan_keluarga_korban'] ?? '',
-        'kekerasan_keluarga_saksi'  => $_POST['kekerasan_keluarga_saksi'] ?? '',
-
-        'tindakan_kriminal_pelaku'  => $_POST['tindakan_kriminal_pelaku'] ?? '',
-        'tindakan_kriminal_korban'  => $_POST['tindakan_kriminal_korban'] ?? '',
-        'tindakan_kriminal_saksi'   => $_POST['tindakan_kriminal_saksi'] ?? '',
-        'penjelasan_kejadian'          => $_POST['penjelasan_kejadian'] ?? '',
-        'Hubungan_keluarga'   => $_POST['Hubungan_keluarga'] ?? '',
-        'Gejala'              => $_POST['Gejala'] ?? '',
-        'Riwayat'             => $_POST['Riwayat'] ?? '',
-        'Pengobatan_perawatan'=> $_POST['Pengobatan_perawatan'] ?? '',
-        'pengalaman_masa_lalu'=> $_POST['pengalaman_masa_lalu'] ?? '',
-
-    // IV. Pemeriksaan Fisik
-    'td'  => $_POST['td'] ?? '',
-    'nadi'=> $_POST['nadi'] ?? '',
-    'suhu'=> $_POST['suhu'] ?? '',
-    'pernafasan'=> $_POST['pernafasan'] ?? '',
-    'tb'  => $_POST['tb'] ?? '',
-    'bb'  => $_POST['bb'] ?? '',
-    'keluhan_fisik' => $_POST['keluhan_fisik'] ?? '',
-
-    // IV. Psikososial
-    'genogram'       => $_POST['genogram'] ?? '',
-    'gambaran_diri'  => $_POST['gambaran_diri'] ?? '',
-    'identitas_diri' => $_POST['identitas_diri'] ?? '',
-    'peran'          => $_POST['peran'] ?? '',
-    'ideal_diri'     => $_POST['ideal_diri'] ?? '',
-    'harga_diri'     => $_POST['harga_diri'] ?? '',
-    'orang_berarti'  => $_POST['orang_berarti'] ?? '',
-    'kegiatan_kelompok'=> $_POST['kegiatan_kelompok'] ?? '',
-    'hambatan_hubungan'=> $_POST['hambatan_hubungan'] ?? '',
-    'nilai_keyakinan'=> $_POST['nilai_keyakinan'] ?? '',
-    'kegiatan_ibadah'=> $_POST['kegiatan_ibadah'] ?? '',
-
-    // VI. Status Mental
-    'penampilan'      => $_POST['penampilan'] ?? [],
-    'pembicaraan'     => $_POST['pembicaraan'] ?? [],
-    'motorik'         => $_POST['motorik'] ?? [],
-    'alam_perasaan'   => $_POST['alam_perasaan'] ?? [],
-    'afek'            => $_POST['afek'] ?? [],
-    'interaksi_wawancara'=> $_POST['interaksi_wawancara'] ?? [],
-    'persepsi_sensorik'=> $_POST['persepsi_sensorik'] ?? [],
-    'ilusi'           => $_POST['ilusi'] ?? [],
-    'proses_pikir'    => $_POST['proses_pikir'] ?? [],
-    'isi_pikir'       => $_POST['isi_pikir'] ?? [],
-    'tingkat_kesadaran'=> $_POST['tingkat_kesadaran'] ?? [],
-    'memori'          => $_POST['memori'] ?? [],
-    'konsentrasi_berhitung'=> $_POST['konsentrasi_berhitung'] ?? [],
-    'kemampuan_penilaian'=> $_POST['kemampuan_penilaian'] ?? [],
-    'daya_tilik_diri'=> $_POST['daya_tilik_diri'] ?? [],
-
-    // VII. Status Mental
-    'makan'          => $_POST['makan'] ?? [],
-    'bab_bak'        => $_POST['bab_bak'] ?? [],
-    'mandi'          => $_POST['mandi'] ?? [],
-    'berpakian'      => $_POST['berpakian'] ?? [],
-    'tidur_siang'    => $_POST['tidur_siang'] ?? '',
-    'tidur_siang_sampai'=> $_POST['tidur_siang_sampai'] ?? '',
-    'tidur_malam'    => $_POST['tidur_malam'] ?? '',
-    'tidur_malam_sampai'=> $_POST['tidur_malam_sampai'] ?? '',
-    'kegiatan_tidur' => $_POST['kegiatan_tidur'] ?? [],
-    'penggunaan_obat'=> $_POST['penggunaan_obat'] ?? [],
-    'perawatan_lanjutan'=> $_POST['perawatan_lanjutan'] ?? [],
-    'perawatan_pendukung'=> $_POST['perawatan_pendukung'] ?? [],
-    'memasak'        => $_POST['memasak'] ?? [],
-    'menjaga_kerapian'=> $_POST['menjaga_kerapian'] ?? [],
-    'mencuci_pakaian'=> $_POST['mencuci_pakaian'] ?? [],
-    'pengaturan_keuangan'=> $_POST['pengaturan_keuangan'] ?? [],
-    'belanja'        => $_POST['belanja'] ?? [],
-    'transportasi'   => $_POST['transportasi'] ?? [],
-    'lain_lain'      => $_POST['lain_lain'] ?? [],
-    'penjelasan_status'=> $_POST['penjelasan_status'] ?? [],
-
-    // VIII. Mekanisme Koping
-    'psikososial'    => $_POST['psikososial'] ?? [],
-
-    // IX. Masalah Psikososial dan Lingkungan
-    'dukungan_kelompok'=> $_POST['dukungan_kelompok'] ?? '',
-    'masalah_lingkungan'=> $_POST['masalah_lingkungan'] ?? '',
-    'masalah_pendidikan'=> $_POST['masalah_pendidikan'] ?? '',
-    'masalah_pekerjaan'=> $_POST['masalah_pekerjaan'] ?? '',
-    'masalah_perumahan'=> $_POST['masalah_perumahan'] ?? '',
-    'masalah_ekonomi'=> $_POST['masalah_ekonomi'] ?? '',
-    'masalah_pelayanan_kesehatan'=> $_POST['masalah_pelayanan_kesehatan'] ?? '',
-    'masalah_lain'=> $_POST['masalah_lain'] ?? '',
-
-    // X. Pengetahuan Kurang Tentang
-    'pengetahuan'    => $_POST['pengetahuan'] ?? [],
-    ];
+    'ruang_rawat' => $_POST['ruang_rawat'],
+    'tanggal_rawat' => $_POST['tanggal_rawat'],
+    'nama_klien' => $_POST['nama_klien'],
+    'jenis_kelamin' => $_POST['jenis_kelamin'],
+    'tanggal_pengkajian' => $_POST['tanggal_pengkajian'],
+    'umur' => $_POST['umur'],
+    'rm' => $_POST['rm'],
+    'informasi' => $_POST['informasi'],
+    'alasanmasuk' => $_POST['alasanmasuk'],
+    'gangguan_jiwa' => $_POST['gangguan_jiwa'],
+    'pengobatan' => $_POST['pengobatan'],
+    'aniaya_fisik_pelaku' => $_POST['aniaya_fisik_pelaku'],
+    'aniaya_fisik_korban' => $_POST['aniaya_fisik_korban'],
+    'aniaya_fisik_saksi' => $_POST['aniaya_fisik_saksi'],
+    'aniaya_seksual_pelaku' => $_POST['aniaya_seksual_pelaku'],
+    'aniaya_seksual_korban' => $_POST['aniaya_seksual_korban'],
+    'aniaya_seksual_saksi' => $_POST['aniaya_seksual_saksi'],
+    'penolakan_pelaku' => $_POST['penolakan_pelaku'],
+    'penolakan_korban' => $_POST['penolakan_korban'],
+    'penolakan_saksi' => $_POST['penolakan_saksi'],
+    'kekerasan_keluarga_pelaku' => $_POST['kekerasan_keluarga_pelaku'],
+    'kekerasan_keluarga_korban' => $_POST['kekerasan_keluarga_korban'],
+    'kekerasan_keluarga_saksi' => $_POST['kekerasan_keluarga_saksi'],
+    'tindakan_kriminal_pelaku' => $_POST['tindakan_kriminal_pelaku'],
+    'tindakan_kriminal_korban' => $_POST['tindakan_kriminal_korban'],
+    'tindakan_kriminal_saksi' => $_POST['tindakan_kriminal_saksi'],
+    'penjelasan_kejadian' => $_POST['penjelasan_kejadian'],
+    'gangguan_jiwa_keluarga' => $_POST['gangguan_jiwa_keluarga'],
+    'pengalaman_masa_lalu' => $_POST['pengalaman_masa_lalu'],
+    'genogram' => $_POST['genogram'],
+    'gambaran_diri' => $_POST['gambaran_diri'],
+    'identitas_diri' => $_POST['identitas_diri'],
+    'peran' => $_POST['peran'],
+    'ideal_diri' => $_POST['ideal_diri'],
+    'harga_diri' => $_POST['harga_diri'],
+    'orang_berarti' => $_POST['orang_berarti'],
+    'kegiatan_kelompok' => $_POST['kegiatan_kelompok'],
+    'hambatan_hubungan' => $_POST['hambatan_hubungan'],
+    'nilai_keyakinan' => $_POST['nilai_keyakinan'],
+    'kegiatan_ibadah' => $_POST['kegiatan_ibadah'],
+    'psikososial' => isset($_POST['psikososial']) ? implode(',', $_POST['psikososial']) : null,
+    'dukungan_kelompok' => $_POST['dukungan_kelompok'],
+    'masalah_lingkungan' => $_POST['masalah_lingkungan'],
+    'masalah_pendidikan' => $_POST['masalah_pendidikan'],
+    'masalah_pekerjaan' => $_POST['masalah_pekerjaan'],
+    'masalah_perumahan' => $_POST['masalah_perumahan'],
+    'masalah_ekonomi' => $_POST['masalah_ekonomi'],
+    'masalah_pelayanan_kesehatan' => $_POST['masalah_pelayanan_kesehatan'],
+    'masalah_lain' => $_POST['masalah_lain'],
+    'pengetahuan' => isset($_POST['pengetahuan']) ? implode(',', $_POST['pengetahuan']) : null,
+    'penjelasan_status' => $_POST['penjelasan_status'],
+    'Hubungan_keluarga1' => $_POST['Hubungan_keluarga1'],
+    'Gejala' => $_POST['Gejala'],
+    'Riwayat' => $_POST['Riwayat'],
+    'Pengobatan_perawatan' => $_POST['Pengobatan_perawatan'],
+    'td' => $_POST['td'],
+    'nadi' => $_POST['nadi'],
+    'suhu' => $_POST['suhu'],
+    'pernafasan' => $_POST['pernafasan'],
+    'tb' => $_POST['tb'],
+    'bb' => $_POST['bb'],
+    'keluhan_fisik' => $_POST['keluhan_fisik'],
+    'penjelasan' => $_POST['penjelasan'],
+    'persiapan_makan1' => $_POST['persiapan_makan1'],
+    'bab1' => $_POST['bab1'],
+    'mandi1' => $_POST['mandi1'],
+    'berpakian1' => $_POST['berpakian1'],
+    'tidur_siang' => $_POST['tidur_siang'],
+    'tidur_siang_sampai' => $_POST['tidur_siang_sampai'],
+    'tidur_malam' => $_POST['tidur_malam'],
+    'tidur_malam_sampai' => $_POST['tidur_malam_sampai'],
+    'tidur' => $_POST['tidur'],
+    'obat' => $_POST['obat'],
+    'perawatanlanjutan' => $_POST['perawatanlanjutan'],
+    'perawatanpendukung1' => $_POST['perawatanpendukung1'],
+    'memasak1' => $_POST['memasak1'],
+    'menjaga_kerapian1' => $_POST['menjaga_kerapian1'],
+    'mencuci_pakaian1' => $_POST['mencuci_pakaian1'],
+    'pengaturan_keuangan1' => $_POST['pengaturan_keuangan1'],
+    'belanja1' => $_POST['belanja1'],
+    'transportasi1' => $_POST['transportasi1'],
+    'lain_lain1' => $_POST['lain_lain1'],
+];
 
     if (!$submission) {
         $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
@@ -342,7 +322,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
     <div class="col-sm-10">
         <textarea name="alasanmasuk" class="form-control" rows="3"
                   style="overflow:hidden; resize:none;"
-                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['alasanmasuk'] ?? '') ?></textarea>
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"<?= $ro ?>><?= val('alasanmasuk', $existing_data) ?></textarea>
     </div>
 </div>
 
@@ -352,36 +332,26 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                             <strong>III. FAKTOR PREDISPOSISI</strong>
                     </div>
 
-<!-- 1 -->
 <div class="row mb-3">
     <label class="col-sm-5 col-form-label"><strong>1. Pernah mengalami gangguan jiwa di masa lalu?</strong></label>
     <div class="col-sm-3">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="gangguan_jiwa" value="ya" <?= (val('gangguan_jiwa', $existing_data) == 'ya') ? 'checked' : '' ?> <?= $ro ?>>
-            <label class="form-check-label">Ya</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="gangguan_jiwa" value="tidak" <?= (val('gangguan_jiwa', $existing_data) == 'tidak') ? 'checked' : '' ?> <?= $ro ?>>
-            <label class="form-check-label">Tidak</label>
-        </div>
+        <select class="form-select" name="gangguan_jiwa" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('gangguan_jiwa', $existing_data) == 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('gangguan_jiwa', $existing_data) == 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
     </div>
 </div>
-
-<!-- 2 -->
 <div class="row mb-3">
     <label class="col-sm-5 col-form-label"><strong>2. Pengobatan sebelumnya</strong></label>
     <div class="col-sm-3">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="pengobatan" value="berhasil" <?= (val('pengobatan', $existing_data) == 'berhasil') ? 'checked' : '' ?> <?= $ro ?>>
-            <label class="form-check-label">Berhasil</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="pengobatan" value="tidak_berhasil" <?= (val('pengobatan', $existing_data) == 'tidak_berhasil') ? 'checked' : '' ?> <?= $ro ?>>
-            <label class="form-check-label">Tidak berhasil</label>
-        </div>
+        <select class="form-select" name="pengobatan" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="berhasil" <?= (val('pengobatan', $existing_data) == 'berhasil') ? 'selected' : '' ?>>Berhasil</option>
+            <option value="tidak_berhasil" <?= (val('pengobatan', $existing_data) == 'tidak_berhasil') ? 'selected' : '' ?>>Tidak berhasil</option>
+        </select>
     </div>
 </div>
-
 <!-- 3 TABEL -->
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>3. Riwayat Kejadian</strong></label>
@@ -435,30 +405,25 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Jelaskan No 1,2,3</strong></label>
     <div class="col-sm-10">
-        <textarea name="penjelasan_kejadian" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= val('penjelasan_kejadian', $existing_data) ?></textarea>
+        <textarea name="penjelasan_kejadian" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"<?= $ro ?>><?= val('penjelasan_kejadian', $existing_data) ?></textarea>
     </div>
 </div>
 
-<!-- 4 -->
 <div class="row mb-3">
     <label class="col-sm-5 col-form-label"><strong>4. Adakah anggota keluarga yang mengalami gangguan jiwa</strong></label>
     <div class="col-sm-3">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="gangguan_jiwa" value="ya" <?= (val('gangguan_jiwa', $existing_data) == 'ya') ? 'checked' : '' ?> <?= $ro ?>>
-            <label class="form-check-label">Ya</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="gangguan_jiwa" value="tidak" <?= (val('gangguan_jiwa', $existing_data) == 'tidak') ? 'checked' : '' ?> <?= $ro ?>>
-            <label class="form-check-label">Tidak</label>
-        </div>
+        <select class="form-select" name="gangguan_jiwa_keluarga" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('gangguan_jiwa_keluarga', $existing_data) == 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('gangguan_jiwa_keluarga', $existing_data) == 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
     </div>
 </div>
-
 <!-- INFORMASI -->
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Hubungan keluarga</strong></label>
     <div class="col-sm-10">
-        <input type="text" class="form-control" name="Hubungan_keluarga" value="<?= val('Hubungan_keluarga', $existing_data) ?>" <?= $ro ?>>
+        <input type="text" class="form-control" name="Hubungan_keluarga1" value="<?= val('Hubungan_keluarga1', $existing_data) ?>" <?= $ro ?>>
     </div>
 </div>
 
@@ -495,7 +460,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Pengalaman masa lalu yang tidak menyenangkan</strong></label>
     <div class="col-sm-10">
-        <textarea name="pengalaman_masa_lalu" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= val('pengalaman_masa_lalu', $existing_data) ?></textarea>
+        <textarea name="pengalaman_masa_lalu" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"<?= $ro ?>><?= val('pengalaman_masa_lalu', $existing_data) ?></textarea>
     </div>
 </div>
 
@@ -511,7 +476,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <!-- TD -->
 <div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>TD</strong></label>
+    <label class="col-sm-2 col-form-label"><strong>Tekanan Darah</strong></label>
     <div class="col-sm-10">
         <div class="input-group">
             <input type="text" class="form-control" name="td" value="<?= val('td', $existing_data) ?>" <?= $ro ?>>
@@ -522,7 +487,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <!-- Nadi -->
 <div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>N</strong></label>
+    <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
     <div class="col-sm-10">
         <div class="input-group">
             <input type="text" class="form-control" name="nadi" value="<?= val('nadi', $existing_data) ?>" <?= $ro ?>>
@@ -533,7 +498,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <!-- Suhu -->
 <div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>S</strong></label>
+    <label class="col-sm-2 col-form-label"><strong>Suhu</strong></label>
     <div class="col-sm-10">
         <div class="input-group">
             <input type="text" class="form-control" name="suhu" value="<?= val('suhu', $existing_data) ?>" <?= $ro ?>>
@@ -544,7 +509,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <!-- Pernafasan -->
 <div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>P</strong></label>
+    <label class="col-sm-2 col-form-label"><strong>Pernapasan</strong></label>
     <div class="col-sm-10">
         <div class="input-group">
             <input type="text" class="form-control" name="pernafasan" value="<?= val('pernafasan', $existing_data) ?>" <?= $ro ?>>
@@ -584,14 +549,11 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>3. Keluhan Fisik</strong></label>
     <div class="col-sm-10">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="keluhan_fisik" value="ya" <?= (val('keluhan_fisik', $existing_data) == 'ya') ? 'checked' : '' ?> <?= $ro ?>>
-            <label class="form-check-label">Ya</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="keluhan_fisik" value="tidak" <?= (val('keluhan_fisik', $existing_data) == 'tidak') ? 'checked' : '' ?> <?= $ro ?>>
-            <label class="form-check-label">Tidak</label>
-        </div>
+        <select class="form-select" name="keluhan_fisik" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('keluhan_fisik', $existing_data) == 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('keluhan_fisik', $existing_data) == 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
     </div>
 </div>
 
@@ -599,7 +561,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Penjelasan</strong></label>
     <div class="col-sm-10">
-        <textarea name="penjelasan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= val('penjelasan', $existing_data) ?></textarea>
+        <textarea name="penjelasan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"<?= $ro ?>><?= val('penjelasan', $existing_data) ?></textarea>
     </div>
 </div>
 
@@ -614,7 +576,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>1. Genogram</strong></label>
     <div class="col-sm-10">
-        <textarea name="genogram" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= val('genogram', $existing_data) ?></textarea>
+        <textarea name="genogram" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"<?= $ro ?>><?= val('genogram', $existing_data) ?></textarea>
     </div>
 </div>
 
@@ -627,7 +589,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>a. Gambaran Diri</strong></label>
     <div class="col-sm-10">
-        <textarea name="gambaran_diri" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= val('gambaran_diri', $existing_data) ?></textarea>
+        <textarea name="gambaran_diri" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"<?= $ro ?>><?= val('gambaran_diri', $existing_data) ?></textarea>
     </div>
 </div>
 
@@ -635,7 +597,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>b. Identitas Diri</strong></label>
     <div class="col-sm-10">
-        <textarea name="identitas_diri" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= val('identitas_diri', $existing_data) ?></textarea>
+        <textarea name="identitas_diri" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"<?= $ro ?>><?= val('identitas_diri', $existing_data) ?></textarea>
     </div>
 </div>
 
@@ -643,7 +605,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>c. Peran</strong></label>
     <div class="col-sm-10">
-        <textarea name="peran" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= val('peran', $existing_data) ?></textarea>
+        <textarea name="peran" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"<?= $ro ?>><?= val('peran', $existing_data) ?></textarea>
     </div>
 </div>
 
@@ -651,7 +613,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>d. Ideal Diri</strong></label>
     <div class="col-sm-10">
-        <textarea name="ideal_diri" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= val('ideal_diri', $existing_data) ?></textarea>
+        <textarea name="ideal_diri" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"<?= $ro ?>><?= val('ideal_diri', $existing_data) ?></textarea>
     </div>
 </div>
 
@@ -659,7 +621,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>e. Harga Diri</strong></label>
     <div class="col-sm-10">
-        <textarea name="harga_diri" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= val('harga_diri', $existing_data) ?></textarea>
+        <textarea name="harga_diri" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"<?= $ro ?>><?= val('harga_diri', $existing_data) ?></textarea>
     </div>
 </div>
 
@@ -700,16 +662,13 @@ $ro_select   = $is_readonly ? 'disabled' : '';
     <label class="col-sm-2 col-form-label"><strong>4. Spiritual</strong></label>
 </div>
 
-<!-- 4. Spiritual -->
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>4. Spiritual</strong></label>
-</div>
+
 
 <!-- Nilai dan Keyakinan -->
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>a. Nilai dan Keyakinan</strong></label>
     <div class="col-sm-10">
-        <textarea name="nilai_keyakinan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= val('nilai_keyakinan', $existing_data) ?></textarea>
+        <textarea name="nilai_keyakinan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"<?= $ro ?>><?= val('nilai_keyakinan', $existing_data) ?></textarea>
     </div>
 </div>
 
@@ -717,7 +676,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>b. Kegiatan Ibadah</strong></label>
     <div class="col-sm-10">
-        <textarea name="kegiatan_ibadah" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= val('kegiatan_ibadah', $existing_data) ?></textarea>
+        <textarea name="kegiatan_ibadah" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"<?= $ro ?>><?= val('kegiatan_ibadah', $existing_data) ?></textarea>
     </div>
 </div>          
                        <div class="row mb-2">
@@ -1149,253 +1108,186 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 </div>
  <div class="row mb-2">
-                        <label class="col-sm-3 col-form-label text-primary">
-                            <strong>VII.	STATUS MENTAL</strong>
+                        <label class="col-sm-5 col-form-label text-primary">
+                            <strong>VII. KEBUTUHAN PERSIAPAN PULANG</strong>
                     </div>
               
-
-            <!-- Makan -->
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"><strong>1. Makan</strong></label>
-                <div class="col-sm-9">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="makan" value="bantuan_minimal">
-                        <label class="form-check-label">Bantuan minimal</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="makan" value="bantuan_partial">
-                        <label class="form-check-label">Bantuan partial</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="makan" value="bantuan_total">
-                        <label class="form-check-label">Bantuan total</label>
-                    </div>
-                </div>
-            </div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>1. Makan</strong></label>
+    <div class="col-sm-10">
+        <select class="form-select" name="persiapan_makan1" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="bantuan_minimal" <?= (val('persiapan_makan1', $existing_data) == 'bantuan_minimal') ? 'selected' : '' ?>>Bantuan minimal</option>
+            <option value="bantuan_partial" <?= (val('persiapan_makan1', $existing_data) == 'bantuan_partial') ? 'selected' : '' ?>>Bantuan partial</option>
+            <option value="bantuan_total" <?= (val('persiapan_makan1', $existing_data) == 'bantuan_total') ? 'selected' : '' ?>>Bantuan total</option>
+        </select>
+    </div>
+</div>
 
             <!-- BAB/BAK -->
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"><strong>2. BAB/BAK</strong></label>
-                <div class="col-sm-9">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="bab_bak" value="bantuan_minimal">
-                        <label class="form-check-label">Bantuan minimal</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="bab_bak" value="bantuan_partial">
-                        <label class="form-check-label">Bantuan partial</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="bab_bak" value="bantuan_total">
-                        <label class="form-check-label">Bantuan total</label>
-                    </div>
-                </div>
-            </div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>2. BAB/BAK</strong></label>
+    <div class="col-sm-10">
+        <select class="form-select" name="bab1" <?= $ro_select ?>>
+             <option value="">Pilih</option>
+            <option value="bantuan_minimal" <?= (val('bab1', $existing_data) == 'bantuan_minimal') ? 'selected' : '' ?>>Bantuan minimal</option>
+            <option value="bantuan_partial" <?= (val('bab1', $existing_data) == 'bantuan_partial') ? 'selected' : '' ?>>Bantuan partial</option>
+            <option value="bantuan_total" <?= (val('bab1', $existing_data) == 'bantuan_total') ? 'selected' : '' ?>>Bantuan total</option>
+        </select>
+    </div>
+</div>
 
-            <!-- Mandi -->
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"><strong>3. Mandi</strong></label>
-                <div class="col-sm-9">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="mandi" value="bantuan_minimal">
-                        <label class="form-check-label">Bantuan minimal</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="mandi" value="bantuan_partial">
-                        <label class="form-check-label">Bantuan partial</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="mandi" value="bantuan_total">
-                        <label class="form-check-label">Bantuan total</label>
-                    </div>
-                </div>
-            </div>
+ <!-- Mandi -->
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>3. Mandi</strong></label>
+    <div class="col-sm-10">
+        <select class="form-select" name="mandi1" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="bantuan_minimal" <?= (val('mandi1', $existing_data) === 'bantuan_minimal') ? 'selected' : '' ?>>Bantuan minimal</option>
+            <option value="bantuan_partial" <?= (val('mandi1', $existing_data) === 'bantuan_partial') ? 'selected' : '' ?>>Bantuan partial</option>
+            <option value="bantuan_total" <?= (val('mandi1', $existing_data) === 'bantuan_total') ? 'selected' : '' ?>>Bantuan total</option>
+        </select>
+    </div>
+</div>
 
-            <!-- Berpakian/berhias -->
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"><strong>4. Berpakian/berhias</strong></label>
-                <div class="col-sm-9">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="berpakian" value="bantuan_minimal">
-                        <label class="form-check-label">Bantuan minimal</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="berpakian" value="bantuan_partial">
-                        <label class="form-check-label">Bantuan partial</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="berpakian" value="bantuan_total">
-                        <label class="form-check-label">Bantuan total</label>
-                    </div>
-                </div>
-            </div>
+<!-- Berpakian/berhias -->
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>4. Berpakian/berhias</strong></label>
+    <div class="col-sm-10">
+        <select class="form-select" name="berpakian1" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="bantuan_minimal" <?= (val('berpakian1', $existing_data) === 'bantuan_minimal') ? 'selected' : '' ?>>Bantuan minimal</option>
+            <option value="bantuan_partial" <?= (val('berpakian1', $existing_data) === 'bantuan_partial') ? 'selected' : '' ?>>Bantuan partial</option>
+            <option value="bantuan_total" <?= (val('berpakian1', $existing_data) === 'bantuan_total') ? 'selected' : '' ?>>Bantuan total</option>
+        </select>
+    </div>
+</div>
+<!-- Istirahat/tidur -->
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>5. Istirahat/tidur</strong></label>
+    <div class="col-sm-10">
+        <label class="form-check-label me-4">Tidur siang: </label>
+        <input type="text" class="form-control d-inline" name="tidur_siang" style="width: 100px;" value="<?= val('tidur_siang', $existing_data) ?>" <?= $ro ?>>
+        <label class="form-check-label ms-4">s/d</label>
+        <input type="text" class="form-control d-inline" name="tidur_siang_sampai" style="width: 100px;" value="<?= val('tidur_siang_sampai', $existing_data) ?>" <?= $ro ?>><br> <br>
 
-            <!-- Istirahat/tidur -->
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"><strong>5. Istirahat/tidur</strong></label>
-                <div class="col-sm-9">
-                    <label class="form-check-label me-4">Tidur siang: </label>
-                    <input type="text" class="form-control d-inline" name="tidur_siang" style="width: 100px;" value="<?= val('tidur_siang', $existing_data) ?>" <?= $ro ?>>
-                    <label class="form-check-label ms-4">s/d</label>
-                    <input type="text" class="form-control d-inline" name="tidur_siang_sampai" style="width: 100px;" value="<?= val('tidur_siang_sampai', $existing_data) ?>" <?= $ro ?>><br> <br>
+        <label class="form-check-label me-4">Tidur malam: </label>
+        <input type="text" class="form-control d-inline" name="tidur_malam" style="width: 100px;" value="<?= val('tidur_malam', $existing_data) ?>" <?= $ro ?>>
+        <label class="form-check-label ms-4">s/d</label>
+        <input type="text" class="form-control d-inline" name="tidur_malam_sampai" style="width: 100px;" value="<?= val('tidur_malam_sampai', $existing_data) ?>" <?= $ro ?>> <br> <br>
 
-                    
-                    <label class="form-check-label me-4">Tidur malam: </label>
-                    <input type="text" class="form-control d-inline" name="tidur_malam" style="width: 100px;" value="<?= val('tidur_malam', $existing_data) ?>" <?= $ro ?>>
-                    <label class="form-check-label ms-4">s/d</label>
-                    <input type="text" class="form-control d-inline" name="tidur_malam_sampai" style="width: 100px;" value="<?= val('tidur_malam_sampai', $existing_data) ?>" <?= $ro ?>> <br> <br>
-                   
-                    <label class="form-check-label me-4">Kegiatan sebelum/sesudah tidur: </label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="kegiatan_tidur" value="tidak">
-                        <label class="form-check-label">Ya</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="kegiatan_tidur" value="tidak">
-                        <label class="form-check-label">Tidak</label>
-                    </div>
-                </div>
-            </div>
+        <label class="form-check-label me-4">Kegiatan sebelum/sesudah tidur: </label>
+        <select class="form-select" name="tidur" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('tidur', $existing_data) === 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('tidur', $existing_data) === 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
+    </div>
+</div>
 
-            <!-- Penggunaan obat -->
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"><strong>6. Penggunaan obat</strong></label>
-                <div class="col-sm-9">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="penggunaan_obat" value="bantuan_minimal">
-                        <label class="form-check-label">Bantuan minimal</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="penggunaan_obat" value="bantuan_partial">
-                        <label class="form-check-label">Bantuan partial</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="penggunaan_obat" value="bantuan_total">
-                        <label class="form-check-label">Bantuan total</label>
-                    </div>
-                </div>
-            </div>
+<!-- Penggunaan obat -->
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>6. Penggunaan obat</strong></label>
+    <div class="col-sm-10">
+        <select class="form-select" name="obat" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="bantuan_minimal" <?= (val('obat', $existing_data) === 'bantuan_minimal') ? 'selected' : '' ?>>Bantuan minimal</option>
+            <option value="bantuan_partial" <?= (val('obat', $existing_data) === 'bantuan_partial') ? 'selected' : '' ?>>Bantuan partial</option>
+            <option value="bantuan_total" <?= (val('obat', $existing_data) === 'bantuan_total') ? 'selected' : '' ?>>Bantuan total</option>
+        </select>
+    </div>
+</div>
+<!-- Pemeliharaan kesehatan -->
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>7. Pemeliharaan kesehatan</strong></label>
+    <div class="col-sm-10">
+        <label class="form-check-label me-3">Perawatan lanjutan: </label>
+        <select class="form-select" name="perawatanlanjutan" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('perawatanlanjutan', $existing_data) === 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('perawatanlanjutan', $existing_data) === 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
 
-            <!-- Pemeliharaan kesehatan -->
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"><strong>7. Pemeliharaan kesehatan</strong></label>
-                <div class="col-sm-9">
-                    <label class="form-check-label me-3">Perawatan lanjutan: </label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="perawatan_lanjutan" value="ya">
-                        <label class="form-check-label">Ya</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="perawatan_lanjutan" value="tidak">
-                        <label class="form-check-label">Tidak</label>
-                    </div>
+        <br>
 
-                    <br>
+        <label class="form-check-label me-3">Perawatan pendukung: </label>
+        <select class="form-select" name="perawatanpendukung1" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('perawatanpendukung1', $existing_data) === 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('perawatanpendukung1', $existing_data) === 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
+    </div>
+</div>
+<!-- Kegiatan di dalam rumah -->
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>8. Kegiatan di dalam rumah</strong></label>
+    <div class="col-sm-10">
+        <label class="form-check-label me-3">Mempersiapkan makanan: </label>
+        <select class="form-select" name="memasak1" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('memasak1', $existing_data) === 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('memasak1', $existing_data) === 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
 
-                    <label class="form-check-label me-3">Perawatan pendukung: </label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="perawatan_pendukung" value="ya">
-                        <label class="form-check-label">Ya</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="perawatan_pendukung" value="tidak">
-                        <label class="form-check-label">Tidak</label>
-                    </div>
-                </div>
-            </div>
+        <br>
 
-            <!-- Kegiatan di dalam rumah -->
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"><strong>8. Kegiatan di dalam rumah</strong></label>
-                <div class="col-sm-9">
-                    <label class="form-check-label me-3">Mempersiapkan makanan: </label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="memasak" value="ya">
-                        <label class="form-check-label">Ya</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="memasak" value="tidak">
-                        <label class="form-check-label">Tidak</label>
-                    </div>
+        <label class="form-check-label me-3">Menjaga kerapian di rumah: </label>
+        <select class="form-select" name="menjaga_kerapian1" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('menjaga_kerapian1', $existing_data) === 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('menjaga_kerapian1', $existing_data) === 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
 
-                    <br>
+        <br>
 
-                    <label class="form-check-label me-3">Menjaga kerapian di rumah: </label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="menjaga_kerapian" value="ya">
-                        <label class="form-check-label">Ya</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="menjaga_kerapian" value="tidak">
-                        <label class="form-check-label">Tidak</label>
-                    </div>
+        <label class="form-check-label me-3">Mencuci pakaian: </label>
+        <select class="form-select" name="mencuci_pakaian1" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('mencuci_pakaian1', $existing_data) === 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('mencuci_pakaian1', $existing_data) === 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
 
-                    <br>
+        <br>
 
-                    <label class="form-check-label me-3">Mencuci pakaian: </label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="mencuci_pakaian" value="ya">
-                        <label class="form-check-label">Ya</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="mencuci_pakaian" value="tidak">
-                        <label class="form-check-label">Tidak</label>
-                    </div>
+        <label class="form-check-label me-3">Pengaturan keuangan: </label>
+        <select class="form-select" name="pengaturan_keuangan1" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('pengaturan_keuangan1', $existing_data) === 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('pengaturan_keuangan1', $existing_data) === 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
+    </div>
+</div>
 
-                    <br>
+ <!-- Kegiatan di luar rumah -->
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>9. Kegiatan di luar rumah</strong></label>
+    <div class="col-sm-10">
+        <label class="form-check-label me-3">Belanja: </label>
+        <select class="form-select" name="belanja1" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('belanja1', $existing_data) === 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('belanja1', $existing_data) === 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
 
-                    <label class="form-check-label me-3">Pengaturan keuangan: </label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="pengaturan_keuangan" value="ya">
-                        <label class="form-check-label">Ya</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="pengaturan_keuangan" value="tidak">
-                        <label class="form-check-label">Tidak</label>
-                    </div>
-                </div>
-            </div>
+        <br>
 
-            <!-- Kegiatan di luar rumah -->
-            <div class="row mb-3">
-                <label class="col-sm-3 col-form-label"><strong>9. Kegiatan di luar rumah</strong></label>
-                <div class="col-sm-9">
-                    <label class="form-check-label me-3">Belanja: </label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="belanja" value="ya">
-                        <label class="form-check-label">Ya</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="belanja" value="tidak">
-                        <label class="form-check-label">Tidak</label>
-                    </div>
+        <label class="form-check-label me-3">Transportasi: </label>
+        <select class="form-select" name="transportasi1" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('transportasi1', $existing_data) === 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('transportasi1', $existing_data) === 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
 
-                    <br>
+        <br>
 
-                    <label class="form-check-label me-3">Transportasi: </label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="transportasi" value="ya">
-                        <label class="form-check-label">Ya</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="transportasi" value="tidak">
-                        <label class="form-check-label">Tidak</label>
-                    </div>
-
-                    <br>
-
-                    <label class="form-check-label me-3">Lain-lain: </label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="lain_lain" value="ya">
-                        <label class="form-check-label">Ya</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="lain_lain" value="tidak">
-                        <label class="form-check-label">Tidak</label>
-                    </div>
-                </div>
-            </div>
-
+        <label class="form-check-label me-3">Lain-lain: </label>
+        <select class="form-select" name="lain_lain1" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="ya" <?= (val('lain_lain1', $existing_data) === 'ya') ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= (val('lain_lain1', $existing_data) === 'tidak') ? 'selected' : '' ?>>Tidak</option>
+        </select>
+    </div>
+</div>
             <!-- Penjelasan -->
              
             <div class="row mb-3">
