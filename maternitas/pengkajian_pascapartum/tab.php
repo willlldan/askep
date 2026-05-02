@@ -1,11 +1,9 @@
 <?php
-// Ambil submission_id dan page
 $submission_id = $_GET['submission_id'] ?? null;
 $page = $_GET['page'] ?? '';
 $parts = explode('/', $page);
-$jenismaternitas = $parts[1] ?? 'pengkajian_ginekologi';
+$jenismaternitas = $parts[1] ?? 'pengkajian_pascapartum';
 
-// Judul dinamis
 $titles = [
     'pengkajian_antenatal_care' => 'Pengkajian Asuhan Keperawatan Antenatal Care',
     'pengkajian_pascapartum' => 'Pengkajian Asuhan Keperawatan Pascapartum',
@@ -14,19 +12,24 @@ $titles = [
     'pengkajian_ginekologi' => 'Pengkajian Asuhan Keperawatan Ginekologi'
 ];
 
-// Tab dan label
 $tabs = [
-    "demografi",
-    "riwayat",
-    "pengkajianfisik",
+    "identitas",
+    "data_biologis",
+    "pemeriksaan_fisik1",
+    "pemeriksaan_fisik2",
+    "pemeriksaan_fisik3",
     "terapi_lab",
-    "lainnya"
+    "riwayat_kehamilan",
+    "lainnya",
 ];
 $tabLabels = [
-    'demografi' => 'Data Demografi',
-    'riwayat' => 'Riwayat Kehamilan dan Kesehatan',
-    'pengkajianfisik' => 'Pengkajian Fisik',
+    'identitas' => 'Identitas',
+    'data_biologis' => 'Data Biologis',
+    'pemeriksaan_fisik1' => 'Pemeriksaan Fisik 1',
+    'pemeriksaan_fisik2' => 'Pemeriksaan Fisik 2',
+    'pemeriksaan_fisik3' => 'Pemeriksaan Fisik 3',
     'terapi_lab' => 'Terapi Lab',
+    'riwayat_kehamilan' => 'Riwayat Kehamilan',
     'lainnya' => 'Lainnya',
 ];
 $currentTab = $_GET['tab'] ?? $tabs[0];
@@ -52,6 +55,7 @@ $currentTab = $_GET['tab'] ?? $tabs[0];
         </li>
     <?php endforeach; ?>
 </ul>
+
 <style>
     .custom-tabs {
         border-bottom: 1px solid #dee2e6;

@@ -1,13 +1,15 @@
 <?php
-$jenismaternitas = $_GET['jenismaternitas'] ?? 'antenatal';
 $submission_id = $_GET['submission_id'] ?? null;
+$page = $_GET['page'] ?? '';
+$parts = explode('/', $page);
+$jenismaternitas = $parts[1] ?? 'pengkajian_antenatal_care';
 
 $titles = [
-    'antenatal' => 'Pengkajian Asuhan Keperawatan Antenatal Care',
-    'pascapartum' => 'Pengkajian Asuhan Keperawatan Pascapartum',
-    'resume' => 'Resume Asuhan Keperawatan Antenatal Care',
-    'inranatal' => 'Pengkajian Asuhan Keperawatan Inranatal Care',
-    'ginekologi' => 'Pengkajian Asuhan Keperawatan Ginekologi'
+    'pengkajian_antenatal_care' => 'Pengkajian Asuhan Keperawatan Antenatal Care',
+    'pengkajian_pascapartum' => 'Pengkajian Asuhan Keperawatan Pascapartum',
+    'resume_antenatal_care' => 'Resume Asuhan Keperawatan Antenatal Care',
+    'pengkajian_inranatal_care' => 'Pengkajian Asuhan Keperawatan Inranatal Care',
+    'pengkajian_ginekologi' => 'Pengkajian Asuhan Keperawatan Ginekologi'
 ];
 
 $tabs = [
@@ -30,8 +32,6 @@ $tabLabels = [
 ];
 
 $currentTab = $_GET['tab'] ?? $tabs[0];
-
-
 ?>
 
 
@@ -46,9 +46,8 @@ $currentTab = $_GET['tab'] ?? $tabs[0];
     foreach ($tabs as $tab):
         $isActive = ($currentTab == $tab) ? 'active' : '';
         $label = $tabLabels[$tab] ?? ucfirst(str_replace('_', ' ', $tab));
-        $url = "index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas={$jenismaternitas}&tab={$tab}";
+        $url = "index.php?page=maternitas/{$jenismaternitas}&tab={$tab}";
         if ($submission_id) $url .= "&submission_id={$submission_id}";
-
     ?>
         <li class="nav-item">
             <a class="nav-link <?= $isActive ?>" href="<?= htmlspecialchars($url) ?>">

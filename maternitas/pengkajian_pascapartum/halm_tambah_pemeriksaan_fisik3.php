@@ -1,4 +1,3 @@
-
 <?php
 require_once "koneksi.php";
 require_once "utils.php";
@@ -81,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     ];
 
     if (!$submission) {
-        $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+        $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
     } else {
         $submission_id = $submission['id'];
     }
@@ -130,415 +129,344 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 ?>
 
 <main id="main" class="main">
-    <?php include "navbar_maternitas.php"; ?>
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
+    <?php include "tab.php"; ?>
 
-        <!-- Info status section (untuk dosen) -->
-        <?php if  ($section_status): ?>
-            <?php
-            $badge = [
-                'draft'     => 'secondary',
-                'submitted' => 'primary',
-                'revision'  => 'warning',
-                'approved'  => 'success',
-            ];
-            ?>
+    <section class="section dashboard">
+        <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
 
-             <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                    | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>       
-            </div>
-        <?php endif; ?>
-     <section class="section dashboard">
         <div class="card">
-         
+
+            <div class="card">
+                <div class="card-body">
+
+                    <h5 class="card-title mb-1"><strong>Pengkajian</strong></h5>
+                    <form class="needs-validation" novalidate action="" method="POST">
+                        <!-- Bagian Istirahat dan Kenyamanan -->
+
+                        <div class="row mb-2">
+                            <label class="col-sm-6 col-form-label text-primary">
+                                <strong>Istirahat dan Kenyamanan</strong>
+                        </div>
+
+                        <!-- Inspeksi Istirahat -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Pola Tidur Saat Ini</strong></label>
+
+                            <div class="col-sm-9">
+                                <small class="form-text" style="color: red;">Kebiasaan tidur, lama dalam hitungan jam, frekuensi. Hasil:</small>
+                                <textarea name="inspeksiistirahat" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('inspeksi_istirahat', $existing_data) ?></textarea>
 
 
-               <div class="card">
-                    <div class="card-body"> 
+                            </div>
+                        </div>
 
-              <h5 class="card-title mb-1"><strong>Pengkajian</strong></h5>
-               <form class="needs-validation" novalidate action="" method="POST">
-                <!-- Bagian Istirahat dan Kenyamanan -->
+                        <!-- Inspeksi Kenyamanan -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"></label>
 
-                    <div class="row mb-2">
-                        <label class="col-sm-6 col-form-label text-primary">
-                            <strong>Istirahat dan Kenyamanan</strong>
-                    </div>
-                    
-                    <!-- Inspeksi Istirahat -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Pola Tidur Saat Ini</strong></label>
+                            <div class="col-sm-9">
+                                <small class="form-text" style="color: red;">Keluhan ketidaknyamanan (Ya/Tidak), lokasi. Hasil:</small>
+                                <textarea name="inspeksikenyamanan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('inspeksi_kenyamanan', $existing_data) ?></textarea>
 
-                        <div class="col-sm-9">
-                            <small class="form-text" style="color: red;">Kebiasaan tidur, lama dalam hitungan jam, frekuensi. Hasil:</small>
-                            <textarea name="inspeksiistirahat" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('inspeksi_istirahat', $existing_data) ?></textarea>
 
-                 
-                         </div>
-                    </div> 
-                    
-                    <!-- Inspeksi Kenyamanan -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"></label>
+                            </div>
+                        </div>
 
-                        <div class="col-sm-9">
-                            <small class="form-text" style="color: red;">Keluhan ketidaknyamanan  (Ya/Tidak), lokasi. Hasil:</small>
-                            <textarea name="inspeksikenyamanan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('inspeksi_kenyamanan', $existing_data) ?></textarea>
-
-                     
-                         </div>
-                    </div> 
-   
-                    <!-- Masalah Khusus -->
+                        <!-- Masalah Khusus -->
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
 
                             <div class="col-sm-9">
                                 <textarea name="masalahkhususistirahat" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('masalah_khusus_istirahat', $existing_data) ?></textarea>
+                                    <?= $ro ?>><?= val('masalah_khusus_istirahat', $existing_data) ?></textarea>
 
-                   
-                         </div>
-                    </div>  
-                            
-                <!-- Bagian Mobilisasi dan Latihan -->
 
-                    <div class="row mb-2">
-                        <label class="col-sm-6 col-form-label text-primary">
-                            <strong>Mobilisasi dan Latihan</strong>
-                    </div>
+                            </div>
+                        </div>
 
-                    <!-- Inspeksi -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Tingkat Mobilisasi</strong></label>
+                        <!-- Bagian Mobilisasi dan Latihan -->
 
-                        <div class="col-sm-9">
-                            <small class="form-text" style="color: red;">Apakah mandiri, parsial, total. Hasil:</small>
-                            <textarea name="inspeksimobilisasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('inspeksi_mobilisasi', $existing_data) ?></textarea>
+                        <div class="row mb-2">
+                            <label class="col-sm-6 col-form-label text-primary">
+                                <strong>Mobilisasi dan Latihan</strong>
+                        </div>
 
-                     
-                         </div>
-                    </div> 
-                    
-                    <!-- Masalah Khusus -->
+                        <!-- Inspeksi -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Tingkat Mobilisasi</strong></label>
+
+                            <div class="col-sm-9">
+                                <small class="form-text" style="color: red;">Apakah mandiri, parsial, total. Hasil:</small>
+                                <textarea name="inspeksimobilisasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('inspeksi_mobilisasi', $existing_data) ?></textarea>
+
+
+                            </div>
+                        </div>
+
+                        <!-- Masalah Khusus -->
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
 
                             <div class="col-sm-9">
                                 <textarea name="masalahkhususmobilisasi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('masalah_khusus_mobilisasi', $existing_data) ?></textarea>
+                                    <?= $ro ?>><?= val('masalah_khusus_mobilisasi', $existing_data) ?></textarea>
 
-                     
-                         </div>
-                    </div> 
-                            
-                <!-- Bagian Pola Nutrisi dan Cairan -->
 
-                    <div class="row mb-2">
-                        <label class="col-sm-6 col-form-label text-primary">
-                            <strong>Pola Nutrisi dan Cairan</strong>
-                    </div>
-                    
-                    <!-- Jenis Makanan -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Jenis Makanan</strong></label>
+                            </div>
+                        </div>
 
-                        <div class="col-sm-9">
-                           <textarea name="jenismakanan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('jenis_makanan', $existing_data) ?></textarea>
+                        <!-- Bagian Pola Nutrisi dan Cairan -->
 
-                         </div>
-                    </div> 
+                        <div class="row mb-2">
+                            <label class="col-sm-6 col-form-label text-primary">
+                                <strong>Pola Nutrisi dan Cairan</strong>
+                        </div>
 
-                    <!-- Frekuensi -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Frekuensi</strong></label>
+                        <!-- Jenis Makanan -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Jenis Makanan</strong></label>
 
-                        <div class="col-sm-9">
-                           <textarea name="frekuensi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('frekuensi', $existing_data) ?></textarea>
+                            <div class="col-sm-9">
+                                <textarea name="jenismakanan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('jenis_makanan', $existing_data) ?></textarea>
 
-                    
-                         </div>
-                    </div> 
+                            </div>
+                        </div>
 
-                    <!-- Konsumsi Snack -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Konsumsi Snack</strong></label>
+                        <!-- Frekuensi -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Frekuensi</strong></label>
 
-                        <div class="col-sm-9">
-                           <textarea name="konsumsisnack" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('konsumsi_snack', $existing_data) ?></textarea>
+                            <div class="col-sm-9">
+                                <textarea name="frekuensi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('frekuensi', $existing_data) ?></textarea>
 
-                         </div>
-                    </div> 
 
-                    <!-- Nafsu Makan -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Nafsu Makan</strong></label>
+                            </div>
+                        </div>
 
-                        <div class="col-sm-9">
-                           <textarea name="nafsumakan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('nafsu_makan', $existing_data) ?></textarea>
+                        <!-- Konsumsi Snack -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Konsumsi Snack</strong></label>
 
-                     
-                         </div>
-                    </div> 
+                            <div class="col-sm-9">
+                                <textarea name="konsumsisnack" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('konsumsi_snack', $existing_data) ?></textarea>
 
-                    <!-- Pola Minum -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Pola Minum</strong></label>
+                            </div>
+                        </div>
 
-                        <div class="col-sm-9">
-                           <textarea name="polaminum" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('polaminum', $existing_data) ?></textarea></textarea>
+                        <!-- Nafsu Makan -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Nafsu Makan</strong></label>
 
-                         </div>
-                    </div> 
+                            <div class="col-sm-9">
+                                <textarea name="nafsumakan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('nafsu_makan', $existing_data) ?></textarea>
 
-                    <!-- Frekuensi -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Frekuensi</strong></label>
 
-                        <div class="col-sm-9">
-                           <textarea name="frekuensi2" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('frekuensi2', $existing_data) ?></textarea>
+                            </div>
+                        </div>
 
-                    
-                         </div>
-                    </div> 
+                        <!-- Pola Minum -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Pola Minum</strong></label>
 
-                    <!-- Pantangan Makanan -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Pantangan Makanan</strong></label>
+                            <div class="col-sm-9">
+                                <textarea name="polaminum" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('polaminum', $existing_data) ?></textarea></textarea>
 
-                        <div class="col-sm-9">
-                           <textarea name="pantanganmakanan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('pantangan_makanan', $existing_data) ?></textarea>
+                            </div>
+                        </div>
 
-                    
-                         </div>
-                    </div>
+                        <!-- Frekuensi -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Frekuensi</strong></label>
 
-                <!-- Pengetahuan Menyusui -->
+                            <div class="col-sm-9">
+                                <textarea name="frekuensi2" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('frekuensi2', $existing_data) ?></textarea>
 
-                    <div class="row mb-2">
-                        <label class="col-sm-8 col-form-label text-primary">
-                            <strong>Pengetahuan Menyusui</strong>
-                    </div>   
-                    
-                    <!-- Kemampuan Menyusui -->
+
+                            </div>
+                        </div>
+
+                        <!-- Pantangan Makanan -->
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>Pantangan Makanan</strong></label>
+
+                            <div class="col-sm-9">
+                                <textarea name="pantanganmakanan" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('pantangan_makanan', $existing_data) ?></textarea>
+
+
+                            </div>
+                        </div>
+
+                        <!-- Pengetahuan Menyusui -->
+
+                        <div class="row mb-2">
+                            <label class="col-sm-8 col-form-label text-primary">
+                                <strong>Pengetahuan Menyusui</strong>
+                        </div>
+
+                        <!-- Kemampuan Menyusui -->
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label"><strong>Kemampuan Menyusui</strong></label>
 
                             <div class="col-sm-9">
-                            <small class="form-text" style="color: red;">Ya/Tidak</small>
-                            <select class="form-select" name="kemampuanmenyusui" <?= $ro_select ?>>
-                                <option value="ada" <?= val('kemampuan_menyusui', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                <option value="tidak" <?= val('kemampuan_menyusui', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
-
-                             <small class="form-text" style="color: red;">Hasil:</small>
-                               <textarea name="kemampuanmenyusui1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('kemampuan_menyusui1', $existing_data) ?></textarea>
-
-                    
-                    </div>
-
-                    <!-- Posisi Menyusui -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Mengetahui Posisi Menyusui yang Benar</strong></label>
-
-                            <div class="col-sm-9">
-                            <small class="form-text" style="color: red;">Ya/Tidak</small>
-                            <select class="form-select" name="posisimenyusui" <?= $ro_select ?>>
-                                <option value="ada" <?= val('posisi_menyusui', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                <option value="tidak" <?= val('posisi_menyusui', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
-
-                             <small class="form-text" style="color: red;">Hasil:</small>
-                               <textarea name="posisimenyusui1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('posisi_menyusui1', $existing_data) ?></textarea>
-
-
-                         </div>
-                    </div>    
-                    
-                    <!-- Penyimpanan Asi -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Mengetahui Cara Penyimpanan ASI</strong></label>
-
-                            <div class="col-sm-9">
-                            <small class="form-text" style="color: red;">Ya/Tidak</small>
-                            <select class="form-select" name="penyimpananasi" <?= $ro_select ?>>
-                                <option value="ada" <?= val('penyimpanan_asi', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                <option value="tidak" <?= val('penyimpanan_asi', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
-
-                             <small class="form-text" style="color: red;">Hasil:</small>
-                               <textarea name="penyimpananasi1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('penyimpanan_asi1', $existing_data) ?></textarea>
-
-                         </div>
-                    </div>
-                    
-                    <!-- Perawatan Payudara -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Mengetahui Perawatan Payudara</strong></label>
-
-                            <div class="col-sm-9">
-                            <small class="form-text" style="color: red;">Ya/Tidak</small>
-                            <select class="form-select" name="perawatanpayudara" <?= $ro_select ?>>
-                                 <option value="ada" <?= val('perawatan_payudara', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                <option value="tidak" <?= val('perawatan_payudara', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
-
-                             <small class="form-text" style="color: red;">Hasil:</small>
-                               <textarea name="perawatanpayudara1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('perawatan_payudara1', $existing_data) ?></textarea>
-
-                         </div>
-                    </div> 
-                    
-                    <!-- Produksi ASI -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Mengetahui Cara Meningkatkan Produksi ASI</strong></label>
-
-                            <div class="col-sm-9">
-                            <small class="form-text" style="color: red;">Ya/Tidak</small>
-                            <select class="form-select" name="produksiasi" <?= $ro_select ?>>
-                                <option value="ada" <?= val('produksi_asi', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                <option value="tidak" <?= val('produksi_asi', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
-
-                             <small class="form-text" style="color: red;">Hasil:</small>
-                               <textarea name="produksiasi1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('produksi_asi1', $existing_data) ?></textarea>
-
-                         </div>
-                    </div>
-
-                 <!-- Kontrasepsi -->
-
-                    <div class="row mb-2">
-                        <label class="col-sm-8 col-form-label text-primary">
-                            <strong>Kontrasepsi (KB)</strong>
-                    </div>   
-                    
-                    <!-- Jenis KB -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Kontrasepsi (KB)</strong></label>
-
-                            <div class="col-sm-9">
-                             <small class="form-text" style="color: red;">Pernah menggunakan kontrasepsi dan jenis kontrasepsi yang pernah digunakan. Hasil:</small>
-                               <textarea name="jeniskb" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('jenis_kb', $existing_data) ?></textarea>
-
-                         </div>
-                    </div> 
-                    
-                    <!-- Pengetahuan KB -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"></label>
-
-                            <div class="col-sm-9">
-                             <small class="form-text" style="color: red;">Pengetahuan tentang kontrasepsi (jenis, manfaat, kelebihan, dan kekurangan). Hasil:</small>
-                               <textarea name="pengetahuankb" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('pengetahuan_kb', $existing_data) ?></textarea>
-
-                         </div>
-                    </div> 
-
-                    <!-- Rencana Penggunakan KB -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"></label>
-
-                            <div class="col-sm-9">
-                             <small class="form-text" style="color: red;">Rencana penggunaan kontrasepsi. Hasil:</small>
                                 <small class="form-text" style="color: red;">Ya/Tidak</small>
-                            <select class="form-select" name="rencanapenggunaankb" <?= $ro_select ?>>
-                                
-                                <option value="ya"<?= val('rencana_penggunaan_kb', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
-                                <option value="tidak"<?= val('rencana_penggunaan_kb', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
+                                <select class="form-select" name="kemampuanmenyusui" <?= $ro_select ?>>
+                                    <option value="ada" <?= val('kemampuan_menyusui', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
+                                    <option value="tidak" <?= val('kemampuan_menyusui', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
+                                </select>
 
-        
-               </div>
-        </div>
-        <!-- TOMBOL SUBMIT -->
-                    <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-11 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-                </form>
-            </div>
-        </div>
+                                <small class="form-text" style="color: red;">Hasil:</small>
+                                <textarea name="kemampuanmenyusui1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('kemampuan_menyusui1', $existing_data) ?></textarea>
 
-        <!-- ================================ -->
-        <!-- SECTION KOMENTAR & ACTION DOSEN -->
-        <!-- ================================ -->
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
 
-                <!-- List komentar -->
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
-
-                <!-- Form komentar + action (khusus dosen) -->
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">
-                                    Minta Revisi
-                                </button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">
-                                    Approve
-                                </button>
+
+                            <!-- Posisi Menyusui -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"><strong>Mengetahui Posisi Menyusui yang Benar</strong></label>
+
+                                <div class="col-sm-9">
+                                    <small class="form-text" style="color: red;">Ya/Tidak</small>
+                                    <select class="form-select" name="posisimenyusui" <?= $ro_select ?>>
+                                        <option value="ada" <?= val('posisi_menyusui', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
+                                        <option value="tidak" <?= val('posisi_menyusui', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
+                                    </select>
+
+                                    <small class="form-text" style="color: red;">Hasil:</small>
+                                    <textarea name="posisimenyusui1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                        <?= $ro ?>><?= val('posisi_menyusui1', $existing_data) ?></textarea>
+
+
+                                </div>
                             </div>
-                        </div>
+
+                            <!-- Penyimpanan Asi -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"><strong>Mengetahui Cara Penyimpanan ASI</strong></label>
+
+                                <div class="col-sm-9">
+                                    <small class="form-text" style="color: red;">Ya/Tidak</small>
+                                    <select class="form-select" name="penyimpananasi" <?= $ro_select ?>>
+                                        <option value="ada" <?= val('penyimpanan_asi', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
+                                        <option value="tidak" <?= val('penyimpanan_asi', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
+                                    </select>
+
+                                    <small class="form-text" style="color: red;">Hasil:</small>
+                                    <textarea name="penyimpananasi1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                        <?= $ro ?>><?= val('penyimpanan_asi1', $existing_data) ?></textarea>
+
+                                </div>
+                            </div>
+
+                            <!-- Perawatan Payudara -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"><strong>Mengetahui Perawatan Payudara</strong></label>
+
+                                <div class="col-sm-9">
+                                    <small class="form-text" style="color: red;">Ya/Tidak</small>
+                                    <select class="form-select" name="perawatanpayudara" <?= $ro_select ?>>
+                                        <option value="ada" <?= val('perawatan_payudara', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
+                                        <option value="tidak" <?= val('perawatan_payudara', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
+                                    </select>
+
+                                    <small class="form-text" style="color: red;">Hasil:</small>
+                                    <textarea name="perawatanpayudara1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                        <?= $ro ?>><?= val('perawatan_payudara1', $existing_data) ?></textarea>
+
+                                </div>
+                            </div>
+
+                            <!-- Produksi ASI -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"><strong>Mengetahui Cara Meningkatkan Produksi ASI</strong></label>
+
+                                <div class="col-sm-9">
+                                    <small class="form-text" style="color: red;">Ya/Tidak</small>
+                                    <select class="form-select" name="produksiasi" <?= $ro_select ?>>
+                                        <option value="ada" <?= val('produksi_asi', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
+                                        <option value="tidak" <?= val('produksi_asi', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
+                                    </select>
+
+                                    <small class="form-text" style="color: red;">Hasil:</small>
+                                    <textarea name="produksiasi1" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                        <?= $ro ?>><?= val('produksi_asi1', $existing_data) ?></textarea>
+
+                                </div>
+                            </div>
+
+                            <!-- Kontrasepsi -->
+
+                            <div class="row mb-2">
+                                <label class="col-sm-8 col-form-label text-primary">
+                                    <strong>Kontrasepsi (KB)</strong>
+                            </div>
+
+                            <!-- Jenis KB -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"><strong>Kontrasepsi (KB)</strong></label>
+
+                                <div class="col-sm-9">
+                                    <small class="form-text" style="color: red;">Pernah menggunakan kontrasepsi dan jenis kontrasepsi yang pernah digunakan. Hasil:</small>
+                                    <textarea name="jeniskb" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                        <?= $ro ?>><?= val('jenis_kb', $existing_data) ?></textarea>
+
+                                </div>
+                            </div>
+
+                            <!-- Pengetahuan KB -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"></label>
+
+                                <div class="col-sm-9">
+                                    <small class="form-text" style="color: red;">Pengetahuan tentang kontrasepsi (jenis, manfaat, kelebihan, dan kekurangan). Hasil:</small>
+                                    <textarea name="pengetahuankb" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                        <?= $ro ?>><?= val('pengetahuan_kb', $existing_data) ?></textarea>
+
+                                </div>
+                            </div>
+
+                            <!-- Rencana Penggunakan KB -->
+                            <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label"></label>
+
+                                <div class="col-sm-9">
+                                    <small class="form-text" style="color: red;">Rencana penggunaan kontrasepsi. Hasil:</small>
+                                    <small class="form-text" style="color: red;">Ya/Tidak</small>
+                                    <select class="form-select" name="rencanapenggunaankb" <?= $ro_select ?>>
+
+                                        <option value="ya" <?= val('rencana_penggunaan_kb', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
+                                        <option value="tidak" <?= val('rencana_penggunaan_kb', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
+                                    </select>
+
+
+                                </div>
+                            </div>
+                            <!-- TOMBOL SUBMIT -->
+                            <?php if (!$is_dosen): ?>
+                                <div class="row mb-3">
+                                    <div class="col-sm-11 d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                     </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">
-                        Section ini sudah di-approve.
-                    </div>
-                <?php endif; ?>
+                </div>
             </div>
         </div>
+                            </div>
 
-        <?php include "tab_navigasi.php"; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 
     </section>
 </main>
-

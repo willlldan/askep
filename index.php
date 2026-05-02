@@ -103,9 +103,6 @@ if (isset($_SESSION['id_user'])) {
                 $tab = $tab ?: 'identitas';
 
                 switch ($tab) {
-
-
-
                     case 'identitas':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_identitas.php";
                         break;
@@ -129,6 +126,10 @@ if (isset($_SESSION['id_user'])) {
                         include "maternitas/pengkajian_pascapartum/halm_tambah_riwayat_kehamilan.php";
                         break;
 
+                    case 'lainnya':
+                        include "maternitas/pengkajian_pascapartum/halm_tambah_lainnya.php";
+                        break;
+
 
                     case 'diagnosa_keperawatan':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_diagnosa.php";
@@ -140,9 +141,6 @@ if (isset($_SESSION['id_user'])) {
 
                     case 'implementasi_keperawatan':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_implementasi.php";
-                        break;
-                    case 'lainnya':
-                        include "maternitas/pengkajian_pascapartum/halm_tambah_lainnya.php";
                         break;
 
                     case 'evaluasi_keperawatan':
@@ -183,23 +181,6 @@ if (isset($_SESSION['id_user'])) {
                     case 'lainnya':
                         include "maternitas/pengkajian_inranatal_care/halm_tambah_lainnya.php";
                         break;
-
-                    case 'diagnosa_keperawatan':
-                        include "maternitas/pengkajian_inranatal_care/halm_tambah_diagnosa.php";
-                        break;
-
-                    case 'intervensi_keperawatan':
-                        include "maternitas/pengkajian_inranatal_care/halm_tambah_intervensi.php";
-                        break;
-
-                    case 'implementasi_keperawatan':
-                        include "maternitas/pengkajian_inranatal_care/halm_tambah_implementasi.php";
-                        break;
-
-                    case 'evaluasi_keperawatan':
-                        include "maternitas/pengkajian_inranatal_care/halm_tambah_evaluasi.php";
-                        break;
-
                     default:
                         include "maternitas/pengkajian_inranatal_care/halm_tambah_umum.php";
                 }
@@ -242,26 +223,6 @@ if (isset($_SESSION['id_user'])) {
                         include "maternitas/resume_antenatal_care/halm_tambah_lainnya.php";
                         break;
 
-                    case 'pengkajian':
-                        include "maternitas/resume_antenatal_care/halm_tambah_pengkajian.php";
-                        break;
-
-                    case 'diagnosa_keperawatan':
-                        include "maternitas/resume_antenatal_care/halm_tambah_diagnosa.php";
-                        break;
-
-                    case 'intervensi_keperawatan':
-                        include "maternitas/resume_antenatal_care/halm_tambah_intervensi.php";
-                        break;
-
-                    case 'implementasi_keperawatan':
-                        include "maternitas/resume_antenatal_care/halm_tambah_implementasi.php";
-                        break;
-
-                    case 'evaluasi_keperawatan':
-                        include "maternitas/resume_antenatal_care/halm_tambah_evaluasi.php";
-                        break;
-
                     default:
                         include "maternitas/resume_antenatal_care/halm_tambah_identitas.php";
                 }
@@ -277,18 +238,14 @@ if (isset($_SESSION['id_user'])) {
 
                 switch ($tab) {
 
-                    case 'pengkajianfisik':
-                        include "maternitas/pengkajian_ginekologi/halm_tambah_pengkajianfisik.php";
-                        break;
                     case 'demografi':
                         include "maternitas/pengkajian_ginekologi/halm_tambah_demografi.php";
                         break;
                     case 'riwayat':
                         include "maternitas/pengkajian_ginekologi/halm_tambah_riwayat.php";
                         break;
-
-                    case 'pengkajianfungsional':
-                        include "maternitas/pengkajian_ginekologi/halm_tambah_pengkajianfungsional.php";
+                    case 'pengkajianfisik':
+                        include "maternitas/pengkajian_ginekologi/halm_tambah_pengkajianfisik.php";
                         break;
                     case 'terapi_lab':
                         include "maternitas/pengkajian_ginekologi/halm_data_terapi_lab.php";
@@ -296,23 +253,6 @@ if (isset($_SESSION['id_user'])) {
                     case 'lainnya':
                         include "maternitas/pengkajian_ginekologi/halm_tambah_lainnya.php";
                         break;
-
-                    case 'diagnosa_keperawatan':
-                        include "maternitas/pengkajian_ginekologi/halm_tambah_diagnosa.php";
-                        break;
-
-                    case 'intervensi_keperawatan':
-                        include "maternitas/pengkajian_ginekologi/halm_tambah_intervensi.php";
-                        break;
-
-                    case 'implementasi_keperawatan':
-                        include "maternitas/pengkajian_ginekologi/halm_tambah_implementasi.php";
-                        break;
-
-                    case 'evaluasi_keperawatan':
-                        include "maternitas/pengkajian_ginekologi/halm_tambah_evaluasi.php";
-                        break;
-
                     default:
                         include "maternitas/pengkajian_ginekologi/halm_tambah_demografi.php";
                 }
@@ -499,7 +439,7 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             // KMB Format KMB
             // =====================
-          
+
             // =====================
             // KMB Format KMB
             // =====================
@@ -541,7 +481,7 @@ if (isset($_SESSION['id_user'])) {
                     case 'pengkajian_gordon':
                         include "kmb/format_kmb/halm_tambah_pengkajian_gordon.php";
                         break;
-                    
+
 
                     case 'data_biologis':
                         include "kmb/format_kmb/halm_data_biologis.php";
@@ -552,7 +492,7 @@ if (isset($_SESSION['id_user'])) {
                     case 'klasifikasi_analisa_data':
                         include "kmb/format_kmb/halm_klasifikasi_analisa_data.php";
                         break;
-                    
+
                     case 'data_biologis_2':
                         include "kmb/format_kmb/halm_data_biologis_2.php";
                         break;
@@ -601,7 +541,7 @@ if (isset($_SESSION['id_user'])) {
                     case 'pengkajian_kebutuhan':
                         include "kmb/format_hd_kmb/halm_tambah_pengkajian_kebutuhan.php";
                         break;
-                         case 'analisa_data':
+                    case 'analisa_data':
                         include "kmb/format_hd_kmb/halm_analisa_data.php";
                         break;
 
@@ -848,11 +788,11 @@ if (isset($_SESSION['id_user'])) {
 
                     case 'analisa_resume':
                         include "anak/format_resume/halm_tambah_analisa_resume.php";
-                        break;  
-                        
+                        break;
+
                     case 'lainnya_resume':
                         include "anak/format_resume/halm_tambah_lainnya_resume.php";
-                        break;      
+                        break;
 
                     case 'lp_imunisasi':
                         include "anak/format_resume/halm_tambah_format_laporan_pendahuluan_imunisasi.php";
@@ -864,11 +804,11 @@ if (isset($_SESSION['id_user'])) {
 
                     case 'analisa_poli':
                         include "anak/format_resume/halm_tambah_analisa_poli.php";
-                        break;  
-                        
+                        break;
+
                     case 'lainnya_poli':
                         include "anak/format_resume/halm_tambah_lainnya_poli.php";
-                        break;      
+                        break;
 
                     default:
                         include "anak/format_resume/halm_tambah_format_resume_keperawatan.php";

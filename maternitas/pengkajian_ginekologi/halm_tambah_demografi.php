@@ -119,40 +119,15 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <main id="main" class="main">
     <?php include "maternitas/pengkajian_ginekologi/tab.php"; ?>
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
-
-        <!-- Info status section (untuk dosen) -->
-        <?php if  ($section_status): ?>
-            <?php
-            $badge = [
-                'draft'     => 'secondary',
-                'submitted' => 'primary',
-                'revision'  => 'warning',
-                'approved'  => 'success',
-            ];
-            ?>
-
-             <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                    | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>       
-            </div>
-        <?php endif; ?>
-  
-    
     <section class="section dashboard">
+        <?php include "partials/notifikasi.php"; ?>
+        <?php include "partials/status_section.php"; ?>
         <div class="card">
             <div class="card-body">
 
-            <!-- General Form Elements -->
-            <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-                <div class="row mb-3 mt-3">
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+                    <div class="row mb-3 mt-3">
                         <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control" name="tglpengkajian"
@@ -168,7 +143,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         </div>
                     </div>
 
-            <h5 class="card-title"><strong>DATA DEMOGRAFI</strong></h5>
+                    <h5 class="card-title"><strong>DATA DEMOGRAFI</strong></h5>
 
                     <!-- Bagian Inisial Pasien -->
 
@@ -180,18 +155,18 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         </div>
                     </div>
 
-                <!-- Bagian Usia -->
-                <div class="row mb-3">
-                    <label for="usiaistri" class="col-sm-2 col-form-label"><strong>Usia</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="usiaistri"
+                    <!-- Bagian Usia -->
+                    <div class="row mb-3">
+                        <label for="usiaistri" class="col-sm-2 col-form-label"><strong>Usia</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="usiaistri"
                                 value="<?= val('usia_istri', $existing_data) ?>" <?= $ro ?>>
 
-                       
-                         </div>
+
+                        </div>
                     </div>
 
-                <div class="row mb-3">
+                    <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="pekerjaanistri"
@@ -199,55 +174,55 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         </div>
                     </div>
 
-                <!-- Bagian Pendidikan Terakhir -->
-                <div class="row mb-3">
-                    <label for="pendidikanterakhiristri" class="col-sm-2 col-form-label"><strong>Pendidikan Terakhir</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="pendidikanterakhiristri"
+                    <!-- Bagian Pendidikan Terakhir -->
+                    <div class="row mb-3">
+                        <label for="pendidikanterakhiristri" class="col-sm-2 col-form-label"><strong>Pendidikan Terakhir</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="pendidikanterakhiristri"
                                 value="<?= val('pendidikan_terakhir_istri', $existing_data) ?>" <?= $ro ?>>
 
 
-                      
-                         </div>
+
+                        </div>
                     </div>
 
-                <!-- Bagian Agama -->
-                <div class="row mb-3">
-                    <label for="agamaistri" class="col-sm-2 col-form-label"><strong>Agama</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="agamaistri"
+                    <!-- Bagian Agama -->
+                    <div class="row mb-3">
+                        <label for="agamaistri" class="col-sm-2 col-form-label"><strong>Agama</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="agamaistri"
                                 value="<?= val('agama_istri', $existing_data) ?>" <?= $ro ?>>
 
 
-                       
-                         </div>
+
+                        </div>
                     </div>
 
-                <!-- Bagian Suku Bangsa -->
-                <div class="row mb-3">
-                    <label for="sukubangsa" class="col-sm-2 col-form-label"><strong>Suku Bangsa</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="sukubangsa"
+                    <!-- Bagian Suku Bangsa -->
+                    <div class="row mb-3">
+                        <label for="sukubangsa" class="col-sm-2 col-form-label"><strong>Suku Bangsa</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="sukubangsa"
                                 value="<?= val('suku_bangsa', $existing_data) ?>" <?= $ro ?>>
 
-                        
-                        
-                         </div>
+
+
+                        </div>
                     </div>
 
-                <!-- Bagian Status Perkawinan -->
-                <div class="row mb-3">
-                    <label for="statusperkawinan" class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="statusperkawinan"
+                    <!-- Bagian Status Perkawinan -->
+                    <div class="row mb-3">
+                        <label for="statusperkawinan" class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="statusperkawinan"
                                 value="<?= val('status_perkawinan', $existing_data) ?>" <?= $ro ?>>
 
-                        
-                        
-                         </div>
+
+
+                        </div>
                     </div>
 
-                <div class="row mb-3">
+                    <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
                         <div class="col-sm-9">
                             <textarea name="keterangan" class="form-control" rows="5" <?= $ro ?>><?= val('alamat', $existing_data) ?></textarea>
@@ -261,131 +236,77 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         </div>
                     </div>
 
-                <!-- Bagian Nama Suami -->
-                <div class="row mb-3">
-                    <label for="namasuami" class="col-sm-2 col-form-label"><strong>Nama Suami</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="namasuami"
+                    <!-- Bagian Nama Suami -->
+                    <div class="row mb-3">
+                        <label for="namasuami" class="col-sm-2 col-form-label"><strong>Nama Suami</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="namasuami"
                                 value="<?= val('nama_suami', $existing_data) ?>" <?= $ro ?>>
 
-                       
-                        
-                         </div>
+
+
+                        </div>
                     </div>
 
-                <!-- Bagian Usia -->
-                <div class="row mb-3">
-                    <label for="usiasuami" class="col-sm-2 col-form-label"><strong>Usia</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="usiasuami"
+                    <!-- Bagian Usia -->
+                    <div class="row mb-3">
+                        <label for="usiasuami" class="col-sm-2 col-form-label"><strong>Usia</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="usiasuami"
                                 value="<?= val('usia_suami', $existing_data) ?>" <?= $ro ?>>
 
-                        
-                        
-                         </div>
+
+
+                        </div>
                     </div>
 
-                <!-- Bagian Pekerjaan -->
-                <div class="row mb-3">
-                    <label for="pekerjaansuami" class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="pekerjaansuami"
+                    <!-- Bagian Pekerjaan -->
+                    <div class="row mb-3">
+                        <label for="pekerjaansuami" class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="pekerjaansuami"
                                 value="<?= val('pekerjaan_suami', $existing_data) ?>" <?= $ro ?>>
 
-                        
-                        
-                         </div>
+
+
+                        </div>
                     </div>
 
-                <!-- Bagian Pendidikan Terakhir -->
-                <div class="row mb-3">
-                    <label for="pendidikanterakhirsuami" class="col-sm-2 col-form-label"><strong>Pendidikan Terakhir</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="pendidikanterakhirsuami"
+                    <!-- Bagian Pendidikan Terakhir -->
+                    <div class="row mb-3">
+                        <label for="pendidikanterakhirsuami" class="col-sm-2 col-form-label"><strong>Pendidikan Terakhir</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="pendidikanterakhirsuami"
                                 value="<?= val('pendidikan_terakhir_suami', $existing_data) ?>" <?= $ro ?>>
 
-                        
+
                         </div>
                     </div>
 
-                <!-- Bagian Agama -->
-                <div class="row mb-3">
-                    <label for="agamasuami" class="col-sm-2 col-form-label"><strong>Agama</strong></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="agamasuami"
+                    <!-- Bagian Agama -->
+                    <div class="row mb-3">
+                        <label for="agamasuami" class="col-sm-2 col-form-label"><strong>Agama</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="agamasuami"
                                 value="<?= val('agama_suami', $existing_data) ?>" <?= $ro ?>>
 
-                         </div>
+                        </div>
+                    </div>
+            </div>
+            <!-- TOMBOL MAHASISWA -->
+            <?php if (!$is_dosen): ?>
+                <div class="row mb-3">
+                    <div class="col-sm-11 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </div>
-     <!-- TOMBOL MAHASISWA -->
-                <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-11 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div>
-                <?php endif; ?>
+            <?php endif; ?>
 
-                </form>
-            </div>
+            </form>
+        </div>
         </div>
 
-        <!-- ================================ -->
-        <!-- SECTION KOMENTAR & ACTION DOSEN -->
-        <!-- ================================ -->
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
-
-                <!-- List komentar -->
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
-
-                <!-- Form komentar + action (khusus dosen) -->
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">
-                                    Minta Revisi
-                                </button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">
-                                    Approve
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">
-                        Section ini sudah di-approve.
-                    </div>
-                <?php endif; ?>
-
-            </div>
-        </div>
-
-        <?php include "tab_navigasi.php"; ?>
+       <?php include "partials/footer_form.php"; ?>
 
     </section>
 </main>
-
-<script>
-    const existingData = <?= json_encode($existing_data) ?>;
-</script>

@@ -1,101 +1,56 @@
 <?php
-$jenismaternitas = $_GET['jenismaternitas'] ?? 'inranatal';
 $submission_id = $_GET['submission_id'] ?? null;
+$page = $_GET['page'] ?? '';
+$parts = explode('/', $page);
+$jenismaternitas = $parts[1] ?? 'pengkajian_inranatal_care';
 
 $titles = [
-    'antenatal' => 'Pengkajian Asuhan Keperawatan Antenatal Care',
-    'pascapartum' => 'Pengkajian Asuhan Keperawatan Pascapartum',
-    'resume' => 'Resume Asuhan Keperawatan Antenatal Care',
-    'inranatal' => 'Pengkajian Asuhan Keperawatan Inranatal Care',
-    'ginekologi' => 'Pengkajian Asuhan Keperawatan Ginekologi'
+    'pengkajian_antenatal_care' => 'Pengkajian Asuhan Keperawatan Antenatal Care',
+    'pengkajian_pascapartum' => 'Pengkajian Asuhan Keperawatan Pascapartum',
+    'resume_antenatal_care' => 'Resume Asuhan Keperawatan Antenatal Care',
+    'pengkajian_inranatal_care' => 'Pengkajian Asuhan Keperawatan Inranatal Care',
+    'pengkajian_ginekologi' => 'Pengkajian Asuhan Keperawatan Ginekologi'
 ];
+
+$tabs = [
+    "umum",
+    "riwayat_persalinan",
+    "terapi_lab",
+    "laporanpersalinan",
+    "analisa_data",
+    "lainnya",
+];
+$tabLabels = [
+    'umum' => 'Data Umum',
+    'riwayat_persalinan' => 'Riwayat Persalinan',
+    'terapi_lab' => 'Terapi Lab',
+    'laporanpersalinan' => 'Laporan Persalinan',
+    'analisa_data' => 'Analisa Data',
+    'lainnya' => 'Lainnya',
+];
+$currentTab = $_GET['tab'] ?? $tabs[0];
 ?>
 
 <div class="pagetitle">
-    <h1><strong><?= $titles[$jenismaternitas] ?? 'Pengkajian Asuhan Keperawatan Inranatal Care' ?></strong></h1>
+    <h1><strong><?= $titles[$jenismaternitas] ?? 'Pengkajian Asuhan Keperawatan' ?></strong></h1>
 </div>
 <br>
 
-        <!-- <nav>
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-        </nav> -->
-    </div><!-- End Page Title -->
-    <br>
-
-   <ul class="nav nav-tabs custom-tabs">
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'umum' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=umum<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-        Data Umum
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'riwayat_persalinan' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=riwayat_persalinan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-        Riwayat Persalinan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'terapi_lab' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=terapi_lab<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-        Terapi Lab
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'laporanpersalinan' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=laporanpersalinan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-        Laporan Persalinan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa_data' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=analisa_data<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-        Analisa Data
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=lainnya<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-        Lainnya
-        </a>
-    </li>
-
-    <!-- <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=diagnosa_keperawatan">
-        Diagnosa keperawatan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'intervensi_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=intervensi_keperawatan">
-        Intervensi keperawatan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=implementasi_keperawatan">
-        Implementasi keperawatan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi_keperawatan' ? 'active' : '' ?>"
-        href="?page=maternitas/pengkajian_inranatal_care&tab=evaluasi_keperawatan">
-        Evaluasi keperawatan
-        </a>
-    </li> -->
-
-    </ul>
+<ul class="nav nav-tabs custom-tabs">
+    <?php
+    foreach ($tabs as $tab):
+        $isActive = ($currentTab == $tab) ? 'active' : '';
+        $label = $tabLabels[$tab] ?? ucfirst(str_replace('_', ' ', $tab));
+        $url = "index.php?page=maternitas/{$jenismaternitas}&tab={$tab}";
+        if ($submission_id) $url .= "&submission_id={$submission_id}";
+    ?>
+        <li class="nav-item">
+            <a class="nav-link <?= $isActive ?>" href="<?= htmlspecialchars($url) ?>">
+                <?= htmlspecialchars($label) ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
+</ul>
 <style>
     .custom-tabs {
         border-bottom: 1px solid #dee2e6;

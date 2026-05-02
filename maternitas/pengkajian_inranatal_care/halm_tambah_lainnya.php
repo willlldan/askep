@@ -195,30 +195,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <main id="main" class="main">
 
-                 <?php include "maternitas/pengkajian_inranatal_care/tab.php"; ?>
+    <?php include "maternitas/pengkajian_inranatal_care/tab.php"; ?>
 
 
     <section class="section dashboard">
-
-        
-        
+        <?php include "partials/notifikasi.php"; ?>
+        <?php include "partials/status_section.php"; ?>
         <div class="card">
             <div class="card-body">
-                <!-- Info status section (untuk dosen) -->
-                <?php if ($section_status): ?>
-                    <?php
-                    $badge = [
-                        'draft'     => 'secondary',
-                        'submitted' => 'primary',
-                        'revision'  => 'warning',
-                        'approved'  => 'success',
-                    ];
-                    ?>
-                    <div class="alert alert-<?= $badge[$section_status] ?>">
-                        Status: <strong><?= ucfirst($section_status) ?></strong>
-                        | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>
-                    </div>
-                <?php endif; ?>
 
                 <h5 class="card-title"><strong>Catatan KEPERAWATAN</strong></h5>
 
@@ -618,56 +602,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 </form>
 
-                <!-- ================================ -->
-                <!-- SECTION KOMENTAR & ACTION DOSEN -->
-                <!-- ================================ -->
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h5 class="card-title"><strong>Komentar</strong></h5>
-
-                        <!-- List komentar -->
-                        <?php if (!empty($comments)): ?>
-                            <?php foreach ($comments as $cmt): ?>
-                                <div class="alert alert-warning">
-                                    <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                                    <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                                    <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <p class="text-muted">Belum ada komentar.</p>
-                        <?php endif; ?>
-
-                        <!-- Form komentar + action (khusus dosen) -->
-                        <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                            <form action="" method="POST">
-                                <div class="row mb-3">
-                                    <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                                    <div class="col-sm-9">
-                                        <textarea name="comment" class="form-control" rows="3"
-                                            placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                        <button type="submit" name="action" value="revision" class="btn btn-warning">
-                                            Minta Revisi
-                                        </button>
-                                        <button type="submit" name="action" value="approve" class="btn btn-success">
-                                            Approve
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                            <div class="alert alert-success">
-                                Section ini sudah di-approve.
-                            </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-
-                <?php include "tab_navigasi.php"; ?>
+               <?php include "partials/footer_form.php"; ?>
 
             </div>
         </div>

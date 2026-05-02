@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'pernapasan'                => $_POST['pernapasan'] ?? '',
     ];
 
-    
+
     // print_r($data);
     // echo "<hr>";
     // echo "submission : ";
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     // die;
 
     if (!$submission) {
-        $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+        $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
     } else {
         $submission_id = $submission['id'];
     }
@@ -116,265 +116,194 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 ?>
 
 <main id="main" class="main">
-    <?php include "navbar_maternitas.php"; ?>
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
+    <?php include "tab.php"; ?>
 
-        <!-- Info status section (untuk dosen) -->
-        <?php if  ($section_status): ?>
-            <?php
-            $badge = [
-                'draft'     => 'secondary',
-                'submitted' => 'primary',
-                'revision'  => 'warning',
-                'approved'  => 'success',
-            ];
-            ?>
-
-             <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                    | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>       
-            </div>
-        <?php endif; ?>
-     <section class="section dashboard">
+    <section class="section dashboard">
+        <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
         <div class="card">
-         
-
-            
             <div class="card">
-            <div class="card-body">
+                <div class="card-body">
 
-                <h5 class="card-title"><strong>DATA UMUM KESEHATAN SAAT INI</strong></h5>
-                
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+                    <h5 class="card-title"><strong>DATA UMUM KESEHATAN SAAT INI</strong></h5>
 
-                <div class="row mb-3">
-                        <label class="col-sm-9 col-form-label text-primary">
-                            <strong>Data Biologis/Fisiologis</strong>
-                        </label>    
-                    </div>
-                
-                <!-- Bagian Data Biologis/Fisiologis -->
+                    <!-- General Form Elements -->
+                    <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                        <div class="row mb-3">
+                            <label class="col-sm-9 col-form-label text-primary">
+                                <strong>Data Biologis/Fisiologis</strong>
+                            </label>
+                        </div>
+
+                        <!-- Bagian Data Biologis/Fisiologis -->
                         <div class="row mb-3">
                             <label for="biologisfisiologis" class="col-sm-2 col-form-label"><strong>Data Biologis/Fisiologis</strong></label>
                             <div class="col-sm-9">
-                               <textarea name="biologisfisiologis" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                           <?= $ro ?>><?= val('biologis_fisiologis', $existing_data) ?></textarea>
+                                <textarea name="biologisfisiologis" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('biologis_fisiologis', $existing_data) ?></textarea>
 
-                  
-                         </div>
-                    </div>
-                    
-                <!-- Bagian Status Obstetrik -->
+
+                            </div>
+                        </div>
+
+                        <!-- Bagian Status Obstetrik -->
 
                         <div class="row mb-3">
 
-                        <label class="col-sm-2 col-form-label"><strong>Status Obstetrik</strong></label>
+                            <label class="col-sm-2 col-form-label"><strong>Status Obstetrik</strong></label>
                             <div class="col-sm-9">
                                 <div class="row">
 
-                        <!-- NH -->
-                        <div class="col-md-4 d-flex align-items-center">
-                            <label class="me-2"><strong>NH</strong></label>
-                            <input type="text" class="form-control" name="nh"
-                            value="<?= val('nh', $existing_data) ?>" <?= $ro ?>>
+                                    <!-- NH -->
+                                    <div class="col-md-4 d-flex align-items-center">
+                                        <label class="me-2"><strong>NH</strong></label>
+                                        <input type="text" class="form-control" name="nh"
+                                            value="<?= val('nh', $existing_data) ?>" <?= $ro ?>>
+                                    </div>
+
+                                    <!-- p -->
+                                    <div class="col-md-4 d-flex align-items-center">
+                                        <label class="me-2"><strong>P</strong></label>
+                                        <input type="text" class="form-control" name="p"
+                                            value="<?= val('p', $existing_data) ?>" <?= $ro ?>>
+                                    </div>
+
+                                    <!-- A -->
+                                    <div class="col-md-4 d-flex align-items-center">
+                                        <label class="me-2"><strong>A</strong></label>
+                                        <input type="text" class="form-control" name="a"
+                                            value="<?= val('a', $existing_data) ?>" <?= $ro ?>>
+                                    </div>
+                                </div>
+
+                                <!-- comment -->
+
+                            </div>
                         </div>
 
-                        <!-- p -->
-                        <div class="col-md-4 d-flex align-items-center">
-                            <label class="me-2"><strong>P</strong></label>
-                            <input type="text" class="form-control" name="p"
-                            value="<?= val('p', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-
-                        <!-- A -->
-                        <div class="col-md-4 d-flex align-items-center">
-                            <label class="me-2"><strong>A</strong></label>
-                            <input type="text" class="form-control" name="a"
-                            value="<?= val('a', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-                    </div>
-
-                         <!-- comment -->
-                        
-                         </div>
-</div>    
-                    
-                <!-- Bagian Bayi Rawat Gabung -->
-                    <div class="row mb-3">
-                        <label for="bayirawatgabung" class="col-sm-2 col-form-label"><strong>Bayi Rawat Gabung</strong></label> 
-                        <div class="col-sm-9">
-                        <select class="form-select" name="bayirawatgabung" <?= $ro_select ?>>
-                                <option value="">Pilih</option>
-                                <option value="ya" <?= val('bayi_rawat_gabung', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
-                                <option value="Tidak" <?= val('bayi_rawat_gabung', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
+                        <!-- Bagian Bayi Rawat Gabung -->
+                        <div class="row mb-3">
+                            <label for="bayirawatgabung" class="col-sm-2 col-form-label"><strong>Bayi Rawat Gabung</strong></label>
+                            <div class="col-sm-9">
+                                <select class="form-select" name="bayirawatgabung" <?= $ro_select ?>>
+                                    <option value="">Pilih</option>
+                                    <option value="ya" <?= val('bayi_rawat_gabung', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
+                                    <option value="Tidak" <?= val('bayi_rawat_gabung', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
                                 </select>
 
-                         </div>
-                      
-                    </div> 
-                    
-                    <!-- Bagian Jika Tidak Ada Alasan -->
+                            </div>
+
+                        </div>
+
+                        <!-- Bagian Jika Tidak Ada Alasan -->
                         <div class="row mb-3">
                             <label for="tidakadaalasan" class="col-sm-2 col-form-label"><strong>Jika Tidak Ada Alasan</strong></label>
                             <div class="col-sm-9">
-                                
-                            <textarea name="tidakadaalasan" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        
-                            <?= $ro ?>><?= val('tidak_ada_alasan', $existing_data) ?> </textarea>
-                         </div>
-                    </div>
-                       
+
+                                <textarea name="tidakadaalasan" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+
+                                    <?= $ro ?>><?= val('tidak_ada_alasan', $existing_data) ?> </textarea>
+                            </div>
+                        </div>
+
                         <!-- Bagian Keadaan Umum -->
                         <div class="row mb-3">
                             <label for="keadaanumum" class="col-sm-2 col-form-label"><strong>Keadaan Umum</strong></label>
                             <div class="col-sm-9">
-                                
-                            <textarea name="keadaanumum" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            <?= $ro ?>><?= val('keadaan_umum', $existing_data) ?> </textarea>
-                            
 
-                         </div>
-                    </div>
-                            
+                                <textarea name="keadaanumum" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <?= $ro ?>><?= val('keadaan_umum', $existing_data) ?> </textarea>
+
+
+                            </div>
+                        </div>
+
                         <!-- Bagian Kesadaran -->
                         <div class="row mb-3">
                             <label for="kesadaran" class="col-sm-2 col-form-label"><strong>Kesadaran</strong></label>
                             <div class="col-sm-9">
                                 <textarea name="kesadaran" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                           <?= $ro ?>><?= val('kesadaran', $existing_data) ?></textarea>
- 
-                         </div>
-                    </div> 
+                                    <?= $ro ?>><?= val('kesadaran', $existing_data) ?></textarea>
 
-                     <!-- Bagian BB/TB -->
+                            </div>
+                        </div>
+
+                        <!-- Bagian BB/TB -->
                         <div class="row mb-3">
                             <label for="bbtb" class="col-sm-2 col-form-label"><strong>BB/TB</strong></label>
                             <div class="col-sm-9">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" name="bbtb"value="<?= val('bb_tb', $existing_data) ?>" <?= $ro ?>>
+                                    <input type="text" class="form-control" name="bbtb" value="<?= val('bb_tb', $existing_data) ?>" <?= $ro ?>>
                                     <span class="input-group-text">kg/cm</span>
-                
 
-                         </div>
-                        </div>
 
-                    <!-- Bagian Tanda-tanda Vital -->
-
-                    <div class="row mb-3">
-                        <label class="col-sm-9 col-form-label">
-                            <strong>Tanda Vital</strong>
-                        </label>    
-                    </div>
-
-                    <!-- Tekanan Darah -->
-                    <div class="row mb-3 align-items-center">
-                        <label class="col-sm-2 col-form-label"><strong>Tekanan Darah</strong></label>
-                        <div class="col-sm-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="tekanandarah" value="<?= val('tekanan_darah', $existing_data) ?>" <?= $ro ?>>
-                                <span class="input-group-text">mmHg</span>
-                        </div>    
-                    </div>
-                                
-                    <!-- Nadi -->
-                    <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
-                    <div class="col-sm-3">
-                        <div class="input-group">
-                                <input type="text" class="form-control" name="nadi" value="<?= val('nadi', $existing_data) ?>" <?= $ro ?>>
-                                <span class="input-group-text">x/I</span>
-                        </div> 
-                    </div>
-                </div>
-
-                    <!-- Suhu -->
-                        <div class="row mb-3 align-items-center">
-                            <label class="col-sm-2 col-form-label"><strong>Suhu</strong></label>
-                            <div class="col-sm-3">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="suhu" value="<?= val('suhu', $existing_data) ?>" <?= $ro ?>>
-                                    <span class="input-group-text">°C</span>
-                            </div>    
-                        </div>
-
-                    <!-- Pernapasan -->
-                    <label class="col-sm-2 col-form-label"><strong>Pernapasan</strong></label>
-                    <div class="col-sm-3">
-                        <div class="input-group">
-                                <input type="text" class="form-control" name="pernapasan" value="<?= val('pernapasan', $existing_data) ?>" <?= $ro ?>>
-                                <span class="input-group-text">x/i</span>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                        
-                 <!-- TOMBOL SUBMIT -->
-                    <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-11 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-                </form>
-            </div>
-        </div>
-       <!-- ================================ -->
-        <!-- SECTION KOMENTAR & ACTION DOSEN -->
-        <!-- ================================ -->
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
 
-                <!-- List komentar -->
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
+                            <!-- Bagian Tanda-tanda Vital -->
 
-                <!-- Form komentar + action (khusus dosen) -->
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
+                            <div class="row mb-3">
+                                <label class="col-sm-9 col-form-label">
+                                    <strong>Tanda Vital</strong>
+                                </label>
                             </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">
-                                    Minta Revisi
-                                </button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">
-                                    Approve
-                                </button>
+
+                            <!-- Tekanan Darah -->
+                            <div class="row mb-3 align-items-center">
+                                <label class="col-sm-2 col-form-label"><strong>Tekanan Darah</strong></label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="tekanandarah" value="<?= val('tekanan_darah', $existing_data) ?>" <?= $ro ?>>
+                                        <span class="input-group-text">mmHg</span>
+                                    </div>
+                                </div>
+
+                                <!-- Nadi -->
+                                <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="nadi" value="<?= val('nadi', $existing_data) ?>" <?= $ro ?>>
+                                        <span class="input-group-text">x/I</span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+
+                            <!-- Suhu -->
+                            <div class="row mb-3 align-items-center">
+                                <label class="col-sm-2 col-form-label"><strong>Suhu</strong></label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="suhu" value="<?= val('suhu', $existing_data) ?>" <?= $ro ?>>
+                                        <span class="input-group-text">°C</span>
+                                    </div>
+                                </div>
+
+                                <!-- Pernapasan -->
+                                <label class="col-sm-2 col-form-label"><strong>Pernapasan</strong></label>
+                                <div class="col-sm-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="pernapasan" value="<?= val('pernapasan', $existing_data) ?>" <?= $ro ?>>
+                                        <span class="input-group-text">x/i</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- TOMBOL SUBMIT -->
+                            <?php if (!$is_dosen): ?>
+                                <div class="row mb-3">
+                                    <div class="col-sm-11 d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                     </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">
-                        Section ini sudah di-approve.
-                    </div>
-                <?php endif; ?>
+                </div>
             </div>
         </div>
-
-        <?php include "tab_navigasi.php"; ?>
+        </div>
+            
+        <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 
     </section>
 </main>
