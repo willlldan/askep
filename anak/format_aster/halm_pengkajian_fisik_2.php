@@ -45,39 +45,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
     $text_fields = [
         // Thorax
-        'dada_simetris', 'puting', 'thorax_simetris', 'fraktur',
-        'bentuk_dada', 'irama', 'pengembangan', 'tipe', 'taktil_fremitus',
+        'dada_simetris',
+        'puting',
+        'thorax_simetris',
+        'fraktur',
+        'bentuk_dada',
+        'irama',
+        'pengembangan',
+        'tipe',
+        'taktil_fremitus',
         'perkusi_thorax',
         // Jantung
-        'ictus_cordis', 'pembesaran_jantung',
-        'bj1', 'bj2', 'bj3', 'bunyi_tambahan', 'jantung_lain',
+        'ictus_cordis',
+        'pembesaran_jantung',
+        'bj1',
+        'bj2',
+        'bj3',
+        'bunyi_tambahan',
+        'jantung_lain',
         // Abdomen
-        'tali_pusat_bersih', 'tali_pusat_kondisi', 'tali_tidak_berbau',
-        'pendarahan_tp', 'umbilicus', 'infeksi_tp',
-        'abdomen_bentuk', 'abdomen_cekung', 'abdomen_gerak', 'pembengkakan_abd',
-        'kulit_abdomen', 'peristaltik', 'tympani', 'abd_lain',
-        'nyeri_abd', 'hati', 'ginjal', 'kolon',
+        'tali_pusat_bersih',
+        'tali_pusat_kondisi',
+        'tali_tidak_berbau',
+        'pendarahan_tp',
+        'umbilicus',
+        'infeksi_tp',
+        'abdomen_bentuk',
+        'abdomen_cekung',
+        'abdomen_gerak',
+        'pembengkakan_abd',
+        'kulit_abdomen',
+        'peristaltik',
+        'tympani',
+        'abd_lain',
+        'nyeri_abd',
+        'hati',
+        'ginjal',
+        'kolon',
         // Genetalia
-        'fistula_pria', 'uretra', 'skrotum', 'genital_ganda', 'gen_pria_lain',
-        'labia', 'fistula_wanita', 'gen_wanita_lain',
+        'fistula_pria',
+        'uretra',
+        'skrotum',
+        'genital_ganda',
+        'gen_pria_lain',
+        'labia',
+        'fistula_wanita',
+        'gen_wanita_lain',
         // Anus
-        'lubang_anal', 'mekonium_36jam',
+        'lubang_anal',
+        'mekonium_36jam',
         // Ekstremitas Atas
-        'gerak_atas', 'gerak_abnormal_atas', 'kekuatan_atas',
-        'koordinasi_atas', 'jari_atas', 'polidaktili_atas', 'telapak_atas',
-        'nyeri_atas', 'suhu_atas', 'raba_atas',
+        'gerak_atas',
+        'gerak_abnormal_atas',
+        'kekuatan_atas',
+        'koordinasi_atas',
+        'jari_atas',
+        'polidaktili_atas',
+        'telapak_atas',
+        'nyeri_atas',
+        'suhu_atas',
+        'raba_atas',
         // Ekstremitas Bawah
-        'gerak_bawah', 'kekuatan_bawah', 'tonus_bawah',
-        'jari_bawah', 'polidaktili_bawah',
-        'nyeri_bawah', 'suhu_bawah', 'raba_bawah',
+        'gerak_bawah',
+        'kekuatan_bawah',
+        'tonus_bawah',
+        'jari_bawah',
+        'polidaktili_bawah',
+        'nyeri_bawah',
+        'suhu_bawah',
+        'raba_bawah',
         // Integumen
-        'turgor', 'finger_print', 'lesi', 'kebersihan', 'kelembaban_kulit', 'warna_kulit_integ',
+        'turgor',
+        'finger_print',
+        'lesi',
+        'kebersihan',
+        'kelembaban_kulit',
+        'warna_kulit_integ',
         // Refleks Primitif
-        'refleks_iddol', 'refleks_startel', 'refleks_sucking', 'refleks_rooting',
-        'refleks_gawn', 'refleks_grabella', 'refleks_ekruction',
-        'refleks_moro', 'refleks_grasping',
+        'refleks_iddol',
+        'refleks_startel',
+        'refleks_sucking',
+        'refleks_rooting',
+        'refleks_gawn',
+        'refleks_grabella',
+        'refleks_ekruction',
+        'refleks_moro',
+        'refleks_grasping',
         // Tes Diagnostik
-        'laboratorium', 'link_laboratorium', 'pemeriksaan_penunjang', 'terapi',
+        'laboratorium',
+        'pemeriksaan_penunjang',
+        'terapi',
     ];
 
     // Checkbox fields
@@ -90,6 +147,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     foreach ($checkbox_fields as $cf) {
         $data[$cf] = json_encode(isset($_POST[$cf]) ? (array)$_POST[$cf] : []);
     }
+
+    // Handle upload lampiran lab
+    $lampiran_lab_path = $existing_data['lampiran_lab'] ?? '';
+    if (!empty($_FILES['lampiran_lab']['name'])) {
+        $upload = uploadImage($_FILES['lampiran_lab'], 'uploads/anak/', 50);
+        if ($upload['success']) {
+            if (!empty($lampiran_lab_path) && file_exists($lampiran_lab_path)) {
+                unlink($lampiran_lab_path);
+            }
+            $lampiran_lab_path = $upload['path'];
+        } else {
+            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $upload['error']);
+            exit;
+        }
+    }
+    $data['lampiran_lab'] = $lampiran_lab_path;
 
     if (!$submission) {
         $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
@@ -135,11 +208,13 @@ foreach ($cb_fields as $cf) {
         : [];
 }
 
-function ed($key, $data) {
+function ed($key, $data)
+{
     return htmlspecialchars($data[$key] ?? '');
 }
 
-function radioYaTidak($name, $existing, $disabled) {
+function radioYaTidak($name, $existing, $disabled)
+{
     $val = $existing[$name] ?? '';
     $out = '';
     foreach (['Ya', 'Tidak'] as $opt) {
@@ -159,22 +234,10 @@ function radioYaTidak($name, $existing, $disabled) {
 
     <section class="section dashboard">
 
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
 
-        <?php if ($section_status): ?>
-            <?php $badge = ['draft'=>'secondary','submitted'=>'primary','revision'=>'warning','approved'=>'success']; ?>
-            <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                | Reviewed by: <strong><?= $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-' ?></strong>
-            </div>
-        <?php endif; ?>
-
-        <form class="needs-validation" novalidate action="" method="POST">
+        <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
             <!-- ===================== THORAX & PERNAPASAN ===================== -->
             <div class="card">
@@ -182,43 +245,43 @@ function radioYaTidak($name, $existing, $disabled) {
                     <h5 class="card-title"><strong>Pemeriksaan Fisik (Lanjutan)</strong></h5>
 
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>i. Thorax dan Pernapasan</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>i. Thorax dan Pernapasan</strong></label>
                     </div>
 
                     <?php
                     $thorax_radio = [
-                        ['name'=>'dada_simetris', 'label'=>'Periksa kesimetrisan gerakan dada saat bernapas'],
-                        ['name'=>'puting',        'label'=>'Puting susu tampak membesar'],
-                        ['name'=>'thorax_simetris','label'=>'Simetris'],
-                        ['name'=>'fraktur',       'label'=>'Fraktur Klavikula'],
+                        ['name' => 'dada_simetris', 'label' => 'Periksa kesimetrisan gerakan dada saat bernapas'],
+                        ['name' => 'puting',        'label' => 'Puting susu tampak membesar'],
+                        ['name' => 'thorax_simetris', 'label' => 'Simetris'],
+                        ['name' => 'fraktur',       'label' => 'Fraktur Klavikula'],
                     ];
                     foreach ($thorax_radio as $tr):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $tr['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <?= radioYaTidak($tr['name'], $existing_data, $ro_disabled) ?>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $tr['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <?= radioYaTidak($tr['name'], $existing_data, $ro_disabled) ?>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
 
                     <?php
                     $thorax_text = [
-                        ['name'=>'bentuk_dada',    'label'=>'Bentuk Dada'],
-                        ['name'=>'irama',          'label'=>'Irama Pernapasan'],
-                        ['name'=>'pengembangan',   'label'=>'Pengembangan di waktu bernapas'],
-                        ['name'=>'tipe',           'label'=>'Tipe Pernapasan'],
-                        ['name'=>'taktil_fremitus','label'=>'Palpasi Taktil Fremitus'],
+                        ['name' => 'bentuk_dada',    'label' => 'Bentuk Dada'],
+                        ['name' => 'irama',          'label' => 'Irama Pernapasan'],
+                        ['name' => 'pengembangan',   'label' => 'Pengembangan di waktu bernapas'],
+                        ['name' => 'tipe',           'label' => 'Tipe Pernapasan'],
+                        ['name' => 'taktil_fremitus', 'label' => 'Palpasi Taktil Fremitus'],
                     ];
                     foreach ($thorax_text as $tt):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $tt['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $tt['name'] ?>"
-                                value="<?= ed($tt['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $tt['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $tt['name'] ?>"
+                                    value="<?= ed($tt['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
 
                     <!-- Auskultasi -->
@@ -230,13 +293,13 @@ function radioYaTidak($name, $existing, $disabled) {
                         <label class="col-sm-3 col-form-label"><strong>Suara Nafas</strong></label>
                         <div class="col-sm-9">
                             <?php foreach (['Vesikuler', 'Bronchial', 'Bronchovesikuler'] as $opt): ?>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="suara_nafas[]"
-                                    value="<?= $opt ?>" id="sn_<?= $opt ?>"
-                                    <?= $ro_disabled ?>
-                                    <?= in_array($opt, $existing_data['suara_nafas']) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="sn_<?= $opt ?>"><?= $opt ?></label>
-                            </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="suara_nafas[]"
+                                        value="<?= $opt ?>" id="sn_<?= $opt ?>"
+                                        <?= $ro_disabled ?>
+                                        <?= in_array($opt, $existing_data['suara_nafas']) ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="sn_<?= $opt ?>"><?= $opt ?></label>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -245,13 +308,13 @@ function radioYaTidak($name, $existing, $disabled) {
                         <label class="col-sm-3 col-form-label"><strong>Suara Tambahan</strong></label>
                         <div class="col-sm-9">
                             <?php foreach (['Ronchi', 'Wheezing', 'Rales'] as $opt): ?>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="suara_tambahan[]"
-                                    value="<?= $opt ?>" id="st_<?= $opt ?>"
-                                    <?= $ro_disabled ?>
-                                    <?= in_array($opt, $existing_data['suara_tambahan']) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="st_<?= $opt ?>"><?= $opt ?></label>
-                            </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="suara_tambahan[]"
+                                        value="<?= $opt ?>" id="st_<?= $opt ?>"
+                                        <?= $ro_disabled ?>
+                                        <?= in_array($opt, $existing_data['suara_tambahan']) ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="st_<?= $opt ?>"><?= $opt ?></label>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -265,13 +328,13 @@ function radioYaTidak($name, $existing, $disabled) {
                         <label class="col-sm-3 col-form-label"><strong>Hasil Perkusi</strong></label>
                         <div class="col-sm-9">
                             <?php foreach (['Redup', 'Pekak', 'Hypersonor', 'Tympani'] as $opt): ?>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="perkusi_paru[]"
-                                    value="<?= $opt ?>" id="pp_<?= $opt ?>"
-                                    <?= $ro_disabled ?>
-                                    <?= in_array($opt, $existing_data['perkusi_paru']) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="pp_<?= $opt ?>"><?= $opt ?></label>
-                            </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="perkusi_paru[]"
+                                        value="<?= $opt ?>" id="pp_<?= $opt ?>"
+                                        <?= $ro_disabled ?>
+                                        <?= in_array($opt, $existing_data['perkusi_paru']) ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="pp_<?= $opt ?>"><?= $opt ?></label>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -282,7 +345,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>j. Jantung</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>j. Jantung</strong></label>
                     </div>
 
                     <div class="row mb-2">
@@ -313,21 +376,21 @@ function radioYaTidak($name, $existing, $disabled) {
 
                     <?php
                     $bj = [
-                        ['name'=>'bj1', 'label'=>'BJ I'],
-                        ['name'=>'bj2', 'label'=>'BJ II'],
-                        ['name'=>'bj3', 'label'=>'BJ III'],
-                        ['name'=>'bunyi_tambahan', 'label'=>'Bunyi Jantung Tambahan'],
-                        ['name'=>'jantung_lain',   'label'=>'Data Lain'],
+                        ['name' => 'bj1', 'label' => 'BJ I'],
+                        ['name' => 'bj2', 'label' => 'BJ II'],
+                        ['name' => 'bj3', 'label' => 'BJ III'],
+                        ['name' => 'bunyi_tambahan', 'label' => 'Bunyi Jantung Tambahan'],
+                        ['name' => 'jantung_lain',   'label' => 'Data Lain'],
                     ];
                     foreach ($bj as $b):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $b['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $b['name'] ?>"
-                                value="<?= ed($b['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $b['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $b['name'] ?>"
+                                    value="<?= ed($b['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -336,7 +399,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>k. Abdomen</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>k. Abdomen</strong></label>
                     </div>
 
                     <div class="row mb-2">
@@ -354,13 +417,13 @@ function radioYaTidak($name, $existing, $disabled) {
                         <label class="col-sm-3 col-form-label"><strong>Tali Pusat</strong></label>
                         <div class="col-sm-9">
                             <?php foreach (['Layu', 'Segar'] as $opt): ?>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="tali_pusat_kondisi"
-                                    value="<?= $opt ?>" id="tp_<?= $opt ?>"
-                                    <?= $ro_disabled ?>
-                                    <?= (ed('tali_pusat_kondisi', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="tp_<?= $opt ?>"><?= $opt ?></label>
-                            </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="tali_pusat_kondisi"
+                                        value="<?= $opt ?>" id="tp_<?= $opt ?>"
+                                        <?= $ro_disabled ?>
+                                        <?= (ed('tali_pusat_kondisi', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="tp_<?= $opt ?>"><?= $opt ?></label>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -374,36 +437,36 @@ function radioYaTidak($name, $existing, $disabled) {
 
                     <?php
                     $abd_text1 = [
-                        ['name'=>'pendarahan_tp', 'label'=>'Pendarahan Tali Pusat'],
-                        ['name'=>'umbilicus',     'label'=>'Penonjolan Umbilicus'],
-                        ['name'=>'infeksi_tp',    'label'=>'Tanda-tanda Infeksi'],
+                        ['name' => 'pendarahan_tp', 'label' => 'Pendarahan Tali Pusat'],
+                        ['name' => 'umbilicus',     'label' => 'Penonjolan Umbilicus'],
+                        ['name' => 'infeksi_tp',    'label' => 'Tanda-tanda Infeksi'],
                     ];
                     foreach ($abd_text1 as $a):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $a['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $a['name'] ?>"
-                                value="<?= ed($a['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $a['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $a['name'] ?>"
+                                    value="<?= ed($a['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
 
                     <?php
                     $abd_radio = [
-                        ['name'=>'abdomen_bentuk',  'label'=>'Abdomen Tampak Bulat'],
-                        ['name'=>'abdomen_cekung',  'label'=>'Atau Cekung'],
-                        ['name'=>'abdomen_gerak',   'label'=>'Abdomen bergerak bersamaan dengan gerakan dada saat bernafas'],
-                        ['name'=>'pembengkakan_abd','label'=>'Kaji adanya pembengkakan'],
+                        ['name' => 'abdomen_bentuk',  'label' => 'Abdomen Tampak Bulat'],
+                        ['name' => 'abdomen_cekung',  'label' => 'Atau Cekung'],
+                        ['name' => 'abdomen_gerak',   'label' => 'Abdomen bergerak bersamaan dengan gerakan dada saat bernafas'],
+                        ['name' => 'pembengkakan_abd', 'label' => 'Kaji adanya pembengkakan'],
                     ];
                     foreach ($abd_radio as $ar):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $ar['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <?= radioYaTidak($ar['name'], $existing_data, $ro_disabled) ?>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $ar['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <?= radioYaTidak($ar['name'], $existing_data, $ro_disabled) ?>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
 
                     <div class="row mb-3">
@@ -449,20 +512,20 @@ function radioYaTidak($name, $existing, $disabled) {
                     </div>
                     <?php
                     $palpasi = [
-                        ['name'=>'nyeri_abd', 'label'=>'Adanya Nyeri'],
-                        ['name'=>'hati',      'label'=>'Hati'],
-                        ['name'=>'ginjal',    'label'=>'Ginjal'],
-                        ['name'=>'kolon',     'label'=>'Kolon Sigmoid'],
+                        ['name' => 'nyeri_abd', 'label' => 'Adanya Nyeri'],
+                        ['name' => 'hati',      'label' => 'Hati'],
+                        ['name' => 'ginjal',    'label' => 'Ginjal'],
+                        ['name' => 'kolon',     'label' => 'Kolon Sigmoid'],
                     ];
                     foreach ($palpasi as $p):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $p['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $p['name'] ?>"
-                                value="<?= ed($p['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $p['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $p['name'] ?>"
+                                    value="<?= ed($p['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -471,7 +534,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>l. Genetalia</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>l. Genetalia</strong></label>
                     </div>
 
                     <!-- Laki-laki -->
@@ -480,21 +543,21 @@ function radioYaTidak($name, $existing, $disabled) {
                     </div>
                     <?php
                     $gen_pria = [
-                        ['name'=>'fistula_pria',   'label'=>'Fistula Urinari (Laki-laki)'],
-                        ['name'=>'uretra',         'label'=>'Lubang Uretra'],
-                        ['name'=>'skrotum',        'label'=>'Skrotum'],
-                        ['name'=>'genital_ganda',  'label'=>'Genitalia Ganda'],
-                        ['name'=>'gen_pria_lain',  'label'=>'Data Lain'],
+                        ['name' => 'fistula_pria',   'label' => 'Fistula Urinari (Laki-laki)'],
+                        ['name' => 'uretra',         'label' => 'Lubang Uretra'],
+                        ['name' => 'skrotum',        'label' => 'Skrotum'],
+                        ['name' => 'genital_ganda',  'label' => 'Genitalia Ganda'],
+                        ['name' => 'gen_pria_lain',  'label' => 'Data Lain'],
                     ];
                     foreach ($gen_pria as $g):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $g['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $g['name'] ?>"
-                                value="<?= ed($g['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $g['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $g['name'] ?>"
+                                    value="<?= ed($g['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
 
                     <!-- Perempuan -->
@@ -503,19 +566,19 @@ function radioYaTidak($name, $existing, $disabled) {
                     </div>
                     <?php
                     $gen_wanita = [
-                        ['name'=>'labia',           'label'=>'Labia & Klitoris'],
-                        ['name'=>'fistula_wanita',  'label'=>'Fistula Urogenital (Perempuan)'],
-                        ['name'=>'gen_wanita_lain', 'label'=>'Data Lain'],
+                        ['name' => 'labia',           'label' => 'Labia & Klitoris'],
+                        ['name' => 'fistula_wanita',  'label' => 'Fistula Urogenital (Perempuan)'],
+                        ['name' => 'gen_wanita_lain', 'label' => 'Data Lain'],
                     ];
                     foreach ($gen_wanita as $g):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $g['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $g['name'] ?>"
-                                value="<?= ed($g['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $g['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $g['name'] ?>"
+                                    value="<?= ed($g['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -524,7 +587,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>m. Anus</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>m. Anus</strong></label>
                     </div>
 
                     <div class="row mb-3">
@@ -548,7 +611,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>n. Ekstremitas Atas</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>n. Ekstremitas Atas</strong></label>
                     </div>
 
                     <div class="row mb-2">
@@ -557,22 +620,22 @@ function radioYaTidak($name, $existing, $disabled) {
 
                     <?php
                     $ekst_atas_text = [
-                        ['name'=>'gerak_atas',       'label'=>'Pergerakan Kanan / Kiri'],
-                        ['name'=>'gerak_abnormal_atas','label'=>'Pergerakan Abnormal'],
-                        ['name'=>'kekuatan_atas',    'label'=>'Kekuatan Otot Kanan / Kiri'],
-                        ['name'=>'koordinasi_atas',  'label'=>'Koordinasi Gerak'],
-                        ['name'=>'jari_atas',        'label'=>'Jumlah Jari'],
-                        ['name'=>'telapak_atas',     'label'=>'Telapak Tangan Dapat Terbuka'],
+                        ['name' => 'gerak_atas',       'label' => 'Pergerakan Kanan / Kiri'],
+                        ['name' => 'gerak_abnormal_atas', 'label' => 'Pergerakan Abnormal'],
+                        ['name' => 'kekuatan_atas',    'label' => 'Kekuatan Otot Kanan / Kiri'],
+                        ['name' => 'koordinasi_atas',  'label' => 'Koordinasi Gerak'],
+                        ['name' => 'jari_atas',        'label' => 'Jumlah Jari'],
+                        ['name' => 'telapak_atas',     'label' => 'Telapak Tangan Dapat Terbuka'],
                     ];
                     foreach ($ekst_atas_text as $e):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $e['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $e['name'] ?>"
-                                value="<?= ed($e['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $e['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $e['name'] ?>"
+                                    value="<?= ed($e['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
 
                     <div class="row mb-3">
@@ -587,19 +650,19 @@ function radioYaTidak($name, $existing, $disabled) {
                     </div>
                     <?php
                     $sensori_atas = [
-                        ['name'=>'nyeri_atas', 'label'=>'Nyeri'],
-                        ['name'=>'suhu_atas',  'label'=>'Rangsang Suhu'],
-                        ['name'=>'raba_atas',  'label'=>'Rasa Raba'],
+                        ['name' => 'nyeri_atas', 'label' => 'Nyeri'],
+                        ['name' => 'suhu_atas',  'label' => 'Rangsang Suhu'],
+                        ['name' => 'raba_atas',  'label' => 'Rasa Raba'],
                     ];
                     foreach ($sensori_atas as $s):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $s['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $s['name'] ?>"
-                                value="<?= ed($s['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $s['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $s['name'] ?>"
+                                    value="<?= ed($s['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -608,7 +671,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>o. Ekstremitas Bawah</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>o. Ekstremitas Bawah</strong></label>
                     </div>
 
                     <div class="row mb-2">
@@ -617,20 +680,20 @@ function radioYaTidak($name, $existing, $disabled) {
 
                     <?php
                     $ekst_bawah_text = [
-                        ['name'=>'gerak_bawah',    'label'=>'Pergerakan Kanan / Kiri'],
-                        ['name'=>'kekuatan_bawah', 'label'=>'Kekuatan Kanan / Kiri'],
-                        ['name'=>'tonus_bawah',    'label'=>'Tonus Otot Kanan / Kiri'],
-                        ['name'=>'jari_bawah',     'label'=>'Jumlah Jari'],
+                        ['name' => 'gerak_bawah',    'label' => 'Pergerakan Kanan / Kiri'],
+                        ['name' => 'kekuatan_bawah', 'label' => 'Kekuatan Kanan / Kiri'],
+                        ['name' => 'tonus_bawah',    'label' => 'Tonus Otot Kanan / Kiri'],
+                        ['name' => 'jari_bawah',     'label' => 'Jumlah Jari'],
                     ];
                     foreach ($ekst_bawah_text as $e):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $e['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $e['name'] ?>"
-                                value="<?= ed($e['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $e['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $e['name'] ?>"
+                                    value="<?= ed($e['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
 
                     <div class="row mb-3">
@@ -645,19 +708,19 @@ function radioYaTidak($name, $existing, $disabled) {
                     </div>
                     <?php
                     $sensori_bawah = [
-                        ['name'=>'nyeri_bawah', 'label'=>'Nyeri'],
-                        ['name'=>'suhu_bawah',  'label'=>'Rangsang Suhu'],
-                        ['name'=>'raba_bawah',  'label'=>'Rasa Raba'],
+                        ['name' => 'nyeri_bawah', 'label' => 'Nyeri'],
+                        ['name' => 'suhu_bawah',  'label' => 'Rangsang Suhu'],
+                        ['name' => 'raba_bawah',  'label' => 'Rasa Raba'],
                     ];
                     foreach ($sensori_bawah as $s):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $s['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $s['name'] ?>"
-                                value="<?= ed($s['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $s['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $s['name'] ?>"
+                                    value="<?= ed($s['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -666,27 +729,27 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>p. Integumen</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>p. Integumen</strong></label>
                     </div>
 
                     <?php
                     $integumen = [
-                        ['name'=>'turgor',          'label'=>'Turgor Kulit'],
-                        ['name'=>'finger_print',    'label'=>'Finger Print di Dahi'],
-                        ['name'=>'lesi',            'label'=>'Adanya Lesi'],
-                        ['name'=>'kebersihan',      'label'=>'Kebersihan Kulit'],
-                        ['name'=>'kelembaban_kulit','label'=>'Kelembaban Kulit'],
-                        ['name'=>'warna_kulit_integ','label'=>'Warna Kulit'],
+                        ['name' => 'turgor',          'label' => 'Turgor Kulit'],
+                        ['name' => 'finger_print',    'label' => 'Finger Print di Dahi'],
+                        ['name' => 'lesi',            'label' => 'Adanya Lesi'],
+                        ['name' => 'kebersihan',      'label' => 'Kebersihan Kulit'],
+                        ['name' => 'kelembaban_kulit', 'label' => 'Kelembaban Kulit'],
+                        ['name' => 'warna_kulit_integ', 'label' => 'Warna Kulit'],
                     ];
                     foreach ($integumen as $ig):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $ig['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $ig['name'] ?>"
-                                value="<?= ed($ig['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $ig['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $ig['name'] ?>"
+                                    value="<?= ed($ig['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -695,30 +758,30 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>q. Pengkajian Refleks Primitif</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>q. Pengkajian Refleks Primitif</strong></label>
                     </div>
 
                     <?php
                     $refleks = [
-                        ['name'=>'refleks_iddol',    'label'=>'Refleks Iddol'],
-                        ['name'=>'refleks_startel',  'label'=>'Refleks Startel'],
-                        ['name'=>'refleks_sucking',  'label'=>'Refleks Sucking (Isap)'],
-                        ['name'=>'refleks_rooting',  'label'=>'Refleks Rooting (Menoleh)'],
-                        ['name'=>'refleks_gawn',     'label'=>'Refleks Gawn'],
-                        ['name'=>'refleks_grabella', 'label'=>'Refleks Grabella'],
-                        ['name'=>'refleks_ekruction','label'=>'Refleks Ekruction'],
-                        ['name'=>'refleks_moro',     'label'=>'Refleks Moro'],
-                        ['name'=>'refleks_grasping', 'label'=>'Refleks Grasping'],
+                        ['name' => 'refleks_iddol',    'label' => 'Refleks Iddol'],
+                        ['name' => 'refleks_startel',  'label' => 'Refleks Startel'],
+                        ['name' => 'refleks_sucking',  'label' => 'Refleks Sucking (Isap)'],
+                        ['name' => 'refleks_rooting',  'label' => 'Refleks Rooting (Menoleh)'],
+                        ['name' => 'refleks_gawn',     'label' => 'Refleks Gawn'],
+                        ['name' => 'refleks_grabella', 'label' => 'Refleks Grabella'],
+                        ['name' => 'refleks_ekruction', 'label' => 'Refleks Ekruction'],
+                        ['name' => 'refleks_moro',     'label' => 'Refleks Moro'],
+                        ['name' => 'refleks_grasping', 'label' => 'Refleks Grasping'],
                     ];
                     foreach ($refleks as $r):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $r['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $r['name'] ?>"
-                                value="<?= ed($r['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $r['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $r['name'] ?>"
+                                    value="<?= ed($r['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -727,7 +790,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>r. Tes Diagnostik</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>r. Tes Diagnostik</strong></label>
                     </div>
 
                     <div class="row mb-2">
@@ -745,11 +808,15 @@ function radioYaTidak($name, $existing, $disabled) {
                     </div>
 
                     <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong>Link Drive Laboratorium</strong></label>
+                        <label class="col-sm-3 col-form-label"><strong>Lampiran Lab</strong></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="link_laboratorium"
-                                placeholder="https://drive.google.com/..."
-                                value="<?= ed('link_laboratorium', $existing_data) ?>" <?= $ro ?>>
+                            <?php if (!empty($existing_data['lampiran_lab'])): ?>
+                                <img src="<?= htmlspecialchars($existing_data['lampiran_lab']) ?>" class="img-fluid rounded border mb-2" style="max-height:400px;">
+                            <?php endif; ?>
+                            <?php if (!$is_readonly): ?>
+                                <input type="file" class="form-control" name="lampiran_lab" accept="image/jpeg,image/png,image/webp">
+                                <small class="text-muted">ex : Foto rotgen, CT scan, MRI, USG, EEG, ECG dll</small>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -774,11 +841,11 @@ function radioYaTidak($name, $existing, $disabled) {
 
                     <!-- TOMBOL SIMPAN -->
                     <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
+                        <div class="row mb-3">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                 </div>
@@ -786,46 +853,8 @@ function radioYaTidak($name, $existing, $disabled) {
 
         </form>
 
-        <!-- ===================== KOMENTAR & ACTION DOSEN ===================== -->
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
+        <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
-
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">Minta Revisi</button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">Approve</button>
-                            </div>
-                        </div>
-                    </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">Section ini sudah di-approve.</div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <?php include "tab_navigasi.php"; ?>
 
     </section>
 </main>

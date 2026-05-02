@@ -49,22 +49,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
     $text_fields = [
         // Header
-        'no_registrasi', 'hari_tanggal', 'waktu_pengkajian', 'tempat_pengkajian',
+        'no_registrasi',
+        'hari_tanggal',
+        'waktu_pengkajian',
+        'tempat_pengkajian',
         // Identitas Klien
-        'nama_klien', 'umur', 'jk', 'tgl_lahir', 'apgar', 'bb_lahir',
-        'bb_sekarang', 'alamat', 'usia_gestasi',
+        'nama_klien',
+        'umur',
+        'jk',
+        'tgl_lahir',
+        'apgar',
+        'bb_lahir',
+        'bb_sekarang',
+        'alamat',
+        'usia_gestasi',
         // Identitas Ayah
-        'nama_ayah', 'usia_ayah', 'pekerjaan_ayah', 'alamat_ayah',
+        'nama_ayah',
+        'usia_ayah',
+        'pekerjaan_ayah',
+        'alamat_ayah',
         // Identitas Ibu
-        'nama_ibu', 'usia_ibu', 'pekerjaan_ibu', 'status_gravida', 'pemeriksaan_kehamilan',
+        'nama_ibu',
+        'usia_ibu',
+        'pekerjaan_ibu',
+        'status_gravida',
+        'pemeriksaan_kehamilan',
         // Riwayat Kehamilan
-        'status_gpa', 'obat_kehamilan', 'imunisasi_tt', 'komplikasi_kehamilan',
+        'status_gpa',
+        'obat_kehamilan',
+        'imunisasi_tt',
+        'komplikasi_kehamilan',
         // Riwayat Persalinan
-        'riwayat_persalinan', 'tempat_persalinan', 'jenis_persalinan',
-        'persentasi', 'air_ketuban', 'lama_persalinan',
+        'riwayat_persalinan',
+        'tempat_persalinan',
+        'jenis_persalinan',
+        'persentasi',
+        'air_ketuban',
+        'lama_persalinan',
         // Tali Pusat
-        'tali_pusat_panjang', 'tali_pusat_vena', 'tali_pusat_arteri',
-        'tali_pusat_warna', 'tali_pusat_kelainan',
+        'tali_pusat_panjang',
+        'tali_pusat_vena',
+        'tali_pusat_arteri',
+        'tali_pusat_warna',
+        'tali_pusat_kelainan',
     ];
 
     $data = [];
@@ -109,7 +136,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
 $comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
 
 // Helper shorthand
-function ed($key, $data) {
+function ed($key, $data)
+{
     return htmlspecialchars($data[$key] ?? '');
 }
 ?>
@@ -119,20 +147,8 @@ function ed($key, $data) {
 
     <section class="section dashboard">
 
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
-
-        <?php if ($section_status): ?>
-            <?php $badge = ['draft'=>'secondary','submitted'=>'primary','revision'=>'warning','approved'=>'success']; ?>
-            <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                | Reviewed by: <strong><?= $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-' ?></strong>
-            </div>
-        <?php endif; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
 
         <form class="needs-validation" novalidate action="" method="POST">
 
@@ -148,7 +164,7 @@ function ed($key, $data) {
                                 value="<?= ed('no_registrasi', $existing_data) ?>" <?= $ro ?>>
                         </div>
                     </div>
-                    
+
                     <div class="row mb-3">
                         <label class="col-sm-3 col-form-label"><strong>Hari / Tanggal</strong></label>
                         <div class="col-sm-9">
@@ -484,12 +500,12 @@ function ed($key, $data) {
                                 foreach ($jenis_options as $opt):
                                     $id = 'jp_' . strtolower(preg_replace('/\W+/', '_', $opt));
                                 ?>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="jenis_persalinan"
-                                        value="<?= $opt ?>" id="<?= $id ?>" <?= $ro_disabled ?>
-                                        <?= (ed('jenis_persalinan', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="<?= $id ?>"><?= $opt ?></label>
-                                </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="jenis_persalinan"
+                                            value="<?= $opt ?>" id="<?= $id ?>" <?= $ro_disabled ?>
+                                            <?= (ed('jenis_persalinan', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="<?= $id ?>"><?= $opt ?></label>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -569,11 +585,11 @@ function ed($key, $data) {
 
                     <!-- TOMBOL SIMPAN -->
                     <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
+                        <div class="row mb-3">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                 </div>
@@ -581,46 +597,6 @@ function ed($key, $data) {
 
         </form>
 
-        <!-- ===================== KOMENTAR & ACTION DOSEN ===================== -->
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
-
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
-
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">Minta Revisi</button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">Approve</button>
-                            </div>
-                        </div>
-                    </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">Section ini sudah di-approve.</div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <?php include "tab_navigasi.php"; ?>
-
+        <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
     </section>
 </main>

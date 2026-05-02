@@ -119,20 +119,8 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
     <section class="section dashboard">
 
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
-
-        <?php if ($section_status): ?>
-            <?php $badge = ['draft'=>'secondary','submitted'=>'primary','revision'=>'warning','approved'=>'success']; ?>
-            <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                | Reviewed by: <strong><?= $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-' ?></strong>
-            </div>
-        <?php endif; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
 
         <form class="needs-validation" novalidate action="" method="POST">
 
@@ -144,9 +132,16 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     <p class="text-primary fw-bold mb-2">Klasifikasi Data</p>
 
                     <style>
-                        .table-klasifikasidata { table-layout: fixed; width: 100%; }
-                        .table-klasifikasidata td, .table-klasifikasidata th {
-                            word-wrap: break-word; white-space: normal; vertical-align: top;
+                        .table-klasifikasidata {
+                            table-layout: fixed;
+                            width: 100%;
+                        }
+
+                        .table-klasifikasidata td,
+                        .table-klasifikasidata th {
+                            word-wrap: break-word;
+                            white-space: normal;
+                            vertical-align: top;
                         }
                     </style>
 
@@ -157,7 +152,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                                 <th class="text-center">Data Subjektif (DS)</th>
                                 <th class="text-center">Data Objektif (DO)</th>
                                 <?php if (!$is_readonly): ?>
-                                <th class="text-center" style="width:60px">Aksi</th>
+                                    <th class="text-center" style="width:60px">Aksi</th>
                                 <?php endif; ?>
                             </tr>
                         </thead>
@@ -165,131 +160,42 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     </table>
 
                     <?php if (!$is_readonly): ?>
-                    <div class="row mb-4">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-klasifikasi"
-                                onclick="tambahRowKlasifikasi()">+ Tambah Baris</button>
+                        <div class="row mb-4">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-klasifikasi"
+                                    onclick="tambahRowKlasifikasi()">+ Tambah Baris</button>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                 </div>
             </div>
 
-            <!-- ===================== ANALISA DATA ===================== -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><strong>Analisa Data</strong></h5>
-
-                    <style>
-                        .table-analisadata { table-layout: fixed; width: 100%; }
-                        .table-analisadata td, .table-analisadata th {
-                            word-wrap: break-word; white-space: normal; vertical-align: top;
-                        }
-                    </style>
-
-                    <table class="table table-bordered table-analisadata" id="tabel-analisa">
-                        <thead>
-                            <tr>
-                                <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center" style="width:8%">DS/DO</th>
-                                <th class="text-center">Data</th>
-                                <th class="text-center">Etiologi</th>
-                                <th class="text-center">Masalah</th>
-                                <?php if (!$is_readonly): ?>
-                                <th class="text-center" style="width:60px">Aksi</th>
-                                <?php endif; ?>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-analisa"></tbody>
-                    </table>
-
-                    <?php if (!$is_readonly): ?>
-                    <div class="row mb-4">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-analisa"
-                                onclick="tambahRowAnalisa()">+ Tambah Baris</button>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-
-                    <!-- TOMBOL SIMPAN -->
-                    <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-
-        </form>
-
-        <!-- ===================== KOMENTAR & ACTION DOSEN ===================== -->
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
-
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
-
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">Minta Revisi</button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">Approve</button>
-                            </div>
-                        </div>
-                    </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">Section ini sudah di-approve.</div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <?php include "tab_navigasi.php"; ?>
+            <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 
     </section>
 </main>
 
 <script>
-let rowKlasifikasiCount = 1;
-let rowAnalisaCount     = 1;
-const isReadonly            = <?= json_encode($is_readonly) ?>;
-const existingKlasifikasi   = <?= json_encode($existing_klasifikasi) ?>;
-const existingAnalisa       = <?= json_encode($existing_analisa) ?>;
+    let rowKlasifikasiCount = 1;
+    let rowAnalisaCount = 1;
+    const isReadonly = <?= json_encode($is_readonly) ?>;
+    const existingKlasifikasi = <?= json_encode($existing_klasifikasi) ?>;
+    const existingAnalisa = <?= json_encode($existing_analisa) ?>;
 
-// =============================================
-// KLASIFIKASI DATA
-// =============================================
-function tambahRowKlasifikasi(data = null) {
-    const tbody = document.getElementById('tbody-klasifikasi');
-    const index = rowKlasifikasiCount;
-    const row   = document.createElement('tr');
+    // =============================================
+    // KLASIFIKASI DATA
+    // =============================================
+    function tambahRowKlasifikasi(data = null) {
+        const tbody = document.getElementById('tbody-klasifikasi');
+        const index = rowKlasifikasiCount;
+        const row = document.createElement('tr');
 
-    const aksiCol = isReadonly ? '' : `
+        const aksiCol = isReadonly ? '' : `
         <td class="text-center align-middle">
             <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>
         </td>`;
 
-    row.innerHTML = `
+        row.innerHTML = `
         <td class="text-center align-middle">${index}</td>
         <td>
             <textarea class="form-control form-control-sm"
@@ -310,24 +216,24 @@ function tambahRowKlasifikasi(data = null) {
         ${aksiCol}
     `;
 
-    tbody.appendChild(row);
-    rowKlasifikasiCount++;
-}
+        tbody.appendChild(row);
+        rowKlasifikasiCount++;
+    }
 
-// =============================================
-// ANALISA DATA
-// =============================================
-function tambahRowAnalisa(data = null) {
-    const tbody = document.getElementById('tbody-analisa');
-    const index = rowAnalisaCount;
-    const row   = document.createElement('tr');
+    // =============================================
+    // ANALISA DATA
+    // =============================================
+    function tambahRowAnalisa(data = null) {
+        const tbody = document.getElementById('tbody-analisa');
+        const index = rowAnalisaCount;
+        const row = document.createElement('tr');
 
-    const aksiCol = isReadonly ? '' : `
+        const aksiCol = isReadonly ? '' : `
         <td class="text-center align-middle">
             <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>
         </td>`;
 
-    row.innerHTML = `
+        row.innerHTML = `
         <td class="text-center align-middle">${index}</td>
         <td>
             <textarea class="form-control form-control-sm"
@@ -364,34 +270,34 @@ function tambahRowAnalisa(data = null) {
         ${aksiCol}
     `;
 
-    tbody.appendChild(row);
-    rowAnalisaCount++;
-}
-
-function hapusRow(btn) {
-    btn.closest('tr').remove();
-}
-
-// Load existing data on page load
-window.addEventListener('load', function () {
-    if (existingKlasifikasi && existingKlasifikasi.length > 0) {
-        existingKlasifikasi.forEach(row => tambahRowKlasifikasi(row));
-    } else if (!isReadonly) {
-        tambahRowKlasifikasi();
+        tbody.appendChild(row);
+        rowAnalisaCount++;
     }
 
-    if (existingAnalisa && existingAnalisa.length > 0) {
-        existingAnalisa.forEach(row => tambahRowAnalisa(row));
-    } else if (!isReadonly) {
-        tambahRowAnalisa();
+    function hapusRow(btn) {
+        btn.closest('tr').remove();
     }
 
-    // Disable tombol tambah jika readonly
-    if (isReadonly) {
-        const btnK = document.getElementById('btn-tambah-klasifikasi');
-        const btnA = document.getElementById('btn-tambah-analisa');
-        if (btnK) btnK.setAttribute('disabled', 'disabled');
-        if (btnA) btnA.setAttribute('disabled', 'disabled');
-    }
-});
+    // Load existing data on page load
+    window.addEventListener('load', function() {
+        if (existingKlasifikasi && existingKlasifikasi.length > 0) {
+            existingKlasifikasi.forEach(row => tambahRowKlasifikasi(row));
+        } else if (!isReadonly) {
+            tambahRowKlasifikasi();
+        }
+
+        if (existingAnalisa && existingAnalisa.length > 0) {
+            existingAnalisa.forEach(row => tambahRowAnalisa(row));
+        } else if (!isReadonly) {
+            tambahRowAnalisa();
+        }
+
+        // Disable tombol tambah jika readonly
+        if (isReadonly) {
+            const btnK = document.getElementById('btn-tambah-klasifikasi');
+            const btnA = document.getElementById('btn-tambah-analisa');
+            if (btnK) btnK.setAttribute('disabled', 'disabled');
+            if (btnA) btnA.setAttribute('disabled', 'disabled');
+        }
+    });
 </script>

@@ -45,30 +45,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
     $text_fields = [
         // Kepala
-        'keadaan_kepala', 'fontenel', 'trauma_kepala',
+        'keadaan_kepala',
+        'fontenel',
+        'trauma_kepala',
         // Wajah
-        'wajah_simetris', 'laserasi', 'paresis',
+        'wajah_simetris',
+        'laserasi',
+        'paresis',
         // Mata
-        'mata_terbuka', 'mata_jumlah', 'mata_posisi', 'mata_letak',
-        'strabismus', 'katarak', 'trauma_palpebral',
-        'palpebra', 'sclera', 'radang_conjungtiva', 'anemis',
-        'pupil_bentuk', 'pupil_ukuran',
-        'refleks_pupil', 'refleks_pupil_ket',
-        'gerakan_mata', 'kelopak_mata', 'bulu_mata', 'mata_lain',
+        'mata_terbuka',
+        'mata_jumlah',
+        'mata_posisi',
+        'mata_letak',
+        'strabismus',
+        'katarak',
+        'trauma_palpebral',
+        'palpebra',
+        'sclera',
+        'radang_conjungtiva',
+        'anemis',
+        'pupil_bentuk',
+        'pupil_ukuran',
+        'refleks_pupil',
+        'refleks_pupil_ket',
+        'gerakan_mata',
+        'kelopak_mata',
+        'bulu_mata',
+        'mata_lain',
         // Hidung
-        'hidung_bentuk', 'cuping', 'septum', 'secret_hidung', 'hidung_lain',
+        'hidung_bentuk',
+        'cuping',
+        'septum',
+        'secret_hidung',
+        'hidung_lain',
         // Telinga
-        'telinga_bentuk', 'letak_telinga', 'lubang_telinga', 'nyeri_telinga',
+        'telinga_bentuk',
+        'letak_telinga',
+        'lubang_telinga',
+        'nyeri_telinga',
         // Mulut
         'gusi_ket',
         'lidah',
-        'bibir_warna_ket', 'bibir_kondisi_ket',
-        'bau_mulut', 'bau_mulut_ket',
-        'bibir_simetris', 'labio_skizis', 'palato_skizis', 'bercak_putih',
+        'bibir_warna_ket',
+        'bibir_kondisi_ket',
+        'bau_mulut',
+        'bau_mulut_ket',
+        'bibir_simetris',
+        'labio_skizis',
+        'palato_skizis',
+        'bercak_putih',
         // Tenggorokan
-        'warna_mukosa', 'sumbatan',
+        'warna_mukosa',
+        'sumbatan',
         // Leher
-        'limfe', 'leher_simetris', 'pembengkakan_leher', 'lipatan_leher', 'leher_lain',
+        'limfe',
+        'leher_simetris',
+        'pembengkakan_leher',
+        'lipatan_leher',
+        'leher_lain',
     ];
 
     $checkbox_fields = ['gusi', 'bibir_warna', 'bibir_kondisi'];
@@ -125,12 +159,14 @@ foreach ($cb_fields as $cf) {
         : [];
 }
 
-function ed($key, $data) {
+function ed($key, $data)
+{
     return htmlspecialchars($data[$key] ?? '');
 }
 
 // Helper: radio row Ya/Tidak
-function radioYaTidak($name, $existing, $disabled) {
+function radioYaTidak($name, $existing, $disabled)
+{
     $val = $existing[$name] ?? '';
     $out = '';
     foreach (['Ya', 'Tidak'] as $opt) {
@@ -150,21 +186,8 @@ function radioYaTidak($name, $existing, $disabled) {
 
     <section class="section dashboard">
 
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
-
-        <?php if ($section_status): ?>
-            <?php $badge = ['draft'=>'secondary','submitted'=>'primary','revision'=>'warning','approved'=>'success']; ?>
-            <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                | Reviewed by: <strong><?= $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-' ?></strong>
-            </div>
-        <?php endif; ?>
-
+        <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
         <form class="needs-validation" novalidate action="" method="POST">
 
             <!-- ===================== KEPALA ===================== -->
@@ -173,7 +196,7 @@ function radioYaTidak($name, $existing, $disabled) {
                     <h5 class="card-title"><strong>Pemeriksaan Fisik</strong></h5>
 
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>a. Kepala</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>a. Kepala</strong></label>
                     </div>
 
                     <div class="row mb-3">
@@ -204,7 +227,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>b. Wajah</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>b. Wajah</strong></label>
                     </div>
 
                     <div class="row mb-3">
@@ -236,7 +259,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>c. Mata</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>c. Mata</strong></label>
                     </div>
                     <div class="row mb-2">
                         <label class="col-sm-12"><em>Inspeksi</em></label>
@@ -297,16 +320,16 @@ function radioYaTidak($name, $existing, $disabled) {
                         <label class="col-sm-3 col-form-label"><strong>Palpebra</strong></label>
                         <div class="col-sm-9">
                             <?php foreach (['Edema', 'Tidak Edema', 'Radang', 'Tidak Radang'] as $opt): ?>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="palpebra"
-                                    value="<?= $opt ?>"
-                                    id="palpebra_<?= str_replace(' ', '_', $opt) ?>"
-                                    <?= $ro_disabled ?>
-                                    <?= (ed('palpebra', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="palpebra_<?= str_replace(' ', '_', $opt) ?>">
-                                    <?= $opt ?>
-                                </label>
-                            </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="palpebra"
+                                        value="<?= $opt ?>"
+                                        id="palpebra_<?= str_replace(' ', '_', $opt) ?>"
+                                        <?= $ro_disabled ?>
+                                        <?= (ed('palpebra', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="palpebra_<?= str_replace(' ', '_', $opt) ?>">
+                                        <?= $opt ?>
+                                    </label>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -315,13 +338,13 @@ function radioYaTidak($name, $existing, $disabled) {
                         <label class="col-sm-3 col-form-label"><strong>Sclera</strong></label>
                         <div class="col-sm-9">
                             <?php foreach (['Icterus', 'Tidak'] as $opt): ?>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sclera"
-                                    value="<?= $opt ?>" id="sclera_<?= $opt ?>"
-                                    <?= $ro_disabled ?>
-                                    <?= (ed('sclera', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="sclera_<?= $opt ?>"><?= $opt ?></label>
-                            </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="sclera"
+                                        value="<?= $opt ?>" id="sclera_<?= $opt ?>"
+                                        <?= $ro_disabled ?>
+                                        <?= (ed('sclera', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="sclera_<?= $opt ?>"><?= $opt ?></label>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -332,25 +355,25 @@ function radioYaTidak($name, $existing, $disabled) {
                             <div class="mb-2">
                                 <small class="text-muted">Radang:</small>
                                 <?php foreach (['Radang', 'Tidak'] as $opt): ?>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="radang_conjungtiva"
-                                        value="<?= $opt ?>" id="radang_conj_<?= $opt ?>"
-                                        <?= $ro_disabled ?>
-                                        <?= (ed('radang_conjungtiva', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="radang_conj_<?= $opt ?>"><?= $opt ?></label>
-                                </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="radang_conjungtiva"
+                                            value="<?= $opt ?>" id="radang_conj_<?= $opt ?>"
+                                            <?= $ro_disabled ?>
+                                            <?= (ed('radang_conjungtiva', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="radang_conj_<?= $opt ?>"><?= $opt ?></label>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                             <div>
                                 <small class="text-muted">Anemis:</small>
                                 <?php foreach (['Anemis', 'Tidak'] as $opt): ?>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="anemis"
-                                        value="<?= $opt ?>" id="anemis_<?= $opt ?>"
-                                        <?= $ro_disabled ?>
-                                        <?= (ed('anemis', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="anemis_<?= $opt ?>"><?= $opt ?></label>
-                                </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="anemis"
+                                            value="<?= $opt ?>" id="anemis_<?= $opt ?>"
+                                            <?= $ro_disabled ?>
+                                            <?= (ed('anemis', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="anemis_<?= $opt ?>"><?= $opt ?></label>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -362,25 +385,25 @@ function radioYaTidak($name, $existing, $disabled) {
                             <div class="mb-2">
                                 <small class="text-muted">Bentuk:</small>
                                 <?php foreach (['Isokor', 'Anisokor'] as $opt): ?>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="pupil_bentuk"
-                                        value="<?= $opt ?>" id="pupil_b_<?= $opt ?>"
-                                        <?= $ro_disabled ?>
-                                        <?= (ed('pupil_bentuk', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="pupil_b_<?= $opt ?>"><?= $opt ?></label>
-                                </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="pupil_bentuk"
+                                            value="<?= $opt ?>" id="pupil_b_<?= $opt ?>"
+                                            <?= $ro_disabled ?>
+                                            <?= (ed('pupil_bentuk', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="pupil_b_<?= $opt ?>"><?= $opt ?></label>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                             <div>
                                 <small class="text-muted">Ukuran:</small>
                                 <?php foreach (['Myosis', 'Midriasis'] as $opt): ?>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="pupil_ukuran"
-                                        value="<?= $opt ?>" id="pupil_u_<?= $opt ?>"
-                                        <?= $ro_disabled ?>
-                                        <?= (ed('pupil_ukuran', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="pupil_u_<?= $opt ?>"><?= $opt ?></label>
-                                </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="pupil_ukuran"
+                                            value="<?= $opt ?>" id="pupil_u_<?= $opt ?>"
+                                            <?= $ro_disabled ?>
+                                            <?= (ed('pupil_ukuran', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="pupil_u_<?= $opt ?>"><?= $opt ?></label>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -391,13 +414,13 @@ function radioYaTidak($name, $existing, $disabled) {
                         <div class="col-sm-9">
                             <div class="d-flex gap-3 align-items-center flex-wrap">
                                 <?php foreach (['Simetris', 'Tidak'] as $opt): ?>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="refleks_pupil"
-                                        value="<?= $opt ?>" id="refleks_pupil_<?= $opt ?>"
-                                        <?= $ro_disabled ?>
-                                        <?= (ed('refleks_pupil', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="refleks_pupil_<?= $opt ?>"><?= $opt ?></label>
-                                </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="refleks_pupil"
+                                            value="<?= $opt ?>" id="refleks_pupil_<?= $opt ?>"
+                                            <?= $ro_disabled ?>
+                                            <?= (ed('refleks_pupil', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="refleks_pupil_<?= $opt ?>"><?= $opt ?></label>
+                                    </div>
                                 <?php endforeach; ?>
                                 <input type="text" class="form-control" style="max-width:220px;"
                                     name="refleks_pupil_ket" placeholder="Keterangan"
@@ -446,7 +469,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>d. Hidung & Sinus</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>d. Hidung & Sinus</strong></label>
                     </div>
                     <div class="row mb-2">
                         <label class="col-sm-12"><em>Inspeksi</em></label>
@@ -454,21 +477,21 @@ function radioYaTidak($name, $existing, $disabled) {
 
                     <?php
                     $hidung_text = [
-                        ['name'=>'hidung_bentuk',  'label'=>'Bentuk Hidung'],
-                        ['name'=>'cuping',         'label'=>'Pernapasan Cuping Hidung'],
-                        ['name'=>'septum',         'label'=>'Keadaan Septum'],
-                        ['name'=>'secret_hidung',  'label'=>'Secret / Cairan'],
-                        ['name'=>'hidung_lain',    'label'=>'Data Lain'],
+                        ['name' => 'hidung_bentuk',  'label' => 'Bentuk Hidung'],
+                        ['name' => 'cuping',         'label' => 'Pernapasan Cuping Hidung'],
+                        ['name' => 'septum',         'label' => 'Keadaan Septum'],
+                        ['name' => 'secret_hidung',  'label' => 'Secret / Cairan'],
+                        ['name' => 'hidung_lain',    'label' => 'Data Lain'],
                     ];
                     foreach ($hidung_text as $f):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $f['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="<?= $f['name'] ?>"
-                                value="<?= ed($f['name'], $existing_data) ?>" <?= $ro ?>>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $f['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="<?= $f['name'] ?>"
+                                    value="<?= ed($f['name'], $existing_data) ?>" <?= $ro ?>>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -477,7 +500,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>e. Telinga</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>e. Telinga</strong></label>
                     </div>
                     <div class="row mb-2">
                         <label class="col-sm-12"><em>Inspeksi</em></label>
@@ -503,13 +526,13 @@ function radioYaTidak($name, $existing, $disabled) {
                         <label class="col-sm-3 col-form-label"><strong>Lubang Telinga</strong></label>
                         <div class="col-sm-9">
                             <?php foreach (['Bersih', 'Serumen', 'Nanah', 'Cairan'] as $opt): ?>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="lubang_telinga"
-                                    value="<?= $opt ?>" id="telinga_<?= $opt ?>"
-                                    <?= $ro_disabled ?>
-                                    <?= (ed('lubang_telinga', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="telinga_<?= $opt ?>"><?= $opt ?></label>
-                            </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="lubang_telinga"
+                                        value="<?= $opt ?>" id="telinga_<?= $opt ?>"
+                                        <?= $ro_disabled ?>
+                                        <?= (ed('lubang_telinga', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="telinga_<?= $opt ?>"><?= $opt ?></label>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -531,7 +554,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>f. Mulut</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>f. Mulut</strong></label>
                     </div>
                     <div class="row mb-2">
                         <label class="col-sm-12"><em>Inspeksi</em></label>
@@ -543,13 +566,13 @@ function radioYaTidak($name, $existing, $disabled) {
                         <div class="col-sm-9">
                             <div class="d-flex align-items-center gap-3 flex-wrap">
                                 <?php foreach (['Merah', 'Radang', 'Tidak'] as $opt): ?>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="gusi[]"
-                                        value="<?= $opt ?>" id="gusi_<?= $opt ?>"
-                                        <?= $ro_disabled ?>
-                                        <?= in_array($opt, $existing_data['gusi']) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="gusi_<?= $opt ?>"><?= $opt ?></label>
-                                </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="gusi[]"
+                                            value="<?= $opt ?>" id="gusi_<?= $opt ?>"
+                                            <?= $ro_disabled ?>
+                                            <?= in_array($opt, $existing_data['gusi']) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="gusi_<?= $opt ?>"><?= $opt ?></label>
+                                    </div>
                                 <?php endforeach; ?>
                                 <input type="text" class="form-control" style="max-width:200px;"
                                     name="gusi_ket" placeholder="Keterangan"
@@ -563,13 +586,13 @@ function radioYaTidak($name, $existing, $disabled) {
                         <label class="col-sm-3 col-form-label"><strong>Lidah</strong></label>
                         <div class="col-sm-9">
                             <?php foreach (['Kotor', 'Tidak'] as $opt): ?>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="lidah"
-                                    value="<?= $opt ?>" id="lidah_<?= $opt ?>"
-                                    <?= $ro_disabled ?>
-                                    <?= (ed('lidah', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="lidah_<?= $opt ?>"><?= $opt ?></label>
-                            </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="lidah"
+                                        value="<?= $opt ?>" id="lidah_<?= $opt ?>"
+                                        <?= $ro_disabled ?>
+                                        <?= (ed('lidah', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="lidah_<?= $opt ?>"><?= $opt ?></label>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
@@ -580,13 +603,13 @@ function radioYaTidak($name, $existing, $disabled) {
                         <div class="col-sm-9">
                             <div class="d-flex align-items-center gap-3 flex-wrap">
                                 <?php foreach (['Sianosis', 'Pucat', 'Tidak'] as $opt): ?>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="bibir_warna[]"
-                                        value="<?= $opt ?>" id="bibir_w_<?= $opt ?>"
-                                        <?= $ro_disabled ?>
-                                        <?= in_array($opt, $existing_data['bibir_warna']) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="bibir_w_<?= $opt ?>"><?= $opt ?></label>
-                                </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="bibir_warna[]"
+                                            value="<?= $opt ?>" id="bibir_w_<?= $opt ?>"
+                                            <?= $ro_disabled ?>
+                                            <?= in_array($opt, $existing_data['bibir_warna']) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="bibir_w_<?= $opt ?>"><?= $opt ?></label>
+                                    </div>
                                 <?php endforeach; ?>
                                 <input type="text" class="form-control" style="max-width:200px;"
                                     name="bibir_warna_ket" placeholder="Keterangan"
@@ -601,13 +624,13 @@ function radioYaTidak($name, $existing, $disabled) {
                         <div class="col-sm-9">
                             <div class="d-flex align-items-center gap-3 flex-wrap">
                                 <?php foreach (['Basah', 'Kering', 'Pecah'] as $opt): ?>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="bibir_kondisi[]"
-                                        value="<?= $opt ?>" id="bibir_k_<?= $opt ?>"
-                                        <?= $ro_disabled ?>
-                                        <?= in_array($opt, $existing_data['bibir_kondisi']) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="bibir_k_<?= $opt ?>"><?= $opt ?></label>
-                                </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="bibir_kondisi[]"
+                                            value="<?= $opt ?>" id="bibir_k_<?= $opt ?>"
+                                            <?= $ro_disabled ?>
+                                            <?= in_array($opt, $existing_data['bibir_kondisi']) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="bibir_k_<?= $opt ?>"><?= $opt ?></label>
+                                    </div>
                                 <?php endforeach; ?>
                                 <input type="text" class="form-control" style="max-width:200px;"
                                     name="bibir_kondisi_ket" placeholder="Keterangan"
@@ -622,13 +645,13 @@ function radioYaTidak($name, $existing, $disabled) {
                         <div class="col-sm-9">
                             <div class="d-flex align-items-center gap-3 flex-wrap">
                                 <?php foreach (['Berbau', 'Tidak'] as $opt): ?>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="bau_mulut"
-                                        value="<?= $opt ?>" id="bau_<?= $opt ?>"
-                                        <?= $ro_disabled ?>
-                                        <?= (ed('bau_mulut', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="bau_<?= $opt ?>"><?= $opt ?></label>
-                                </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="bau_mulut"
+                                            value="<?= $opt ?>" id="bau_<?= $opt ?>"
+                                            <?= $ro_disabled ?>
+                                            <?= (ed('bau_mulut', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="bau_<?= $opt ?>"><?= $opt ?></label>
+                                    </div>
                                 <?php endforeach; ?>
                                 <input type="text" class="form-control" style="max-width:220px;"
                                     name="bau_mulut_ket" placeholder="Keterangan"
@@ -640,19 +663,19 @@ function radioYaTidak($name, $existing, $disabled) {
                     <!-- Radio Ya/Tidak group -->
                     <?php
                     $mulut_radio = [
-                        ['name'=>'bibir_simetris',  'label'=>'Keadaan bibir simetris'],
-                        ['name'=>'labio_skizis',    'label'=>'Adanya Labio Skizis'],
-                        ['name'=>'palato_skizis',   'label'=>'Abiopalato Skizis'],
-                        ['name'=>'bercak_putih',    'label'=>'Bercak putih pada lidah dan palatum'],
+                        ['name' => 'bibir_simetris',  'label' => 'Keadaan bibir simetris'],
+                        ['name' => 'labio_skizis',    'label' => 'Adanya Labio Skizis'],
+                        ['name' => 'palato_skizis',   'label' => 'Abiopalato Skizis'],
+                        ['name' => 'bercak_putih',    'label' => 'Bercak putih pada lidah dan palatum'],
                     ];
                     foreach ($mulut_radio as $mr):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $mr['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <?= radioYaTidak($mr['name'], $existing_data, $ro_disabled) ?>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $mr['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <?= radioYaTidak($mr['name'], $existing_data, $ro_disabled) ?>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -661,7 +684,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>g. Tenggorokan</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>g. Tenggorokan</strong></label>
                     </div>
 
                     <div class="row mb-3">
@@ -686,7 +709,7 @@ function radioYaTidak($name, $existing, $disabled) {
             <div class="card">
                 <div class="card-body">
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>h. Leher</strong></label>
+                        <label class="col-sm-12 text-primary mt-3"><strong>h. Leher</strong></label>
                     </div>
                     <div class="row mb-2">
                         <label class="col-sm-12"><em>Palpasi</em></label>
@@ -696,31 +719,31 @@ function radioYaTidak($name, $existing, $disabled) {
                         <label class="col-sm-3 col-form-label"><strong>Kelenjar Limfe</strong></label>
                         <div class="col-sm-9">
                             <?php foreach (['Membesar', 'Tidak'] as $opt): ?>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="limfe"
-                                    value="<?= $opt ?>" id="limfe_<?= $opt ?>"
-                                    <?= $ro_disabled ?>
-                                    <?= (ed('limfe', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="limfe_<?= $opt ?>"><?= $opt ?></label>
-                            </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="limfe"
+                                        value="<?= $opt ?>" id="limfe_<?= $opt ?>"
+                                        <?= $ro_disabled ?>
+                                        <?= (ed('limfe', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="limfe_<?= $opt ?>"><?= $opt ?></label>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
 
                     <?php
                     $leher_radio = [
-                        ['name'=>'leher_simetris',    'label'=>'Simetris'],
-                        ['name'=>'pembengkakan_leher', 'label'=>'Ada Pembengkakan'],
-                        ['name'=>'lipatan_leher',      'label'=>'Adanya lipatan kulit berlebihan di belakang leher'],
+                        ['name' => 'leher_simetris',    'label' => 'Simetris'],
+                        ['name' => 'pembengkakan_leher', 'label' => 'Ada Pembengkakan'],
+                        ['name' => 'lipatan_leher',      'label' => 'Adanya lipatan kulit berlebihan di belakang leher'],
                     ];
                     foreach ($leher_radio as $lr):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $lr['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <?= radioYaTidak($lr['name'], $existing_data, $ro_disabled) ?>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $lr['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <?= radioYaTidak($lr['name'], $existing_data, $ro_disabled) ?>
+                            </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
 
                     <div class="row mb-3">
@@ -733,11 +756,11 @@ function radioYaTidak($name, $existing, $disabled) {
 
                     <!-- TOMBOL SIMPAN -->
                     <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
+                        <div class="row mb-3">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                 </div>
@@ -745,46 +768,8 @@ function radioYaTidak($name, $existing, $disabled) {
 
         </form>
 
-        <!-- ===================== KOMENTAR & ACTION DOSEN ===================== -->
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
+        <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
-
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">Minta Revisi</button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">Approve</button>
-                            </div>
-                        </div>
-                    </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">Section ini sudah di-approve.</div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <?php include "tab_navigasi.php"; ?>
 
     </section>
 </main>

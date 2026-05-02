@@ -52,42 +52,6 @@ function actRow($label, $val)
     return '<tr><td style="border:1px solid #000;padding:2px 4px;">' . $label . '</td>' . $cells . '</tr>';
 }
 
-
-function cetakGambar($path)
-{
-    $img_rel = ltrim($path, '/\\');
-
-    // Sesuaikan ke root project
-    $base = realpath(__DIR__ . '/..');
-    $img_abs = $base . '/' . $img_rel;
-
-    if (!file_exists($img_abs)) {
-        return '';
-    }
-
-    // ✅ Baca file sekali aja
-    $imageData = file_get_contents($img_abs);
-
-    if ($imageData === false) {
-        return '';
-    }
-
-    // ✅ Detect mime type (biar flexible JPG/PNG)
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $mime = finfo_file($finfo, $img_abs);
-    finfo_close($finfo);
-
-    // fallback kalau gagal detect
-    if (!$mime) {
-        $mime = 'image/png';
-    }
-
-    $base64 = base64_encode($imageData);
-
-    return "data:$mime;base64,$base64";
-}
-
-
 include 'template_pdf.php';
 ?>
 

@@ -1,100 +1,49 @@
 <?php
 $jenisAnak = $_GET['jenisAnak'] ?? 'anggrek';
-$jenisAnak = isset($_GET['jenisAnak']) ? $_GET['jenisAnak'] : '';
 $submission_id = $_GET['submission_id'] ?? null;
 $titles = [
     'anggrek' => 'Asuhan Keperawatan Anak Anggrek B',
     'aster' => 'Anak Bayi Baru Lahir',
     'resume' => 'Format Resume Keperawatan Anak di Puskesmas',
- 
 ];
+
+$tabs = [
+    'format_laporan_pendahuluan',
+    'pengkajian',
+    'pengkajian_riwayat',
+    'pengkajian_fisik',
+    'analisa_data',
+    'lainnya',
+];
+$tabLabels = [
+    'format_laporan_pendahuluan' => 'Format Laporan Pendahuluan',
+    'pengkajian' => 'Pengkajian Anak',
+    'pengkajian_riwayat' => 'Format Pengkajian Riwayat',
+    'pengkajian_fisik' => 'Pemeriksaan Fisik',
+    'analisa_data' => 'Analisa Data',
+    'lainnya' => 'Lainnya',
+];
+$currentTab = $_GET['tab'] ?? $tabs[0];
 ?>
-
-
-<div class="card">
-    <div class="card-body">
-        <div class="row mb-3 mt-3   ">
-            <label for="jenisAnak" class="col-sm-2 col-form-label"><strong>Anak</strong></label>
-            <div class="col-sm-9">
-
-                  <select class="form-select" name="jenisAnak"
-        onchange="window.location=this.value" required>
-
-        <option value="">Pilih</option>
-
-        <option value="index.php?page=anak/format_anggrek&tab=format_laporan_pendahuluan&jenisAnak=anggrek"
-        <?= $jenisAnak == 'anggrek' ? 'selected' : '' ?>>
-        Format Anggrek B
-        </option>
-
-        <option value="index.php?page=anak/format_aster&tab=format_laporan_pendahuluan&jenisAnak=aster"
-        <?= $jenisAnak == 'aster' ? 'selected' : '' ?>>
-        Format Aster
-        </option>
-
-        <option value="index.php?page=anak/format_resume&tab=halm_tambah_format_resume_keperawatan&jenisAnak=poli_anak"
-        <?= $jenisAnak == 'poli_anak' ? 'selected' : '' ?>>
-        FORMAT RESUME KEPERAWATAN POLI ANAK
-        </option>
-
-        </select>
-                <div class="invalid-feedback">
-                    Harap isi Jenis Anak.
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
 
 <div class="pagetitle">
     <h1><strong><?= $titles[$jenisAnak] ?? 'Asuhan Keperawatan Anak Anggrek B' ?></strong></h1>
 </div>
 <br>
 <ul class="nav nav-tabs custom-tabs">
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'format_laporan_pendahuluan') == 'format_laporan_pendahuluan' ? 'active' : '' ?>"
-           href="index.php?page=anak/format_anggrek&jenisanak=<?= $jenisAnak ?>&tab=format_laporan_pendahuluan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-           Format Laporan Pendahuluan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian' ? 'active' : '' ?>"
-           href="index.php?page=anak/format_anggrek&jenisanak=<?= $jenisAnak ?>&tab=pengkajian<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-           Pengkajian Anak
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian_riwayat' ? 'active' : '' ?>"
-           href="index.php?page=anak/format_anggrek&jenisanak=<?= $jenisAnak ?>&tab=pengkajian_riwayat<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-           Format Pengkajian Riwayat
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian_fisik' ? 'active' : '' ?>"
-           href="index.php?page=anak/format_anggrek&jenisanak=<?= $jenisAnak ?>&tab=pengkajian_fisik<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-           Pemeriksaan Fisik
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa_data' ? 'active' : '' ?>"
-           href="index.php?page=anak/format_anggrek&jenisanak=<?= $jenisAnak ?>&tab=analisa_data<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-           Analisa Data
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya' ? 'active' : '' ?>"
-           href="index.php?page=anak/format_anggrek&jenisanak=<?= $jenisAnak ?>&tab=lainnya<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-           Lainnya
-        </a>
-    </li>
-
+    <?php
+    foreach ($tabs as $tab):
+        $isActive = ($currentTab == $tab) ? 'active' : '';
+        $label = $tabLabels[$tab] ?? ucfirst(str_replace('_', ' ', $tab));
+        $url = "index.php?page=anak/format_anggrek&jenisAnak={$jenisAnak}&tab={$tab}";
+        if ($submission_id) $url .= "&submission_id={$submission_id}";
+    ?>
+        <li class="nav-item">
+            <a class="nav-link <?= $isActive ?>" href="<?= htmlspecialchars($url) ?>">
+                <?= htmlspecialchars($label) ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
 </ul>
 
 <style>

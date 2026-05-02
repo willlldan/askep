@@ -1,11 +1,45 @@
+<?php
+
+function cetakGambar($path)
+{
+    $img_rel = ltrim($path, '/\\');
+
+    // Sesuaikan ke root project
+    $base = realpath(__DIR__ . '/..');
+    $img_abs = $base . '/' . $img_rel;
+
+    if (!file_exists($img_abs)) {
+        return '';
+    }
+
+    // ✅ Baca file sekali aja
+    $imageData = file_get_contents($img_abs);
+
+    if ($imageData === false) {
+        return '';
+    }
+
+    // ✅ Detect mime type (biar flexible JPG/PNG)
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $mime = finfo_file($finfo, $img_abs);
+    finfo_close($finfo);
+
+    // fallback kalau gagal detect
+    if (!$mime) {
+        $mime = 'image/png';
+    }
+
+    $base64 = base64_encode($imageData);
+
+    return "data:$mime;base64,$base64";
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <style>
-        
-       
         body {
             font-family: Arial, sans-serif;
             font-size: 10px;
@@ -102,9 +136,10 @@
             vertical-align: top;
             border-bottom: 1px solid #ccc;
             padding-bottom: 1px;
-            flex: 1; /* supaya nilai bisa fleksibel */
+            flex: 1;
+            /* supaya nilai bisa fleksibel */
         }
-      
+
 
         .field-row-inline {
             display: table;

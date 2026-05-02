@@ -690,24 +690,6 @@ if (isset($_SESSION['id_user'])) {
                     case 'lainnya':
                         include "anak/format_anggrek/halm_tambah_lainnya.php";
                         break;
-
-
-                    case 'diagnosa':
-                        include "anak/format_anggrek/halm_tambah_diagnosa.php";
-                        break;
-
-                    case 'rencana':
-                        include "anak/format_anggrek/halm_tambah_rencana.php";
-                        break;
-
-                    case 'implementasi':
-                        include "anak/format_anggrek/halm_tambah_implementasi.php";
-                        break;
-
-                    case 'evaluasi':
-                        include "anak/format_anggrek/halm_tambah_evaluasi.php";
-                        break;
-
                     default:
                         include "anak/format_anggrek/halm_tambah_format_laporan_pendahuluan.php";
                 }
@@ -744,31 +726,11 @@ if (isset($_SESSION['id_user'])) {
                     case 'analisa_data':
                         include "anak/format_aster/halm_analisa_data.php";
                         break;
-
-                    //bawah yg lama
-
-                    case 'format_laporan_pendahuluan':
-                        include "anak/format_aster/halm_tambah_format_laporan_pendahuluan.php";
+                    case 'lainnya':
+                        include "anak/format_aster/halm_lainnya.php";
                         break;
-
-                    case 'diagnosa':
-                        include "anak/format_aster/halm_tambah_diagnosa.php";
-                        break;
-
-                    case 'rencana':
-                        include "anak/format_aster/halm_tambah_rencana.php";
-                        break;
-
-                    case 'implementasi':
-                        include "anak/format_aster/halm_tambah_implementasi.php";
-                        break;
-
-                    case 'evaluasi':
-                        include "anak/format_aster/halm_tambah_evaluasi.php";
-                        break;
-
                     default:
-                        include "anak/format_aster/halm_tambah_format_laporan_pendahuluan.php";
+                        include "anak/format_aster/halm_identitas_riwayat.php";
                 }
 
                 break;

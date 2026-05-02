@@ -339,8 +339,6 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                             existingKlasifikasi.length > 0 ? existingKlasifikasi.forEach(r => tambahRowKlasifikasi(r)) : tambahRowKlasifikasi();
                             existingAnalisa.length > 0 ? existingAnalisa.forEach(r => tambahRowAnalisa(r)) : tambahRowAnalisa();
                         });
-
-                        const existingData = <?= json_encode($existing_data) ?>;
                     </script>
                 </form>
 

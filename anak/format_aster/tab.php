@@ -1,55 +1,38 @@
 <?php
-$jenisAnak = $_GET['jenisAnak'] ?? 'aster';
 $submission_id = $_GET['submission_id'] ?? null;
+$page = $_GET['page'] ?? '';
+$parts = explode('/', $page);
+$jenisAnak = $parts[1] ?? 'format_aster';
 
 $titles = [
-    'aster' => 'Anak Bayi Baru Lahir',
-    'anggrek' => 'Keperawatan Medikal Bedah',
-    'ok' => 'Pengkajian Ruang OK',
+    'format_aster' => 'Anak Bayi Baru Lahir',
+    'format_anggrek' => 'Keperawatan Medikal Bedah',
+    'format_resume' => 'Format Resume Keperawatan Poli Anak'
 
 ];
+
+$tabs = [
+    "identitas_riwayat",
+    "keadaan_bayi",
+    "pengkajian_umum",
+    "pengkajian_fisik_1",
+    "pengkajian_fisik_2",
+    "analisa_data",
+    "lainnya"
+];
+
+$tabLabels = [
+    'identitas_riwayat' => 'Identitas dan Riwayat',
+    'keadaan_bayi' => 'Keadaan Bayi',
+    'pengkajian_umum' => 'Pengkajian Umum',
+    'pengkajian_fisik_1' => 'Pengkajian Fisik 1',
+    'pengkajian_fisik_2' => 'Pengkajian Fisik 2',
+    'analisa_data' => 'Analisa Data',
+    'lainnya' => 'Lainnya',
+];
+
+$currentTab = $_GET['tab'] ?? $tabs[0];
 ?>
-
-<!-- Card Identitas -->
-<div class="card">
-    <div class="card-body">
-
-        <div class="row mb-3 mt-3">
-            <label for="jenisAnak" class="col-sm-2 col-form-label"><strong>Anak</strong></label>
-            <div class="col-sm-9">
-
-                <select class="form-select" name="jenisAnak"
-                    onchange="window.location=this.value" required>
-
-                    <option value="">Pilih</option>
-
-                    <option value="index.php?page=anak/format_anggrek&tab=format_laporan_pendahuluan&jenisAnak=anggrek"
-                        <?= $jenisAnak == 'anggrek' ? 'selected' : '' ?>>
-                        Format Anggrek B
-                    </option>
-
-                    <option value="index.php?page=anak/format_aster&tab=format_laporan_pendahuluan&jenisAnak=aster"
-                        <?= $jenisAnak == 'aster' ? 'selected' : '' ?>>
-                        Format Aster
-                    </option>
-
-                    <option value="index.php?page=anak/format_resume&tab=format_laporan_pendahuluan&jenisAnak=poli_anak"
-                        <?= $jenisAnak == 'poli_anak' ? 'selected' : '' ?>>
-                        FORMAT RESUME KEPERAWATAN POLI ANAK
-                    </option>
-
-                </select>
-
-                <div class="invalid-feedback">
-                    Harap isi Jenis Anak.
-                </div>
-
-            </div>
-        </div>
-
-
-    </div>
-</div>
 <!-- Card Identitas -->
 
 <div class="pagetitle">
@@ -58,81 +41,20 @@ $titles = [
 <br>
 
 <ul class="nav nav-tabs custom-tabs">
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'identitas_riwayat') == 'identitas_riwayat' ? 'active' : '' ?>"
-            href="index.php?page=anak/format_aster&tab=identitas_riwayat">
-            Identitas dan Riwayat
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'keadaan_bayi') == 'keadaan_bayi' ? 'active' : '' ?>"
-            href="index.php?page=anak/format_aster&tab=keadaan_bayi">
-            Keadaan Bayi
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'pengkajian_umum') == 'pengkajian_umum' ? 'active' : '' ?>"
-            href="index.php?page=anak/format_aster&tab=pengkajian_umum">
-            Pengkajian Umum
-        </a>
-    </li>
-
-     <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'pengkajian_fisik_1') == 'pengkajian_fisik_1' ? 'active' : '' ?>"
-            href="index.php?page=anak/format_aster&tab=pengkajian_fisik_1">
-            Pengkajian Fisik 1
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'pengkajian_fisik_2') == 'pengkajian_fisik_2' ? 'active' : '' ?>"
-            href="index.php?page=anak/format_aster&tab=pengkajian_fisik_2">
-            Pengkajian Fisik 2
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'analisa_data') == 'analisa_data' ? 'active' : '' ?>"
-            href="index.php?page=anak/format_aster&tab=analisa_data">
-            Analisa Data
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? 'format_laporan_pendahuluan') == 'format_laporan_pendahuluan' ? 'active' : '' ?>"
-            href="index.php?page=anak/format_aster&tab=format_laporan_pendahuluan">
-            Format Pengkajian Bayi Baru Lahir
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa' ? 'active' : '' ?>"
-            href="index.php?page=anak/format_aster&tab=diagnosa">
-            Diagnosa Keperawatan </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'rencana' ? 'active' : '' ?>"
-            href="index.php?page=anak/format_aster&tab=rencana">
-            Rencana Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi' ? 'active' : '' ?>"
-            href="index.php?page=anak/format_aster&tab=implementasi">
-            Implementasi Keperawatan
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi' ? 'active' : '' ?>"
-            href="index.php?page=anak/format_aster&tab=evaluasi">
-            Evaluasi Keperawatan
-        </a>
-    </li>
+    <?php
+    foreach ($tabs as $tab):
+        $isActive = ($currentTab == $tab) ? 'active' : '';
+        $label = $tabLabels[$tab] ?? ucfirst(str_replace('_', ' ', $tab));
+        $url = "index.php?page=anak/format_aster&tab={$tab}";
+        if ($submission_id) $url .= "&submission_id={$submission_id}";
+    ?>
+        <li class="nav-item">
+            <a class="nav-link <?= $isActive ?>" href="<?= htmlspecialchars($url) ?>">
+                <?= htmlspecialchars($label) ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
 </ul>
-
 
 <style>
     .custom-tabs {

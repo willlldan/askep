@@ -6,6 +6,7 @@ require_once __DIR__ . '/../libs/dompdf/autoload.inc.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
+set_time_limit(0);
 
 $submission_id = $_GET['submission_id'] ?? null;
 
@@ -25,12 +26,13 @@ $stmt = $mysqli->prepare("
 $stmt->bind_param("i", $submission_id);
 $stmt->execute();
 $submission = $stmt->get_result()->fetch_assoc();
-$form_name = $submission['slug'];
-$form_name_readable = strtolower(str_replace(' ', '_', $submission['form_name']));
 
 if (!$submission) {
     die("Submission tidak ditemukan.");
 }
+
+$form_name = $submission['slug'];
+$form_name_readable = strtolower(str_replace(' ', '_', $submission['form_name']));
 
 // Ambil semua section data
 $sections = [];
@@ -55,40 +57,40 @@ switch ($form_name) {
         include 'template_pdf_anc.php';
         break;
     case 'pengkajian_pascapartum':
-         include 'template_pdf_pascapartum.php';
-         break;
-
+        include 'template_pdf_pascapartum.php';
+        break;
     case 'pengkajian_ruang_ok':
-         include 'template_pdf_ruang_ok.php';
-         break;
+        include 'template_pdf_ruang_ok.php';
+        break;
     case 'pengkajian_ginekologi':
-        include 'template_pdf_ginekologi.php'; // Template untuk ginekologi
+        include 'template_pdf_ginekologi.php';
         break;
     case 'pengkajian_inranatal_care':
-        include 'template_pdf_inranatal_care.php'; // Template untuk inranatal
+        include 'template_pdf_inranatal_care.php';
         break;
     case 'poli_jiwa':
-        include 'template_pdf_poli_jiwa.php'; // Template untuk inranatal
+        include 'template_pdf_poli_jiwa.php';
         break;
     case 'format_anggrek':
-        include 'template_pdf_format_anggrek.php'; // Template untuk inranatal
+        include 'template_pdf_format_anggrek.php';
         break;
     case 'jiwa_rsud':
-        include 'template_pdf_jiwa_rsud.php'; // Template untuk inranatal
+        include 'template_pdf_jiwa_rsud.php';
         break;
     case 'format_hd_kmb':
-        include 'template_pdf_hd_kmb.php'; // Template untuk inranatal
+        include 'template_pdf_hd_kmb.php';
         break;
-
     case 'format_ressume':
         include 'template_pdf_format_resume.php';
-        break;  
-
+        break;
     case 'resume_antenatal_care':
         include 'template_pdf_resume_anc.php';
         break;
     case 'format_kmb':
         include 'template_pdf_kmb.php';
+        break;
+    case 'format_aster':
+        include 'template_pdf_format_aster.php';
         break;
     default:
         include 'template_pdf_format_resume.php';
@@ -102,18 +104,11 @@ $options = new Options();
 $options->set('isHtml5ParserEnabled', false);
 $options->set('isRemoteEnabled', true);
 $options->set('defaultFont', 'Arial');
-$options->set('chuckSize', 512);
-// $options->set('margin_top', 20);
-// $options->set('margin_bottom', 20);
-// $options->set('margin_left', 20);
-// $options->set('margin_right', 20);
+$options->set('chunkSize', 512);
 
 $dompdf = new Dompdf($options);
 $dompdf->loadHtml($html, 'UTF-8');
 $dompdf->setPaper('A4', 'portrait');
-set_time_limit(0);
-$dompdf->render();
-// Tambahin ini setelah setPaper
 $dompdf->render();
 $dompdf->stream($form_name_readable . '_' . $submission['npm'] . '.pdf', ['Attachment' => true]);
 exit;

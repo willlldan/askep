@@ -50,23 +50,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     $text_fields = [
         // Resusitasi & Obat
         'resusitasi',
-        'vitamin_k', 'salep_mata', 'o2',
+        'vitamin_k',
+        'salep_mata',
+        'o2',
         // Pernapasan
-        'nafas_spontan', 'frekuensi_nafas', 'nafas_teratur', 'suara_nafas',
+        'nafas_spontan',
+        'frekuensi_nafas',
+        'nafas_teratur',
+        'suara_nafas',
         // Asupan Cairan
-        'asi_frekuensi', 'asi_jumlah',
-        'formula_frekuensi', 'formula_jumlah',
-        'infus_jenis', 'infus_jumlah',
+        'asi_frekuensi',
+        'asi_jumlah',
+        'formula_frekuensi',
+        'formula_jumlah',
+        'infus_jenis',
+        'infus_jumlah',
         // Eliminasi BAB
-        'bab_mekonium', 'bab_frekuensi', 'bab_warna',
+        'bab_mekonium',
+        'bab_frekuensi',
+        'bab_warna',
         // Eliminasi BAK
-        'bak_frekuensi', 'bak_warna',
+        'bak_frekuensi',
+        'bak_warna',
         // Istirahat & Tidur
-        'lama_tidur', 'keadaan_tidur',
+        'lama_tidur',
+        'keadaan_tidur',
         // Antropometri
-        'bb', 'pb', 'lk', 'ld', 'lp', 'lila',
+        'bb',
+        'pb',
+        'lk',
+        'ld',
+        'lp',
+        'lila',
         // TTV
-        'keadaan_umum', 'tekanan_darah', 'nadi', 'suhu', 'pernapasan_ttv',
+        'keadaan_umum',
+        'tekanan_darah',
+        'nadi',
+        'suhu',
+        'pernapasan_ttv',
     ];
 
     $data = [];
@@ -110,7 +131,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
 
 $comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
 
-function ed($key, $data) {
+function ed($key, $data)
+{
     return htmlspecialchars($data[$key] ?? '');
 }
 ?>
@@ -119,21 +141,8 @@ function ed($key, $data) {
     <?php include "anak/format_aster/tab.php"; ?>
 
     <section class="section dashboard">
-
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
-
-        <?php if ($section_status): ?>
-            <?php $badge = ['draft'=>'secondary','submitted'=>'primary','revision'=>'warning','approved'=>'success']; ?>
-            <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                | Reviewed by: <strong><?= $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-' ?></strong>
-            </div>
-        <?php endif; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
 
         <form class="needs-validation" novalidate action="" method="POST">
 
@@ -197,16 +206,16 @@ function ed($key, $data) {
                         <div class="col-sm-9">
                             <div class="d-flex gap-4 mt-2">
                                 <?php foreach (['Spontan', 'Tidak Spontan'] as $opt): ?>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="nafas_spontan"
-                                        value="<?= $opt ?>"
-                                        id="nafas_<?= str_replace(' ', '_', $opt) ?>"
-                                        <?= $ro_disabled ?>
-                                        <?= (ed('nafas_spontan', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="nafas_<?= str_replace(' ', '_', $opt) ?>">
-                                        <?= $opt ?>
-                                    </label>
-                                </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="nafas_spontan"
+                                            value="<?= $opt ?>"
+                                            id="nafas_<?= str_replace(' ', '_', $opt) ?>"
+                                            <?= $ro_disabled ?>
+                                            <?= (ed('nafas_spontan', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="nafas_<?= str_replace(' ', '_', $opt) ?>">
+                                            <?= $opt ?>
+                                        </label>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -228,16 +237,16 @@ function ed($key, $data) {
                         <div class="col-sm-9">
                             <div class="d-flex gap-4 mt-2">
                                 <?php foreach (['Teratur', 'Tidak Teratur'] as $opt): ?>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="nafas_teratur"
-                                        value="<?= $opt ?>"
-                                        id="teratur_<?= str_replace(' ', '_', $opt) ?>"
-                                        <?= $ro_disabled ?>
-                                        <?= (ed('nafas_teratur', $existing_data) === $opt) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="teratur_<?= str_replace(' ', '_', $opt) ?>">
-                                        <?= $opt ?>
-                                    </label>
-                                </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="nafas_teratur"
+                                            value="<?= $opt ?>"
+                                            id="teratur_<?= str_replace(' ', '_', $opt) ?>"
+                                            <?= $ro_disabled ?>
+                                            <?= (ed('nafas_teratur', $existing_data) === $opt) ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="teratur_<?= str_replace(' ', '_', $opt) ?>">
+                                            <?= $opt ?>
+                                        </label>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -424,25 +433,25 @@ function ed($key, $data) {
 
                     <?php
                     $antro = [
-                        ['name'=>'bb',   'label'=>'Penimbangan Berat Badan',    'unit'=>'gram'],
-                        ['name'=>'pb',   'label'=>'Pengukuran Panjang Badan',   'unit'=>'cm'],
-                        ['name'=>'lk',   'label'=>'Lingkar Kepala',             'unit'=>'cm'],
-                        ['name'=>'ld',   'label'=>'Lingkar Dada',               'unit'=>'cm'],
-                        ['name'=>'lp',   'label'=>'Lingkar Perut',              'unit'=>'cm'],
-                        ['name'=>'lila', 'label'=>'Lingkar Lengan Atas (LILA)', 'unit'=>'cm'],
+                        ['name' => 'bb',   'label' => 'Penimbangan Berat Badan',    'unit' => 'gram'],
+                        ['name' => 'pb',   'label' => 'Pengukuran Panjang Badan',   'unit' => 'cm'],
+                        ['name' => 'lk',   'label' => 'Lingkar Kepala',             'unit' => 'cm'],
+                        ['name' => 'ld',   'label' => 'Lingkar Dada',               'unit' => 'cm'],
+                        ['name' => 'lp',   'label' => 'Lingkar Perut',              'unit' => 'cm'],
+                        ['name' => 'lila', 'label' => 'Lingkar Lengan Atas (LILA)', 'unit' => 'cm'],
                     ];
                     foreach ($antro as $a):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $a['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="<?= $a['name'] ?>"
-                                    value="<?= ed($a['name'], $existing_data) ?>" <?= $ro ?>>
-                                <span class="input-group-text"><?= $a['unit'] ?></span>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $a['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="<?= $a['name'] ?>"
+                                        value="<?= ed($a['name'], $existing_data) ?>" <?= $ro ?>>
+                                    <span class="input-group-text"><?= $a['unit'] ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -468,32 +477,32 @@ function ed($key, $data) {
 
                     <?php
                     $ttv = [
-                        ['name'=>'tekanan_darah',  'label'=>'Tekanan Darah', 'unit'=>'mmHg'],
-                        ['name'=>'nadi',            'label'=>'Denyut Nadi',   'unit'=>'x/menit'],
-                        ['name'=>'suhu',            'label'=>'Suhu',          'unit'=>'°C'],
-                        ['name'=>'pernapasan_ttv',  'label'=>'Pernapasan',    'unit'=>'x/menit'],
+                        ['name' => 'tekanan_darah',  'label' => 'Tekanan Darah', 'unit' => 'mmHg'],
+                        ['name' => 'nadi',            'label' => 'Denyut Nadi',   'unit' => 'x/menit'],
+                        ['name' => 'suhu',            'label' => 'Suhu',          'unit' => '°C'],
+                        ['name' => 'pernapasan_ttv',  'label' => 'Pernapasan',    'unit' => 'x/menit'],
                     ];
                     foreach ($ttv as $t):
                     ?>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong><?= $t['label'] ?></strong></label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="<?= $t['name'] ?>"
-                                    value="<?= ed($t['name'], $existing_data) ?>" <?= $ro ?>>
-                                <span class="input-group-text"><?= $t['unit'] ?></span>
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label"><strong><?= $t['label'] ?></strong></label>
+                            <div class="col-sm-9">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="<?= $t['name'] ?>"
+                                        value="<?= ed($t['name'], $existing_data) ?>" <?= $ro ?>>
+                                    <span class="input-group-text"><?= $t['unit'] ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     <?php endforeach; ?>
 
                     <!-- TOMBOL SIMPAN -->
                     <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
+                        <div class="row mb-3">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                 </div>
@@ -501,46 +510,8 @@ function ed($key, $data) {
 
         </form>
 
-        <!-- ===================== KOMENTAR & ACTION DOSEN ===================== -->
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
+        <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
-
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">Minta Revisi</button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">Approve</button>
-                            </div>
-                        </div>
-                    </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">Section ini sudah di-approve.</div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <?php include "tab_navigasi.php"; ?>
 
     </section>
 </main>
