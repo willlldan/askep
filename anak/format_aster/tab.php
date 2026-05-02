@@ -80,6 +80,27 @@ $titles = [
         </a>
     </li>
 
+     <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? 'pengkajian_fisik_1') == 'pengkajian_fisik_1' ? 'active' : '' ?>"
+            href="index.php?page=anak/format_aster&tab=pengkajian_fisik_1">
+            Pengkajian Fisik 1
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? 'pengkajian_fisik_2') == 'pengkajian_fisik_2' ? 'active' : '' ?>"
+            href="index.php?page=anak/format_aster&tab=pengkajian_fisik_2">
+            Pengkajian Fisik 2
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link <?= ($_GET['tab'] ?? 'analisa_data') == 'analisa_data' ? 'active' : '' ?>"
+            href="index.php?page=anak/format_aster&tab=analisa_data">
+            Analisa Data
+        </a>
+    </li>
+
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? 'format_laporan_pendahuluan') == 'format_laporan_pendahuluan' ? 'active' : '' ?>"
             href="index.php?page=anak/format_aster&tab=format_laporan_pendahuluan">

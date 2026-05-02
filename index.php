@@ -795,6 +795,16 @@ if (isset($_SESSION['id_user'])) {
                         include "anak/format_aster/halm_pengkajian_umum.php";
                         break;
 
+                    case 'pengkajian_fisik_1':
+                        include "anak/format_aster/halm_pengkajian_fisik_1.php";
+                        break;
+                    case 'pengkajian_fisik_2':
+                        include "anak/format_aster/halm_pengkajian_fisik_2.php";
+                        break;
+                    case 'analisa_data':
+                        include "anak/format_aster/halm_analisa_data.php";
+                        break;
+
                     //bawah yg lama
 
                     case 'format_laporan_pendahuluan':
