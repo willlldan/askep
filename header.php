@@ -1,4 +1,29 @@
-<?php session_start(); ?>
+<?php session_start(); 
+
+require_once 'koneksi.php';
+$sql = "
+    SELECT
+        f.id AS form_id,
+        f.form_name,
+        f.department,
+        f.slug,
+        f.first_section
+    FROM forms f ORDER BY f.department ASC, f.form_name ASC
+";
+$result = $mysqli->query($sql);
+$forms  = [];
+while ($row = $result->fetch_assoc()) {
+    $forms[] = $row;
+}
+
+
+// Group forms by department
+$grouped = [];
+foreach ($forms as $form) {
+    $grouped[$form['department']][] = $form;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,6 +54,10 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/custom.css" rel="stylesheet">
+
+   <!-- DataTables CSS -->
+   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
   <!-- 1. jQuery dulu -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>

@@ -1,3 +1,10 @@
+<?php
+require_once 'utils.php';
+
+$user_id = $_SESSION['id_user'];
+// $forms ambil dari header.php yang sudah di-query sebelumnya
+?>
+
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
@@ -10,202 +17,50 @@
             </a>
         </li>
 
-        <!-- Tampil Maternitas -->
-        <li class="nav-item">
 
-            <a class="nav-link collapsed" data-bs-target="#maternitas-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-person"></i>
-                <span>Maternitas</span>
+        <?php
+        // Optional: icon mapping per department
+        $deptIcons = [
+            'Maternitas' => 'bi bi-person',
+            'KMB' => 'bi bi-person-check',
+            'Anak' => 'bi bi-emoji-laughing',
+            'Jiwa' => 'bi bi-chat-left-dots',
+        ];
+        $currentPage = isset($_GET['page']) ? $_GET['page'] : '';
+        foreach ($grouped as $dept => $formList):
+            $navId = strtolower($dept) . '-nav';
+            $icon = isset($deptIcons[$dept]) ? $deptIcons[$dept] : 'bi bi-folder';
+
+            // Cek apakah salah satu child menu sedang aktif
+            $isActiveParent = false;
+            foreach ($formList as $form) {
+                $slugCheck = strtolower($form['department']) . "/{$form['slug']}";
+                if (strpos($currentPage, $slugCheck) === 0) {
+                    $isActiveParent = true;
+                    break;
+                }
+            }
+        ?>
+        <li class="nav-item">
+            <a class="nav-link<?= $isActiveParent ? '' : ' collapsed' ?>" data-bs-target="#<?= $navId ?>" data-bs-toggle="collapse" href="#">
+                <i class="<?= $icon ?>"></i>
+                <span><?= htmlspecialchars($dept) ?></span>
                 <i class="bi bi-chevron-down ms-auto"></i>
             </a>
-
-            <ul id="maternitas-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
-                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
-                    <li>
-                        <a href="index.php?page=maternitas/pengkajian_antenatal_care">
-                            <i class="bi bi-circle-fill"></i>
-                            <span>Input Maternitas</span>
-                        </a>
-                    </li>
-                <?php endif; ?>
-
+            <ul id="<?= $navId ?>" class="nav-content collapse<?= $isActiveParent ? ' show' : '' ?>" data-bs-parent="#sidebar-nav">
+                <?php foreach ($formList as $form):
+                    $url = "index.php?page=" . strtolower($form['department']) . "/{$form['slug']}&tab=" . ($form['first_section'] ?? '');
+                ?>
                 <li>
-                    <a href="index.php?page=maternitas/detail">
+                    <a href="<?= htmlspecialchars($url) ?>">
                         <i class="bi bi-circle"></i>
-                        <span>Data Maternitas</span>
+                        <span><?= htmlspecialchars($form['form_name']) ?></span>
                     </a>
                 </li>
-
-            </ul>
-
-        </li>
-
-        <!-- Tampil Keluarga -->
-
-        <li class="nav-item">
-            <a id="askep" class="nav-link collapsed" data-bs-target="#keluarga-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-people"></i><span>Keluarga</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="keluarga-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
-                <li>
-                    <a href="index.php?page=keluarga">
-                        <i class="bi bi-circle-fill"></i><span>Input Keluarga</span>
-                    </a>
-                </li>
-                <?php endif; ?>
-                <li>
-                    <a href="index.php?page=keluarga/detail">
-                        <i class="bi bi-circle"></i><span>Data Keluarga</span>
-                    </a>
-                </li>
-
+                <?php endforeach; ?>
             </ul>
         </li>
-
-        <!-- Tampil Keperawatan Medikal Bedah -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#kmb-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-person-check"></i>
-                <span>Keperawatan Medikal Bedah</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-
-            <ul id="kmb-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
-                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
-                <li>
-                    <a href="index.php?page=kmb/format_hd_kmb">
-                        <i class="bi bi-circle-fill"></i>
-                        <span>Input KMB</span>
-                    </a>
-                </li>
-                <?php endif; ?>
-
-                <li>
-                    <a href="index.php?page=kmb/detail/format_hd_kmb">
-                        <i class="bi bi-circle"></i>
-                        <span>Data KMB</span>
-                    </a>
-                </li>
-
-            </ul>
-        </li>
-
-        <!-- Tampil Gawat Darurat -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#gadar-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-activity"></i>
-                <span>Gawat Darurat</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-
-            <ul id="gadar-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
-                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
-                <li>
-                    <a href="index.php?page=gadar/icu">
-                        <i class="bi bi-circle-fill"></i>
-                        <span>Input Gawat Darurat</span>
-                    </a>
-                </li>
-                <?php endif; ?>
-
-                <li>
-                    <a href="index.php?page=gadar/detail/icu">
-                        <i class="bi bi-circle"></i>
-                        <span>Data Gawat Darurat</span>
-                    </a>
-                </li>
-
-            </ul>
-        </li>
-
-        <!-- Tampil Gerontik -->
-
-        <li class="nav-item">
-            <a id="askep" class="nav-link collapsed" data-bs-target="#gerontik-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-heart"></i><span>Gerontik</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="gerontik-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
-                <li>
-                    <a href="index.php?page=gerontik">
-                        <i class="bi bi-circle-fill"></i><span>Input Gerontik</span>
-                    </a>
-                </li>
-                <?php endif; ?>
-                <li>
-                    <a href="index.php?page=gerontik/detail">
-                        <i class="bi bi-circle"></i><span>Data Gerontik</span>
-                    </a>
-                </li>
-
-            </ul>
-        </li>
-
-        <!-- Tampil Anak -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#anak-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-emoji-laughing"></i>
-                <span>Anak</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-
-            <ul id="anak-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
-                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
-                <li>
-                    <a href="index.php?page=anak/format_anggrek">
-                        <i class="bi bi-circle-fill"></i>
-                        <span>Input Anak</span>
-                    </a>
-                </li>
-                <?php endif; ?>
-
-                <li>
-                    <a href="index.php?page=anak/detail/format_anggrek">
-                        <i class="bi bi-circle"></i>
-                        <span>Data Anak</span>
-                    </a>
-                </li>
-
-            </ul>
-        </li>
-
-        <!-- Tampil Jiwa -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#jiwa-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-chat-left-dots"></i>
-                <span>Jiwa</span>
-                <i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-
-            <ul id="jiwa-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
-                <?php if ($_SESSION['level'] === 'Mahasiswa'): ?>
-                <li>
-                    <a href="index.php?page=jiwa/jiwa_rsud">
-                        <i class="bi bi-circle-fill"></i>
-                        <span>Input Jiwa</span>
-                    </a>
-                </li>
-                <?php endif; ?>
-
-                <li>
-                    <a href="index.php?page=jiwa/detail/jiwa_rsud">
-                        <i class="bi bi-circle"></i>
-                        <span>Data Jiwa</span>
-                    </a>
-                </li>
-
-            </ul>
-        </li>
+        <?php endforeach; ?>
 
     </ul>
 

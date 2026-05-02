@@ -21,9 +21,6 @@ if (isset($_SESSION['id_user'])) {
             include_once "sidebar_mhs.php";
         }
 
-        print_r($page);
-        print_r($_SESSION);
-
         switch ($page) {
             case 'dashboard':
                 if ($_SESSION['level'] == 'Dosen') {

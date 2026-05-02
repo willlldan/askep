@@ -9,54 +9,31 @@ $titles = [
     'inranatal' => 'Pengkajian Asuhan Keperawatan Inranatal Care',
     'ginekologi' => 'Pengkajian Asuhan Keperawatan Ginekologi'
 ];
+
+$tabs = [
+    "data_demografi",
+    "riwayat_kelahiran_persalinan",
+    "pengkajian_fisik",
+    "terapi_lab",
+    "analisa_data",
+    "catatan_keperawatan",
+];
+
+// Label mapping for tab display names
+$tabLabels = [
+    'data_demografi' => 'Data Demografi',
+    'riwayat_kelahiran_persalinan' => 'Riwayat Kelahiran dan Persalinan',
+    'pengkajian_fisik' => 'Pengkajian Fisik',
+    'terapi_lab' => 'Terapi Lab',
+    'analisa_data' => 'Analisa Data',
+    'catatan_keperawatan' => 'Catatan Keperawatan',
+];
+
+$currentTab = $_GET['tab'] ?? $tabs[0];
+
+
 ?>
 
-
-<div class="card">
-    <div class="card-body">
-        <div class="row mb-3 mt-3   ">
-            <label for="jenismaternitas" class="col-sm-2 col-form-label"><strong>Maternitas</strong></label>
-            <div class="col-sm-9">
-
-                <select class="form-select" name="jenismaternitas"
-                    onchange="window.location=this.value" required>
-
-                    <option value="">Pilih</option>
-
-                    <option value="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=antenatal"
-                        <?= $jenismaternitas == 'antenatal' ? 'selected' : '' ?>>
-                        Pengkajian Antenatal Care
-                    </option>
-
-                    <option value="index.php?page=maternitas/pengkajian_pascapartum&jenismaternitas=pascapartum"
-                        <?= $jenismaternitas == 'pascapartum' ? 'selected' : '' ?>>
-                        Pengkajian Pascapartum
-                    </option>
-
-                    <option value="index.php?page=maternitas/resume_antenatal_care&jenismaternitas=resume"
-                        <?= $jenismaternitas == 'resume' ? 'selected' : '' ?>>
-                        Resume Antenatal Care
-                    </option>
-
-                    <option value="index.php?page=maternitas/pengkajian_inranatal_care&jenismaternitas=inranatal"
-                        <?= $jenismaternitas == 'inranatal' ? 'selected' : '' ?>>
-                        Pengkajian Inranatal Care
-                    </option>
-
-                    <option value="index.php?page=maternitas/pengkajian_ginekologi&jenismaternitas=ginekologi"
-                        <?= $jenismaternitas == 'ginekologi' ? 'selected' : '' ?>>
-                        Pengkajian Ginekologi
-                    </option>
-
-                </select>
-                <div class="invalid-feedback">
-                    Harap isi Jenis Maternitas.
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
 
 <div class="pagetitle">
     <h1><strong><?= $titles[$jenismaternitas] ?? 'Pengkajian Asuhan Keperawatan' ?></strong></h1>
@@ -64,73 +41,19 @@ $titles = [
 <br>
 
 <ul class="nav nav-tabs custom-tabs">
+    <?php
 
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'data_demografi' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=data_demografi<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-            Data Demografi
-        </a>
-    </li>
+    foreach ($tabs as $tab):
+        $isActive = ($currentTab == $tab) ? 'active' : '';
+        $label = $tabLabels[$tab] ?? ucfirst(str_replace('_', ' ', $tab));
+        $url = "index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas={$jenismaternitas}&tab={$tab}";
+        if ($submission_id) $url .= "&submission_id={$submission_id}";
 
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'riwayat_kelahiran_persalinan' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=riwayat_kelahiran_persalinan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-            Riwayat Kelahiran dan Persalinan
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian_fisik' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=pengkajian_fisik<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-            Pengkajian Fisik
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'terapi_lab' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=terapi_lab<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-            Terapi Lab
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa_data' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=analisa_data<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>  ">
-            Analisa Data
-        </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'catatan_keperawatan' ? 'active' : '' ?>"
-            href="index.php?page=maternitas/pengkajian_antenatal_care&jenismaternitas=<?= $jenismaternitas ?>&tab=catatan_keperawatan<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-            Catatan Keperawatan
-        </a>
-    </li>
-
+    ?>
+        <li class="nav-item">
+            <a class="nav-link <?= $isActive ?>" href="<?= htmlspecialchars($url) ?>">
+                <?= htmlspecialchars($label) ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
 </ul>
-
-<style>
-    .custom-tabs {
-        border-bottom: 1px solid #dee2e6;
-    }
-
-    .custom-tabs .nav-link {
-        border: none;
-        background: transparent;
-        color: #f6f9ff;
-        font-weight: 500;
-        padding: 10px 20px;
-    }
-
-    .custom-tabs .nav-link:hover {
-        color: #4154f1;
-    }
-
-    .custom-tabs .nav-link.active {
-        border: none;
-        border-bottom: 3px solid #4154f1;
-        color: #4154f1;
-        font-weight: 600;
-        background: transparent;
-    }
-</style>
