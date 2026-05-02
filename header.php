@@ -6,8 +6,7 @@ $sql = "
         f.id AS form_id,
         f.form_name,
         f.department,
-        f.slug,
-        f.first_section
+        f.slug
     FROM forms f ORDER BY f.department ASC, f.form_name ASC
 ";
 $result = $mysqli->query($sql);

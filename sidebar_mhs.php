@@ -49,7 +49,7 @@ $user_id = $_SESSION['id_user'];
             </a>
             <ul id="<?= $navId ?>" class="nav-content collapse<?= $isActiveParent ? ' show' : '' ?>" data-bs-parent="#sidebar-nav">
                 <?php foreach ($formList as $form):
-                    $url = "index.php?page=" . strtolower($form['department']) . "/{$form['slug']}&tab=" . ($form['first_section'] ?? '');
+                    $url = "index.php?page=" . strtolower($form['department']) . "/{$form['slug']}";
                 ?>
                 <li>
                     <a href="<?= htmlspecialchars($url) ?>">
