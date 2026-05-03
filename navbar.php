@@ -7,7 +7,7 @@
   <div class="d-flex align-items-center justify-content-between">
     <a href="" class="logo d-flex align-items-center">
       <!-- <img src="assets/img/diskes.png" alt=""> -->
-      <h5 class="d-none d-lg-block">Diskes Lantamal XIII Tarakan</h5>
+      <h5 class="d-none d-lg-block mt-3 mb-3">Sistem Informasi ASKEP | Politeknik Kaltara</h5>
     </a>
     <i class="bi bi-list toggle-sidebar-btn"></i> <!-- End Logo -->
   </div><!-- End Logo -->
