@@ -249,14 +249,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
 
     foreach ($checkbox_fields as $cf) {
-        echo "ini adalah checkbox field: $cf <br>";
-        print_r($_POST[$cf] ?? []);
-        echo "<br>";
         $data[$cf] = json_encode(isset($_POST[$cf]) ? (array)$_POST[$cf] : []);
     }
-
-    die;
-
 
     if (!$submission) {
         $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
@@ -788,15 +782,12 @@ $ro_disabled = $is_readonly ? 'disabled' : '';
                         <!-- Nyeri Tekan -->
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label"><strong>Nyeri Tekan</strong></label>
-                            <div class="col-sm-9 d-flex gap-3 flex-wrap">
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" name="nyeri_telinga" value="ya" <?= $ro_disabled ?> <?= ($existing_data['nyeri_telinga'] ?? '') === 'ya' ? 'checked' : '' ?>>
-                                    <label class="form-check-label">Ya</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input type="radio" class="form-check-input" name="nyeri_telinga" value="tidak" <?= $ro_disabled ?> <?= ($existing_data['nyeri_telinga'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                    <label class="form-check-label">Tidak</label>
-                                </div>
+                            <div class="col-sm-9">
+                                <select class="form-select" name="nyeri_telinga" style="max-width:200px" <?= $ro_disabled ?>>
+                                    <option value="">Pilih</option>
+                                    <option value="ya" <?= ($existing_data['nyeri_telinga'] ?? '') === 'ya' ? 'selected' : '' ?>>Ya</option>
+                                    <option value="tidak" <?= ($existing_data['nyeri_telinga'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
+                                </select>
                             </div>
                         </div>
 
