@@ -35,6 +35,15 @@ $existing_data  = $submission ? getSectionData($submission['id'], $section_name,
 $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
 
 
+// Checkbox fields
+$checkbox_fields = ['bibir_warna', 'bibir_kondisi'];
+foreach ($checkbox_fields as $cf) {
+    echo "memproses checkbox field: $cf <br>";
+    $existing_data[$cf] = isset($existing_data[$cf])
+        ? (json_decode($existing_data[$cf], true) ?? [])
+        : [];
+}
+
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
 // =============================================
@@ -74,9 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'nyeri_wajah',
         'nyeri_wajah_keterangan',
         'data_wajah',
-
-
-
 
         // Mata
         'edema_palpebra',
@@ -240,12 +246,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         $data[$f] = $_POST[$f] ?? '';
     }
 
-    // Checkbox fields
-    $checkbox_fields = ['bibir_warna', 'bibir_kondisi'];
+
 
     foreach ($checkbox_fields as $cf) {
+        echo "ini adalah checkbox field: $cf <br>";
+        print_r($_POST[$cf] ?? []);
+        echo "<br>";
         $data[$cf] = json_encode(isset($_POST[$cf]) ? (array)$_POST[$cf] : []);
     }
+
+    die;
 
 
     if (!$submission) {
@@ -853,15 +863,15 @@ $ro_disabled = $is_readonly ? 'disabled' : '';
                             <label class="col-sm-2 col-form-label"><strong>Bibir (Warna)</strong></label>
                             <div class="col-sm-9 d-flex gap-3 flex-wrap align-items-center">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="bibir_warna[]" value="cianosis" <?= $ro_disabled ?> <?= ($existing_data['bibir_warna'] ?? '') === 'cianosis' ? 'checked' : '' ?>>
+                                    <input class="form-check-input" type="checkbox" name="bibir_warna[]" value="cianosis" <?= $ro_disabled ?> <?= in_array('cianosis', $existing_data['bibir_warna'] ?? []) ? 'checked' : '' ?>>
                                     <label class="form-check-label">Cianosis</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="bibir_warna[]" value="pucat" <?= $ro_disabled ?> <?= ($existing_data['bibir_warna'] ?? '') === 'pucat' ? 'checked' : '' ?>>
+                                    <input class="form-check-input" type="checkbox" name="bibir_warna[]" value="pucat" <?= $ro_disabled ?> <?= in_array('pucat', $existing_data['bibir_warna'] ?? []) ? 'checked' : '' ?>>
                                     <label class="form-check-label">Pucat</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="bibir_warna[]" value="tidak" <?= $ro_disabled ?> <?= ($existing_data['bibir_warna'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                    <input class="form-check-input" type="checkbox" name="bibir_warna[]" value="tidak" <?= $ro_disabled ?> <?= in_array('tidak', $existing_data['bibir_warna'] ?? []) ? 'checked' : '' ?>>
                                     <label class="form-check-label">Tidak</label>
                                 </div>
                                 <input type="text" class="form-control" style="max-width:200px" name="bibir_warna_keterangan" value="<?= htmlspecialchars($existing_data['bibir_warna_keterangan'] ?? '') ?>" <?= $ro ?>>
@@ -873,15 +883,15 @@ $ro_disabled = $is_readonly ? 'disabled' : '';
                             <label class="col-sm-2 col-form-label"><strong>Bibir (Kondisi)</strong></label>
                             <div class="col-sm-9 d-flex gap-3 flex-wrap align-items-center">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="bibir_kondisi[]" value="basah" <?= $ro_disabled ?> <?= ($existing_data['bibir_kondisi'] ?? '') === 'basah' ? 'checked' : '' ?>>
+                                    <input class="form-check-input" type="checkbox" name="bibir_kondisi[]" value="basah" <?= $ro_disabled ?><?= in_array('basah', $existing_data['bibir_kondisi'] ?? []) ? 'checked' : '' ?>>
                                     <label class="form-check-label">Basah</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="bibir_kondisi[]" value="kering" <?= $ro_disabled ?> <?= ($existing_data['bibir_kondisi'] ?? '') === 'kering' ? 'checked' : '' ?>>
+                                    <input class="form-check-input" type="checkbox" name="bibir_kondisi[]" value="kering" <?= $ro_disabled ?> <?= in_array('kering', $existing_data['bibir_kondisi'] ?? []) ? 'checked' : '' ?>>
                                     <label class="form-check-label">Kering</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" name="bibir_kondisi[]" value="pecah" <?= $ro_disabled ?> <?= ($existing_data['bibir_kondisi'] ?? '') === 'pecah' ? 'checked' : '' ?>>
+                                    <input class="form-check-input" type="checkbox" name="bibir_kondisi[]" value="pecah" <?= $ro_disabled ?> <?= in_array('pecah', $existing_data['bibir_kondisi'] ?? []) ? 'checked' : '' ?>>
                                     <label class="form-check-label">Pecah</label>
                                 </div>
                                 <input type="text" class="form-control" style="max-width:200px" name="bibir_kondisi_keterangan" value="<?= htmlspecialchars($existing_data['bibir_kondisi_keterangan'] ?? '') ?>" <?= $ro ?>>
