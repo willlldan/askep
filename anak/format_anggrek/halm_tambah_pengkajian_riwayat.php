@@ -316,7 +316,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         </div>
                         <!-- ASI -->
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Pemberian ASI sampai usia<< /strong></label>
+                            <label class="col-sm-2 col-form-label"><strong>Pemberian ASI sampai usia </strong></label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" name="asi" value="<?= val('asi', $existing_data) ?>" <?= $ro ?>>
                             </div>
