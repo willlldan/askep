@@ -37,10 +37,11 @@ if (isset($_POST['submit'])) {
                             <div class="card-body">
                                 <div class="pt-4 pb-2">
                                     <div class="d-flex">
-                                        <img src="assets/img/diskes.png" width="114" alt="">
+                                        <img src="assets/img/poltekkal.png" width="150" alt="">
                                     <div class="d-flex flex-column">
-                                        <h5 class="card-title text-center pb-0 fs-5">Sistem Informasi Pengelolaan Kearsipan</h5>
-                                        <p class="text-center">Diskes Lantamal XIII Tarakan</p>
+                                        <h5 class="card-title text-center pb-0 fs-5">Sistem Informasi ASKEP <br>Program Studi D III Keperawatan</h5>
+                                        
+                                        <p class="text-center">Politeknik Kaltara</p>
                                 </div>
                             </div>
                         </div>
