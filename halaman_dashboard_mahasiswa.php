@@ -11,7 +11,6 @@ $sql = "
         f.form_name,
         f.department,
         f.slug,
-        f.first_section,
         s.id AS submission_id,
         s.status
     FROM forms f
@@ -72,7 +71,7 @@ while ($row = $result->fetch_assoc()) {
                                         </td>
                                         <td class="text-center">
                                             <?php
-                                            $url = "index.php?page=maternitas/{$form['slug']}&tab={$form['first_section']}";
+                                            $url = "index.php?page=" . strtolower($form['department']) . "/{$form['slug']}";
                                             if ($form['submission_id']) {
                                                 $url .= "&submission_id={$form['submission_id']}";
                                             }
@@ -82,7 +81,7 @@ while ($row = $result->fetch_assoc()) {
                                                 <i class="<?= $isApproved ? 'ri-eye-line' : 'ri-edit-line' ?> me-1"></i>
                                                 <?= $isApproved ? 'Lihat' : 'Isi Form' ?>
                                             </a>
-
+                                            
                                             <a href="cetak_form/cetak.php?submission_id=<?= $form['submission_id'] ?>"
                                                 class="btn btn-sm btn-success<?= ($form['status'] !== 'approved' ? ' disabled' : '') ?>"
                                                 target="_blank"

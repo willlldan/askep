@@ -3,12 +3,11 @@
 $tabs = [
     "lp_ruanghd",
     "format_hd",
-    "resume",
-//    "analisa",
-    "diagnosa",
-    "rencana",
-    "implementasi",
-    "evaluasi",
+    "pengkajian",
+   "pemeriksaan_fisik",
+    "pengkajian_kebutuhan",
+    "analisa_data",
+    "lainnya",
 ];
 
 $currentTab = $_GET['tab'] ?? 'demografi';
@@ -23,7 +22,7 @@ $nextTab = $tabs[$index + 1] ?? null;
 <div class="d-flex justify-content-between mt-4">
 
 <?php if($prevTab): ?>
-<a href="index.php?page=kmb/format_hd_kmb&tab=<?= $prevTab ?>" class="btn btn-secondary">
+<a href="index.php?page=kmb/format_hd_kmb&tab=<?= $prevTab ?><?php if ($submission_id) echo '&submission_id=' . $submission_id; ?>" class="btn btn-secondary">
 Sebelumnya
 </a>
 <?php else: ?>
@@ -31,10 +30,24 @@ Sebelumnya
 <?php endif; ?>
 
 <?php if($nextTab): ?>
-<a href="index.php?page=kmb/format_hd_kmb&tab=<?= $nextTab ?>" class="btn btn-primary">
+<a href="index.php?page=kmb/format_hd_kmb&tab=<?= $nextTab ?><?php if ($submission_id) echo '&submission_id=' . $submission_id; ?>" class="btn btn-primary">
 Selanjutnya
 </a>
-<?php endif; ?>
+   <?php else: ?>
+        <?php if ($can_submit): ?>
+            <div class="d-flex flex-column align-items-end">
+                <form action="" method="POST" class="mb-1">
+                    <input type="hidden" name="action" value="submit_to_dosen">
+                    <button type="submit" class="btn btn-primary">
+                        Submit ke Dosen
+                    </button>
+                </form>
+                <p class="text-muted mb-0 small">Pastikan semua data sudah benar sebelum submit.</p>
+            </div>
+        <?php endif; ?>
+    <?php endif; ?>
+
+</div>
 
 </div>
 

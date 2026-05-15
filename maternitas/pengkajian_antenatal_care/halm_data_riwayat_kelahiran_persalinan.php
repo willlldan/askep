@@ -134,38 +134,14 @@
        <?php include "maternitas/pengkajian_antenatal_care/tab.php"; ?>
 
        <section class="section dashboard">
+           <?php include "partials/notifikasi.php"; ?>
+           <?php include "partials/status_section.php"; ?>
 
-           <!-- NOTIFIKASI -->
-           <?php if (isset($_SESSION['success'])): ?>
-               <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-           <?php endif; ?>
-           <?php if (isset($_SESSION['error'])): ?>
-               <div class="alert alert-danger"><?= $_SESSION['error'];
-                                                unset($_SESSION['error']); ?></div>
-           <?php endif; ?>
-
-        <!-- Info status section (untuk dosen) -->
-        <?php if  ($section_status): ?>
-            <?php
-            $badge = [
-                'draft'     => 'secondary',
-                'submitted' => 'primary',
-                'revision'  => 'warning',
-                'approved'  => 'success',
-            ];
-            ?>
-            <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>
-            </div>
-        <?php endif; ?>
-
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title"><strong>RIWAYAT KEHAMILAN DAN PERSALINAN</strong></h5>
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+           <div class="card">
+               <div class="card-body">
+                   <h5 class="card-title"><strong>RIWAYAT KEHAMILAN DAN PERSALINAN</strong></h5>
+                   <!-- General Form Elements -->
+                   <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
                        <table class="table table-bordered" id="tabel-persalinan">
                            <thead>
                                <tr>
@@ -183,19 +159,19 @@
                            </tbody>
                        </table>
 
-                        <?php if (!$is_dosen): ?>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary" onclick="tambahRow()">Tambah Data</button>
-                            </div>
-                        </div>
-                        <?php endif; ?>
+                       <?php if (!$is_dosen): ?>
+                           <div class="row mb-3">
+                               <div class="col-sm-11 d-flex justify-content-end">
+                                   <button type="button" class="btn btn-primary" onclick="tambahRow()">Tambah Data</button>
+                               </div>
+                           </div>
+                       <?php endif; ?>
 
                        <!-- Pengalaman Menyusui -->
                        <div class="row mb-3">
                            <label for="pengalaman_menyusui" class="col-sm-2 col-form-label"><strong>Pengalaman Menyusui</strong></label>
                            <div class="col-sm-9">
-                               <select class="form-select" name="pengalaman_menyusui" <?= $ro_select ?> >
+                               <select class="form-select" name="pengalaman_menyusui" <?= $ro_select ?>>
                                    <option value="">Pilih</option>
                                    <option value="Ya">Ya</option>
                                    <option value="Tidak">Tidak</option>
@@ -207,7 +183,7 @@
                        <div class="row mb-3">
                            <label for="berapa_lama" class="col-sm-2 col-form-label"><strong>Berapa Lama</strong></label>
                            <div class="col-sm-9">
-                               <input type="text" class="form-control" name="berapa_lama" <?= $ro ?> >
+                               <input type="text" class="form-control" name="berapa_lama" <?= $ro ?>>
                            </div>
                        </div>
 
@@ -215,7 +191,7 @@
                        <div class="row mb-3">
                            <label for="riwayat_ginekologi" class="col-sm-2 col-form-label"><strong>Riwayat Ginekologi</strong></label>
                            <div class="col-sm-9">
-                               <select class="form-select" name="riwayat_ginekologi" required <?= $ro_select ?> >
+                               <select class="form-select" name="riwayat_ginekologi" required <?= $ro_select ?>>
                                    <option value="">Pilih</option>
                                    <option value="Ada Masalah">Ada Masalah</option>
                                    <option value="Tidak">Tidak</option>
@@ -227,7 +203,7 @@
                        <div class="row mb-3">
                            <label for="hasil_ginekologi" class="col-sm-2 col-form-label"><strong>Hasil Ginekologi</strong></label>
                            <div class="col-sm-9">
-                               <textarea id="hasil_ginekologi" name="hasil_ginekologi" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> ><?= val('hasil_ginekologi', $existing_data) ?></textarea>
+                               <textarea id="hasil_ginekologi" name="hasil_ginekologi" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('hasil_ginekologi', $existing_data) ?></textarea>
                            </div>
                        </div>
 
@@ -235,7 +211,7 @@
                        <div class="row mb-3">
                            <label for="riwayat_kb" class="col-sm-2 col-form-label"><strong>Riwayat KB</strong></label>
                            <div class="col-sm-9">
-                               <textarea id="riwayat_kb" name="riwayat_kb" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> ><?= val('riwayat_kb', $existing_data) ?></textarea>
+                               <textarea id="riwayat_kb" name="riwayat_kb" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('riwayat_kb', $existing_data) ?></textarea>
                            </div>
                        </div>
 
@@ -252,19 +228,19 @@
                                    <!-- G -->
                                    <div class="col-md-4 d-flex align-items-center">
                                        <label for="status_obstetrik_g" class="me-2"><strong>G</strong></label>
-                                       <input id="status_obstetrik_g" type="text" class="form-control" name="status_obstetrik_g" value="<?= val('status_obstetrik_g', $existing_data) ?>" <?= $ro ?> >
+                                       <input id="status_obstetrik_g" type="text" class="form-control" name="status_obstetrik_g" value="<?= val('status_obstetrik_g', $existing_data) ?>" <?= $ro ?>>
                                    </div>
 
                                    <!-- P -->
                                    <div class="col-md-4 d-flex align-items-center">
                                        <label for="status_obstetrik_p" class="me-2"><strong>P</strong></label>
-                                       <input id="status_obstetrik_p" type="text" class="form-control" name="status_obstetrik_p" value="<?= val('status_obstetrik_p', $existing_data) ?>" <?= $ro ?> >
+                                       <input id="status_obstetrik_p" type="text" class="form-control" name="status_obstetrik_p" value="<?= val('status_obstetrik_p', $existing_data) ?>" <?= $ro ?>>
                                    </div>
 
                                    <!-- A -->
                                    <div class="col-md-4 d-flex align-items-center">
                                        <label for="status_obstetrik_a" class="me-2"><strong>A</strong></label>
-                                       <input id="status_obstetrik_a" type="text" class="form-control" name="status_obstetrik_a" value="<?= val('status_obstetrik_a', $existing_data) ?>" <?= $ro ?> >
+                                       <input id="status_obstetrik_a" type="text" class="form-control" name="status_obstetrik_a" value="<?= val('status_obstetrik_a', $existing_data) ?>" <?= $ro ?>>
                                    </div>
                                </div>
                            </div>
@@ -275,7 +251,7 @@
                        <div class="row mb-3">
                            <label for="hpht" class="col-sm-2 col-form-label"><strong>HPHT</strong></label>
                            <div class="col-sm-9">
-                               <input type="text" class="form-control" name="hpht" value="<?= val('hpht', $existing_data) ?>" <?= $ro ?> >
+                               <input type="text" class="form-control" name="hpht" value="<?= val('hpht', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
 
@@ -283,7 +259,7 @@
                        <div class="row mb-3">
                            <label for="usia_kehamilan" class="col-sm-2 col-form-label"><strong>Usia Kehamilan</strong></label>
                            <div class="col-sm-9">
-                               <input id="usia_kehamilan" type="text" class="form-control" name="usia_kehamilan" value="<?= val('usia_kehamilan', $existing_data) ?>" <?= $ro ?> >
+                               <input id="usia_kehamilan" type="text" class="form-control" name="usia_kehamilan" value="<?= val('usia_kehamilan', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
 
@@ -291,7 +267,7 @@
                        <div class="row mb-3">
                            <label for="bb_sebelum_hamil" class="col-sm-2 col-form-label"><strong>BB Sebelum Hamil</strong></label>
                            <div class="col-sm-9">
-                               <input id="bb_sebelum_hamil" type="text" class="form-control" name="bb_sebelum_hamil" value="<?= val('bb_sebelum_hamil', $existing_data) ?>" <?= $ro ?> >
+                               <input id="bb_sebelum_hamil" type="text" class="form-control" name="bb_sebelum_hamil" value="<?= val('bb_sebelum_hamil', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
 
@@ -299,7 +275,7 @@
                        <div class="row mb-3">
                            <label for="keadaan_umum" class="col-sm-2 col-form-label"><strong>Keadaan Umum</strong></label>
                            <div class="col-sm-9">
-                               <input id="keadaan_umum" type="text" class="form-control" name="keadaan_umum" value="<?= val('keadaan_umum', $existing_data) ?>" <?= $ro ?> >
+                               <input id="keadaan_umum" type="text" class="form-control" name="keadaan_umum" value="<?= val('keadaan_umum', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
 
@@ -308,7 +284,7 @@
                            <label for="bbtb" class="col-sm-2 col-form-label"><strong>BB/TB</strong></label>
                            <div class="col-sm-9">
                                <div class="input-group">
-                                   <input type="text" class="form-control" name="bbtb" value="<?= val('bbtb', $existing_data) ?>" <?= $ro ?> >
+                                   <input type="text" class="form-control" name="bbtb" value="<?= val('bbtb', $existing_data) ?>" <?= $ro ?>>
                                    <span class="input-group-text">kg/cm</span>
                                </div>
                            </div>
@@ -319,7 +295,7 @@
                            <label for="lengan_atas" class="col-sm-2 col-form-label"><strong>Lengan Atas</strong></label>
                            <div class="col-sm-9">
                                <div class="input-group">
-                                   <input id="lengan_atas" type="text" class="form-control" name="lengan_atas" value="<?= val('lengan_atas', $existing_data) ?>" <?= $ro ?> >
+                                   <input id="lengan_atas" type="text" class="form-control" name="lengan_atas" value="<?= val('lengan_atas', $existing_data) ?>" <?= $ro ?>>
                                    <span class="input-group-text">cm</span>
                                </div>
                            </div>
@@ -337,7 +313,7 @@
                            <label for="tekanan_darah" class="col-sm-2 col-form-label"><strong>Tekanan Darah</strong></label>
 
                            <div class="col-sm-9">
-                               <input id="tekanan_darah" type="text" class="form-control" name="tekanan_darah" value="<?= val('tekanan_darah', $existing_data) ?>" <?= $ro ?> >
+                               <input id="tekanan_darah" type="text" class="form-control" name="tekanan_darah" value="<?= val('tekanan_darah', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
 
@@ -346,7 +322,7 @@
                            <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
 
                            <div class="col-sm-9">
-                               <input type="text" class="form-control" name="nadi" value="<?= val('nadi', $existing_data) ?>" <?= $ro ?> >
+                               <input type="text" class="form-control" name="nadi" value="<?= val('nadi', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
 
@@ -355,7 +331,7 @@
                            <label class="col-sm-2 col-form-label"><strong>Suhu</strong></label>
 
                            <div class="col-sm-9">
-                               <input type="text" class="form-control" name="suhu" value="<?= val('suhu', $existing_data) ?>" <?= $ro ?> >
+                               <input type="text" class="form-control" name="suhu" value="<?= val('suhu', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
 
@@ -364,82 +340,32 @@
                            <label class="col-sm-2 col-form-label"><strong>Pernapasan</strong></label>
 
                            <div class="col-sm-9">
-                               <input type="text" class="form-control" name="pernapasan" value="<?= val('pernapasan', $existing_data) ?>" <?= $ro ?> >
+                               <input type="text" class="form-control" name="pernapasan" value="<?= val('pernapasan', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
                </div>
 
-                <?php if (!$is_dosen): ?>
-                <div class="row mb-3">
-                    <div class="col-sm-11 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary">Simpan Data</button>
-                    </div>
-                </div>
-                <?php endif; ?>
-                </form><!-- End General Form Elements -->
-            </div>
-        </div>
+               <?php if (!$is_dosen): ?>
+                   <div class="row mb-3">
+                       <div class="col-sm-11 d-flex justify-content-end">
+                           <button type="submit" class="btn btn-primary">Simpan Data</button>
+                       </div>
+                   </div>
+               <?php endif; ?>
+               </form><!-- End General Form Elements -->
+           </div>
+           </div>
 
-        <!-- ================================ -->
-        <!-- SECTION KOMENTAR & ACTION DOSEN -->
-        <!-- ================================ -->
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
+           <script>
+               let rowCount = 1;
+               // Load existing data persalinan dari PHP
+               const existingPersalinan = <?= json_encode($existing_persalinan) ?>;
 
-                <!-- List komentar -->
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
-
-                <!-- Form komentar + action (khusus dosen) -->
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">
-                                    Minta Revisi
-                                </button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">
-                                    Approve
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">
-                        Section ini sudah di-approve.
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <?php include "tab_navigasi.php"; ?>
-
-        <script>
-            let rowCount = 1;
-            // Load existing data persalinan dari PHP
-            const existingPersalinan = <?= json_encode($existing_persalinan) ?>;
-            function tambahRow(data = null) {
-                const tbody = document.getElementById('tbody-persalinan');
-                const row = document.createElement('tr');
-                const index = rowCount;
-                row.innerHTML = `
+               function tambahRow(data = null) {
+                   const tbody = document.getElementById('tbody-persalinan');
+                   const row = document.createElement('tr');
+                   const index = rowCount;
+                   row.innerHTML = `
                     <td>${index}</td>
                     <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][tahun]" value="${data?.tahun ?? ''}" <?= $ro ?>></td>
                     <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][jenis]" value="${data?.jenis ?? ''}" <?= $ro ?>></td>
@@ -454,21 +380,25 @@
                     <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][masalah]" value="${data?.masalah ?? ''}" <?= $ro ?>></td>
                     <td>${!<?= json_encode($is_dosen) ?> && !<?= json_encode($is_readonly) ?> ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}</td>
                 `;
-                tbody.appendChild(row);
-                rowCount++;
-            }
-            function hapusRow(btn) {
-                btn.closest('tr').remove();
-            }
-            // Load existing rows kalau ada
-            window.addEventListener('load', function() {
-                if (existingPersalinan && existingPersalinan.length > 0) {
-                    existingPersalinan.forEach(row => tambahRow(row));
-                } else {
-                    tambahRow(); // default 1 row kosong
-                }
-            });
-            const existingData = <?= json_encode($existing_data) ?>;
-        </script>
-    </section>
-</main>
+                   tbody.appendChild(row);
+                   rowCount++;
+               }
+
+               function hapusRow(btn) {
+                   btn.closest('tr').remove();
+               }
+               // Load existing rows kalau ada
+               window.addEventListener('load', function() {
+                   if (existingPersalinan && existingPersalinan.length > 0) {
+                       existingPersalinan.forEach(row => tambahRow(row));
+                   } else {
+                       tambahRow(); // default 1 row kosong
+                   }
+               });
+           </script>
+
+           <?php include "partials/footer_form.php"; ?>
+
+
+       </section>
+   </main>

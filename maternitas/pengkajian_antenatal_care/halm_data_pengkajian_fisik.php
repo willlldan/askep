@@ -193,33 +193,10 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 ?>
 
 <main id="main" class="main">
-
     <?php include "maternitas/pengkajian_antenatal_care/tab.php"; ?>
-
     <section class="section dashboard">
-
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success']; unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error']; unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
-
-        <!-- Info status section (untuk dosen) -->
-        <?php if  ($section_status): ?>
-            <?php
-            $badge = [
-                'draft'     => 'secondary',
-                'submitted' => 'primary',
-                'revision'  => 'warning',
-                'approved'  => 'success',
-            ];
-            ?>
-            <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>
-            </div>
-        <?php endif; ?>
+        <?php include "partials/notifikasi.php"; ?>
+        <?php include "partials/status_section.php"; ?>
 
         <div class="card">
             <div class="card-body">
@@ -239,7 +216,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                             <textarea name="inspeksikepala" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('inspeksi_kepala', $existing_data) ?></textarea>
                         </div>
                     </div>
-                    
+
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Palpasi</strong></label>
                         <div class="col-sm-9">
@@ -563,7 +540,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <label class="col-sm-2 col-form-label"><strong>Palpasi Raba</strong></label>
                         <div class="col-sm-9">
                             <small class="form-text text-danger">Teraba hangat: Ya/Tidak. Hasil:</small>
-                            <select class="form-select" name="palpasiraba" <?= $ro_select ?> >
+                            <select class="form-select" name="palpasiraba" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Ya" <?= val('palpasi_raba', $existing_data) === 'Ya' ? 'selected' : '' ?>>Ya</option>
                                 <option value="Tidak" <?= val('palpasi_raba', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option>
@@ -574,7 +551,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <label class="col-sm-2 col-form-label"><strong>Palpasi Benjolan</strong></label>
                         <div class="col-sm-9">
                             <small class="form-text text-danger">Ada/Tidak Ada. Hasil:</small>
-                            <select class="form-select" name="palpasibenjolan" <?= $ro_select ?> >
+                            <select class="form-select" name="palpasibenjolan" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Ada" <?= val('palpasi_benjolan', $existing_data) === 'Ada' ? 'selected' : '' ?>>Ada</option>
                                 <option value="Tidak Ada" <?= val('palpasi_benjolan', $existing_data) === 'Tidak Ada' ? 'selected' : '' ?>>Tidak Ada</option>
@@ -604,7 +581,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         </div>
                         <label class="col-sm-2 col-form-label"><strong>Kontraksi</strong></label>
                         <div class="col-sm-3">
-                            <select class="form-select" name="inspeksikontraksi" <?= $ro_select ?> >
+                            <select class="form-select" name="inspeksikontraksi" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Ya" <?= val('kontraksi', $existing_data) === 'Ya' ? 'selected' : '' ?>>Ya</option>
                                 <option value="Tidak" <?= val('kontraksi', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option>
@@ -614,7 +591,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Leopold I</strong></label>
                         <div class="col-sm-9">
-                            <select class="form-select" name="leopoldi" <?= $ro_select ?> >
+                            <select class="form-select" name="leopoldi" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Kepala" <?= val('leopold_i', $existing_data) === 'Kepala' ? 'selected' : '' ?>>Kepala</option>
                                 <option value="Bokong" <?= val('leopold_i', $existing_data) === 'Bokong' ? 'selected' : '' ?>>Bokong</option>
@@ -628,7 +605,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Kanan</strong></label>
                         <div class="col-sm-9">
-                            <select class="form-select" name="kanan" <?= $ro_select ?> >
+                            <select class="form-select" name="kanan" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Punggung" <?= val('leopold_ii_kanan', $existing_data) === 'Punggung' ? 'selected' : '' ?>>Punggung</option>
                                 <option value="Bagian Kecil" <?= val('leopold_ii_kanan', $existing_data) === 'Bagian Kecil' ? 'selected' : '' ?>>Bagian Kecil</option>
@@ -639,7 +616,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Kiri</strong></label>
                         <div class="col-sm-9">
-                            <select class="form-select" name="kiri" <?= $ro_select ?> >
+                            <select class="form-select" name="kiri" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Punggung" <?= val('leopold_ii_kiri', $existing_data) === 'Punggung' ? 'selected' : '' ?>>Punggung</option>
                                 <option value="Bagian Kecil" <?= val('leopold_ii_kiri', $existing_data) === 'Bagian Kecil' ? 'selected' : '' ?>>Bagian Kecil</option>
@@ -650,7 +627,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Leopold III</strong></label>
                         <div class="col-sm-9">
-                            <select class="form-select" name="leopoldiii" <?= $ro_select ?> >
+                            <select class="form-select" name="leopoldiii" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Kepala" <?= val('leopold_iii', $existing_data) === 'Kepala' ? 'selected' : '' ?>>Kepala</option>
                                 <option value="Bokong" <?= val('leopold_iii', $existing_data) === 'Bokong' ? 'selected' : '' ?>>Bokong</option>
@@ -661,7 +638,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Leopold IV Penurunan Kepala</strong></label>
                         <div class="col-sm-9">
-                            <select class="form-select" name="leopoldiv" <?= $ro_select ?> >
+                            <select class="form-select" name="leopoldiv" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Sudah" <?= val('leopold_iv', $existing_data) === 'Sudah' ? 'selected' : '' ?>>Sudah</option>
                                 <option value="Belum" <?= val('leopold_iv', $existing_data) === 'Belum' ? 'selected' : '' ?>>Belum</option>
@@ -694,7 +671,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Linea Nigra</strong></label>
                         <div class="col-sm-9">
-                            <select class="form-select" name="linea_nigra" <?= $ro_select ?> >
+                            <select class="form-select" name="linea_nigra" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Ada" <?= val('linea_nigra', $existing_data) === 'Ada' ? 'selected' : '' ?>>Ada</option>
                                 <option value="Tidak" <?= val('linea_nigra', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option>
@@ -704,7 +681,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Striae</strong></label>
                         <div class="col-sm-9">
-                            <select class="form-select" name="striae" <?= $ro_select ?> >
+                            <select class="form-select" name="striae" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Ada" <?= val('striae', $existing_data) === 'Ada' ? 'selected' : '' ?>>Ada</option>
                                 <option value="Tidak" <?= val('striae', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option>
@@ -953,66 +930,16 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
                     <!-- TOMBOL SUBMIT -->
                     <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-11 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        <div class="row mb-3">
+                            <div class="col-sm-11 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                 </form>
             </div>
         </div>
 
-        <!-- ================================ -->
-        <!-- SECTION KOMENTAR & ACTION DOSEN -->
-        <!-- ================================ -->
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
-
-                <!-- List komentar -->
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
-
-                <!-- Form komentar + action (khusus dosen) -->
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">
-                                    Minta Revisi
-                                </button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">
-                                    Approve
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">
-                        Section ini sudah di-approve.
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <?php include "tab_navigasi.php"; ?>
-
+        <?php include "partials/footer_form.php" ?>
     </section>
 </main>

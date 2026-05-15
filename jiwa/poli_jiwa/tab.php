@@ -1,5 +1,5 @@
 <?php
-$jenisjiwa = $_GET['jenisjiwa'] ?? 'jiwa_rsud';
+$jenisjiwa = $_GET['jenisjiwa'] ?? 'poli_jiwa';
 $submission_id = $_GET['submission_id'] ?? null;
 
 $titles = [
@@ -8,66 +8,31 @@ $titles = [
 ];
 ?>
 
-    <div class="card">
-        <div class="card-body">
-    
-        <h5 class="card-title"><strong>Jenis Jiwa</strong></h5>
+   
+<div class="pagetitle">
+    <h1><strong><?= $titles[$jenisjiwa] ?? 'Pengkajian Asuhan Keperawatan' ?></strong></h1>
+</div>
 
-                <!-- Jenis Jiwa -->
-
-                <?php
-                    $jenisjiwa = $_GET['jenisjiwa'] ?? 'jiwa_rsud';
-                   
-                ?>
-
-                <div class="row mb-3">
-                    <label for="jenisjiwa" class="col-sm-2 col-form-label"><strong>Jiwa</strong></label>
-                        <div class="col-sm-10">
-
-                        <select class="form-select" name="jenisjiwa"
-                        onchange="window.location=this.value" required>
-
-                       <option value="">Pilih</option>
-                        <option value="index.php?page=jiwa/jiwa_rsud&tab=format_laporan_pendahuluan&jenisjiwa=jiwa_rsud"
-                        <?= $jenisjiwa == 'jiwa_rsud' ? 'selected' : '' ?>>
-                        Jiwa RSUD
-                        </option>
-
-                        <option value="index.php?page=jiwa/poli_jiwa&tab=format_laporan_pendahuluan&jenisjiwa=poli_jiwa"
-                        <?= $jenisjiwa == 'poli_jiwa' ? 'selected' : '' ?>>
-                        Poli Jiwa
-                        </option>
-                       
-
-                        </select>
-                        <div class="invalid-feedback">
-                            Harap isi Jenis Jiwa.
-                        </div>
-                    </div>
-                </div>
-
-             </div>
-    </div>
-
+    <br>
     <ul class="nav nav-tabs custom-tabs">
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'praktik_klinik_keperawatan_jiwa' ? 'active' : '' ?>"
-        href="index.php?page=jiwa/poli_jiwa&tab=praktik_klinik_keperawatan_jiwa">
+        href="index.php?page=jiwa/poli_jiwa&tab=praktik_klinik_keperawatan_jiwa<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Format LP Praktik Klinik Keperawatan Jiwa
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'format_resume' ? 'active' : '' ?>"
-        href="index.php?page=jiwa/poli_jiwa&tab=format_resume">
+        href="index.php?page=jiwa/poli_jiwa&tab=format_resume<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Format Resume Keperawatan Jiwa
         </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya' ? 'active' : '' ?>"
-        href="index.php?page=jiwa/poli_jiwa&tab=lainnya">
+        href="index.php?page=jiwa/poli_jiwa&tab=lainnya<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
         Lainnya
         </a>
     </li>
