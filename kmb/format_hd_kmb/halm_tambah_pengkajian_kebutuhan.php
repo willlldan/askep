@@ -33,7 +33,7 @@ if ($level === 'Dosen') {
 
 $existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
 $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
-$ro_disabled = $is_readonly ? 'disabled' : '';
+
 $existing_diagnosa     = $existing_data['diagnosa']     ?? [];
 
 
@@ -47,8 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
 
-    $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
-    $rs_ruangan     = $_POST['rsruangan'] ?? '';
+
       // Proses dynamic rows diagnosa
         $diagnosa = [];
         if (!empty($_POST['diagnosa'])) {
@@ -147,10 +146,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
  
 
     if (!$submission) {
-        $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+        $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
     } else {
         $submission_id = $submission['id'];
-        updateSubmissionHeader($submission_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+        updateSubmissionHeader($submission_id, null,null, $mysqli);
     }
 
 
@@ -194,6 +193,7 @@ $is_dosen    = $level === 'Dosen';
 $is_readonly = $is_dosen || isLocked($submission);
 $ro          = $is_readonly ? 'readonly' : '';
 $ro_select   = $is_readonly ? 'disabled' : '';
+$ro_disabled = $is_readonly ? 'disabled' : '';
 ?>
 
 <main id="main" class="main">
@@ -729,72 +729,41 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 </thead>
                 <tbody>
                     <tr>
-                        <td rowspan="3">1</td>
+                        <td rowspan="1">1</td>
                         <td><strong>Mandi - Frekuensi</strong></td>
                         <td><input type="text" class="form-control" name="mandi_frekuensi_sebelum"
                                    value="<?= val('mandi_frekuensi_sebelum', $existing_data) ?>" <?= $ro ?>></td>
                         <td><input type="text" class="form-control" name="mandi_frekuensi_sekarang"
                                    value="<?= val('mandi_frekuensi_sekarang', $existing_data) ?>" <?= $ro ?>></td>
                     </tr>
+               
                     <tr>
-                        <td><strong>Mandi - Cara</strong></td>
-                        <td><input type="text" class="form-control" name="mandi_cara_sebelum"
-                                   value="<?= val('mandi_cara_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                        <td><input type="text" class="form-control" name="mandi_cara_sekarang"
-                                   value="<?= val('mandi_cara_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Mandi - Tempat</strong></td>
-                        <td><input type="text" class="form-control" name="mandi_tempat_sebelum"
-                                   value="<?= val('mandi_tempat_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                        <td><input type="text" class="form-control" name="mandi_tempat_sekarang"
-                                   value="<?= val('mandi_tempat_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2">2</td>
+                        <td rowspan="1">2</td>
                         <td><strong>Cuci Rambut - Frekuensi</strong></td>
                         <td><input type="text" class="form-control" name="rambut_frekuensi_sebelum"
                                    value="<?= val('rambut_frekuensi_sebelum', $existing_data) ?>" <?= $ro ?>></td>
                         <td><input type="text" class="form-control" name="rambut_frekuensi_sekarang"
                                    value="<?= val('rambut_frekuensi_sekarang', $existing_data) ?>" <?= $ro ?>></td>
                     </tr>
+                   
                     <tr>
-                        <td><strong>Cuci Rambut - Cara</strong></td>
-                        <td><input type="text" class="form-control" name="rambut_cara_sebelum"
-                                   value="<?= val('rambut_cara_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                        <td><input type="text" class="form-control" name="rambut_cara_sekarang"
-                                   value="<?= val('rambut_cara_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2">3</td>
+                        <td rowspan="1">3</td>
                         <td><strong>Gunting Kuku - Frekuensi</strong></td>
                         <td><input type="text" class="form-control" name="kuku_frekuensi_sebelum"
                                    value="<?= val('kuku_frekuensi_sebelum', $existing_data) ?>" <?= $ro ?>></td>
                         <td><input type="text" class="form-control" name="kuku_frekuensi_sekarang"
                                    value="<?= val('kuku_frekuensi_sekarang', $existing_data) ?>" <?= $ro ?>></td>
                     </tr>
+                    
                     <tr>
-                        <td><strong>Gunting Kuku - Cara</strong></td>
-                        <td><input type="text" class="form-control" name="kuku_cara_sebelum"
-                                   value="<?= val('kuku_cara_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                        <td><input type="text" class="form-control" name="kuku_cara_sekarang"
-                                   value="<?= val('kuku_cara_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2">4</td>
+                        <td rowspan="1">4</td>
                         <td><strong>Gosok Gigi - Frekuensi</strong></td>
                         <td><input type="text" class="form-control" name="gigi_frekuensi_sebelum"
                                    value="<?= val('gigi_frekuensi_sebelum', $existing_data) ?>" <?= $ro ?>></td>
                         <td><input type="text" class="form-control" name="gigi_frekuensi_sekarang"
                                    value="<?= val('gigi_frekuensi_sekarang', $existing_data) ?>" <?= $ro ?>></td>
                     </tr>
-                    <tr>
-                        <td><strong>Gosok Gigi - Cara</strong></td>
-                        <td><input type="text" class="form-control" name="gigi_cara_sebelum"
-                                   value="<?= val('gigi_cara_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                        <td><input type="text" class="form-control" name="gigi_cara_sekarang"
-                                   value="<?= val('gigi_cara_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                    </tr>
+                  
                 </tbody>
             </table>
         </div>

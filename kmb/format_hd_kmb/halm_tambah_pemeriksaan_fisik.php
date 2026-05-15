@@ -33,9 +33,16 @@ if ($level === 'Dosen') {
 
 $existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
 $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
-$tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
-$rs_ruangan     = $submission['rs_ruangan'] ?? '';
 
+// Decode checkbox fields
+$checkbox_fields = ['bau_mulut','bentuk_abdomen', 'keadaan_abdomen'];
+foreach ($checkbox_fields as $cf) {
+    $existing_data[$cf] = isset($existing_data[$cf])
+        ? (is_array($existing_data[$cf])
+            ? $existing_data[$cf]
+            : (json_decode($existing_data[$cf], true) ?? []))
+        : [];
+}
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
 // =============================================
@@ -45,8 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
 
-    $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
-    $rs_ruangan     = $_POST['rsruangan'] ?? '';
+ 
 
     $data = [
     'bentuk_kepala'            => $_POST['bentuk_kepala'] ?? '',
@@ -86,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     'kelainan_hidung'          => $_POST['kelainan_hidung'] ?? '',
     'bibir'                    => $_POST['bibir'] ?? '',
     'simetris'                 => $_POST['simetris'] ?? '',
-    'kelembaban'               => $_POST['kelembaban'] ?? '',
+    'kelembaban_mulut'               => $_POST['kelembaban_mulut'] ?? '',
     'caries'                   => $_POST['caries'] ?? '',
     'caries1'                   => $_POST['caries1'] ?? '',
     'jumlah_gigi'              => $_POST['jumlah_gigi'] ?? '',
@@ -124,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     's1_jantung'               => $_POST['s1_jantung'] ?? '',
     's2_jantung'               => $_POST['s2_jantung'] ?? '',
     'bunyi_jantung'            => $_POST['bunyi_jantung'] ?? '',
-    'bunyi_tambahan'           => $_POST['bunyi_tambahan'] ?? '',
+    'bunyi'           => $_POST['bunyi'] ?? '',
     'pulsasi_jantung'          => $_POST['pulsasi_jantung'] ?? '',
     'irama_jantung'            => $_POST['irama_jantung'] ?? '',
     'bentuk_abdomen'           => $_POST['bentuk_abdomen'] ?? [],
@@ -202,19 +208,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     'sensasi_dinginb'          => $_POST['sensasi_dinginb'] ?? '',
     'rom_bawah'                => $_POST['rom_bawah'] ?? '',
     'refleks_babinski1'         => $_POST['refleks_babinski1'] ?? '',
-    'pembengkakan2'            => $_POST['pembengkakan2'] ?? '',
+    'pembengkakan3'            => $_POST['pembengkakan3'] ?? '',
     'varises1'                  => $_POST['varises1'] ?? '',
     'kelembaban3'              => $_POST['kelembaban3'] ?? '',
     'temperaturb'              => $_POST['temperaturb'] ?? '',
     'kanankaki'                    => $_POST['kanankaki'] ?? '',
     'kirikaki'                     => $_POST['kirikaki'] ?? '',
-    'kelainan_genetalia2'      => $_POST['kelainan_genetalia2'] ?? ''
+    'kelainan_genetalia2'      => $_POST['kelainan_genetalia2'] ?? '',
+    'neurologi'      => $_POST['neurologi'] ?? '',
+
 ];
+$checkbox_fields = ['bau_mulut','bentuk_abdomen', 'keadaan_abdomen'];
+    foreach ($checkbox_fields as $cf) {
+        $data[$cf] = json_encode(isset($_POST[$cf]) ? (array)$_POST[$cf] : []);
+    }
     if (!$submission) {
-        $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+        $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
     } else {
         $submission_id = $submission['id'];
-        updateSubmissionHeader($submission_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+        updateSubmissionHeader($submission_id, null, null, $mysqli);
     }
 
 
@@ -706,10 +718,10 @@ $ro_disabled = $is_readonly ? 'disabled' : '';
 <div class="row mb-2">
     <div class="col-sm-2"><strong>Kelembaban</strong></div>
     <div class="col-sm-4">
-        <select class="form-select" name="kelembaban" style="max-width:200px" <?= $ro_select ?>>
+        <select class="form-select" name="kelembaban_mulut" style="max-width:200px" <?= $ro_select ?>>
             <option value="">Pilih</option>
-            <option value="basah" <?= ($existing_data['kelembaban'] ?? '') === 'basah' ? 'selected' : '' ?>>Basah</option>
-            <option value="kering" <?= ($existing_data['kelembaban'] ?? '') === 'kering' ? 'selected' : '' ?>>Kering</option>
+            <option value="basah" <?= ($existing_data['kelembaban_mulut'] ?? '') === 'basah' ? 'selected' : '' ?>>Basah</option>
+            <option value="kering" <?= ($existing_data['kelembaban_mulut'] ?? '') === 'kering' ? 'selected' : '' ?>>Kering</option>
         </select>
     </div>
 </div>
@@ -844,38 +856,41 @@ $ro_disabled = $is_readonly ? 'disabled' : '';
     </div>
 <!-- </div>Bau Mulut -->
 <div class="row mb-2">
-    <div class="col-sm-2"><strong>Bau Mulut</strong></div>
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="uranium"<?= $ro_disabled ?> <?= ($existing_data['bau_mulut'] ?? '') === 'uranium' ? 'checked' : '' ?>>
-            <label class="form-check-label">Uranium + / -</label>
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="amoniak" <?= $ro_disabled ?> <?= ($existing_data['bau_mulut'] ?? '') === 'amoniak' ? 'checked' : '' ?>>
-            <label class="form-check-label">Amoniak + / -</label>
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="aceton" <?= $ro_disabled ?> <?= ($existing_data['bau_mulut'] ?? '') === 'aceton' ? 'checked' : '' ?>>
-            <label class="form-check-label">Aceton + / -</label>
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="busuk" <?= $ro_disabled ?> <?= ($existing_data['bau_mulut'] ?? '') === 'busuk' ? 'checked' : '' ?>>
-            <label class="form-check-label">Busuk + / -</label>
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="alkohol" <?= $ro_disabled ?> <?= ($existing_data['bau_mulut'] ?? '') === 'alkohol' ? 'checked' : '' ?>>
-            <label class="form-check-label">Alkohol + / -</label>
-        </div>
-    </div>
-</div>
+                        <div class="col-sm-2"><strong>Bau Mulut</strong>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="uranium" id="cb_bau_mulut_uranium" <?= $ro_disabled ?> <?= in_array('uranium', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="cb_bau_mulut_uranium">Uranium + / -</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="amoniak" id="cb_bau_mulut_amoniak" <?= $ro_disabled ?> <?= in_array('amoniak', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="cb_bau_mulut_amoniak">Amoniak + / - </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="aceton" id="cb_bau_mulut_aceton" <?= $ro_disabled ?> <?= in_array('aceton', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="cb_bau_mulut_aceton">Aceton + / -</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="busuk" id="cb_bau_mulut_busuk" <?= $ro_disabled ?> <?= in_array('busuk', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="cb_bau_mulut_busuk">Busuk + / - </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="alkohol" id="cb_bau_mulut_alkohol" <?= $ro_disabled ?> <?= in_array('alkohol', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="cb_bau_mulut_alkohol">Alkohol + / -</label>
+                            </div>
+                        </div>
+                    </div>
 <!-- Sekret -->
 <div class="row mb-2">
     <div class="col-sm-2"><strong>Sekret</strong></div>
@@ -1049,7 +1064,7 @@ $ro_disabled = $is_readonly ? 'disabled' : '';
     </div>
 </div>
 <div class="row mb-2">
-    <label class="col-sm-12 text-primary"><strong>j.antung</strong></label>
+    <label class="col-sm-12 text-primary"><strong>j. Jantung</strong></label>
 </div>
 
 <!-- S1 -->
@@ -1081,21 +1096,17 @@ $ro_disabled = $is_readonly ? 'disabled' : '';
 </div>
 
 <!-- Bunyi Tambahan -->
-<div class="row mb-2">
+ <div class="row mb-2">
     <div class="col-sm-2"><strong>Bunyi Tambahan</strong></div>
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="bunyi_tambahan" value="murmur" <?= ($existing_data['bunyi_tambahan'] ?? '') === 'murmur' ? 'checked' : '' ?> <?= $ro_select ?>>
-            <label class="form-check-label">Murmur</label>
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="bunyi_tambahan" value="tidak" <?= ($existing_data['bunyi_tambahan'] ?? '') === 'tidak' ? 'checked' : '' ?> <?= $ro_select ?>>
-            <label class="form-check-label">Tidak</label>
-        </div>
+    <div class="col-sm-4">
+        <select class="form-select" name="bunyi" style="max-width:200px" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="murmur" <?= val('bunyi', $existing_data) === 'murmur' ? 'selected' : '' ?>>Murmur</option>
+            <option value="tidak" <?= val('bunyi', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
+        </select>
     </div>
 </div>
+
 
 <!-- Pulsasi Jantung -->
 <div class="row mb-3">
@@ -1119,65 +1130,61 @@ $ro_disabled = $is_readonly ? 'disabled' : '';
 <div class="row mb-2">
     <label class="col-sm-12 text-primary"><strong>k. Abdomen</strong></label>
 </div>
+ <div class="row mb-2">
+                        <div class="col-sm-2"><strong>Bentuk</strong>
+                        </div>
 
-<!-- Bentuk -->
-<div class="row mb-2">
-    <div class="col-sm-2"><strong>Bentuk</strong></div>    
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="bentuk_abdomen[]" value="datar" id="cb_bentuk_abdomen_datar" <?= $ro_disabled ?> <?= in_array('datar', (array)($existing_data['bentuk_abdomen'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label">Datar</label>
+                            </div>
+                        </div>
 
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="bentuk_abdomen" value="datar" <?= ($existing_data['bentuk_abdomen'] ?? '') === 'datar' ? 'checked' : '' ?> <?= $ro_select ?>>
-            <label class="form-check-label">Datar</label>
-        </div>
-    </div>
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="bentuk_abdomen[]" value="membuncit" id="cb_bentuk_abdomen_membuncit" <?= $ro_disabled ?> <?= in_array('membuncit', (array)($existing_data['bentuk_abdomen'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label">Membuncit</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="bentuk_abdomen[]" value="cekung" id="cb_bentuk_abdomen_cekung" <?= $ro_disabled ?> <?= in_array('cekung', (array)($existing_data['bentuk_abdomen'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label">Cekung</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="bentuk_abdomen[]" value="tegang" id="cb_bentuk_abdomen_tegang" <?= $ro_disabled ?> <?= in_array('tegang', (array)($existing_data['bentuk_abdomen'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label">Tegang</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-2"><strong>Keadaan</strong>
+                        </div>
 
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="bentuk_abdomen" value="membuncit" <?= ($existing_data['bentuk_abdomen'] ?? '') === 'membuncit' ? 'checked' : '' ?> <?= $ro_select ?>>
-            <label class="form-check-label">Membuncit</label>
-        </div>
-    </div>
 
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="bentuk_abdomen" value="cekung" <?= ($existing_data['bentuk_abdomen'] ?? '') === 'cekung' ? 'checked' : '' ?> <?= $ro_select ?>>
-            <label class="form-check-label">Cekung</label>
-        </div>
-    </div>
 
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="bentuk_abdomen" value="tegang" <?= ($existing_data['bentuk_abdomen'] ?? '') === 'tegang' ? 'checked' : '' ?> <?= $ro_select ?>>
-            <label class="form-check-label">Tegang</label>
-        </div>
-    </div>
-</div>
-
-<!-- Keadaan -->
-<div class="row mb-2">
-    <div class="col-sm-2"><strong>Keadaan</strong></div>    
-
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="keadaan_abdomen" value="parut" <?= ($existing_data['keadaan_abdomen'] ?? '') === 'parut' ? 'checked' : '' ?> <?= $ro_select ?>>
-            <label class="form-check-label">Parut</label>
-        </div>
-    </div>
-
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="keadaan_abdomen" value="lesi" <?= ($existing_data['keadaan_abdomen'] ?? '') === 'lesi' ? 'checked' : '' ?> <?= $ro_select ?>>
-            <label class="form-check-label">Lesi</label>
-        </div>
-    </div>
-
-    <div class="col-sm-3">
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="keadaan_abdomen" value="bercak_merah" <?= ($existing_data['keadaan_abdomen'] ?? '') === 'bercak_merah' ? 'checked' : '' ?> <?= $ro_select ?>>
-            <label class="form-check-label"> Bercak Merah</label>
-        </div>
-    </div>
-</div>
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="keadaan_abdomen[]" value="parut" id="cb_keadaan_abdomen_parut" <?= $ro_disabled ?> <?= in_array('parut', (array)($existing_data['keadaan_abdomen'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label">Parut</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="keadaan_abdomen[]" value="lesi" id="cb_keadaan_abdomen_lesi" <?= $ro_disabled ?> <?= in_array('lesi', (array)($existing_data['keadaan_abdomen'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label">Lesi</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="keadaan_abdomen[]" value=" bercak_merah" id="cb_keadaan_abdomen_bercak_merah" <?= $ro_disabled ?> <?= in_array(' bercak_merah', (array)($existing_data['keadaan_abdomen'] ?? [])) ? 'checked' : '' ?>>
+                                <label class="form-check-label"> Bercak Merah</label>
+                            </div>
+                        </div>
+                    </div>
 
 <!-- Bising Usus -->
 <div class="row mb-3 align-items-center">
@@ -1584,10 +1591,10 @@ $ro_disabled = $is_readonly ? 'disabled' : '';
 <div class="row mb-2">
     <div class="col-sm-2"><strong>Pembengkakan</strong></div>
     <div class="col-sm-4">
-        <select class="form-select" name="pembengkakan2" style="max-width:200px" <?= $ro_select ?>>
+        <select class="form-select" name="pembengkakan3" style="max-width:200px" <?= $ro_select ?>>
             <option value="">Pilih</option>
-            <option value="ya" <?= val('pembengkakan2', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
-            <option value="tidak" <?= val('pembengkakan2', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
+            <option value="ya" <?= val('pembengkakan3', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
+            <option value="tidak" <?= val('pembengkakan3', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
         </select>
     </div>
 </div>
@@ -1786,211 +1793,17 @@ $ro_disabled = $is_readonly ? 'disabled' : '';
 <div class="row mb-2">
     <label class="col-sm-12 text-primary"><strong>q. Status Neurologi</strong></label>
 </div>
-
-<!-- Saraf-saraf Kranial -->
-<div class="row mb-2">
-    <label class="col-sm-12"><strong>1) Saraf-saraf Kranial</strong></label>
-</div>
-
-<!-- Nervus I (Olfactorius) - Penciuman -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>a) Nervus I (Olfactorius) - Penciuman</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="nervus1_penciuman" value="<?= val('nervus1_penciuman', $existing_data) ?>" <?= $ro_select ?>>
+ <div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>Status Neurologi</strong>
     </div>
-</div>
-
-<!-- Nervus II (Opticus) - Penglihatan -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>b) Nervus II (Opticus) - Penglihatan</strong></div>
     <div class="col-sm-9">
-        <input type="text" class="form-control" name="nervus2_penglihatan" value="<?= val('nervus2_penglihatan', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
+        <textarea name="neurologi" class="form-control" rows="7" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+        <?= $ro ?>><?= val('neurologi', $existing_data) ?></textarea>
 
-<!-- Nervus III, IV, VI (Oculomotorius, Trochlearis, Abducens) -->
-<div class="row mb-2">
-    <label class="col-sm-12"><strong>c) Nervus III, IV, VI (Oculomotorius, Trochlearis, Abducens)</strong></label>
-</div>
-
-<!-- Konstriksi Pupil -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Konstriksi Pupil</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="konstriksi_pupil" value="<?= val('konstriksi_pupil', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Gerakan Kelopak Mata -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Gerakan Kelopak Mata</strong></div>
-    <div class="col-sm-9">
-        <textarea name="gerakan_kelopak" class="form-control" rows="3" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= val('gerakan_kelopak', $existing_data) ?></textarea>
-    </div>
-</div>
-
-<!-- Pergerakan Bola Mata -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Pergerakan Bola Mata</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="gerakan_bola_mata" value="<?= val('gerakan_bola_mata', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Pergerakan Mata ke Bawah & Dalam -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Pergerakan Mata ke Bawah & Dalam</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="gerakan_mata_bawah" value="<?= val('gerakan_mata_bawah', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Nervus V (Trigeminus) -->
-<div class="row mb-2">
-    <label class="col-sm-12"><strong>d) Nervus V (Trigeminus)</strong></label>
-</div>
-
-<!-- Refleks Dagu -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Refleks Dagu</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="refleks_dagu" value="<?= val('refleks_dagu', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Refleks Cornea -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Refleks Cornea</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="refleks_cornea" value="<?= val('refleks_cornea', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Nervus VII (Facialis) -->
-<div class="row mb-2">
-    <label class="col-sm-12"><strong>e) Nervus VII (Facialis)</strong></label>
-</div>
-
-<!-- Pengecapan 2/3 Lidah Bagian Depan -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Pengecapan 2/3 Lidah Bagian Depan</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="pengecapan_depan" value="<?= val('pengecapan_depan', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Nervus VIII (Acusticus) -->
-<div class="row mb-2">
-    <label class="col-sm-12"><strong>f) Nervus VIII (Acusticus)</strong></label>
-</div>
-
-<!-- Fungsi Pendengaran -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Fungsi Pendengaran</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="fungsi_pendengaran" value="<?= val('fungsi_pendengaran', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Nervus IX & X (Glossopharyngeus dan Vagus) -->
-<div class="row mb-2">
-    <label class="col-sm-12"><strong>g) Nervus IX & X (Glossopharyngeus dan Vagus)</strong></label>
-</div>
-
-<!-- Refleks Menelan -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Refleks Menelan</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="refleks_menelan1" value="<?= val('refleks_menelan1', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Refleks Muntah -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Refleks Muntah</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="refleks_muntah" value="<?= val('refleks_muntah', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Pengecapan 1/3 Lidah Belakang -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Pengecapan 1/3 Lidah Belakang</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="pengecapan_belakang" value="<?= val('pengecapan_belakang', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Suara -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Suara</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="suara_pasien" value="<?= val('suara_pasien', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Nervus XI (Assesorius) -->
-<div class="row mb-2">
-    <label class="col-sm-12"><strong>h) Nervus XI (Assesorius)</strong></label>
-</div>
-
-<!-- Memalingkan Kepala -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Memalingkan Kepala</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="gerakan_kepala" value="<?= val('gerakan_kepala', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Mengangkat Bahu -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Mengangkat Bahu</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="angkat_bahu" value="<?= val('angkat_bahu', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Nervus XII (Hypoglossus) -->
-<div class="row mb-2">
-    <label class="col-sm-12"><strong>i) Nervus XII (Hypoglossus)</strong></label>
-</div>
-
-<!-- Deviasi Lidah -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Deviasi Lidah</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="deviasi_lidah" value="<?= val('deviasi_lidah', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Tanda-tanda Peradangan Selaput Otak -->
-<div class="row mb-2">
-    <label class="col-sm-12"><strong>2) Tanda-tanda Peradangan Selaput Otak</strong></label>
-</div>
-
-<!-- Kaku Kuduk -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Kaku Kuduk</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="kaku_kuduk" value="<?= val('kaku_kuduk', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Kernig Sign -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Kernig Sign</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="kernig_sign" value="<?= val('kernig_sign', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
-
-<!-- Refleks Brudzinski -->
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label"><strong>Refleks Brudzinski</strong></div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="refleks_brudzinski" value="<?= val('refleks_brudzinski', $existing_data) ?>" <?= $ro_select ?>>
-    </div>
-</div>
+      
+        </div>
+        </div>
 <!-- TOMBOL SUBMIT -->
                     <?php if (!$is_dosen): ?>
                     <div class="row mb-3">

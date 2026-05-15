@@ -33,8 +33,7 @@ if ($level === 'Dosen') {
 
 $existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
 $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
-$tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
-$rs_ruangan     = $submission['rs_ruangan'] ?? '';
+
 
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
@@ -45,8 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
 
-    $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
-    $rs_ruangan     = $_POST['rsruangan'] ?? '';
+
 
     $data = [
             'nama_klien'                            => $_POST['nama_klien'] ?? '',
@@ -97,10 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     ];
 
     if (!$submission) {
-        $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+        $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
     } else {
         $submission_id = $submission['id'];
-        updateSubmissionHeader($submission_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+        updateSubmissionHeader($submission_id, null, null, $mysqli);
     }
 
 
@@ -339,7 +337,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
     <div class="row mb-3">
         <label for="hubungan_klien" class="col-sm-2 col-form-label"><strong>Hubungan dengan Klien</strong></label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" name="hubungan_klien" value="<?= val('hubungan_klien', $existing_data) ?>" <?= $ro ?>">
+            <input type="text" class="form-control" name="hubungan_klien" value="<?= val('hubungan_klien', $existing_data) ?>" <?= $ro ?>>
       
         </div>
     </div>
@@ -711,11 +709,9 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     <label for="genogram" class="col-sm-2 col-form-label"><strong>Genogram</strong></label>
                     <div class="col-sm-9">
 
-                        <!-- Link Google Drive -->
-                         <div class="form-control d-flex justify-content-between align-items-center">
-                            <span>Upload Gambar Genogram pada link Google Drive yang tersedia</span>
-                            <a href="<?= $genogram ?>" target="_blank" class="btn btn-sm btn-primary" <?= $ro ?>><?= val('genogram', $existing_data) ?>Upload</a>
-                        </div>
+                       <textarea class="form-control" rows="4" name="genogram"
+        style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+        <?= $ro ?>><?= val('genogram', $existing_data) ?></textarea>
 
                        
                          </div>
