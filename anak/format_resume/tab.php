@@ -10,41 +10,7 @@ $titles = [
 ?>
 
 
-<div class="card">
-    <div class="card-body">
-        <div class="row mb-3 mt-3   ">
-            <label for="jenisanak" class="col-sm-2 col-form-label"><strong>Anak</strong></label>
-            <div class="col-sm-9">
 
-                <select class="form-select" name="jenisanak"
-                    onchange="window.location=this.value" required>
-
-                    <option value="">Pilih</option>
-
-                    <option value="index.php?page=anak/format_anggrek&jenisanak=anggrek"
-                        <?= $jenisanak == 'anggrek' ? 'selected' : '' ?>>
-                        Anggrek - Format Pengkajian Anak
-                    </option>
-
-                    <option value="index.php?page=anak/format_aster&jenisanak=aster"
-                        <?= $jenisanak == 'aster' ? 'selected' : '' ?>>
-                        Aster - Format Pengkajian Bayi Baru Lahir
-                    </option>
-
-                    <option value="index.php?page=anak/format_resume&jenisanak=resume"
-                        <?= $jenisanak == 'resume' ? 'selected' : '' ?>>
-                        Format Resume Keperawatan Poli Anak
-                    </option>
-
-                </select>
-                <div class="invalid-feedback">
-                    Harap isi Jenis Anak.
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
 
 <div class="pagetitle">
     <h1><strong><?= $titles[$jenisanak] ?? 'Pengkajian Asuhan Keperawatan' ?></strong></h1>

@@ -167,6 +167,14 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             </div>
                         </div>
                     <?php endif; ?>
+                    
+                    <?php if (!$is_dosen): ?>
+                        <div class="row mb-3">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
 
