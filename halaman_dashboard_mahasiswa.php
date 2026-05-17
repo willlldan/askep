@@ -83,9 +83,8 @@ while ($row = $result->fetch_assoc()) {
                                             </a>
                                             
                                             <a href="cetak_form/cetak.php?submission_id=<?= $form['submission_id'] ?>"
-                                                class="btn btn-sm btn-success<?= ($form['status'] !== 'approved' ? ' disabled' : '') ?>"
-                                                target="_blank"
-                                                <?= ($form['status'] !== 'approved' ? 'tabindex="-1" aria-disabled="true" onclick="return false;"' : '') ?>>
+                                                class="btn btn-sm btn-success ms-2"
+                                                target="_blank"                                                >
                                                 <i class="ri-printer-line me-1"></i> Cetak
                                             </a>
                                         </td>
