@@ -727,7 +727,7 @@ include 'template_pdf.php';
         <table class="data">
             <thead>
                 <tr>
-                    <th>No. Dx</th>
+                    <th>No. DX</th>
                     <th>Hari/Tanggal</th>
                     <th>Jam</th>
                     <th>S</th>

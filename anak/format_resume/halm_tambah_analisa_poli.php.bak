@@ -6,8 +6,8 @@ require_once "utils.php";
 $form_id       = 6;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'analisa_resume';
-$section_label = 'Analisa Data Format Resume Keperawatan Poli Anak';
+$section_name  = 'analisa_poli';
+$section_label = 'Analisa Data Format Laporan Poli Imunisasi';
 
 // =============================================
 // DOSEN: ambil submission berdasarkan ?submission_id=
@@ -165,7 +165,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 <h5 class="card-title"><strong>ANALISA DATA</strong></h5>
                 <form class="needs-validation" novalidate action="" method="POST">
                     <!-- ===================== TABEL KLASIFIKASI DATA ===================== -->
-                    <p class="fw-bold mb-2">8. Klasifikasi Data</p>
+                    <p class="text-primary fw-bold mb-2">C. Klasifikasi Data</p>
                     <table class="table table-bordered" id="tabel-klasifikasi">
                         <thead>
                             <tr>
@@ -185,7 +185,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         </div>
                     </div>
                     <!-- ===================== TABEL ANALISA DATA ===================== -->
-                    <p class="fw-bold mb-2">9. Analisa Data</p>
+                    <p class="text-primary fw-bold mb-2">D. Analisa Data</p>
                     <table class="table table-bordered" id="tabel-analisa">
                         <thead>
                             <tr>
@@ -334,6 +334,8 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         Section ini sudah di-approve.
                     </div>
                 <?php endif; ?>
+
+
 
             </div>
         </div>

@@ -6,8 +6,8 @@ require_once "utils.php";
 $form_id       = 11;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'lainnya';
-$section_label = 'Lainnya';
+$section_name  = 'catatan_keperawatan';
+$section_label = 'Catatan Keperawatan';
 
 // Ambil submission sesuai role
 if ($level === 'Dosen') {
@@ -231,7 +231,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Diagnosa</th>
+                                <th class="text-center">Diagnosa Keperawatan</th>
                                 <th class="text-center" style="width:180px">Tanggal Ditemukan</th>
                                 <th class="text-center" style="width:180px">Tanggal Teratasi</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
@@ -308,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <table class="table table-bordered" id="tabel-evaluasi">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width:150px">No. Dx</th>
+                                <th class="text-center" style="width:70px">No. Dx</th>
                                 <th class="text-center" style="width:150px">Hari/Tanggal</th>
                                 <th class="text-center" style="width:110px">Jam</th>
                                 <th class="text-center">Evaluasi (SOAP)</th>
@@ -336,7 +336,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         </div>
                     <?php endif; ?>
-                    
 
                     <script>
                         let rowDiagnosaCount = 1;
@@ -616,9 +615,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         const existingData = <?= json_encode($existing_data) ?>;
                     </script>
 
-                  
 
                 </form>
+
+                       <?php include "tab_navigasi.php"; ?>
+
+                    </div>
+                    </div>
 
                 <!-- ================================ -->
                 <!-- SECTION KOMENTAR & ACTION DOSEN -->
@@ -666,8 +669,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 Section ini sudah di-approve.
                             </div>
                         <?php endif; ?>
-
-                         <?php include "tab_navigasi.php"; ?>
                          
                     </div>
                 </div>

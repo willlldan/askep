@@ -3,11 +3,11 @@
 require_once "koneksi.php";
 require_once "utils.php";
 
-$form_id       = 6;
+$form_id       = 11;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
-$section_name  = 'lainnya_resume';
-$section_label = 'Lainnya Format Laporan Poli Imunisasi';
+$section_name  = 'catatan_keperawatan';
+$section_label = 'Catatan Keperawatan';
 
 // Ambil submission sesuai role
 if ($level === 'Dosen') {
@@ -195,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <main id="main" class="main">
 
-                 <?php include "anak/format_resume/tab.php"; ?>
+                 <?php include "kmb/pengkajian_ruang_ok/tab.php"; ?>
 
 
     <section class="section dashboard">
@@ -225,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form class="needs-validation" novalidate action="" method="POST">
 
                     <!-- ===================== TABEL DIAGNOSA ===================== -->
-                    <p class="fw-bold mb-2">10. Diagnosa Keperawatan</p>
+                    <p class="text-primary fw-bold mb-2">Diagnosa Keperawatan</p>
 
                     <table class="table table-bordered" id="tabel-diagnosa">
                         <thead>
@@ -250,14 +250,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     <?php endif; ?>
 
-                    <!-- ===================== TABEL PERENCANAAN ===================== -->
-                    <p class="fw-bold mb-2">11. Perencanaan Keperawatan</p>
+                    <!-- ===================== TABEL INTERVENSI ===================== -->
+                    <p class="text-primary fw-bold mb-2">Intervensi Keperawatan</p>
 
                     <table class="table table-bordered" id="tabel-intervensi">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Diagnosa Keperawatan</th>
+                                <th class="text-center">Diagnosa</th>
                                 <th class="text-center">Tujuan dan Kriteria Hasil</th>
                                 <th class="text-center">Intervensi</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
@@ -277,12 +277,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endif; ?>
 
                     <!-- ===================== TABEL IMPLEMENTASI ===================== -->
-                    <p class="fw-bold mb-2">12. Implementasi Keperawatan</p>
+                    <p class="text-primary fw-bold mb-2">Implementasi Keperawatan</p>
 
                     <table class="table table-bordered" id="tabel-implementasi">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width:70px">No. Dx</th>
+                                <th class="text-center" style="width:150px">No. Dx</th>
                                 <th class="text-center" style="width:150px">Hari/Tanggal</th>
                                 <th class="text-center" style="width:110px">Jam</th>
                                 <th class="text-center">Implementasi</th>
@@ -303,7 +303,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endif; ?>
 
                     <!-- ===================== TABEL EVALUASI ===================== -->
-                    <p class="fw-bold mb-2">13. Evaluasi Keperawatan</p>
+                    <p class="text-primary fw-bold mb-2">Evaluasi Keperawatan</p>
 
                     <table class="table table-bordered" id="tabel-evaluasi">
                         <thead>
@@ -336,7 +336,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         </div>
                     <?php endif; ?>
-                    
 
                     <script>
                         let rowDiagnosaCount = 1;
@@ -616,11 +615,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         const existingData = <?= json_encode($existing_data) ?>;
                     </script>
 
-                  
 
                 </form>
 
-                          <?php include "tab_navigasi.php"; ?>
+                       <?php include "tab_navigasi.php"; ?>
+
                     </div>
                     </div>
 
@@ -670,6 +669,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 Section ini sudah di-approve.
                             </div>
                         <?php endif; ?>
+
+                         <?php include "tab_navigasi.php"; ?>
                          
                     </div>
                 </div>

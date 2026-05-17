@@ -670,6 +670,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 Section ini sudah di-approve.
                             </div>
                         <?php endif; ?>
+
+                         <?php include "tab_navigasi.php"; ?>
                          
                     </div>
                 </div>
