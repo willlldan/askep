@@ -88,3 +88,33 @@ function radioVal($field, $val, $existing, $disabled)
     $checked = (isset($existing[$field]) && (string)$existing[$field] === (string)$val) ? 'checked' : '';
     return "<input type='radio' name='{$field}' value='{$val}' {$checked} {$disabled}>";
 }
+
+
+// Helper cek bisa submit atau belum
+
+$can_submit = false;
+if ($submission && !$is_dosen && $submission['status'] === 'draft') {
+
+    // Ambil count_section dari forms
+    $stmt = $mysqli->prepare("SELECT count_section FROM forms WHERE id = ?");
+    $stmt->bind_param("i", $form_id);
+    $stmt->execute();
+    $count_section = $stmt->get_result()->fetch_assoc()['count_section'];
+
+    // Ambil total section yang sudah diisi
+    $stmt = $mysqli->prepare("SELECT COUNT(*) as filled FROM submission_sections WHERE submission_id = ?");
+    $stmt->bind_param("i", $submission['id']);
+    $stmt->execute();
+    $total_filled = $stmt->get_result()->fetch_assoc()['filled'];
+
+    $can_submit = $total_filled >= $count_section;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submit_to_dosen' && $level === 'Mahasiswa') {
+    $result = submitSubmission($submission['id'], $mysqli);
+    if ($result['success']) {
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disubmit ke dosen!');
+    } else {
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $result['message']);
+    }
+}

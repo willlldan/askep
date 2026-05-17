@@ -51,3 +51,12 @@ function handle_dosen_action($submission_id, $section_name, $action, $comment, $
     updateReviewer($submission_id, $dosen_id, $mysqli);
     return [];
 }
+
+    // Helper untuk parsing field checkbox (menghasilkan json_encode array untuk setiap field)
+    function parse_dynamic_checkboxes($post_data, $checkbox_fields) {
+        $result = [];
+        foreach ($checkbox_fields as $cf) {
+            $result[$cf] = json_encode(isset($post_data[$cf]) ? (array)$post_data[$cf] : []);
+        }
+        return $result;
+    }

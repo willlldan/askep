@@ -11,37 +11,11 @@ $existing_rencana       = $existing_data['rencana']       ?? [];
 $existing_implementasi  = $existing_data['implementasi']  ?? [];
 $existing_evaluasi      = $existing_data['evaluasi']      ?? [];
 
-$can_submit = false;
-if ($submission && !$is_dosen && $submission['status'] === 'draft') {
-
-    // Ambil count_section dari forms
-    $stmt = $mysqli->prepare("SELECT count_section FROM forms WHERE id = ?");
-    $stmt->bind_param("i", $form_id);
-    $stmt->execute();
-    $count_section = $stmt->get_result()->fetch_assoc()['count_section'];
-
-    // Ambil total section yang sudah diisi
-    $stmt = $mysqli->prepare("SELECT COUNT(*) as filled FROM submission_sections WHERE submission_id = ?");
-    $stmt->bind_param("i", $submission['id']);
-    $stmt->execute();
-    $total_filled = $stmt->get_result()->fetch_assoc()['filled'];
-
-    $can_submit = $total_filled >= $count_section;
-}
 
 // =============================================
 // HANDLE POST - MAHASISWA
 // =============================================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submit_to_dosen') {
-        $result = submitSubmission($submission['id'], $mysqli);
-        if ($result['success']) {
-            redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disubmit ke dosen!');
-        } else {
-            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $result['message']);
-        }
-    }
 
     if (isLocked($submission)) {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
@@ -70,9 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     updateSubmissionStatus($submission_id, $form_id, $mysqli);
     redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
 }
-
-
-$comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
 ?>
 
 <main id="main" class="main">

@@ -58,7 +58,7 @@ while ($row = $result->fetch_assoc()) {
                                         <td>: <?= htmlspecialchars($mahasiswa['nama']) ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>NPM</strong></td>
+                                        <td><strong>NIM</strong></td>
                                         <td>: <?= htmlspecialchars($mahasiswa['npm']) ?></td>
                                     </tr>
                                 </table>

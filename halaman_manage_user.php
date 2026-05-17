@@ -54,7 +54,7 @@ $success = $_GET['success'] ?? null;
                                 <tr>
                                     <th width="50">No</th>
                                     <th>Nama</th>
-                                    <th>NPM</th>
+                                    <th>NIM</th>
                                     <th>Username</th>
                                     <th>Level</th>
                                     <th class="text-center" width="200">Aksi</th>
