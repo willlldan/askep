@@ -1,43 +1,9 @@
 <?php
-require_once "koneksi.php";
-require_once "utils.php";
 
 $form_id       = 5;
-$level         = $_SESSION['level'];
-$user_id       = $_SESSION['id_user'];
 $section_name  = 'keadaan_bayi';
 $section_label = 'Keadaan Bayi Saat Lahir';
-
-// =============================================
-// DOSEN: ambil submission berdasarkan ?submission_id=
-// MAHASISWA: ambil submission milik sendiri
-// =============================================
-if ($level === 'Dosen') {
-    $submission_id_param = $_GET['submission_id'] ?? null;
-    if (!$submission_id_param) {
-        echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
-        exit;
-    }
-    $stmt = $mysqli->prepare("
-        SELECT s.*, r.nama as dosen_name
-        FROM submissions s
-        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
-        WHERE s.id = ?
-    ");
-    $stmt->bind_param("i", $submission_id_param);
-    $stmt->execute();
-    $submission = $stmt->get_result()->fetch_assoc();
-} else {
-    $submission = getSubmission($user_id, $form_id, $mysqli);
-}
-
-$existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
-$section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
-
-$is_dosen    = $level === 'Dosen';
-$is_readonly = $is_dosen || isLocked($submission);
-$ro          = $is_readonly ? 'readonly' : '';
-$ro_disabled = $is_readonly ? 'disabled' : '';
+include dirname(__DIR__, 2) . '/partials/init_section.php';
 
 // =============================================
 // HANDLE POST - MAHASISWA
@@ -105,10 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'gest_by_exam',
     ];
 
-    $data = [];
-    foreach ($text_fields as $f) {
-        $data[$f] = $_POST[$f] ?? '';
-    }
+    $data = parse_dynamic_fields($_POST, $text_fields);
+    
 
     // APGAR per tanda - masing-masing punya nilai menit-1 (checkbox) dan menit-5 (radio)
     $apgar_tanda = ['frekuensi_jantung', 'usaha_nafas', 'tonus_otot', 'refleks_apgar', 'warna_kulit'];
@@ -129,43 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     saveSection($submission_id, $section_name, $section_label, $data, $mysqli);
     updateSubmissionStatus($submission_id, $form_id, $mysqli);
     redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
-}
-
-// =============================================
-// HANDLE POST - DOSEN
-// =============================================
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
-    $submission_id = $submission['id'];
-    $dosen_id      = $user_id;
-    $action        = $_POST['action'] ?? '';
-    $comment       = $_POST['comment'] ?? '';
-
-    if ($action === 'approve') {
-        updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
-        if (!empty($comment)) saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-    } elseif ($action === 'revision') {
-        if (empty($comment)) redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
-        updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
-        saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-    }
-
-    updateReviewer($submission_id, $dosen_id, $mysqli);
-    updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
-    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
-}
-
-$comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
-
-function ed($key, $data)
-{
-    return htmlspecialchars($data[$key] ?? '');
-}
-
-// Helper: render radio row untuk tabel APGAR/Ballard
-function radioVal($field, $val, $existing, $disabled)
-{
-    $checked = (isset($existing[$field]) && (string)$existing[$field] === (string)$val) ? 'checked' : '';
-    return "<input type='radio' name='{$field}' value='{$val}' {$checked} {$disabled}>";
 }
 ?>
 

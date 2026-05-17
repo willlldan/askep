@@ -55,22 +55,29 @@ function buildTabUrl($tab, $submission_id)
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-sm-11 d-flex justify-content-end gap-2">
-                        <button type="submit" name="action" value="revision" class="btn btn-warning">
-                            Minta Revisi
-                        </button>
-                        <button type="submit" name="action" value="approve" class="btn btn-success">
-                            Approve
-                        </button>
+                    <div class="col-sm-11 d-flex justify-content-between">
+                        <div>
+                            <button type="submit" name="action" value="revision" class="btn btn-warning">
+                                Minta Revisi
+                            </button>
+                        </div>
+                        <div>
+                            <button type="submit" name="action" value="approve" class="btn btn-success" id="btn-approve">
+                                Approve
+                            </button>
+                        </div>
                     </div>
                 </div>
             </form>
         <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-            <div class="alert alert-success">
-                Section ini sudah di-approve.
-            </div>
-        <?php endif; ?>
+            <form action="" method="POST">
+                <button type="submit" name="action" value="cancel_approval" class="btn btn-warning" id="btn-cancel-approve">
+                    Cancel Approval
+                </button>
+            </form>
     </div>
+<?php endif; ?>
+</div>
 </div>
 
 <div class="d-flex justify-content-between mt-4">
@@ -100,3 +107,24 @@ function buildTabUrl($tab, $submission_id)
         </div>
     <?php endif; ?>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var approveBtn = document.getElementById('btn-approve');
+        if (approveBtn) {
+            approveBtn.addEventListener('click', function(e) {
+                if (!confirm('Apakah Anda yakin ingin approve data ini?')) {
+                    e.preventDefault();
+                }
+            });
+        }
+        var cancelApproveBtn = document.getElementById('btn-cancel-approve');
+        if (cancelApproveBtn) {
+            cancelApproveBtn.addEventListener('click', function(e) {
+                if (!confirm('Apakah Anda yakin ingin membatalkan approval?')) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+</script>

@@ -95,7 +95,7 @@ if (isset($_POST['submit'])) {
 
                 <!-- Bagian NPM -->
                 <div class="row mb-3">
-                    <label for="npm" class="col-sm-2 col-form-label"><strong>NPM</strong></label>
+                    <label for="npm" class="col-sm-2 col-form-label"><strong>NIM</strong></label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" name="npm" required>
                         <div class="invalid-feedback">

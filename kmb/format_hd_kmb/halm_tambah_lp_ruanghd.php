@@ -49,22 +49,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     $rs_ruangan     = $_POST['rsruangan'] ?? '';
 
     $data = [
-            'definisi'                      => $_POST['definisi'] ?? '',
-            'klasifikasi'                   => $_POST['klasifikasi'] ?? '',
-            'etiologi'                      => $_POST['etiologi'] ?? '',
-            'manifestasi_klinik'             => $_POST['manifestasiklinik'] ?? '',
-            'patofisiologi'                 => $_POST['patofisiologi'] ?? '',
-            'penunjang'                     => $_POST['penunjang'] ?? '',
-            'penatalaksanaan'               => $_POST['penatalaksanaan'] ?? '',
-            'komplikasi'                    => $_POST['komplikasi'] ?? '',
-            'pengertian'                    => $_POST['pengertian'] ?? '',
-            'tujuan'                        => $_POST['tujuan'] ?? '',
-            'proses_hemodialisa'            => $_POST['proses_hemodialisa'] ?? '',
-            'alasan_hemodialisa'            => $_POST['alasanhemodialisa'] ?? '',
-            'indikasi_hemodialisa'          => $_POST['indikasihemodialisa'] ?? '',
-            'kontraindikasi_hemodialisa'    => $_POST['kontraindikasihemodialisa'] ?? '',
-            'frekuensi_hemodialisa'         => $_POST['frekuensihemodialisa'] ?? '',
-            'komplikasi1'                    => $_POST['komplikasi1'] ?? '',
+        'definisi'                      => $_POST['definisi'] ?? '',
+        'klasifikasi'                   => $_POST['klasifikasi'] ?? '',
+        'etiologi'                      => $_POST['etiologi'] ?? '',
+        'manifestasi_klinik'             => $_POST['manifestasiklinik'] ?? '',
+        'patofisiologi'                 => $_POST['patofisiologi'] ?? '',
+        'penunjang'                     => $_POST['penunjang'] ?? '',
+        'penatalaksanaan'               => $_POST['penatalaksanaan'] ?? '',
+        'komplikasi'                    => $_POST['komplikasi'] ?? '',
+        'pengertian'                    => $_POST['pengertian'] ?? '',
+        'tujuan'                        => $_POST['tujuan'] ?? '',
+        'proses_hemodialisa'            => $_POST['proses_hemodialisa'] ?? '',
+        'alasan_hemodialisa'            => $_POST['alasanhemodialisa'] ?? '',
+        'indikasi_hemodialisa'          => $_POST['indikasihemodialisa'] ?? '',
+        'kontraindikasi_hemodialisa'    => $_POST['kontraindikasihemodialisa'] ?? '',
+        'frekuensi_hemodialisa'         => $_POST['frekuensihemodialisa'] ?? '',
+        'komplikasi1'                    => $_POST['komplikasi1'] ?? '',
     ];
 
     if (!$submission) {
@@ -119,38 +119,16 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <main id="main" class="main">
     <?php include "kmb/format_hd_kmb/tab.php"; ?>
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
+    <section class="section dashboard">
 
-        <!-- Info status section (untuk dosen) -->
-        <?php if  ($section_status): ?>
-            <?php
-            $badge = [
-                'draft'     => 'secondary',
-                'submitted' => 'primary',
-                'revision'  => 'warning',
-                'approved'  => 'success',
-            ];
-            ?>
+        <?php include "partials/notifikasi.php"; ?>
+        <?php include "partials/status_section.php"; ?>
+        <div class="card">
+            <div class="card-body">
 
-             <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                    | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>       
-            </div>
-        <?php endif; ?>
-       
-<div class="card">
-             <div class="card-body">
-                                
-                     <!-- General Form Elements -->
-               <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-                <div class="row mb-3 mt-3">
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+                    <div class="row mb-3 mt-3">
                         <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
                         <div class="col-sm-9">
                             <input type="date" class="form-control" name="tglpengkajian"
@@ -166,246 +144,189 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         </div>
                     </div>
 
-                    <h5 class="card-title"><strong>A.  Konsep Dasar Penyakit (Chronic Kidney Disease (CKD))</strong></h5>
-                                 <!-- A KONSEP DASAR MEDIS -->
-
-                            <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>1. Definisi</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="definisi" value="<?= val('definisi', $existing_data) ?>" <?= $ro ?>>
-        </div>
-       
-</div>
+                    <h5 class="card-title"><strong>A. Konsep Dasar Penyakit (Chronic Kidney Disease (CKD))</strong></h5>
+                    <!-- A KONSEP DASAR MEDIS -->
 
                     <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>2. Klasifikasi</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="klasifikasi" value="<?= val('klasifikasi', $existing_data) ?>" <?= $ro ?>>
-</div>
-</div>
+                        <div class="col-sm-2 col-form-label">
+                            <strong>1. Definisi</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="definisi" value="<?= val('definisi', $existing_data) ?>" <?= $ro ?>>
+                        </div>
 
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>3. Etiologi</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="etiologi" value="<?= val('etiologi', $existing_data) ?>" <?= $ro ?>>
-  
-        </div>
-        </div>
-
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>4. Manifestasi Klinik</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="manifestasiklinik" value="<?= val('manifestasi_klinik', $existing_data) ?>" <?= $ro ?>>
-    
-         </div>
-        </div>
-
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>5. Patofisiologi</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="patofisiologi" value="<?= val('patofisiologi', $existing_data) ?>" <?= $ro ?>>
-   
-         </div>
-        </div>
-
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>6. Pemeriksaan penunjang</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="penunjang" value="<?= val('penunjang', $existing_data) ?>" <?= $ro ?>>
-   
-         </div>
-        </div>
-
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>7. Penatalaksanaan</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="penatalaksanaan" value="<?= val('penatalaksanaan', $existing_data) ?>" <?= $ro ?>>
-     
-         </div>
-        </div>
-
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>8. Komplikasi</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="komplikasi" value="<?= val('komplikasi', $existing_data) ?>" <?= $ro ?>>
-     
-         </div>
-        </div>
-  
-        </div>
-        </div>
-        </div>
-</div>
-</section>
-        
-        
-                <div class="card">
-             <div class="card-body">
-                    <div class="row mb-2">
-                        <label class="col-sm-4 col-form-label text-primary">
-                            <strong>B.  Konsep Dasar Hemodialisa</strong>
                     </div>
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>1. Pengertian</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="pengertian" value="<?= val('pengertian', $existing_data) ?>" <?= $ro ?>>
-        
-         </div>
-        </div>
-            
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>2. Tujuan</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="tujuan" value="<?= val('tujuan', $existing_data) ?>" <?= $ro ?>>
-      
-         </div>
-        </div>
-          
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>3. Proses Hemodialisa</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="proses_hemodialisa" value="<?= val('proses_hemodialisa', $existing_data) ?>" <?= $ro ?>>
-       
-         </div>
-        </div>
-          
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>4. Alasan dilakukan Hemodialisa</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="alasanhemodialisa" value="<?= val('alasan_hemodialisa', $existing_data) ?>" <?= $ro ?>>
-       
-         </div>
-        </div>
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>5. Indikasi Hemodialisa</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="indikasihemodialisa" value="<?= val('indikasi_hemodialisa', $existing_data) ?>" <?= $ro ?>>
-      
-         </div>
-        </div>
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>6. Kontraindikasi Hemodialisa</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="kontraindikasihemodialisa" value="<?= val('kontraindikasi_hemodialisa', $existing_data) ?>" <?= $ro ?>>
-       
-          </div>
-        </div>
-                <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>7.   Frekuensi Hemodialisa</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="frekuensihemodialisa" value="<?= val('frekuensi_hemodialisa', $existing_data) ?>" <?= $ro ?>>
-        
-          </div>
-        </div>
-                <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>8.   Komplikasi Hemodialisa</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="komplikasi1" value="<?= val('komplikasi1', $existing_data) ?>" <?= $ro ?>>
-       
-         </div>
-      
-        
-<!-- TOMBOL SUBMIT -->
-                    <?php if (!$is_dosen): ?>
+
                     <div class="row mb-3">
-                        <div class="col-sm-11 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        <div class="col-sm-2 col-form-label">
+                            <strong>2. Klasifikasi</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="klasifikasi" value="<?= val('klasifikasi', $existing_data) ?>" <?= $ro ?>>
                         </div>
                     </div>
-                    <?php endif; ?>
-                </form>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-2 col-form-label">
+                            <strong>3. Etiologi</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="etiologi" value="<?= val('etiologi', $existing_data) ?>" <?= $ro ?>>
+
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-2 col-form-label">
+                            <strong>4. Manifestasi Klinik</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="manifestasiklinik" value="<?= val('manifestasi_klinik', $existing_data) ?>" <?= $ro ?>>
+
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-2 col-form-label">
+                            <strong>5. Patofisiologi</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="patofisiologi" value="<?= val('patofisiologi', $existing_data) ?>" <?= $ro ?>>
+
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-2 col-form-label">
+                            <strong>6. Pemeriksaan penunjang</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="penunjang" value="<?= val('penunjang', $existing_data) ?>" <?= $ro ?>>
+
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-2 col-form-label">
+                            <strong>7. Penatalaksanaan</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="penatalaksanaan" value="<?= val('penatalaksanaan', $existing_data) ?>" <?= $ro ?>>
+
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-sm-2 col-form-label">
+                            <strong>8. Komplikasi</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="komplikasi" value="<?= val('komplikasi', $existing_data) ?>" <?= $ro ?>>
+
+                        </div>
+                    </div>
+
             </div>
-            </div>
-            </div>
-           
-        <!-- ================================ -->
-        <!-- SECTION KOMENTAR & ACTION DOSEN -->
-        <!-- ================================ -->
-        <div class="card mt-3">
+        </div>
+        </div>
+        </div>
+
+        <div class="card">
             <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
-
-                <!-- List komentar -->
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
-
-                <!-- Form komentar + action (khusus dosen) -->
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">
-                                    Minta Revisi
-                                </button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">
-                                    Approve
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">
-                        Section ini sudah di-approve.
+                <div class="row mb-2">
+                    <label class="col-sm-4 col-form-label text-primary">
+                        <strong>B. Konsep Dasar Hemodialisa</strong>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-2 col-form-label">
+                        <strong>1. Pengertian</strong>
                     </div>
-                <?php endif; ?>
-            </div>
-            </div>
-        
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="pengertian" value="<?= val('pengertian', $existing_data) ?>" <?= $ro ?>>
 
-        <?php include "tab_navigasi.php"; ?>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-2 col-form-label">
+                        <strong>2. Tujuan</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="tujuan" value="<?= val('tujuan', $existing_data) ?>" <?= $ro ?>>
+
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-2 col-form-label">
+                        <strong>3. Proses Hemodialisa</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="proses_hemodialisa" value="<?= val('proses_hemodialisa', $existing_data) ?>" <?= $ro ?>>
+
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-2 col-form-label">
+                        <strong>4. Alasan dilakukan Hemodialisa</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="alasanhemodialisa" value="<?= val('alasan_hemodialisa', $existing_data) ?>" <?= $ro ?>>
+
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-2 col-form-label">
+                        <strong>5. Indikasi Hemodialisa</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="indikasihemodialisa" value="<?= val('indikasi_hemodialisa', $existing_data) ?>" <?= $ro ?>>
+
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-2 col-form-label">
+                        <strong>6. Kontraindikasi Hemodialisa</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="kontraindikasihemodialisa" value="<?= val('kontraindikasi_hemodialisa', $existing_data) ?>" <?= $ro ?>>
+
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-2 col-form-label">
+                        <strong>7. Frekuensi Hemodialisa</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="frekuensihemodialisa" value="<?= val('frekuensi_hemodialisa', $existing_data) ?>" <?= $ro ?>>
+
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-2 col-form-label">
+                        <strong>8. Komplikasi Hemodialisa</strong>
+                    </div>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="komplikasi1" value="<?= val('komplikasi1', $existing_data) ?>" <?= $ro ?>>
+
+                    </div>
+
+
+                    <!-- TOMBOL SUBMIT -->
+                    <?php if (!$is_dosen): ?>
+                        <div class="row mb-3">
+                            <div class="col-sm-11 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <?php include "partials/footer_form.php"; ?>
 
     </section>
 </main>
-
-                        
-
-
-

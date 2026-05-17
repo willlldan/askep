@@ -29,7 +29,7 @@ include 'template_pdf.php';
             </tr>
             
             <tr>
-                <td><strong>NPM</strong></td>
+                <td><strong>NIM</strong></td>
                 <td>:</td>
                 <td><?= p($submission['npm']) ?></td>
                 <td><strong>RS/Ruangan</strong></td>

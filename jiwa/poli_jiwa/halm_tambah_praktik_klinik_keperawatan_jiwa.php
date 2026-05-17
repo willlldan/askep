@@ -3,36 +3,10 @@ require_once "koneksi.php";
 require_once "utils.php";
 
 $form_id       = 8;
-$level         = $_SESSION['level'];
-$user_id       = $_SESSION['id_user'];
 $section_name  = 'format_lp';
 $section_label = 'Format Laporan Pendahuluan';
+include dirname(__DIR__, 2) . '/partials/init_section.php';
 
-// =============================================
-// DOSEN: ambil submission berdasarkan ?submission_id=
-// MAHASISWA: ambil submission milik sendiri
-// =============================================
-if ($level === 'Dosen') {
-    $submission_id_param = $_GET['submission_id'] ?? null;
-    if (!$submission_id_param) {
-        echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
-        exit;
-    }
-    $stmt = $mysqli->prepare("
-        SELECT s.*, r.nama as dosen_name
-        FROM submissions s
-        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
-        WHERE s.id = ?
-    ");
-    $stmt->bind_param("i", $submission_id_param);
-    $stmt->execute();
-    $submission = $stmt->get_result()->fetch_assoc();
-} else {
-    $submission = getSubmission($user_id, $form_id, $mysqli);
-}
-
-$existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
-$section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
 $tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
 $rs_ruangan     = $submission['rs_ruangan'] ?? '';
 $existing_evaluasi     = $existing_data['evaluasi']     ?? [];
@@ -48,40 +22,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
     $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
     $rs_ruangan     = $_POST['rsruangan'] ?? '';
-   // Proses dynamic rows evaluasi
-        $evaluasi = [];
-        if (!empty($_POST['evaluasi'])) {
-            foreach ($_POST['evaluasi'] as $index => $row) {
-                if (empty($row['masalah']) && empty($row['data_dikaji'])) {
-                    continue;
-                }
-                $evaluasi[] = [
-                    'masalah'      => $row['masalah']      ?? '',
-                    'data_dikaji_subjektif'         => $row['data_dikaji_subjektif']   ?? '',
-                    'data_dikaji_objektif'          => $row['data_dikaji_objektif']         ?? '',
-
-                ];
+    // Proses dynamic rows evaluasi
+    $evaluasi = [];
+    if (!empty($_POST['evaluasi'])) {
+        foreach ($_POST['evaluasi'] as $index => $row) {
+            if (empty($row['masalah']) && empty($row['data_dikaji'])) {
+                continue;
             }
+            $evaluasi[] = [
+                'masalah'      => $row['masalah']      ?? '',
+                'data_dikaji_subjektif'         => $row['data_dikaji_subjektif']   ?? '',
+                'data_dikaji_objektif'          => $row['data_dikaji_objektif']         ?? '',
+
+            ];
         }
+    }
     $data = [
         'evaluasi'     => $evaluasi,
-   'masalah_keperawatan_utama'     => $_POST['masalah_keperawatan_utama'] ?? '',
-    'pengertian'                    => $_POST['pengertian'] ?? '',
-    'tanda_gejala'                  => $_POST['tanda_gejala'] ?? '',
-    'rentang_respons'               => $_POST['rentang_respons'] ?? '',
-    'faktor_predisposisi'           => $_POST['faktor_predisposisi'] ?? '',
-    'faktor_presipitasi'            => $_POST['faktor_presipitasi'] ?? '',
-    'sumber_koping'                 => $_POST['sumber_koping'] ?? '',
-    'mekanisme_koping'              => $_POST['mekanisme_koping'] ?? '',
-    'pohon_masalah'                 => $_POST['pohon_masalah'] ?? '',
-    'masalah_keperawatan_muncul'    => $_POST['masalah_keperawatan_muncul'] ?? '',
-    'masalah_keperawatan'           => $_POST['masalah_keperawatan'] ?? '',
-    'subjektif'                     => $_POST['subjektif'] ?? '',
-    'objektif'                      => $_POST['objektif'] ?? '',
-    'diagnosa_muncul'               => $_POST['diagnosa_muncul'] ?? '',
-    'rencana_keperawatan'           => $_POST['rencana_keperawatan'] ?? '',
-    'daftar_pustaka'                => $_POST['daftar_pustaka'] ?? ''
-];
+        'masalah_keperawatan_utama'     => $_POST['masalah_keperawatan_utama'] ?? '',
+        'pengertian'                    => $_POST['pengertian'] ?? '',
+        'tanda_gejala'                  => $_POST['tanda_gejala'] ?? '',
+        'rentang_respons'               => $_POST['rentang_respons'] ?? '',
+        'faktor_predisposisi'           => $_POST['faktor_predisposisi'] ?? '',
+        'faktor_presipitasi'            => $_POST['faktor_presipitasi'] ?? '',
+        'sumber_koping'                 => $_POST['sumber_koping'] ?? '',
+        'mekanisme_koping'              => $_POST['mekanisme_koping'] ?? '',
+        'pohon_masalah'                 => $_POST['pohon_masalah'] ?? '',
+        'masalah_keperawatan_muncul'    => $_POST['masalah_keperawatan_muncul'] ?? '',
+        'masalah_keperawatan'           => $_POST['masalah_keperawatan'] ?? '',
+        'subjektif'                     => $_POST['subjektif'] ?? '',
+        'objektif'                      => $_POST['objektif'] ?? '',
+        'diagnosa_muncul'               => $_POST['diagnosa_muncul'] ?? '',
+        'rencana_keperawatan'           => $_POST['rencana_keperawatan'] ?? '',
+        'daftar_pustaka'                => $_POST['daftar_pustaka'] ?? ''
+    ];
 
     if (!$submission) {
         $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
@@ -95,42 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     updateSubmissionStatus($submission_id, $form_id, $mysqli);
     redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
 }
-
-// =============================================
-// HANDLE POST - DOSEN APPROVE / REVISI / KOMENTAR
-// =============================================
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
-    $submission_id = $submission['id'];
-    $dosen_id      = $user_id;
-    $action        = $_POST['action'] ?? '';
-    $comment       = $_POST['comment'] ?? '';
-
-    if ($action === 'approve') {
-        updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
-        if (!empty($comment)) {
-            saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-        }
-    } elseif ($action === 'revision') {
-        if (empty($comment)) {
-            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
-        }
-        updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
-        saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-    }
-
-    updateReviewer($submission_id, $dosen_id, $mysqli);
-    updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
-    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
-}
-
-// Load komentar section (untuk dosen & mahasiswa)
-$comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
-
-// Readonly jika mahasiswa + locked, atau jika dosen
-$is_dosen    = $level === 'Dosen';
-$is_readonly = $is_dosen || isLocked($submission);
-$ro          = $is_readonly ? 'readonly' : '';
-$ro_select   = $is_readonly ? 'disabled' : '';
 ?>
 
 <main id="main" class="main">
@@ -139,34 +77,11 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
     <section class="section dashboard">
 
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
 
-        <!-- Info status section (untuk dosen) -->
-        <?php if  ($section_status): ?>
-            <?php
-            $badge = [
-                'draft'     => 'secondary',
-                'submitted' => 'primary',
-                'revision'  => 'warning',
-                'approved'  => 'success',
-            ];
-            ?>
-
-             <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                    | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>       
-            </div>
-        <?php endif; ?>
-   
-    <div class="card">
-        <div class="card-body mt-3">
+        <div class="card">
+            <div class="card-body mt-3">
 
                 <form class="needs-validation" novalidate action="" method="POST">
 
@@ -185,161 +100,162 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                                 value="<?= htmlspecialchars($rs_ruangan) ?>" <?= $ro ?> required>
                         </div>
                     </div>
-              
 
-                <h5 class="card-title"><strong>FORMAT LAPORAN PENDAHULUAN PRAKTIK KLINIK KEPERAWATAN JIWA</strong></h5>
 
-                <div class="row mb-2">
-                    <label class="col-sm-4 col-form-label text-primary">
-                        <strong>A. Masalah Keperawatan Utama</strong>
-                    </label>
-                </div>
+                    <h5 class="card-title"><strong>FORMAT LAPORAN PENDAHULUAN PRAKTIK KLINIK KEPERAWATAN JIWA</strong></h5>
 
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Masalah Keperawatan Utama</strong></label>
-                    <div class="col-sm-10">
-                    <textarea name="masalah_keperawatan_utama" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('masalah_keperawatan_utama', $existing_data) ?></textarea>
+                    <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label text-primary">
+                            <strong>A. Masalah Keperawatan Utama</strong>
+                        </label>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Masalah Keperawatan Utama</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="masalah_keperawatan_utama" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('masalah_keperawatan_utama', $existing_data) ?></textarea>
                         </div>
-                </div>
-
-                <div class="row mb-2">
-                    <label class="col-sm-4 col-form-label text-primary">
-                        <strong>B. Proses Terjadinya Masalah</strong>
-                    </label>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>1. Pengertian</strong></label>
-                    <div class="col-sm-10">
-                    <textarea name="pengertian" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('pengertian', $existing_data) ?></textarea>
                     </div>
-                </div>
 
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>2. Tanda dan Gejala</strong></label>
-                    <div class="col-sm-10">
-                        <textarea name="tanda_gejala" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('tanda_gejala', $existing_data) ?></textarea>
+                    <div class="row mb-2">
+                        <label class="col-sm-4 col-form-label text-primary">
+                            <strong>B. Proses Terjadinya Masalah</strong>
+                        </label>
                     </div>
-                </div>
 
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>3. Rentang Respons</strong></label>
-                    <div class="col-sm-10">
-                    <textarea name="rentang_respons" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('rentang_respons', $existing_data) ?></textarea>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>1. Pengertian</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="pengertian" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('pengertian', $existing_data) ?></textarea>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>4. Faktor Predisposisi</strong></label>
-                    <div class="col-sm-10">
-                       <textarea name="faktor_predisposisi" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('faktor_predisposisi', $existing_data) ?></textarea>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>2. Tanda dan Gejala</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="tanda_gejala" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('tanda_gejala', $existing_data) ?></textarea>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>5. Faktor Presipitasi</strong></label>
-                    <div class="col-sm-10">
-                       <textarea name="faktor_presipitasi" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('faktor_presipitasi', $existing_data) ?></textarea>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>3. Rentang Respons</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="rentang_respons" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('rentang_respons', $existing_data) ?></textarea>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>6. Sumber Koping</strong></label>
-                    <div class="col-sm-10">
-                        <textarea name="sumber_koping" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('sumber_koping', $existing_data) ?></textarea>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>4. Faktor Predisposisi</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="faktor_predisposisi" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('faktor_predisposisi', $existing_data) ?></textarea>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>7. Mekanisme Koping</strong></label>
-                    <div class="col-sm-10">
-                <textarea name="mekanisme_koping" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('mekanisme_koping', $existing_data) ?></textarea>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>5. Faktor Presipitasi</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="faktor_presipitasi" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('faktor_presipitasi', $existing_data) ?></textarea>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>8. Pohon Masalah</strong></label>
-                    <div class="col-sm-10">
-                    <textarea name="pohon_masalah" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('pohon_masalah', $existing_data) ?></textarea>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>6. Sumber Koping</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="sumber_koping" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('sumber_koping', $existing_data) ?></textarea>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>9. Masalah Keperawatan yang Mungkin Muncul</strong></label>
-                    <div class="col-sm-10">
-                       <textarea name="masalah_keperawatan_muncul" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('masalah_keperawatan_muncul', $existing_data) ?></textarea>
-                </div>
-<!-- !-- ===================== TABEL EVALUASI ===================== -->
-                    <p class="text-primary fw-bold mb-2">10. Data yang perlu dikaji</p>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>7. Mekanisme Koping</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="mekanisme_koping" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('mekanisme_koping', $existing_data) ?></textarea>
+                        </div>
+                    </div>
 
-                    <table class="table table-bordered" id="tabel-evaluasi">
-                        <thead>
-                            <tr>
-                                <th class="text-center" style="width:70px">Masalah Keperawatan</th>
-                                <th class="text-center" style="width:150px">Data yang Perlu Dikaji</th>
-                                
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-evaluasi">
-                            <!-- Dynamic rows masuk sini -->
-                        </tbody>
-                    </table>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>8. Pohon Masalah</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="pohon_masalah" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('pohon_masalah', $existing_data) ?></textarea>
+                        </div>
+                    </div>
 
-                    <?php if (!$is_readonly): ?>
-                        <div class="row mb-4">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowEvaluasi()">+ Tambah Data</button>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>9. Masalah Keperawatan yang Mungkin Muncul</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="masalah_keperawatan_muncul" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('masalah_keperawatan_muncul', $existing_data) ?></textarea>
+                        </div>
+                        <!-- !-- ===================== TABEL EVALUASI ===================== -->
+                        <p class="text-primary fw-bold mb-2">10. Data yang perlu dikaji</p>
+
+                        <table class="table table-bordered" id="tabel-evaluasi">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" style="width:70px">Masalah Keperawatan</th>
+                                    <th class="text-center" style="width:150px">Data yang Perlu Dikaji</th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-evaluasi">
+                                <!-- Dynamic rows masuk sini -->
+                            </tbody>
+                        </table>
+
+                        <?php if (!$is_readonly): ?>
+                            <div class="row mb-4">
+                                <div class="col-sm-12 d-flex justify-content-end">
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowEvaluasi()">+ Tambah Data</button>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>11. Diagnosa Keperawatan yang Mungkin Muncul</strong></label>
+                            <div class="col-sm-10">
+                                <textarea name="diagnosa_muncul" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('diagnosa_muncul', $existing_data) ?></textarea>
+
                             </div>
                         </div>
-                    <?php endif; ?>
 
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>12. Rencana Tindakan Keperawatan</strong></label>
+                            <div class="col-sm-10">
+                                <textarea name="rencana_keperawatan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('rencana_keperawatan', $existing_data) ?></textarea>
 
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>11. Diagnosa Keperawatan yang Mungkin Muncul</strong></label>
-                    <div class="col-sm-10">
-                        <textarea name="diagnosa_muncul" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('diagnosa_muncul', $existing_data) ?></textarea>
-
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>12. Rencana Tindakan Keperawatan</strong></label>
-                    <div class="col-sm-10">
-                        <textarea name="rencana_keperawatan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('rencana_keperawatan', $existing_data) ?></textarea>
-
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>13. Daftar Pustaka</strong></label>
-                    <div class="col-sm-10">
-                <textarea name="daftar_pustaka" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('daftar_pustaka', $existing_data) ?></textarea>                    </div>
-                </div>
-
-               <!-- TOMBOL SUBMIT -->
-                    <?php if (!$is_dosen): ?>
-                    <div class="row mb-3">
-                        <div class="col-sm-11 d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
                         </div>
-                    </div>
-                    <?php endif; ?>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong>13. Daftar Pustaka</strong></label>
+                            <div class="col-sm-10">
+                                <textarea name="daftar_pustaka" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('daftar_pustaka', $existing_data) ?></textarea>
+                            </div>
+                        </div>
+
+                        <!-- TOMBOL SUBMIT -->
+                        <?php if (!$is_dosen): ?>
+                            <div class="row mb-3">
+                                <div class="col-sm-11 d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </div>
+                        <?php endif; ?>
                 </form>
             </div>
         </div>
-   <script>
-    let rowEvaluasiCount = 1;
+        <script>
+            let rowEvaluasiCount = 1;
 
-    const existingEvaluasi = <?= json_encode($existing_evaluasi) ?>;
+            const existingEvaluasi = <?= json_encode($existing_evaluasi) ?>;
 
-    // ---- EVALUASI ----
-    function tambahRowEvaluasi(data = null) {
-        const tbody = document.getElementById('tbody-evaluasi');
-        const index = rowEvaluasiCount;
-        const row = document.createElement('tr');
-        const isReadonly = <?= json_encode($is_readonly) ?>;
+            // ---- EVALUASI ----
+            function tambahRowEvaluasi(data = null) {
+                const tbody = document.getElementById('tbody-evaluasi');
+                const index = rowEvaluasiCount;
+                const row = document.createElement('tr');
+                const isReadonly = <?= json_encode($is_readonly) ?>;
 
-        row.innerHTML = `
+                row.innerHTML = `
             <td class="col-6">
                 <input type="text" class="form-control form-control-sm" name="evaluasi[${index}][masalah]" value="${data?.masalah ?? ''}" ${isReadonly ? 'readonly' : ''}>
             </td>
@@ -376,77 +292,28 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
             </td>
         `;
-        tbody.appendChild(row);
-        rowEvaluasiCount++;
-    }
+                tbody.appendChild(row);
+                rowEvaluasiCount++;
+            }
 
-    function hapusRow(btn) {
-        btn.closest('tr').remove();
-    }
+            function hapusRow(btn) {
+                btn.closest('tr').remove();
+            }
 
-    // Load existing rows on page load
-    window.addEventListener('load', function() {
-        if (existingEvaluasi && existingEvaluasi.length > 0) {
-            existingEvaluasi.forEach(row => tambahRowEvaluasi(row));
-        } else {
-            tambahRowEvaluasi();
-        }
-    });
+            // Load existing rows on page load
+            window.addEventListener('load', function() {
+                if (existingEvaluasi && existingEvaluasi.length > 0) {
+                    existingEvaluasi.forEach(row => tambahRowEvaluasi(row));
+                } else {
+                    tambahRowEvaluasi();
+                }
+            });
 
-    const existingData = <?= json_encode($existing_data) ?>;
-</script>
-        <!-- ================================ -->
-        <!-- SECTION KOMENTAR & ACTION DOSEN -->
-        <!-- ================================ -->
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
-
-                <!-- List komentar -->
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
-
-                <!-- Form komentar + action (khusus dosen) -->
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">
-                                    Minta Revisi
-                                </button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">
-                                    Approve
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">
-                        Section ini sudah di-approve.
-                    </div>
-                <?php endif; ?>
-            </div>
+            const existingData = <?= json_encode($existing_data) ?>;
+        </script>
         </div>
-
-        <?php include "tab_navigasi.php"; ?>
+        </div>
+        <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 
     </section>
 </main>
-
-                    

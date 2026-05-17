@@ -29,7 +29,7 @@ while ($row = $result->fetch_assoc()) {
                                 <tr>
                                     <th width="50">No</th>
                                     <th>Nama</th>
-                                    <th>NPM</th>
+                                    <th>NIM</th>
                                     <th width="200">Aksi</th>
                                 </tr>
                             </thead>
