@@ -10,6 +10,49 @@ $catatan= $sections['catatan_keperawatan'] ?? [];
 
 
 
+// Helper: decode JSON array fields
+function arr($val)
+{
+    if (is_array($val)) return $val;
+    if (is_string($val)) {
+        $decoded = json_decode($val, true);
+        return is_array($decoded) ? $decoded : [];
+    }
+    return [];
+}
+
+// Helper: checkbox mark
+function chk($val, $match)
+{
+    return (strtolower(trim($val)) === strtolower(trim($match))) ? printCheck('☑') : printCheck('☐');
+}
+
+// Helper: checked if value contains match
+function chkIn($arr_or_str, $match)
+{
+    $items = is_array($arr_or_str) ? $arr_or_str : arr($arr_or_str);
+    foreach ($items as $item) {
+        if (strtolower(trim($item)) === strtolower(trim($match))) return printCheck('☑');
+    }
+    return printCheck('☐');
+}
+
+function printCheck($val)
+{
+    return '<span style="font-family: DejaVu Sans, serif;">' . $val . '</span>';
+}
+
+// Helper: activity score row
+function actRow($label, $val)
+{
+    $scores = ['0', '1', '2', '3', '4'];
+    $cells = '';
+    foreach ($scores as $s) {
+        $cells .= '<td style="text-align:center;border:1px solid #000;">' . (trim((string)$val) === $s ? printCheck('☑') : printCheck('☐')) . '</td>';
+    }
+    return '<tr><td style="border:1px solid #000;padding:2px 4px;">' . $label . '</td>' . $cells . '</tr>';
+}
+
 include 'template_pdf.php';
 ?>
 
@@ -603,18 +646,12 @@ include 'template_pdf.php';
     <div class="field-value"><?= p($pengkajian['riwayat_kesehatan_keluarga'] ?? '') ?></div>
 </div>
 
+
 <div class="field-row">
     <div class="field-label"><strong>f. Genogram</strong></div>
     <div class="field-sep">:</div>
-    <div class="field-value">
-        <?php if(!empty($pengkajian['link_genogram'])): ?>
-            <a href="<?= p($pengkajian['link_genogram']) ?>" target="_blank">Lihat Genogram</a>
-        <?php else: ?>
-            Belum ada genogram
-        <?php endif; ?>
-    </div>
+    <div class="field-value"><?= p($pengkajian['genogram'] ?? '') ?></div>
 </div>
-
 <!-- belum disimpan masih ada yang eror -->
 <h3>4. Pemeriksaan Fisik</h3>
 <h3>a. Kepala</h3>
@@ -903,6 +940,7 @@ include 'template_pdf.php';
     </div>
 </div>
 <h3>g. Mulut</h3>
+        <?php $bau_mulut_arr = arr($fisik['bau_mulut']); ?>
 
 
 <div class="field-row">
@@ -994,12 +1032,16 @@ include 'template_pdf.php';
 </div>
 
 <div class="field-row">
-    <div class="field-label"><strong>Bau Mulut</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['bau_mulut1'] ?? '') ?>
-    </div>
-</div>
+            <div class="field-label">Bau Mulut</div>
+            <div class="field-sep">:</div>
+            <div class="field-value">
+                <?= chkIn($bau_mulut_arr, 'uranium') ?> Uranium &nbsp;
+                <?= chkIn($bau_mulut_arr, 'amoniak') ?> Amoniak &nbsp;
+                <?= chkIn($bau_mulut_arr, 'aceton') ?> Aceton &nbsp;
+                <?= chkIn($bau_mulut_arr, 'busuk') ?> Busuk &nbsp;
+                <?= chkIn($bau_mulut_arr, 'alkohol') ?> Alkohol
+            </div>
+        </div>
 
 <div class="field-row">
     <div class="field-label"><strong>Sekret</strong></div>
@@ -1137,7 +1179,7 @@ include 'template_pdf.php';
     <div class="field-label"><strong>Bunyi Tambahan</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= p($fisik['bunyi_tambahan'] ?? '') ?>
+        <?= p($fisik['bunyi'] ?? '') ?>
     </div>
 </div>
 
@@ -1157,23 +1199,27 @@ include 'template_pdf.php';
     </div>
 </div>
 <h3>k. Abdomen</h3>
-
-
+<?php $bentuk_abd = arr($fisik['bentuk_abdomen']);
+        $keadaan_abd = arr($fisik['keadaan_abdomen']); ?>
 <div class="field-row">
-    <div class="field-label"><strong>Bentuk</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['bentuk_abdomen1'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Keadaan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['keadaan_abdomen1'] ?? '') ?>
-    </div>
-</div>
+            <div class="field-label">Bentuk</div>
+            <div class="field-sep">:</div>
+            <div class="field-value">
+                <?= chkIn($bentuk_abd, 'datar') ?> Datar &nbsp;
+                <?= chkIn($bentuk_abd, 'membuncit') ?> Membuncit &nbsp;
+                <?= chkIn($bentuk_abd, 'cekung') ?> Cekung &nbsp;
+                <?= chkIn($bentuk_abd, 'tegang') ?> Tegang
+            </div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Keadaan</div>
+            <div class="field-sep">:</div>
+            <div class="field-value">
+                <?= chkIn($keadaan_abd, 'parut') ?> Parut &nbsp;
+                <?= chkIn($keadaan_abd, 'lesi') ?> Lesi &nbsp;
+                <?= chkIn($keadaan_abd, ' bercak_merah') ?> Bercak Merah
+            </div>
+        </div>
 
 <div class="field-row">
     <div class="field-label"><strong>Bising Usus</strong></div>
@@ -1576,255 +1622,38 @@ include 'template_pdf.php';
     </div>
 </div>
 <h3>q. Status Neurologi</h3>
-
-
 <div class="field-row">
-    <div class="field-label"><strong>1) Saraf-saraf Kranial</strong></div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>a) Nervus I (Olfactorius) - Penciuman</strong></div>
+    <div class="field-label"><strong>Status Neurologi</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= p($fisik['nervus1_penciuman']) ?>
+        <?= p($fisik['neurologi'] ?? '') ?>
     </div>
 </div>
 
-<div class="field-row">
-    <div class="field-label"><strong>b) Nervus II (Opticus) - Penglihatan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['nervus2_penglihatan']) ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>c) Nervus III, IV, VI (Oculomotorius, Trochlearis, Abducens)</strong></div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Konstriksi Pupil</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['konstriksi_pupil']) ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Gerakan Kelopak Mata</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['gerakan_kelopak']) ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Pergerakan Bola Mata</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['gerakan_bola_mata']) ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Pergerakan Mata ke Bawah & Dalam</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['gerakan_mata_bawah']) ?>
-    </div>
-</div>
-
-<!-- Nervus V (Trigeminus) -->
-<div class="field-row">
-    <div class="field-label"><strong>d) Nervus V (Trigeminus)</strong></div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Refleks Dagu</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['refleks_dagu']) ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Refleks Cornea</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['refleks_cornea']) ?>
-    </div>
-</div>
-
-<!-- Nervus VII (Facialis) -->
-<div class="field-row">
-    <div class="field-label"><strong>e) Nervus VII (Facialis)</strong></div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Pengecapan 2/3 Lidah Bagian Depan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['pengecapan_depan']) ?>
-    </div>
-</div>
-
-<!-- Nervus VIII (Acusticus) -->
-<div class="field-row">
-    <div class="field-label"><strong>f) Nervus VIII (Acusticus)</strong></div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Fungsi Pendengaran</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['fungsi_pendengaran']) ?>
-    </div>
-</div>
-
-<!-- Nervus IX & X (Glossopharyngeus dan Vagus) -->
-<div class="field-row">
-    <div class="field-label"><strong>g) Nervus IX & X (Glossopharyngeus dan Vagus)</strong></div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Refleks Menelan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['refleks_menelan']) ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Refleks Muntah</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['refleks_muntah']) ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Pengecapan 1/3 Lidah Belakang</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['pengecapan_belakang']) ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Suara</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['suara_pasien']) ?>
-    </div>
-</div>
-
-<!-- Nervus XI (Assesorius) -->
-<div class="field-row">
-    <div class="field-label"><strong>h) Nervus XI (Assesorius)</strong></div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Memalingkan Kepala</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['gerakan_kepala']) ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Mengangkat Bahu</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['angkat_bahu']) ?>
-    </div>
-</div>
-
-<!-- Nervus XII (Hypoglossus) -->
-<div class="field-row">
-    <div class="field-label"><strong>i) Nervus XII (Hypoglossus)</strong></div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Deviasi Lidah</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['deviasi_lidah']) ?>
-    </div>
-</div>
-
-<!-- Tanda-tanda Peradangan Selaput Otak -->
-<div class="field-row">
-    <div class="field-label"><strong>2) Tanda-tanda Peradangan Selaput Otak</strong></div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Kaku Kuduk</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kaku_kuduk']) ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Kernig Sign</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kernig_sign']) ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Refleks Brudzinski</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['refleks_brudzinski']) ?>
-    </div>
-</div>
 
 <h4>a. Pola Aktivitas</h4>
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Aktivitas</th>
-                <th class="text-center">0</th>
-                <th class="text-center">1</th>
-                <th class="text-center">2</th>
-                <th class="text-center">3</th>
-                <th class="text-center">4</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $perawatan_fields = [
-                'mandi'      => 'Mandi',
-                'berpakaian' => 'Berpakaian / Berdandan',
-                'mobilisasi' => 'Mobilisasi di TT',
-                'pindah'     => 'Pindah',
-                'ambulasi'   => 'Ambulasi',
-                'makan'      => 'Makan / Minum',
-            ];
 
-            foreach ($perawatan_fields as $field => $label):
-                $skor = $pengkajian[$field] ?? ''; // ambil skor dari pengkajian
-            ?>
-            <tr>
-                <td><?= $label ?></td>
-                <?php for ($i = 0; $i <= 4; $i++): ?>
-                    <td class="text-center">
-                        <?= ($skor == (string)$i) ? '✔' : '' ?>
-                    </td>
-                <?php endfor; ?>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-
-    <small>
-        Skor 0 = Mandiri | Skor 1 = Dibantu sebagian | Skor 2 = Perlu bantuan orang lain |
-        Skor 3 = Bantuan orang lain dan alat | Skor 4 = Tergantung
-    </small>
-</div>
+        <div style="margin: 4px 0 2px 0; font-size:9px;"><strong>Kemampuan Perawatan Diri</strong> (0=Mandiri, 1=Dibantu Sebagian, 2=Perlu Dibantu Orang Lain, 3=Perlu Bantuan Orang Lain &amp; Alat, 4=Tergantung/Tidak Mampu)</div>
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>Aktivitas</th>
+                    <th>0</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?= actRow('Mandi', $kebutuhan['mandi']) ?>
+                <?= actRow('Berpakaian/Berdandan', $kebutuhan['berpakaian']) ?>
+                <?= actRow('Mobilisasi di TT', $kebutuhan['mobilisasi']) ?>
+                <?= actRow('Pindah', $kebutuhan['pindah']) ?>
+                <?= actRow('Ambulasi', $kebutuhan['ambulasi']) ?>
+                <?= actRow('Makan/Minum', $kebutuhan['makan']) ?>
+            </tbody>
+        </table>
 <h4>b. Pola Kognitif dan Perceptual</h4>
 
 <div class="field-row mb-2">
@@ -2070,26 +1899,26 @@ include 'template_pdf.php';
         <tr>
             <td>1</td>
             <td>Mandi</td>
-            <td>Frekuensi: <?= p($kebutuhan['mandi_frekuensi_sebelum']) ?>, cara: <?= p($kebutuhan['mandi_cara_sebelum']) ?>, Tempat: <?= p($kebutuhan['mandi_tempat_sebelum']) ?></td>
-            <td>Frekuensi: <?= p($kebutuhan['mandi_frekuensi_sekarang']) ?>, cara: <?= p($kebutuhan['mandi_cara_sekarang']) ?>, Tempat: <?= p($kebutuhan['mandi_tempat_sekarang']) ?></td>
+            <td>Frekuensi: <?= p($kebutuhan['mandi_frekuensi_sebelum']) ?></td>
+            <td>Frekuensi: <?= p($kebutuhan['mandi_frekuensi_sekarang']) ?></td>
         </tr>
         <tr>
             <td>2</td>
             <td>Cuci Rambut</td>
-            <td>Frekuensi: <?= p($kebutuhan['rambut_frekuensi_sebelum']) ?>, cara: <?= p($kebutuhan['rambut_cara_sebelum']) ?></td>
-            <td>Frekuensi: <?= p($kebutuhan['rambut_frekuensi_sekarang']) ?>, cara: <?= p($kebutuhan['rambut_cara_sekarang']) ?></td>
+            <td>Frekuensi: <?= p($kebutuhan['rambut_frekuensi_sebelum']) ?></td>
+            <td>Frekuensi: <?= p($kebutuhan['rambut_frekuensi_sekarang']) ?></td>
         </tr>
         <tr>
             <td>3</td>
             <td>Gunting Kuku</td>
-            <td>Frekuensi <?= p($kebutuhan['kuku_frekuensi_sebelum']) ?>, cara: <?= p($kebutuhan['kuku_cara_sebelum']) ?></td>
-            <td>Frekuensi <?= p($kebutuhan['kuku_frekuensi_sekarang']) ?>, cara: <?= p($kebutuhan['kuku_cara_sekarang']) ?></td>
+            <td>Frekuensi <?= p($kebutuhan['kuku_frekuensi_sebelum']) ?></td>
+            <td>Frekuensi <?= p($kebutuhan['kuku_frekuensi_sekarang']) ?></td>
         </tr>
         <tr>
             <td>4</td>
             <td>Gosok Gigi</td>
-            <td>Frekuensi: <?= p($kebutuhan['gigi_frekuensi_sebelum']) ?>, cara: <?= p($kebutuhan['gigi_cara_sebelum']) ?></td>
-            <td>Frekuensi: <?= p($kebutuhan['gigi_frekuensi_sekarang']) ?>, cara: <?= p($kebutuhan['gigi_cara_sekarang']) ?></td>
+            <td>Frekuensi: <?= p($kebutuhan['gigi_frekuensi_sebelum']) ?></td>
+            <td>Frekuensi: <?= p($kebutuhan['gigi_frekuensi_sekarang']) ?></td>
         </tr>
     </tbody>
 </table>

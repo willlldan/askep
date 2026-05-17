@@ -346,6 +346,9 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     </div>
                     <?php endif; ?>
                 </form>
+            </div>
+            </div>
+            </div>
            
         <!-- ================================ -->
         <!-- SECTION KOMENTAR & ACTION DOSEN -->
@@ -393,6 +396,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         Section ini sudah di-approve.
                     </div>
                 <?php endif; ?>
+            </div>
             </div>
         
 

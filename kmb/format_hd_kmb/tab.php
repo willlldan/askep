@@ -11,43 +11,6 @@ $titles = [
 ?>
 
 
-<div class="card">
-    <div class="card-body">
-        <div class="row mb-3 mt-3   ">
-            <label for="jeniskmb" class="col-sm-2 col-form-label"><strong>KEPERAWATAN MEDIKAL BEDAH</strong></label>
-            <div class="col-sm-9">
-
-         
-
-                                <select class="form-select" name="jeniskmb"
-                        onchange="window.location=this.value" required>
-
-                        <option value="">Pilih</option>
-
-                        <option value="index.php?page=kmb/pengkajian_ruang_ok&tab=pengkajian&jeniskmb=ok"
-                        <?= $jeniskmb == 'ok' ? 'selected' : '' ?>>
-                        Pengkajian Askep Ruang ok
-                        </option>
-
-                        <option value="index.php?page=kmb/format_kmb&tab=demografi&jeniskmb=kmb"
-                        <?= $jeniskmb == 'kmb' ? 'selected' : '' ?>>
-                        Format KMB
-                        </option>
-
-                        <option value="index.php?page=kmb/format_hd_kmb&tab=demografi&jeniskmb=hd"
-                        <?= $jeniskmb == 'hd' ? 'selected' : '' ?>>
-                        Format HD KMB
-                        </option>
-
-                </select>
-                <div class="invalid-feedback">
-                    Harap isi Jenis kmb.
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
 
 <div class="pagetitle">
     <h1><strong><?= $titles[$jeniskmb] ?? 'Format HD KMB' ?></strong></h1>
@@ -65,7 +28,7 @@ $titles = [
     <li class="nav-item">
         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'format_hd' ? 'active' : '' ?>"
         href="index.php?page=kmb/format_hd_kmb&tab=format_hd<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-Format Hermodalisa (HD) </a>
+Format Hemodalisa (HD) </a>
     </li>
 
     <li class="nav-item">

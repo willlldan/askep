@@ -286,7 +286,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         const existingData = <?= json_encode($existing_data) ?>;
                     </script>
                 </form>
-                <?php include "tab_navigasi.php"; ?>
+               
             </div>
         </div>
 
