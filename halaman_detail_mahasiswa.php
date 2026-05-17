@@ -118,13 +118,11 @@ while ($row = $result->fetch_assoc()) {
                                                     class="btn btn-sm btn-primary">
                                                     <i class="ri-edit-line me-1"></i> Review
                                                 </a>
-                                                <?php if ($sub['status'] === 'approved'): ?>
-                                                    <a href="cetak_form/cetak.php?submission_id=<?= $sub['submission_id'] ?>"
-                                                        target="_blank"
-                                                        class="btn btn-sm btn-success ms-1">
-                                                        <i class="ri-printer-line me-1"></i> Cetak
-                                                    </a>
-                                                <?php endif; ?>
+                                                <a href="cetak_form/cetak.php?submission_id=<?= $sub['submission_id'] ?>"
+                                                    target="_blank"
+                                                    class="btn btn-sm btn-success ms-1">
+                                                    <i class="ri-printer-line me-1"></i> Cetak
+                                                </a>
                                             <?php else: ?>
                                                 <span class="text-muted">Belum submit</span>
                                             <?php endif; ?>
@@ -152,14 +150,16 @@ while ($row = $result->fetch_assoc()) {
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#tabelSubmissions').DataTable({
             pageLength: 20,
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
             },
-            columnDefs: [
-                { orderable: false, targets: [3, 4] } // Kolom Status & Aksi tidak bisa di-sort
+            columnDefs: [{
+                    orderable: false,
+                    targets: [3, 4]
+                } // Kolom Status & Aksi tidak bisa di-sort
             ]
         });
     });

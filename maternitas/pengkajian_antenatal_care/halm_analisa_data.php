@@ -1,6 +1,8 @@
 <?php
+
 require_once "koneksi.php";
 require_once "utils.php";
+require_once __DIR__ . "/../../utils/form_helpers.php";
 
 
 $form_id       = 1;
@@ -42,39 +44,14 @@ $existing_analisa     = $existing_data['analisa']     ?? [];
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
 // =============================================
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     if (isLocked($submission)) {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
 
-    // Proses dynamic rows klasifikasi data
-    $klasifikasi = [];
-    if (!empty($_POST['klasifikasi'])) {
-        foreach ($_POST['klasifikasi'] as $index => $row) {
-            if (empty($row['ds']) && empty($row['do'])) {
-                continue;
-            }
-            $klasifikasi[] = [
-                'ds' => $row['ds'] ?? '',
-                'do' => $row['do'] ?? '',
-            ];
-        }
-    }
-
-    // Proses dynamic rows analisa data
-    $analisa = [];
-    if (!empty($_POST['analisa'])) {
-        foreach ($_POST['analisa'] as $index => $row) {
-            if (empty($row['ds_do']) && empty($row['etiologi']) && empty($row['masalah'])) {
-                continue;
-            }
-            $analisa[] = [
-                'ds_do'   => $row['ds_do']   ?? '',
-                'etiologi' => $row['etiologi'] ?? '',
-                'masalah'  => $row['masalah']  ?? '',
-            ];
-        }
-    }
+    $klasifikasi = parse_dynamic_rows($_POST['klasifikasi'] ?? [], ['ds', 'do']);
+    $analisa     = parse_dynamic_rows($_POST['analisa'] ?? [], ['ds_do', 'etiologi', 'masalah']);
 
     $data = [
         'klasifikasi' => $klasifikasi,
@@ -95,26 +72,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 // =============================================
 // HANDLE POST - DOSEN APPROVE / REVISI / KOMENTAR
 // =============================================
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
     $submission_id = $submission['id'];
     $dosen_id      = $user_id;
     $action        = $_POST['action'] ?? '';
     $comment       = $_POST['comment'] ?? '';
 
-    if ($action === 'approve') {
-        updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
-        if (!empty($comment)) {
-            saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-        }
-    } elseif ($action === 'revision') {
-        if (empty($comment)) {
-            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
-        }
-        updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
-        saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
+    $err = handle_dosen_action($submission_id, $section_name, $action, $comment, $dosen_id, $mysqli);
+    if (isset($err['error'])) {
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $err['error']);
     }
-
-    updateReviewer($submission_id, $dosen_id, $mysqli);
     updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
     redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
 }
@@ -197,53 +165,30 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         const existingKlasifikasi = <?= json_encode($existing_klasifikasi) ?>;
                         const existingAnalisa = <?= json_encode($existing_analisa) ?>;
                         const isReadonly = <?= json_encode($is_readonly) ?>;
-                        // ---- KLASIFIKASI DATA ----
+                        // Import helper
+                        const script = document.createElement('script');
+                        script.src = '/assets/js/form_row_helpers.js';
+                        document.head.appendChild(script);
+
                         function tambahRowKlasifikasi(data = null) {
-                            const tbody = document.getElementById('tbody-klasifikasi');
-                            const index = rowKlasifikasiCount;
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td class="text-center align-middle">${index}</td>
-                                <td>
-                                    <textarea class="form-control form-control-sm" name="klasifikasi[${index}][ds]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.ds ?? ''}</textarea>
-                                </td>
-                                <td>
-                                    <textarea class="form-control form-control-sm" name="klasifikasi[${index}][do]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.do ?? ''}</textarea>
-                                </td>
-                                <td class="text-center align-middle">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
-                                </td>
-                            `;
-                            tbody.appendChild(row);
-                            rowKlasifikasiCount++;
-                        }
-                        // ---- ANALISA DATA ----
-                        function tambahRowAnalisa(data = null) {
-                            const tbody = document.getElementById('tbody-analisa');
-                            const index = rowAnalisaCount;
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td class="text-center align-middle">${index}</td>
-                                <td>
-                                    <textarea class="form-control form-control-sm" name="analisa[${index}][ds_do]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.ds_do ?? ''}</textarea>
-                                </td>
-                                <td>
-                                    <textarea class="form-control form-control-sm" name="analisa[${index}][etiologi]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.etiologi ?? ''}</textarea>
-                                </td>
-                                <td>
-                                    <textarea class="form-control form-control-sm" name="analisa[${index}][masalah]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.masalah ?? ''}</textarea>
-                                </td>
-                                <td class="text-center align-middle">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
-                                </td>
-                            `;
-                            tbody.appendChild(row);
-                            rowAnalisaCount++;
+                            tambahRowKlasifikasi({
+                                tbodyId: 'tbody-klasifikasi',
+                                rowCountVar: 'rowKlasifikasiCount',
+                                isReadonly,
+                                data
+                            });
                         }
 
-                        function hapusRow(btn) {
-                            btn.closest('tr').remove();
+                        function tambahRowAnalisa(data = null) {
+                            tambahRowAnalisa({
+                                tbodyId: 'tbody-analisa',
+                                rowCountVar: 'rowAnalisaCount',
+                                isReadonly,
+                                data
+                            });
                         }
+
+                        // hapusRow sudah otomatis dari helper
                         // Load existing rows on page load
                         window.addEventListener('load', function() {
                             if (existingKlasifikasi && existingKlasifikasi.length > 0) {
