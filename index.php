@@ -623,9 +623,6 @@ if (isset($_SESSION['id_user'])) {
                     case 'lainnya':
                         include "jiwa/jiwa_rsud/halm_tambah_lainnya.php";
                         break;
-                    case 'lainnya1':
-                        include "jiwa/jiwa_rsud/halm_tambah_lainnya_copy.php";
-                        break;
 
                     default:
                         include "jiwa/jiwa_rsud/halm_tambah_format_laporan_pendahuluan.php";
