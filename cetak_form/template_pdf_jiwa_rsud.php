@@ -7,6 +7,49 @@ $lainnya       = $sections['lainnya'] ?? [];
 
 
 
+// Helper: decode JSON array fields
+function arr($val)
+{
+    if (is_array($val)) return $val;
+    if (is_string($val)) {
+        $decoded = json_decode($val, true);
+        return is_array($decoded) ? $decoded : [];
+    }
+    return [];
+}
+
+// Helper: checkbox mark
+function chk($val, $match)
+{
+    return (strtolower(trim($val)) === strtolower(trim($match))) ? printCheck('☑') : printCheck('☐');
+}
+
+// Helper: checked if value contains match
+function chkIn($arr_or_str, $match)
+{
+    $items = is_array($arr_or_str) ? $arr_or_str : arr($arr_or_str);
+    foreach ($items as $item) {
+        if (strtolower(trim($item)) === strtolower(trim($match))) return printCheck('☑');
+    }
+    return printCheck('☐');
+}
+
+function printCheck($val)
+{
+    return '<span style="font-family: DejaVu Sans, serif;">' . $val . '</span>';
+}
+
+// Helper: activity score row
+function actRow($label, $val)
+{
+    $scores = ['0', '1', '2', '3', '4'];
+    $cells = '';
+    foreach ($scores as $s) {
+        $cells .= '<td style="text-align:center;border:1px solid #000;">' . (trim((string)$val) === $s ? printCheck('☑') : printCheck('☐')) . '</td>';
+    }
+    return '<tr><td style="border:1px solid #000;padding:2px 4px;">' . $label . '</td>' . $cells . '</tr>';
+}
+
 include 'template_pdf.php';
 ?>
 
@@ -407,6 +450,187 @@ include 'template_pdf.php';
     <div class="field-value"><?= p($pengkajian['kegiatan_ibadah']) ?></div>
 </div>
 <h4>VI. Status Mental</h4>
+<<<<<<< HEAD
+<?php $penampilan_arr = arr($pengkajian['penampilan']); ?>
+<?php $pembicaraan_arr = arr($pengkajian['pembicaraan']); ?>
+<?php $aktivitas_motorik_arr = arr($pengkajian['motorik']); ?>
+<?php $alam_perasaan_arr = arr($pengkajian['alam_perasaan']); ?>
+<?php $interaksi_arr = arr($pengkajian['interaksi_wawancara']); ?>
+<?php $persepsi_sensorik_arr = arr($pengkajian['persepsi_sensorik']); ?>
+<?php $proses_pikir_arr = arr($pengkajian['proses_pikir']); ?>
+<?php $isi_pikir_arr = arr($pengkajian['isi_pikir']); ?>
+<?php $tingkat_kesadaran_arr = arr($pengkajian['tingkat_kesadaran']); ?>
+<?php $memori_arr = arr($pengkajian['memori']); ?>
+<?php $tingkat_konsentrasi_arr = arr($pengkajian['konsentrasi_berhitung']); ?>
+<?php $kemampuan_penilaian_arr = arr($pengkajian['kemampuan_penilaian']); ?>
+<?php $daya_tilik_diri_arr = arr($pengkajian['daya_tilik_diri']); ?>
+
+<div class="field-row">
+            <div class="field-label">1. Penampilan</div>
+            <div class="field-sep">:</div>
+            <div class="field-value">
+                <?= chkIn($penampilan_arr, 'tidak_rapi') ?> Tidak Rapi &nbsp;
+                <?= chkIn($penampilan_arr, 'pakaian_tidak_sesuai') ?> Penggunaan Pakaian Tidak Sesuai &nbsp;
+                <?= chkIn($penampilan_arr, 'berpakaian_tidak_biasa') ?> Cara Berpakaian Tidak Seperti Biasanya
+            </div>
+        </div>
+  <div class="field-row">
+    <div class="field-label">2. Pembicaraan</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($pembicaraan_arr, 'cepat') ?> Cepat &nbsp;
+        <?= chkIn($pembicaraan_arr, 'keras') ?> Keras &nbsp;
+        <?= chkIn($pembicaraan_arr, 'gagap') ?> Gagap &nbsp;
+        <?= chkIn($pembicaraan_arr, 'inkoheren') ?> Inkoheren &nbsp;
+        <?= chkIn($pembicaraan_arr, 'apatis') ?> Apatis &nbsp;
+        <?= chkIn($pembicaraan_arr, 'lambat') ?> Lambat &nbsp;
+        <?= chkIn($pembicaraan_arr, 'membisu') ?> Membisu &nbsp;
+        <?= chkIn($pembicaraan_arr, 'tidak_memulai') ?> Tidak Mampu Memulai Pembicaraan
+    </div>
+</div>
+
+<div class="field-row">
+    <div class="field-label">3. Aktivitas Motorik</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($aktivitas_motorik_arr, 'lesu') ?> Lesu &nbsp;
+        <?= chkIn($aktivitas_motorik_arr, 'tegang') ?> Tegang &nbsp;
+        <?= chkIn($aktivitas_motorik_arr, 'gelisah') ?> Gelisah &nbsp;
+        <?= chkIn($aktivitas_motorik_arr, 'agitasi') ?> Agitasi &nbsp;
+        <?= chkIn($aktivitas_motorik_arr, 'tik') ?> TIK &nbsp;
+        <?= chkIn($aktivitas_motorik_arr, 'grimasen') ?> Grimasen &nbsp;
+        <?= chkIn($aktivitas_motorik_arr, 'tremor') ?> Tremor &nbsp;
+        <?= chkIn($aktivitas_motorik_arr, 'kompulsif') ?> Kompulsif
+    </div>
+</div>
+
+<div class="field-row">
+    <div class="field-label">4. Alam Perasaan</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($alam_perasaan_arr, 'sedih') ?> Sedih &nbsp;
+        <?= chkIn($alam_perasaan_arr, 'ketakutan') ?> Ketakutan &nbsp;
+        <?= chkIn($alam_perasaan_arr, 'putus_asa') ?> Putus Asa &nbsp;
+        <?= chkIn($alam_perasaan_arr, 'khawatir') ?> Khawatir &nbsp;
+        <?= chkIn($alam_perasaan_arr, 'gembira_berlebihan') ?> Gembira Berlebihan
+    </div>
+</div>
+
+<div class="field-row">
+    <div class="field-label">6. Interaksi Selama Wawancara</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($interaksi_arr, 'bermusuhan') ?> Bermusuhan &nbsp;
+        <?= chkIn($interaksi_arr, 'tidak_kooperatif') ?> Tidak Kooperatif &nbsp;
+        <?= chkIn($interaksi_arr, 'mudah_tersinggung') ?> Mudah Tersinggung &nbsp;
+        <?= chkIn($interaksi_arr, 'kontak_mata') ?> Kontak Mata Kurang &nbsp;
+        <?= chkIn($interaksi_arr, 'defensif') ?> Defensif &nbsp;
+        <?= chkIn($interaksi_arr, 'curiga') ?> Curiga
+    </div>
+</div>
+
+<div class="field-row">
+    <div class="field-label">7. Persepsi - Sensorik</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($persepsi_sensorik_arr, 'pendengaran') ?> Pendengaran &nbsp;
+        <?= chkIn($persepsi_sensorik_arr, 'pengecapan') ?> Pengecapan &nbsp;
+        <?= chkIn($persepsi_sensorik_arr, 'penglihatan') ?> Penglihatan &nbsp;
+        <?= chkIn($persepsi_sensorik_arr, 'perabaan') ?> Perabaan &nbsp;
+        <?= chkIn($persepsi_sensorik_arr, 'penghidu') ?> Penghidu &nbsp;
+        <?= chkIn($persepsi_sensorik_arr, 'ilusi_ada') ?> Ilusi Ada &nbsp;
+        <?= chkIn($persepsi_sensorik_arr, 'ilusi_tidak_ada') ?> Ilusi Tidak Ada
+    </div>
+</div>
+
+<div class="field-row">
+    <div class="field-label">8. Proses Pikir</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($proses_pikir_arr, 'sirkumtansial') ?> Sirkumtansial &nbsp;
+        <?= chkIn($proses_pikir_arr, 'tangensial') ?> Tangensial &nbsp;
+        <?= chkIn($proses_pikir_arr, 'kehilangan_asosiasi') ?> Kehilangan Asosiasi &nbsp;
+        <?= chkIn($proses_pikir_arr, 'inkoheren') ?> Inkoheren &nbsp;
+        <?= chkIn($proses_pikir_arr, 'flight_of_idea') ?> Flight of Idea &nbsp;
+        <?= chkIn($proses_pikir_arr, 'blocking') ?> Blocking &nbsp;
+        <?= chkIn($proses_pikir_arr, 'pengulangan_pembicaraan') ?> Pengulangan Pembicaraan
+    </div>
+</div>
+
+<div class="field-row">
+    <div class="field-label">9. Isi Pikir</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($isi_pikir_arr, 'obsesi') ?> Obsesi &nbsp;
+        <?= chkIn($isi_pikir_arr, 'fobia') ?> Fobia &nbsp;
+        <?= chkIn($isi_pikir_arr, 'hipokondria') ?> Hipokondria &nbsp;
+        <?= chkIn($isi_pikir_arr, 'depersonalisasi') ?> Depersonalisasi &nbsp;
+        <?= chkIn($isi_pikir_arr, 'ide_terkait') ?> Ide yang Terkait &nbsp;
+        <?= chkIn($isi_pikir_arr, 'pikiran_magis') ?> Pikiran Magis &nbsp;
+        <?= chkIn($isi_pikir_arr, 'waham') ?> Waham &nbsp;
+        <?= chkIn($isi_pikir_arr, 'agama') ?> Agama &nbsp;
+        <?= chkIn($isi_pikir_arr, 'somatik') ?> Somatik &nbsp;
+        <?= chkIn($isi_pikir_arr, 'kebesaran') ?> Kebesaran &nbsp;
+        <?= chkIn($isi_pikir_arr, 'curiga') ?> Curiga &nbsp;
+        <?= chkIn($isi_pikir_arr, 'nihilistik') ?> Nihilistik &nbsp;
+        <?= chkIn($isi_pikir_arr, 'sisip_pikir') ?> Sisip Pikir &nbsp;
+        <?= chkIn($isi_pikir_arr, 'siar_pikir') ?> Siar Pikir &nbsp;
+        <?= chkIn($isi_pikir_arr, 'kontrol_pikir') ?> Kontrol Pikir
+    </div>
+</div>
+
+<div class="field-row">
+    <div class="field-label">10. Tingkat Kesadaran</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($tingkat_kesadaran_arr, 'bingung') ?> Bingung &nbsp;
+        <?= chkIn($tingkat_kesadaran_arr, 'sedasi') ?> Sedasi &nbsp;
+        <?= chkIn($tingkat_kesadaran_arr, 'disorientasi_waktu') ?> Disorientasi Waktu &nbsp;
+        <?= chkIn($tingkat_kesadaran_arr, 'disorientasi_orang') ?> Disorientasi Orang &nbsp;
+        <?= chkIn($tingkat_kesadaran_arr, 'disorientasi_tempat') ?> Disorientasi Tempat
+    </div>
+</div>
+
+<div class="field-row">
+    <div class="field-label">11. Memori</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($memori_arr, 'gangguan_daya_ingat_jangka_panjang') ?> Gangguan Daya Ingat Jangka Panjang &nbsp;
+        <?= chkIn($memori_arr, 'gangguan_daya_ingat_jangka_pendek') ?> Gangguan Daya Ingat Jangka Pendek &nbsp;
+        <?= chkIn($memori_arr, 'gangguan_daya_ingat_saat_ini') ?> Gangguan Daya Ingat Saat Ini &nbsp;
+        <?= chkIn($memori_arr, 'konfabulasi') ?> Konfabulasi
+    </div>
+</div>
+
+<div class="field-row">
+    <div class="field-label">12. Tingkat Konsentrasi dan Berhitung</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($tingkat_konsentrasi_arr, 'mudah_beralih') ?> Mudah Beralih &nbsp;
+        <?= chkIn($tingkat_konsentrasi_arr, 'tidak_berkonsentrasi') ?> Tidak Mampu Berkonsentrasi &nbsp;
+        <?= chkIn($tingkat_konsentrasi_arr, 'tidak_berhitung') ?> Tidak Mampu Berhitung Sederhana
+    </div>
+</div>
+
+<div class="field-row">
+    <div class="field-label">13. Kemampuan Penilaian</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($kemampuan_penilaian_arr, 'gangguan_ringan') ?> Gangguan Ringan &nbsp;
+        <?= chkIn($kemampuan_penilaian_arr, 'gangguan_bermakna') ?> Gangguan Bermakna
+    </div>
+</div>
+
+<div class="field-row">
+    <div class="field-label">14. Daya Tilik Diri</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($daya_tilik_diri_arr, 'mengingkari_penyakit') ?> Mengingkari Penyakit yang Diderita &nbsp;
+        <?= chkIn($daya_tilik_diri_arr, 'menyalahkan_diluar_diri') ?> Menyalahkan Hal-hal di Luar Dirinya
+    </div>
+</div>
+
+=======
 
 <?php
 $fields = [
@@ -445,6 +669,7 @@ $fields = [
         <div class="field-value"><?= p($pengkajian[$key.'_penjelasan'] ?? '') ?></div>
     </div>
 <?php endforeach; ?>
+>>>>>>> master
 <h4>VII. Kebutuhan Persiapan Pulang</h4>
 <h4>4. Spiritual</h4>
 
@@ -519,6 +744,31 @@ $fields = [
 </div>
 
 <h4>VIII. Mekanisme Koping</h4>
+<<<<<<< HEAD
+<?php $psikososial_arr = arr($pengkajian['psikososial']); ?>
+
+<div class="field-row">
+    <div class="field-label">Mekanisme Koping</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($psikososial_arr, 'adaptif') ?> Adaptif &nbsp;
+        <?= chkIn($psikososial_arr, 'maladaptif') ?> Maladaptif &nbsp;
+        <?= chkIn($psikososial_arr, 'bicara_dengan_orang_lain') ?> Bicara dengan Orang Lain &nbsp;
+        <?= chkIn($psikososial_arr, 'minum_alcohol') ?> Minum Alkohol &nbsp;
+        <?= chkIn($psikososial_arr, 'mampu_menyelesaikan_masalah') ?> Mampu Menyelesaikan Masalah &nbsp;
+        <?= chkIn($psikososial_arr, 'reaksi_lambat_berlebih') ?> Reaksi Lambat/Berlebih &nbsp;
+        <?= chkIn($psikososial_arr, 'teknik_relaksasi') ?> Teknik Relaksasi &nbsp;
+        <?= chkIn($psikososial_arr, 'bekerja_berlebihan') ?> Bekerja Berlebihan &nbsp;
+        <?= chkIn($psikososial_arr, 'aktivitas_konstruktif') ?> Aktivitas Konstruktif &nbsp;
+        <?= chkIn($psikososial_arr, 'menghindar') ?> Menghindar &nbsp;
+        <?= chkIn($psikososial_arr, 'olahraga') ?> Olahraga &nbsp;
+        <?= chkIn($psikososial_arr, 'mencederai_diri') ?> Mencederai Diri
+    </div>
+</div>
+
+
+
+=======
 <div class="field-row mb-2">
     <?php
     $koping_options = [
@@ -534,6 +784,7 @@ $fields = [
 </div>
 
 
+>>>>>>> master
 <h4>IX. Masalah Psikososial dan Lingkungan</h4>
 
 <div class="field-row mb-2">
@@ -576,6 +827,23 @@ $fields = [
     <div class="field-value"><?= p($pengkajian['masalah_lain'] ?? '') ?></div>
 </div>
 
+<<<<<<< HEAD
+<h4>X. PENGETAHUAN KURANG TENTANG :</h4>
+<?php $pengetahuan_arr = arr($pengkajian['pengetahuan']); ?>
+
+<div class="field-row">
+    <div class="field-label">Pengetahuan Kurang Tentang</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?= chkIn($pengetahuan_arr, 'penyakit_jiwa') ?> Penyakit Jiwa &nbsp;
+        <?= chkIn($pengetahuan_arr, 'sistem_pendukung') ?> Sistem Pendukung &nbsp;
+        <?= chkIn($pengetahuan_arr, 'faktor_presipitasi') ?> Faktor Presipitasi &nbsp;
+        <?= chkIn($pengetahuan_arr, 'penyakit_fisik') ?> Penyakit Fisik &nbsp;
+        <?= chkIn($pengetahuan_arr, 'koping') ?> Koping &nbsp;
+        <?= chkIn($pengetahuan_arr, 'obat_obatan') ?> Obat-obatan &nbsp;
+        <?= chkIn($pengetahuan_arr, 'lainnya') ?> Lainnya
+    </div>
+=======
 <h4>X.	PENGETAHUAN KURANG TENTANG :</h4>
 <div class="field-row mb-2">
     <?php
@@ -590,6 +858,7 @@ $fields = [
         echo (isset($pengkajian[$field]) && $pengkajian[$field]=='ya' ? '✔ ' : '(   )') . $opt . ' &nbsp; ';
     }
     ?>
+>>>>>>> master
 </div>
 
 <?php if(isset($pengkajian['koping_lainnya']) && $pengkajian['koping_lainnya']=='ya'): ?>

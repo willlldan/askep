@@ -2,7 +2,7 @@
 require_once "koneksi.php";
 require_once "utils.php";
 
-$form_id       = 9;
+$form_id       = 20;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
 $section_name  = 'pengkajian';
@@ -33,7 +33,8 @@ if ($level === 'Dosen') {
 
 $existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
 $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
-
+$tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
+$rs_ruangan     = $submission['rs_ruangan'] ?? '';
 
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
@@ -44,61 +45,87 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
 
+    $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
+    $rs_ruangan     = $_POST['rsruangan'] ?? '';
+
+$data = [
+
+    // =========================
+    // A. IDENTITAS KLIEN
+    // =========================
+    'nama_klien'        => $_POST['nama_klien'] ?? '',
+    'ttl_umur'          => $_POST['ttl_umur'] ?? '',
+    'jenis_kelamin'     => $_POST['jenis_kelamin'] ?? '',
+    'status_perkawinan' => $_POST['status_perkawinan'] ?? '',
+    'agama'             => $_POST['agama'] ?? '',
+    'pendidikan'        => $_POST['pendidikan'] ?? '',
+    'alamat'            => $_POST['alamat'] ?? '',
+    'tgl_masuk_rs'      => $_POST['tgl_masuk_rs'] ?? '',
+    'diagnosa_medis'    => $_POST['diagnosa_medis'] ?? '',
+    'tgl_pengkajian1'   => $_POST['tgl_pengkajian1'] ?? '',
+    'golongan_darah'    => $_POST['golongan_darah'] ?? '',
+    'no_registrasi'     => $_POST['no_registrasi'] ?? '',
+    'ruangan'           => $_POST['ruangan'] ?? '',
 
 
-    $data = [
-            'nama_klien'                            => $_POST['nama_klien'] ?? '',
-            'ttl_umur'                              => $_POST['ttl_umur'] ?? '',
-            'jenis_kelamin'                         => $_POST['jenis_kelamin'] ?? '',
-            'status_perkawinan'                     => $_POST['status_perkawinan'] ?? '',
-            'agama'                                 => $_POST['agama'] ?? '',
-            'pendidikan'                            => $_POST['pendidikan'] ?? '',
-            'pekerjaan'                             => $_POST['pekerjaan'] ?? '',
-            'alamat'                                => $_POST['alamat'] ?? '',
-            'tgl_masuk_rs'                        => $_POST['tgl_pengkajian1'] ?? '',
-            'tgl_pengkajian1'                        => $_POST['tgl_masuk_rs'] ?? '',
-            'diagnosa_medik'                        => $_POST['diagnosa_medik'] ?? '',
-            'golongan_darah'                        => $_POST['golongan_darah'] ?? '',
-            'no_registrasi'                         => $_POST['no_registrasi'] ?? '',
-            'ruangan'                               => $_POST['ruangan'] ?? '',
-            'nama_klienpj'                          => $_POST['nama_klienpj'] ?? '',
-            'ttl_umurpj'                            => $_POST['ttl_umurpj'] ?? '',
-            'jenis_kelaminpj'                       => $_POST['jenis_kelaminpj'] ?? '',
-            'hubungan_klien'                        => $_POST['hubungan_klien'] ?? '',
-            'agamapj'                               => $_POST['agamapj'] ?? '',
-            'pendidikanpj'                          => $_POST['pendidikanpj'] ?? '',
-            'pekerjaanpj'                           => $_POST['pekerjaanpj'] ?? '',
-            'alamatpj'                              => $_POST['alamatpj'] ?? '',
-            'nadi_prehd'                            => $_POST['nadi_prehd'] ?? '',
-            'pernafasan_prehd'                      => $_POST['pernafasan_prehd'] ?? '',
-            'td_prehd'                              => $_POST['td_prehd'] ?? '',
-            'suhu_prehd'                             => $_POST['suhu_prehd'] ?? '',
-            'nadi'                                  => $_POST['nadi'] ?? '',
-            'pernafasan'                            => $_POST['pernafasan'] ?? '',
-            'td'                                    => $_POST['td'] ?? '',
-            'suhu'                                  => $_POST['suhu'] ?? '',
-            'm'                                     => $_POST['m'] ?? '',
-            'v'                                     => $_POST['v'] ?? '',
-            'e'                                     => $_POST['e'] ?? '',
-            'bb_prehd'                              => $_POST['bb_prehd'] ?? '',
-             'bb_posthd'                            => $_POST['bb_posthd'] ?? '',
-            'kenaikanbb'                            => $_POST['kenaikanbb'] ?? '',
-            'alasan_masuk_rs'                       => $_POST['alasan_masuk_rs'] ?? '',
-            'keluhan_utama'                         => $_POST['keluhan_utama'] ?? '',
-            'riwayat_keluhan_utama'                 => $_POST['riwayat_keluhan_utama'] ?? '',
-            'riwayat_kesehatan_lalu'                => $_POST['riwayat_kesehatan_lalu'] ?? '',
-            'riwayat_kesehatan_keluarga'            => $_POST['riwayat_kesehatan_keluarga'] ?? '',
-            'genogram'                              => $_POST['genogram'] ?? '',
-            'kesadaran'                             => $_POST['kesadaran'] ?? '',
-            'bbkering'                              => $_POST['bbkering'] ?? '',
-            'bb_hd'                                  => $_POST['bb_hd'] ?? '',
-    ];
+    // =========================
+    // B. IDENTITAS PENANGGUNG JAWAB
+    // =========================
+    'nama_klienpj'      => $_POST['nama_klienpj'] ?? '',
+    'ttl_umurpj'        => $_POST['ttl_umurpj'] ?? '',
+    'jenis_kelaminpj'   => $_POST['jenis_kelaminpj'] ?? '',
+    'hubungan_klien'    => $_POST['hubungan_klien'] ?? '',
+    'agamapj'           => $_POST['agamapj'] ?? '',
+    'pendidikanpj'      => $_POST['pendidikanpj'] ?? '',
+    'pekerjaanpj'       => $_POST['pekerjaanpj'] ?? '',
+    'alamatpj'          => $_POST['alamatpj'] ?? '',
+
+
+    // =========================
+    // C. KEADAAN UMUM
+    // =========================
+
+    // Tanda Vital
+    'nadi'              => $_POST['nadi'] ?? '',
+    'pernafasan'        => $_POST['pernafasan'] ?? '',
+    'td'                => $_POST['td'] ?? '',
+    'suhu'              => $_POST['suhu'] ?? '',
+
+    // Glasgow Coma Scale (GCS)
+    'm'                 => $_POST['m'] ?? '',
+    'v'                 => $_POST['v'] ?? '',
+    'e'                 => $_POST['e'] ?? '',
+
+
+
+    // Antropometri
+    'bb_sebelum'        => $_POST['bb_sebelum'] ?? '',
+    'bb_saat_sakit'     => $_POST['bb_saat_sakit'] ?? '',
+    'lingkar_lengan'    => $_POST['lingkar_lengan'] ?? '',
+    'tinggi_badan'      => $_POST['tinggi_badan'] ?? '',
+    'imt'               => $_POST['imt'] ?? '',
+
+
+    // =========================
+    // D. RIWAYAT KESEHATAN
+    // =========================
+    'alasan_masuk_rs'           => $_POST['alasan_masuk_rs'] ?? '',
+    'keluhan_utama'             => $_POST['keluhan_utama'] ?? '',
+    'riwayat_penyakit_sekarang' => $_POST['riwayat_penyakit_sekarang'] ?? '',
+    'riwayat_pernah_dialami'    => $_POST['riwayat_pernah_dialami'] ?? '',
+    'riwayat_kesehatan_keluarga'=> $_POST['riwayat_kesehatan_keluarga'] ?? '',
+    'genogram'                  => $_POST['genogram'] ?? '',
+    'kesadaran'                  => isset($_POST['kesadaran']) ? (array)$_POST['kesadaran'] : [],
+
+];
+
+
 
     if (!$submission) {
-        $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
+        $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
     } else {
         $submission_id = $submission['id'];
-        updateSubmissionHeader($submission_id, null, null, $mysqli);
+        updateSubmissionHeader($submission_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
     }
 
 
@@ -136,16 +163,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
 
 // Load komentar section (untuk dosen & mahasiswa)
 $comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
-
+$kesadaran_checked = isset($existing_data['kesadaran'])
+    ? (array)$existing_data['kesadaran']
+    : [];
 // Readonly jika mahasiswa + locked, atau jika dosen
 $is_dosen    = $level === 'Dosen';
 $is_readonly = $is_dosen || isLocked($submission);
 $ro          = $is_readonly ? 'readonly' : '';
 $ro_select   = $is_readonly ? 'disabled' : '';
+$ro_check    = $is_readonly ? 'disabled' : '';
 ?>
 
 <main id="main" class="main">
-    <?php include "kmb/format_hd_kmb/tab.php"; ?>
+    <?php include "keperawatan/dasar/tab.php"; ?>
         <?php if (isset($_SESSION['success'])): ?>
             <div class="alert alert-success"><?= $_SESSION['success'];
                                                 unset($_SESSION['success']); ?></div>
@@ -174,13 +204,13 @@ $ro_select   = $is_readonly ? 'disabled' : '';
  <section class="section dashboard">
         <div class="card">
             <div class="card-body">
-              <h5 class="card-title mb-1"><strong>A. PENGKAJIAN</strong></h5>
+              <h5 class="card-title mb-1"><strong>1. Pengumpulan Data</strong></h5>
                    <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data ">
-              <h5 class="card-title mb-1"><strong>1. Identitas</strong></h5>
+              
 
     <div class="row mb-3">
-        <label class="col-sm-2 col-form-label text-primary"><strong>a. Klien </strong></label>
+        <label class="col-sm-2 col-form-label text-primary"><strong>a. Identitas Klien </strong></label>
     </div>
 
     <div class="row mb-3">
@@ -234,14 +264,8 @@ $ro_select   = $is_readonly ? 'disabled' : '';
         </div>
     </div>
 
-    <div class="row mb-3">
-        <label for="pekerjaan" class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
-        <div class="col-sm-9">
-            <input type="text" class="form-control" name="pekerjaan" value="<?= val('pekerjaan', $existing_data) ?>" <?= $ro ?>>
-            
-      
-        </div>
-    </div>
+
+
     <div class="row mb-3">
         <label for="pekerjaan" class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
         <div class="col-sm-9">
@@ -262,6 +286,14 @@ $ro_select   = $is_readonly ? 'disabled' : '';
     </div>
 
     <div class="row mb-3">
+        <label for="diagnosa_medis" class="col-sm-2 col-form-label"><strong>Diagnosa Medis</strong></label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" name="diagnosa_medis" value="<?= val('diagnosa_medis', $existing_data) ?>" <?= $ro ?>>
+      
+        </div>
+    </div>
+
+    <div class="row mb-3">
         <label for="tgl_pengkajian" class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
         <div class="col-sm-9"> 
             <input type="date" class="form-control" name="tgl_pengkajian1" value="<?= val('tgl_pengkajian1', $existing_data) ?>" <?= $ro ?>>
@@ -269,13 +301,6 @@ $ro_select   = $is_readonly ? 'disabled' : '';
         </div>
     </div>
 
-    <div class="row mb-3">
-        <label for="diagnosa_medik" class="col-sm-2 col-form-label"><strong>Diagnosa Medik</strong></label>
-        <div class="col-sm-9">
-            <input type="text" class="form-control" name="diagnosa_medik" value="<?= val('diagnosa_medik', $existing_data) ?>" <?= $ro ?>>
-      
-        </div>
-    </div>
 
     <div class="row mb-3">
         <label for="golongan_darah" class="col-sm-2 col-form-label"><strong>Golongan Darah</strong></label>
@@ -294,7 +319,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
     </div>
 
     <div class="row mb-3">
-        <label for="ruangan" class="col-sm-2 col-form-label"><strong>Ruangan</strong></label>
+        <label for="ruangan" class="col-sm-2 col-form-label"><strong>Ruang Perawatan</strong></label>
         <div class="col-sm-9">
             <input type="text" class="form-control" name="ruangan" value="<?= val('ruangan', $existing_data) ?>" <?= $ro ?>>
         
@@ -337,7 +362,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
     <div class="row mb-3">
         <label for="hubungan_klien" class="col-sm-2 col-form-label"><strong>Hubungan dengan Klien</strong></label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" name="hubungan_klien" value="<?= val('hubungan_klien', $existing_data) ?>" <?= $ro ?>>
+            <input type="text" class="form-control" name="hubungan_klien" value="<?= val('hubungan_klien', $existing_data) ?>" <?= $ro ?>">
       
         </div>
     </div>
@@ -376,86 +401,19 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
         </div>
         </div>
-        </section>
-         <section class="section dashboard">
+
         <div class="card">
              <div class="card-body">
-                                
-<!-- 2 KEADAAN UMUM -->
-
-
-                    <h5 class="card-title"><strong>2. Keadaan Umum</strong></h5>
-
-
 
 <!-- A TANDA VITAL -->
-<div class="row mb-2">
-<label class="col-sm-12 text-primary"><strong>a. Tanda Vital</strong></label>
+ <div class="row mb-2">
+<label class="col-sm-12 text-primary"><strong>c. Keadaan Umum</strong></label>
 </div>
 <div class="row mb-2">
-<label class="col-sm-12 "><strong>Pre HD</strong></label>
+<label class="col-sm-12"><strong>Tanda Vital</strong></label>
 </div>
+
 <!-- TD -->
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
-
-    <div class="col-sm-9">
-        <div class="input-group">
-            <input type="text" class="form-control" name="nadi_prehd" value="<?= val('nadi_prehd', $existing_data) ?>" <?= $ro ?>>
-            <span class="input-group-text">/menit</span>
-        </div>
-
-     
-        </div>
-        </div>
-
-
-
-<!-- Pernafasan -->
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Pernafasan</strong></label>
-
-    <div class="col-sm-9">
-        <div class="input-group">
-            <input type="text" class="form-control" name="pernafasan_prehd" value="<?= val('pernafasan_prehd', $existing_data) ?>" <?= $ro ?>>
-            <span class="input-group-text">x/menit</span>
-        </div>
-
-      
-        </div>
-        </div>
-<!-- TD (Tekanan Darah) -->
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>TD (Tekanan Darah)</strong></label>
-
-    <div class="col-sm-9">
-        <div class="input-group">
-            <input type="text" class="form-control" name="td_prehd" value="<?= val('td_prehd', $existing_data) ?>" <?= $ro ?>>
-            <span class="input-group-text">mmHg</span>
-        </div>
-
-     
-        </div>
-        </div>
-
-<!-- Suhu -->
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Suhu</strong></label>
-
-    <div class="col-sm-9">
-        <div class="input-group">
-            <input type="text" class="form-control" name="suhu_prehd" value="<?= val('suhu_prehd', $existing_data) ?>" <?= $ro ?>>
-            <span class="input-group-text">°C</span>
-        </div>
-
-       
-        </div>
-        </div>
-<div class="row mb-2">
-<label class="col-sm-12 "><strong>Post HD</strong></label>
-</div>
-
-<!-- Nadi -->
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
 
@@ -465,9 +423,11 @@ $ro_select   = $is_readonly ? 'disabled' : '';
             <span class="input-group-text">/menit</span>
         </div>
 
-        
+     
         </div>
         </div>
+
+
 
 <!-- Pernafasan -->
 <div class="row mb-3">
@@ -479,13 +439,12 @@ $ro_select   = $is_readonly ? 'disabled' : '';
             <span class="input-group-text">x/menit</span>
         </div>
 
-        
+      
         </div>
         </div>
-
 <!-- TD (Tekanan Darah) -->
 <div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>TD (Tekanan Darah)</strong></label>
+    <label class="col-sm-2 col-form-label"><strong>Tekanan Darah</strong></label>
 
     <div class="col-sm-9">
         <div class="input-group">
@@ -493,7 +452,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
             <span class="input-group-text">mmHg</span>
         </div>
 
-        
+     
         </div>
         </div>
 
@@ -507,13 +466,11 @@ $ro_select   = $is_readonly ? 'disabled' : '';
             <span class="input-group-text">°C</span>
         </div>
 
-        
         </div>
         </div>
-
 <!-- B KESADARAN -->
 <div class="row mb-2">
-<label class="col-sm-12 text-primary"><strong>b. Kesadaran</strong></label>
+<label class="col-sm-12"><strong>Kesadaran</strong></label>
 </div>
 <!-- GCS -->
 
@@ -547,91 +504,79 @@ $ro_select   = $is_readonly ? 'disabled' : '';
         </div>
         </div>
 <div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>Tingkat Kesadaran</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="kesadaran" value="<?= val('kesadaran', $existing_data) ?>" <?= $ro ?>>
-        
-        </div>
-    </div>
-
-
-
-
-<!-- C ANTROPOMETRI -->
-<div class="row mb-2">
-<label class="col-sm-12 text-primary"><strong>Berat badan (BB)</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>Tingkat Kesadaran</strong></label>
+                        <div class="col-sm-9">
+                            <?php
+                            $kesadaran_options = ['Kompos Mentis', 'Apatis', 'Somnolent', 'Stupor / Suppor', 'Semikoma', 'Koma'];
+                            $kesadaran_values  = ['Kompos Mentis', 'Apatis', 'Somnolent', 'Stupor', 'Semikoma', 'Koma'];
+                            foreach ($kesadaran_options as $i => $label):
+                                $val = $kesadaran_values[$i];
+                            ?>
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" type="checkbox"
+                                        name="kesadaran[]"
+                                        id="kesadaran_<?= $i ?>"
+                                        value="<?= $val ?>"
+                                        <?= in_array($val, $kesadaran_checked) ? 'checked' : '' ?>
+                                        <?= $ro_check ?>>
+                                    <label class="form-check-label" for="kesadaran_<?= $i ?>"><?= $label ?></label>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+<label class="col-sm-12"><strong>Antropomentri</strong></label>
 </div>
-<!-- BB Sebelum Sakit -->
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>BB Sebelum Sakit</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="bb_sebelum"
+                                value="<?= htmlspecialchars($existing_data['bb_sebelum'] ?? '') ?>" <?= $ro ?>>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>BB Saat Sakit</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="bb_saat_sakit"
+                                value="<?= htmlspecialchars($existing_data['bb_saat_sakit'] ?? '') ?>" <?= $ro ?>>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Lingkar Lengan Atas</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="lingkar_lengan"
+                                value="<?= htmlspecialchars($existing_data['lingkar_lengan'] ?? '') ?>" <?= $ro ?>>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Tinggi Badan</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="tinggi_badan"
+                                value="<?= htmlspecialchars($existing_data['tinggi_badan'] ?? '') ?>" <?= $ro ?>>
+                        </div>
+                    </div>
 <div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>BB HD sebelumnya</strong></label>
+    <label class="col-sm-2 col-form-label"><strong>Indeks Massa Tubuh (IMT)</strong></label>
 
     <div class="col-sm-9">
-        <input type="text" class="form-control" name="bb_hd" value="<?= val('bb_hd', $existing_data) ?>" <?= $ro ?>>
-
-       
+        <div class="input-group">
+            <input type="text" class="form-control" name="imt" value="<?= val('imt', $existing_data) ?>" <?= $ro ?>>
+            <span class="input-group-text">Kg/m2</span>
         </div>
-        </div>
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>BB Pre HD (sebelum HD)</strong>
     </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="bb_prehd" value="<?= val('bb_prehd', $existing_data) ?>" <?= $ro ?>>
-     
-        </div>
-        </div>
-
-
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>BB Post HD (setelah HD)</strong>
     </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="bb_posthd" value="<?= val('bb_posthd', $existing_data) ?>" <?= $ro ?>>
-       
-        </div>
-        </div>
 
 
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>BB Kering</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="bbkering" value="<?= val('bbkering', $existing_data) ?>" <?= $ro ?>>
-        
-        </div>
-        </div>
-
-
-<div class="row mb-3">
-    <div class="col-sm-2 col-form-label">
-        <strong>Kenaikan BB</strong>
-    </div>
-    <div class="col-sm-9">
-        <input type="text" class="form-control" name="kenaikanbb" value="<?= val('kenaikanbb', $existing_data) ?>" <?= $ro ?>>
-        
-        </div>
-        </div>
-
-        
-       
-        </div>
-        </div>
-
-<!-- 3 RIWAYAT KESEHATAN -->
- <div class="card">
-             <div class="card-body">
-
-                    <h5 class="card-title"><strong>3. Riwayat Kesehatan</strong></h5>
-
+             
 
 <!-- A ALASAN MASUK RS -->
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label">
-        <strong>a. Alasan Masuk Rumah Sakit</strong>
+        <strong>Alasan Masuk Rumah Sakit</strong>
     </label>
 
     <div class="col-sm-9">
@@ -645,7 +590,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <!-- B KELUHAN UTAMA -->
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label">
-        <strong>b. Keluhan Utama</strong>
+        <strong>Keluhan Utama</strong>
     </label>
 
     <div class="col-sm-9">
@@ -659,14 +604,14 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <!-- C RIWAYAT KELUHAN UTAMA -->
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label">
-        <strong>c. Riwayat Keluhan Utama</strong>
+        <strong>Riwayat Penyakit Sekarang</strong>
     </label>
 
     <div class="col-sm-9">
         <textarea class="form-control" rows="4" 
-        name="riwayat_keluhan_utama"
+        name="riwayat_penyakit_sekarang"
         style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        <?= $ro ?>><?= val('riwayat_keluhan_utama', $existing_data) ?></textarea>
+        <?= $ro ?>><?= val('riwayat_penyakit_sekarang', $existing_data) ?></textarea>
 
         
     </div>
@@ -675,16 +620,13 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <!-- D RIWAYAT KESEHATAN YANG LALU -->
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label">
-        <strong>d. Riwayat Kesehatan yang Lalu</strong>
+        <strong>Riwayat dan Kecelakaan Yang Pernah Dialami</strong>
     </label>
 
     <div class="col-sm-9">
-
-        <small class="form-text" style="color: red;">Bentuk kepala, Penyebaran, Kebersihan, Warna Rambut. Hasil:</small>
-
-        <textarea class="form-control" rows="4" name="riwayat_kesehatan_lalu"
+        <textarea class="form-control" rows="4" name="riwayat_pernah_dialami"
         style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-        <?= $ro ?>><?= val('riwayat_kesehatan_lalu', $existing_data) ?></textarea>
+        <?= $ro ?>><?= val('riwayat_pernah_dialami', $existing_data) ?></textarea>
 
         
     </div>
@@ -693,7 +635,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 <!-- E RIWAYAT KESEHATAN KELUARGA -->
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label">
-        <strong>e. Riwayat Kesehatan Keluarga</strong>
+        <strong>Riwayat Kesehatan Keluarga</strong>
     </label>
 
     <div class="col-sm-9">
@@ -708,10 +650,12 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 <div class="row mb-3">
                     <label for="genogram" class="col-sm-2 col-form-label"><strong>Genogram</strong></label>
                     <div class="col-sm-9">
-
-                       <textarea class="form-control" rows="4" name="genogram"
+        <textarea class="form-control" rows="2" name="genogram"
         style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
         <?= $ro ?>><?= val('genogram', $existing_data) ?></textarea>
+
+       
+    </div>
 
                        
                          </div>

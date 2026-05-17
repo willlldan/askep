@@ -3,11 +3,11 @@ require_once "koneksi.php";
 require_once "utils.php";
 
 
-$form_id       = 6;
+$form_id       = 20;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
 $section_name  = 'analisa_resume';
-$section_label = 'Analisa Data Format Resume Keperawatan Poli Anak';
+$section_label = 'Analisa Data Format Resume Keperawatan Dasar';
 
 // =============================================
 // DOSEN: ambil submission berdasarkan ?submission_id=
@@ -131,7 +131,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 <main id="main" class="main">
 
-    <?php include "anak/format_resume/tab.php"; ?>
+    <?php include "keperawatan/dasar/tab.php"; ?>
 
     <section class="section dashboard">
 
@@ -165,7 +165,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 <h5 class="card-title"><strong>ANALISA DATA</strong></h5>
                 <form class="needs-validation" novalidate action="" method="POST">
                     <!-- ===================== TABEL KLASIFIKASI DATA ===================== -->
-                    <p class="fw-bold mb-2">8. Klasifikasi Data</p>
+                    <p class="fw-bold mb-2">10. Klasifikasi Data</p>
                     <table class="table table-bordered" id="tabel-klasifikasi">
                         <thead>
                             <tr>
@@ -185,7 +185,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         </div>
                     </div>
                     <!-- ===================== TABEL ANALISA DATA ===================== -->
-                    <p class="fw-bold mb-2">9. Analisa Data</p>
+                    <p class="fw-bold mb-2">11. Analisa Data</p>
                     <table class="table table-bordered" id="tabel-analisa">
                         <thead>
                             <tr>
@@ -286,7 +286,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         const existingData = <?= json_encode($existing_data) ?>;
                     </script>
                 </form>
-               
+                <?php include "tab_navigasi.php"; ?>
             </div>
         </div>
 

@@ -33,9 +33,19 @@ if ($level === 'Dosen') {
 
 $existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
 $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
+
+$existing_analisa     = $existing_data['analisa']     ?? [];
+
+// Decode checkbox fields
+$checkbox_fields = ['penampilan','pembicaraan','motorik','alam_perasaan','afek','interaksi_wawancara','persepsi_sensorik','ilusi','proses_pikir','isi_pikir','tingkat_kesadaran','memori','konsentrasi_berhitung',
+    'kemampuan_penilaian','daya_tilik_diri','psikososial','pengetahuan'];
+foreach ($checkbox_fields as $cf) {
+    $existing_data[$cf] = isset($existing_data[$cf])
+        ? (json_decode($existing_data[$cf], true) ?? [])
+        : [];
+}
 $tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
 $rs_ruangan     = $submission['rs_ruangan'] ?? '';
-$existing_analisa     = $existing_data['analisa']     ?? [];
 
 
 // =============================================
@@ -47,8 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
 
-    $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
-    $rs_ruangan     = $_POST['rsruangan'] ?? '';
    // Proses dynamic rows evaluasi
          $analisa = [];
     if (!empty($_POST['analisa'])) {
@@ -148,12 +156,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     'transportasi1' => $_POST['transportasi1'],
     'lain_lain1' => $_POST['lain_lain1'],
 ];
-
+$checkbox_fields = ['penampilan','pembicaraan','motorik','alam_perasaan','afek','interaksi_wawancara','persepsi_sensorik','ilusi','proses_pikir','isi_pikir','tingkat_kesadaran','memori','konsentrasi_berhitung',
+    'kemampuan_penilaian','daya_tilik_diri','psikososial','pengetahuan'];
+    foreach ($checkbox_fields as $cf) {
+        $data[$cf] = json_encode(isset($_POST[$cf]) ? (array)$_POST[$cf] : []);
+    }
     if (!$submission) {
-        $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+        $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
     } else {
         $submission_id = $submission['id'];
-        updateSubmissionHeader($submission_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+        updateSubmissionHeader($submission_id, null, null, $mysqli);
     }
 
 
@@ -197,6 +209,7 @@ $is_dosen    = $level === 'Dosen';
 $is_readonly = $is_dosen || isLocked($submission);
 $ro          = $is_readonly ? 'readonly' : '';
 $ro_select   = $is_readonly ? 'disabled' : '';
+$ro_disabled   = $is_readonly ? 'disabled' : '';
 ?>
 
 <main id="main" class="main">
@@ -684,427 +697,664 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                             <strong>VI. STATUS MENTAL</strong>
                     </div> 
 <!-- 1 Penampilan -->
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>1. Penampilan</strong></label>
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>1. Penampilan</strong></div>
 
-<div class="col-sm-10">
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="penampilan[]" value="tidak_rapi" id="cb_penampilan_tidak_rapi" <?= $ro_disabled ?> <?= in_array('tidak_rapi', (array)($existing_data['penampilan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_penampilan_tidak_rapi">Tidak Rapi</label>
+        </div>
+    </div>
 
-<div class="form-check form-check-inline">
-<input class="form-check-input" type="checkbox" name="penampilan" value="tidak_rapi">
-<label class="form-check-label">Tidak rapi</label>
-</div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="penampilan[]" value="pakaian_tidak_sesuai" id="cb_penampilan_pakaian_tidak_sesuai" <?= $ro_disabled ?> <?= in_array('pakaian_tidak_sesuai', (array)($existing_data['penampilan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_penampilan_pakaian_tidak_sesuai">Penggunaan Pakaian Tidak Sesuai</label>
+        </div>
+    </div>
 
-<div class="form-check form-check-inline">
-<input class="form-check-input" type="checkbox" name="penampilan" value="pakaian_tidak_sesuai">
-<label class="form-check-label">Penggunaan pakaian tidak sesuai</label>
-</div>
-
-<div class="form-check form-check-inline">
-<input class="form-check-input" type="checkbox" name="penampilan" value="berpakaian_tidak_biasa">
-<label class="form-check-label">Cara berpakaian tidak seperti biasanya</label>
-</div>
-</div>
-</div>
-
-
-<!-- 2 Pembicaraan -->
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>2. Pembicaraan</strong></label>
-
-<div class="col-sm-10">
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pembicaraan" value="cepat"> Cepat
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pembicaraan" value="keras"> Keras
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pembicaraan" value="gagap"> Gagap
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pembicaraan" value="inkoheren"> Inkoheren
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pembicaraan" value="apatis"> Apatis
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pembicaraan" value="lambat"> Lambat
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pembicaraan" value="membisu"> Membisu
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pembicaraan" value="tidak_memulai"> Tidak mampu memulai pembicaraan
-</label>
-</div>
-</div>
-
-
-<!-- 3 Aktivitas Motorik -->
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>3. Aktivitas Motorik</strong></label>
-
-<div class="col-sm-10">
-
-<label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="lesu"> Lesu</label>
-<label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="tegang"> Tegang</label>
-<label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="gelisah"> Gelisah</label>
-<label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="agitasi"> Agitasi</label>
-<label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="tik"> TIK</label>
-<label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="grimasen"> Grimasen</label>
-<label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="tremor"> Tremor</label>
-<label class="form-check-label me-3"><input class="form-check-input" type="checkbox" name="motorik[]" value="kompulsif"> Kompulsif</label>
-</div>
-</div>
-
-           <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>4. Alam Perasaan</strong></label>
-
-<div class="col-sm-10">
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="alam_perasaan[]" value="sedih"> Sedih
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="alam_perasaan[]" value="ketakutan"> Ketakutan
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="alam_perasaan[]" value="putus_asa"> Putus asa
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="alam_perasaan[]" value="khawatir"> Khawatir
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="alam_perasaan[]" value="gembira_berlebihan"> Gembira berlebihan
-</label>
-</div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="penampilan[]" value="berpakaian_tidak_biasa" id="cb_penampilan_berpakaian_tidak_biasa" <?= $ro_disabled ?> <?= in_array('berpakaian_tidak_biasa', (array)($existing_data['penampilan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_penampilan_berpakaian_tidak_biasa">Cara Berpakaian Tidak Seperti Biasanya</label>
+        </div>
+    </div>
 
 </div>
-
-          
-        <div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>5. Afek</strong></label>
-
-<div class="col-sm-10">
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="afek[]" value="datar"> Datar
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="afek[]" value="tumpul"> Tumpul
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="afek[]" value="tidak_sesuai"> Tidak sesuai
-</label>
-
-</div>
-
-</div>
-
-<div class="row mb-3">
-<label class="col-sm-2 col-form-label"><strong>6. Interaksi selama wawancara</strong></label>
-
-<div class="col-sm-10">
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="bermusuhan"> Bermusuhan
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="tidak_kooperatif"> Tidak kooperatif
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="mudah_tersinggung"> Mudah tersinggung
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="kontak_mata"> Kontak mata kurang
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="defensif"> Defensif
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="curiga"> Curiga
-</label>
-</div>
-
-</div>
-<div class="row mb-3">
-
-<label class="col-sm-2 col-form-label"><strong>7. Persepsi - Sensorik</strong></label>
-
-<div class="col-sm-10">
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="persepsi_sensorik[]" value="pendengaran"> Pendengaran
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="persepsi_sensorik[]" value="pengecapan"> Pengecapan
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="persepsi_sensorik[]" value="penglihatan"> Penglihatan
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="persepsi_sensorik[]" value="perabaan"> Perabaan
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="persepsi_sensorik[]" value="penghidu"> Penghidu
-</label>
-
 <br>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="ilusi[]" value="ada"> Ilusi Ada
-</label>
+<!-- 2. Pembicaraan -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>2. Pembicaraan</strong></div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="ilusi[]" value="tidak_ada"> Ilusi Tidak Ada
-</label>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pembicaraan[]" value="cepat" id="cb_pembicaraan_cepat" <?= $ro_disabled ?> <?= in_array('cepat', (array)($existing_data['pembicaraan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pembicaraan_cepat">Cepat</label>
+        </div>
+    </div>
 
-</div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pembicaraan[]" value="keras" id="cb_pembicaraan_keras" <?= $ro_disabled ?> <?= in_array('keras', (array)($existing_data['pembicaraan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pembicaraan_keras">Keras</label>
+        </div>
+    </div>
 
-</div>
-            <!-- 8. Proses pikir -->
-            <div class="row mb-3">
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pembicaraan[]" value="gagap" id="cb_pembicaraan_gagap" <?= $ro_disabled ?> <?= in_array('gagap', (array)($existing_data['pembicaraan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pembicaraan_gagap">Gagap</label>
+        </div>
+    </div>
 
-<label class="col-sm-2 col-form-label"><strong>8. Proses Pikir</strong></label>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pembicaraan[]" value="inkoheren" id="cb_pembicaraan_inkoheren" <?= $ro_disabled ?> <?= in_array('inkoheren', (array)($existing_data['pembicaraan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pembicaraan_inkoheren">Inkoheren</label>
+        </div>
+    </div>
 
-<div class="col-sm-10">
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pembicaraan[]" value="apatis" id="cb_pembicaraan_apatis" <?= $ro_disabled ?> <?= in_array('apatis', (array)($existing_data['pembicaraan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pembicaraan_apatis">Apatis</label>
+        </div>
+    </div> 
+<div class="col-sm-2">
+        <div class="form-check">
+            </label>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pembicaraan[]" value="lambat" id="cb_pembicaraan_lambat" <?= $ro_disabled ?> <?= in_array('lambat', (array)($existing_data['pembicaraan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pembicaraan_lambat">Lambat</label>
+        </div>
+    </div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="proses_pikir[]" value="sirkumtansial"> Sirkumtansial
-</label>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pembicaraan[]" value="membisu" id="cb_pembicaraan_membisu" <?= $ro_disabled ?> <?= in_array('membisu', (array)($existing_data['pembicaraan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pembicaraan_membisu">Membisu</label>
+        </div>
+    </div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="proses_pikir[]" value="tangensial"> Tangensial
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="proses_pikir[]" value="kehilangan_asosiasi"> Kehilangan asosiasi
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="proses_pikir[]" value="inkoheren"> Inkoheren
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="proses_pikir[]" value="flight_of_idea"> Flight of idea
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="proses_pikir[]" value="blocking"> Blocking
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="proses_pikir[]" value="pengulangan_pembicaraan"> Pengulangan pembicaraan
-</label>
-
-</div>
-
-</div>
-
-            <!-- 9. Isi pikir -->
-            <div class="row mb-3">
-
-<label class="col-sm-2 col-form-label"><strong>9. Isi Pikir</strong></label>
-
-<div class="col-sm-10">
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="obsesi"> Obsesi
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="fobia"> Fobia
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="hipokondria"> Hipokondria
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="depersonalisasi"> Depersonalisasi
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="ide_terkait"> Ide yang terkait
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="pikiran_magis"> Pikiran magis
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="waham"> Waham
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="agama"> Agama
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="somatik"> Somatik
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="kebesaran"> Kebesaran
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="curiga"> Curiga
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="nihilistik"> Nihilistik
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="sisip_pikir"> Sisip Pikir
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="siar_pikir"> Siar Pikir
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="isi_pikir[]" value="kontrol_pikir"> Kontrol Pikir
-</label>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pembicaraan[]" value="tidak_memulai" id="cb_pembicaraan_tidak_memulai" <?= $ro_disabled ?> <?= in_array('tidak_memulai', (array)($existing_data['pembicaraan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pembicaraan_tidak_memulai">Tidak Mampu Memulai Pembicaraan</label>
+        </div>
+    </div>
 
 </div>
+<br>
+<!-- 3. Aktivitas Motorik -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>3. Aktivitas Motorik</strong></div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="motorik[]" value="lesu" id="cb_motorik_lesu" <?= $ro_disabled ?> <?= in_array('lesu', (array)($existing_data['motorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_motorik_lesu">Lesu</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="motorik[]" value="tegang" id="cb_motorik_tegang" <?= $ro_disabled ?> <?= in_array('tegang', (array)($existing_data['motorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_motorik_tegang">Tegang</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="motorik[]" value="gelisah" id="cb_motorik_gelisah" <?= $ro_disabled ?> <?= in_array('gelisah', (array)($existing_data['motorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_motorik_gelisah">Gelisah</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="motorik[]" value="agitasi" id="cb_motorik_agitasi" <?= $ro_disabled ?> <?= in_array('agitasi', (array)($existing_data['motorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_motorik_agitasi">Agitasi</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="motorik[]" value="tik" id="cb_motorik_tik" <?= $ro_disabled ?> <?= in_array('tik', (array)($existing_data['motorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_motorik_tik">TIK</label>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="motorik[]" value="grimasen" id="cb_motorik_grimasen" <?= $ro_disabled ?> <?= in_array('grimasen', (array)($existing_data['motorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_motorik_grimasen">Grimasen</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="motorik[]" value="tremor" id="cb_motorik_tremor" <?= $ro_disabled ?> <?= in_array('tremor', (array)($existing_data['motorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_motorik_tremor">Tremor</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="motorik[]" value="kompulsif" id="cb_motorik_kompulsif" <?= $ro_disabled ?> <?= in_array('kompulsif', (array)($existing_data['motorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_motorik_kompulsif">Kompulsif</label>
+        </div>
+    </div>
 
 </div>
+<br>
+<!-- 4. Alam Perasaan -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>4. Alam Perasaan</strong></div>
 
-            <!-- 10. Tingkat Kesadaran -->
-           <div class="row mb-3">
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="alam_perasaan[]" value="sedih" id="cb_alam_perasaan_sedih" <?= $ro_disabled ?> <?= in_array('sedih', (array)($existing_data['alam_perasaan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_alam_perasaan_sedih">Sedih</label>
+        </div>
+    </div>
 
-<label class="col-sm-2 col-form-label"><strong>10. Tingkat Kesadaran</strong></label>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="alam_perasaan[]" value="ketakutan" id="cb_alam_perasaan_ketakutan" <?= $ro_disabled ?> <?= in_array('ketakutan', (array)($existing_data['alam_perasaan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_alam_perasaan_ketakutan">Ketakutan</label>
+        </div>
+    </div>
 
-<div class="col-sm-10">
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="alam_perasaan[]" value="putus_asa" id="cb_alam_perasaan_putus_asa" <?= $ro_disabled ?> <?= in_array('putus_asa', (array)($existing_data['alam_perasaan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_alam_perasaan_putus_asa">Putus Asa</label>
+        </div>
+    </div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="tingkat_kesadaran[]" value="bingung"> Bingung
-</label>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="alam_perasaan[]" value="khawatir" id="cb_alam_perasaan_khawatir" <?= $ro_disabled ?> <?= in_array('khawatir', (array)($existing_data['alam_perasaan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_alam_perasaan_khawatir">Khawatir</label>
+        </div>
+    </div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="tingkat_kesadaran[]" value="sedasi"> Sedasi
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="tingkat_kesadaran[]" value="disorientasi_waktu"> Disorientasi waktu
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="tingkat_kesadaran[]" value="disorientasi_orang"> Disorientasi orang
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="tingkat_kesadaran[]" value="disorientasi_tempat"> Disorientasi tempat
-</label>
-</div>
-
-</div>
-            <!-- 11. Memori -->
-       <div class="row mb-3">
-
-<label class="col-sm-2 col-form-label"><strong>11. Memori</strong></label>
-
-<div class="col-sm-10">
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="memori[]" value="gangguan_daya_ingat_jangka_panjang"> Gangguan daya ingat jangka panjang
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="memori[]" value="gangguan_daya_ingat_jangka_pendek"> Gangguan daya ingat jangka pendek
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="memori[]" value="gangguan_daya_ingat_saat_ini"> Gangguan daya ingat saat ini
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="memori[]" value="konfabulasi"> Konfabulasi
-</label>
-</div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="alam_perasaan[]" value="gembira_berlebihan" id="cb_alam_perasaan_gembira_berlebihan" <?= $ro_disabled ?> <?= in_array('gembira_berlebihan', (array)($existing_data['alam_perasaan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_alam_perasaan_gembira_berlebihan">Gembira Berlebihan</label>
+        </div>
+    </div>
 
 </div>
+<br>
+<!-- 5. Afek -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>5. Afek</strong></div>
 
-            <!-- 12. Tingkat konsentrasi dan berhitung -->
-           <div class="row mb-3">
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="afek[]" value="datar" id="cb_afek_datar" <?= $ro_disabled ?> <?= in_array('datar', (array)($existing_data['afek'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_afek_datar">Datar</label>
+        </div>
+    </div>
 
-<label class="col-sm-2 col-form-label"><strong>12. Tingkat Konsentrasi dan Berhitung</strong></label>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="afek[]" value="tumpul" id="cb_afek_tumpul" <?= $ro_disabled ?> <?= in_array('tumpul', (array)($existing_data['afek'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_afek_tumpul">Tumpul</label>
+        </div>
+    </div>
 
-<div class="col-sm-10">
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="konsentrasi_berhitung[]" value="mudah_beralih"> Mudah beralih
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="konsentrasi_berhitung[]" value="tidak_berkonsentrasi"> Tidak mampu berkonsentrasi
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="konsentrasi_berhitung[]" value="tidak_berhitung"> Tidak mampu berhitung sederhana
-</label>
-</div>
-
-</div>
-
-            <!-- 13. Kemampuan penilaian -->
-           <div class="row mb-3">
-
-<label class="col-sm-2 col-form-label"><strong>13. Kemampuan Penilaian</strong></label>
-
-<div class="col-sm-10">
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="kemampuan_penilaian[]" value="gangguan_ringan"> Gangguan ringan
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="kemampuan_penilaian[]" value="gangguan_bermakna"> Gangguan bermakna
-</label>
-</div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="afek[]" value="tidak_sesuai" id="cb_afek_tidak_sesuai" <?= $ro_disabled ?> <?= in_array('tidak_sesuai', (array)($existing_data['afek'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_afek_tidak_sesuai">Tidak Sesuai</label>
+        </div>
+    </div>
 
 </div>
+<br>
+<!-- 6. Interaksi Selama Wawancara -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>6. Interaksi Selama Wawancara</strong></div>
 
-            <!-- 14. Daya tilik diri -->
-           <div class="row mb-3">
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="bermusuhan" id="cb_interaksi_wawancara_bermusuhan" <?= $ro_disabled ?> <?= in_array('bermusuhan', (array)($existing_data['interaksi_wawancara'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_interaksi_wawancara_bermusuhan">Bermusuhan</label>
+        </div>
+    </div>
 
-<label class="col-sm-2 col-form-label"><strong>14. Daya Tilik Diri</strong></label>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="tidak_kooperatif" id="cb_interaksi_wawancara_tidak_kooperatif" <?= $ro_disabled ?> <?= in_array('tidak_kooperatif', (array)($existing_data['interaksi_wawancara'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_interaksi_wawancara_tidak_kooperatif">Tidak Kooperatif</label>
+        </div>
+    </div>
 
-<div class="col-sm-10">
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="mudah_tersinggung" id="cb_interaksi_wawancara_mudah_tersinggung" <?= $ro_disabled ?> <?= in_array('mudah_tersinggung', (array)($existing_data['interaksi_wawancara'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_interaksi_wawancara_mudah_tersinggung">Mudah Tersinggung</label>
+        </div>
+    </div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="daya_tilik_diri[]" value="mengingkari_penyakit"> Mengingkari penyakit yang diderita
-</label>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="kontak_mata" id="cb_interaksi_wawancara_kontak_mata" <?= $ro_disabled ?> <?= in_array('kontak_mata', (array)($existing_data['interaksi_wawancara'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_interaksi_wawancara_kontak_mata">Kontak Mata Kurang</label>
+        </div>
+    </div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="daya_tilik_diri[]" value="menyalahkan_diluar_diri"> Menyalahkan hal-hal di luar dirinya
-</label>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="defensif" id="cb_interaksi_wawancara_defensif" <?= $ro_disabled ?> <?= in_array('defensif', (array)($existing_data['interaksi_wawancara'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_interaksi_wawancara_defensif">Defensif</label>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-check">
+          
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="interaksi_wawancara[]" value="curiga" id="cb_interaksi_wawancara_curiga" <?= $ro_disabled ?> <?= in_array('curiga', (array)($existing_data['interaksi_wawancara'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_interaksi_wawancara_curiga">Curiga</label>
+        </div>
+    </div>
+
 </div>
+<br>
+
+<!-- 7. Persepsi - Sensorik -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>7. Persepsi - Sensorik</strong></div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="persepsi_sensorik[]" value="pendengaran" id="cb_persepsi_sensorik_pendengaran" <?= $ro_disabled ?> <?= in_array('pendengaran', (array)($existing_data['persepsi_sensorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_persepsi_sensorik_pendengaran">Pendengaran</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="persepsi_sensorik[]" value="pengecapan" id="cb_persepsi_sensorik_pengecapan" <?= $ro_disabled ?> <?= in_array('pengecapan', (array)($existing_data['persepsi_sensorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_persepsi_sensorik_pengecapan">Pengecapan</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="persepsi_sensorik[]" value="penglihatan" id="cb_persepsi_sensorik_penglihatan" <?= $ro_disabled ?> <?= in_array('penglihatan', (array)($existing_data['persepsi_sensorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_persepsi_sensorik_penglihatan">Penglihatan</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="persepsi_sensorik[]" value="perabaan" id="cb_persepsi_sensorik_perabaan" <?= $ro_disabled ?> <?= in_array('perabaan', (array)($existing_data['persepsi_sensorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_persepsi_sensorik_perabaan">Perabaan</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="persepsi_sensorik[]" value="penghidu" id="cb_persepsi_sensorik_penghidu" <?= $ro_disabled ?> <?= in_array('penghidu', (array)($existing_data['persepsi_sensorik'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_persepsi_sensorik_penghidu">Penghidu</label>
+        </div>
+    </div>
+ <div class="col-sm-2">
+        <div class="form-check">
+      
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="ilusi[]" value="ada" id="cb_ilusi_ada" <?= $ro_disabled ?> <?= in_array('ada', (array)($existing_data['ilusi'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_ilusi_ada">Ilusi Ada</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="ilusi[]" value="tidak_ada" id="cb_ilusi_tidak_ada" <?= $ro_disabled ?> <?= in_array('tidak_ada', (array)($existing_data['ilusi'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_ilusi_tidak_ada">Ilusi Tidak Ada</label>
+        </div>
+    </div>
+
+</div>
+<br>
+<!-- 8. Proses Pikir -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>8. Proses Pikir</strong></div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="proses_pikir[]" value="sirkumtansial" id="cb_proses_pikir_sirkumtansial" <?= $ro_disabled ?> <?= in_array('sirkumtansial', (array)($existing_data['proses_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_proses_pikir_sirkumtansial">Sirkumtansial</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="proses_pikir[]" value="tangensial" id="cb_proses_pikir_tangensial" <?= $ro_disabled ?> <?= in_array('tangensial', (array)($existing_data['proses_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_proses_pikir_tangensial">Tangensial</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="proses_pikir[]" value="kehilangan_asosiasi" id="cb_proses_pikir_kehilangan_asosiasi" <?= $ro_disabled ?> <?= in_array('kehilangan_asosiasi', (array)($existing_data['proses_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_proses_pikir_kehilangan_asosiasi">Kehilangan Asosiasi</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="proses_pikir[]" value="inkoheren" id="cb_proses_pikir_inkoheren" <?= $ro_disabled ?> <?= in_array('inkoheren', (array)($existing_data['proses_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_proses_pikir_inkoheren">Inkoheren</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="proses_pikir[]" value="flight_of_idea" id="cb_proses_pikir_flight_of_idea" <?= $ro_disabled ?> <?= in_array('flight_of_idea', (array)($existing_data['proses_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_proses_pikir_flight_of_idea">Flight of Idea</label>
+        </div>
+    </div>
+<div class="col-sm-2">
+        <div class="form-check">
+          </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="proses_pikir[]" value="blocking" id="cb_proses_pikir_blocking" <?= $ro_disabled ?> <?= in_array('blocking', (array)($existing_data['proses_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_proses_pikir_blocking">Blocking</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="proses_pikir[]" value="pengulangan_pembicaraan" id="cb_proses_pikir_pengulangan_pembicaraan" <?= $ro_disabled ?> <?= in_array('pengulangan_pembicaraan', (array)($existing_data['proses_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_proses_pikir_pengulangan_pembicaraan">Pengulangan Pembicaraan</label>
+        </div>
+    </div>
+
+</div>
+<br>
+<!-- 9. Isi Pikir -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>9. Isi Pikir</strong></div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="obsesi" id="cb_isi_pikir_obsesi" <?= $ro_disabled ?> <?= in_array('obsesi', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_obsesi">Obsesi</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="fobia" id="cb_isi_pikir_fobia" <?= $ro_disabled ?> <?= in_array('fobia', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_fobia">Fobia</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="hipokondria" id="cb_isi_pikir_hipokondria" <?= $ro_disabled ?> <?= in_array('hipokondria', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_hipokondria">Hipokondria</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="depersonalisasi" id="cb_isi_pikir_depersonalisasi" <?= $ro_disabled ?> <?= in_array('depersonalisasi', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_depersonalisasi">Depersonalisasi</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="ide_terkait" id="cb_isi_pikir_ide_terkait" <?= $ro_disabled ?> <?= in_array('ide_terkait', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_ide_terkait">Ide yang Terkait</label>
+        </div>
+    </div>
+<div class="col-sm-2">
+        <div class="form-check">
+           
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="pikiran_magis" id="cb_isi_pikir_pikiran_magis" <?= $ro_disabled ?> <?= in_array('pikiran_magis', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_pikiran_magis">Pikiran Magis</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="waham" id="cb_isi_pikir_waham" <?= $ro_disabled ?> <?= in_array('waham', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_waham">Waham</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="agama" id="cb_isi_pikir_agama" <?= $ro_disabled ?> <?= in_array('agama', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_agama">Agama</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="somatik" id="cb_isi_pikir_somatik" <?= $ro_disabled ?> <?= in_array('somatik', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_somatik">Somatik</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="kebesaran" id="cb_isi_pikir_kebesaran" <?= $ro_disabled ?> <?= in_array('kebesaran', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_kebesaran">Kebesaran</label>
+        </div>
+    </div>
+  <div class="col-sm-2">
+        <div class="form-check">
+            
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="curiga" id="cb_isi_pikir_curiga" <?= $ro_disabled ?> <?= in_array('curiga', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_curiga">Curiga</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="nihilistik" id="cb_isi_pikir_nihilistik" <?= $ro_disabled ?> <?= in_array('nihilistik', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_nihilistik">Nihilistik</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="sisip_pikir" id="cb_isi_pikir_sisip_pikir" <?= $ro_disabled ?> <?= in_array('sisip_pikir', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_sisip_pikir">Sisip Pikir</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="siar_pikir" id="cb_isi_pikir_siar_pikir" <?= $ro_disabled ?> <?= in_array('siar_pikir', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_siar_pikir">Siar Pikir</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="isi_pikir[]" value="kontrol_pikir" id="cb_isi_pikir_kontrol_pikir" <?= $ro_disabled ?> <?= in_array('kontrol_pikir', (array)($existing_data['isi_pikir'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_isi_pikir_kontrol_pikir">Kontrol Pikir</label>
+        </div>
+    </div>
+
+</div>
+<br>
+<!-- 10. Tingkat Kesadaran -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>10. Tingkat Kesadaran</strong></div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="tingkat_kesadaran[]" value="bingung" id="cb_tingkat_kesadaran_bingung" <?= $ro_disabled ?> <?= in_array('bingung', (array)($existing_data['tingkat_kesadaran'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_tingkat_kesadaran_bingung">Bingung</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="tingkat_kesadaran[]" value="sedasi" id="cb_tingkat_kesadaran_sedasi" <?= $ro_disabled ?> <?= in_array('sedasi', (array)($existing_data['tingkat_kesadaran'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_tingkat_kesadaran_sedasi">Sedasi</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="tingkat_kesadaran[]" value="disorientasi_waktu" id="cb_tingkat_kesadaran_disorientasi_waktu" <?= $ro_disabled ?> <?= in_array('disorientasi_waktu', (array)($existing_data['tingkat_kesadaran'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_tingkat_kesadaran_disorientasi_waktu">Disorientasi Waktu</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="tingkat_kesadaran[]" value="disorientasi_orang" id="cb_tingkat_kesadaran_disorientasi_orang" <?= $ro_disabled ?> <?= in_array('disorientasi_orang', (array)($existing_data['tingkat_kesadaran'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_tingkat_kesadaran_disorientasi_orang">Disorientasi Orang</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="tingkat_kesadaran[]" value="disorientasi_tempat" id="cb_tingkat_kesadaran_disorientasi_tempat" <?= $ro_disabled ?> <?= in_array('disorientasi_tempat', (array)($existing_data['tingkat_kesadaran'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_tingkat_kesadaran_disorientasi_tempat">Disorientasi Tempat</label>
+        </div>
+    </div>
+
+</div>
+<br>
+<!-- 11. Memori -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>11. Memori</strong></div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="memori[]" value="gangguan_daya_ingat_jangka_panjang" id="cb_memori_gangguan_daya_ingat_jangka_panjang" <?= $ro_disabled ?> <?= in_array('gangguan_daya_ingat_jangka_panjang', (array)($existing_data['memori'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_memori_gangguan_daya_ingat_jangka_panjang">Gangguan Daya Ingat Jangka Panjang</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="memori[]" value="gangguan_daya_ingat_jangka_pendek" id="cb_memori_gangguan_daya_ingat_jangka_pendek" <?= $ro_disabled ?> <?= in_array('gangguan_daya_ingat_jangka_pendek', (array)($existing_data['memori'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_memori_gangguan_daya_ingat_jangka_pendek">Gangguan Daya Ingat Jangka Pendek</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="memori[]" value="gangguan_daya_ingat_saat_ini" id="cb_memori_gangguan_daya_ingat_saat_ini" <?= $ro_disabled ?> <?= in_array('gangguan_daya_ingat_saat_ini', (array)($existing_data['memori'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_memori_gangguan_daya_ingat_saat_ini">Gangguan Daya Ingat Saat Ini</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="memori[]" value="konfabulasi" id="cb_memori_konfabulasi" <?= $ro_disabled ?> <?= in_array('konfabulasi', (array)($existing_data['memori'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_memori_konfabulasi">Konfabulasi</label>
+        </div>
+    </div>
+
+</div>
+<br>
+<!-- 12. Tingkat Konsentrasi dan Berhitung -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>12. Tingkat Konsentrasi dan Berhitung</strong></div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="konsentrasi_berhitung[]" value="mudah_beralih" id="cb_konsentrasi_berhitung_mudah_beralih" <?= $ro_disabled ?> <?= in_array('mudah_beralih', (array)($existing_data['konsentrasi_berhitung'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_konsentrasi_berhitung_mudah_beralih">Mudah Beralih</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="konsentrasi_berhitung[]" value="tidak_berkonsentrasi" id="cb_konsentrasi_berhitung_tidak_berkonsentrasi" <?= $ro_disabled ?> <?= in_array('tidak_berkonsentrasi', (array)($existing_data['konsentrasi_berhitung'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_konsentrasi_berhitung_tidak_berkonsentrasi">Tidak Mampu Berkonsentrasi</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="konsentrasi_berhitung[]" value="tidak_berhitung" id="cb_konsentrasi_berhitung_tidak_berhitung" <?= $ro_disabled ?> <?= in_array('tidak_berhitung', (array)($existing_data['konsentrasi_berhitung'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_konsentrasi_berhitung_tidak_berhitung">Tidak Mampu Berhitung Sederhana</label>
+        </div>
+    </div>
+
+</div>
+<br>
+<!-- 13. Kemampuan Penilaian -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>13. Kemampuan Penilaian</strong></div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="kemampuan_penilaian[]" value="gangguan_ringan" id="cb_kemampuan_penilaian_gangguan_ringan" <?= $ro_disabled ?> <?= in_array('gangguan_ringan', (array)($existing_data['kemampuan_penilaian'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_kemampuan_penilaian_gangguan_ringan">Gangguan Ringan</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="kemampuan_penilaian[]" value="gangguan_bermakna" id="cb_kemampuan_penilaian_gangguan_bermakna" <?= $ro_disabled ?> <?= in_array('gangguan_bermakna', (array)($existing_data['kemampuan_penilaian'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_kemampuan_penilaian_gangguan_bermakna">Gangguan Bermakna</label>
+        </div>
+    </div>
+
+</div>
+<br>
+<!-- 14. Daya Tilik Diri -->
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>14. Daya Tilik Diri</strong></div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="daya_tilik_diri[]" value="mengingkari_penyakit" id="cb_daya_tilik_diri_mengingkari_penyakit" <?= $ro_disabled ?> <?= in_array('mengingkari_penyakit', (array)($existing_data['daya_tilik_diri'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_daya_tilik_diri_mengingkari_penyakit">Mengingkari Penyakit yang Diderita</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="daya_tilik_diri[]" value="menyalahkan_diluar_diri" id="cb_daya_tilik_diri_menyalahkan_diluar_diri" <?= $ro_disabled ?> <?= in_array('menyalahkan_diluar_diri', (array)($existing_data['daya_tilik_diri'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_daya_tilik_diri_menyalahkan_diluar_diri">Menyalahkan Hal-hal di Luar Dirinya</label>
+        </div>
+    </div>
 
 </div>
  <div class="row mb-2">
@@ -1297,68 +1547,105 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <?= $ro ?>><?= val('penjelasan_status', $existing_data) ?></textarea>
                          </div>
                     </div>
-<div class="row mb-3">
+
  <div class="row mb-2">
                         <label class="col-sm-5 col-form-label text-primary">
                             <strong>VIII. Mekanisme Koping</strong>
                     </div>
- <div class="row mb-3">
-                    <label for="agamaistri" class="col-sm-2 col-form-label"><strong>Mekanisme Koping</strong></label>
-                    <div class="col-sm-10">
-                       
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>Mekanisme Koping</strong></div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="psikososial[]" value="adaptif"> Adaptif
-</label>
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="psikososial[]" value="adaptif" id="cb_psikososial_adaptif" <?= $ro_disabled ?> <?= in_array('adaptif', (array)($existing_data['psikososial'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_psikososial_adaptif">Adaptif</label>
+        </div>
+    </div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="psikososial[]" value="maladaptif"> Maladaptif
-</label>
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="psikososial[]" value="maladaptif" id="cb_psikososial_maladaptif" <?= $ro_disabled ?> <?= in_array('maladaptif', (array)($existing_data['psikososial'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_psikososial_maladaptif">Maladaptif</label>
+        </div>
+    </div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="psikososial[]" value="bicara_dengan_orang_lain"> Bicara dengan orang lain
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="psikososial[]" value="minum_alcohol"> Minum alcohol
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="psikososial[]" value="mampu_menyelesaikan_masalah"> Mampu menyelesaikan masalah
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="psikososial[]" value="reaksi_lambat_berlebih"> Reaksi lambat / berlebih
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="psikososial[]" value="teknik_relaksasi"> Teknik relaksasi
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="psikososial[]" value="bekerja_berlebihan"> Bekerja berlebihan
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="psikososial[]" value="aktivitas_konstruktif"> Aktivitas konstruktif
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="psikososial[]" value="menghindar"> Menghindar
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="psikososial[]" value="olahraga"> Olahraga
-</label>
-
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="psikososial[]" value="mencederai_diri"> Mencederai diri
-</label>
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="psikososial[]" value="bicara_dengan_orang_lain" id="cb_psikososial_bicara_dengan_orang_lain" <?= $ro_disabled ?> <?= in_array('bicara_dengan_orang_lain', (array)($existing_data['psikososial'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_psikososial_bicara_dengan_orang_lain">Bicara dengan orang lain</label>
+        </div>
+    </div>
 </div>
 
+<div class="row mb-2">
+    <div class="col-sm-2"></div> <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="psikososial[]" value="minum_alcohol" id="cb_psikososial_minum_alcohol" <?= $ro_disabled ?> <?= in_array('minum_alcohol', (array)($existing_data['psikososial'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_psikososial_minum_alcohol">Minum alcohol</label>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="psikososial[]" value="mampu_menyelesaikan_masalah" id="cb_psikososial_mampu_menyelesaikan_masalah" <?= $ro_disabled ?> <?= in_array('mampu_menyelesaikan_masalah', (array)($existing_data['psikososial'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_psikososial_mampu_menyelesaikan_masalah">Mampu menyelesaikan masalah</label>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="psikososial[]" value="reaksi_lambat_berlebih" id="cb_psikososial_reaksi_lambat_berlebih" <?= $ro_disabled ?> <?= in_array('reaksi_lambat_berlebih', (array)($existing_data['psikososial'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_psikososial_reaksi_lambat_berlebih">Reaksi lambat / berlebih</label>
+        </div>
+    </div>
 </div>
 
+<div class="row mb-2">
+    <div class="col-sm-2"></div> <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="psikososial[]" value="teknik_relaksasi" id="cb_psikososial_teknik_relaksasi" <?= $ro_disabled ?> <?= in_array('teknik_relaksasi', (array)($existing_data['psikososial'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_psikososial_teknik_relaksasi">Teknik relaksasi</label>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="psikososial[]" value="bekerja_berlebihan" id="cb_psikososial_bekerja_berlebihan" <?= $ro_disabled ?> <?= in_array('bekerja_berlebihan', (array)($existing_data['psikososial'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_psikososial_bekerja_berlebihan">Bekerja berlebihan</label>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="psikososial[]" value="aktivitas_konstruktif" id="cb_psikososial_aktivitas_konstruktif" <?= $ro_disabled ?> <?= in_array('aktivitas_konstruktif', (array)($existing_data['psikososial'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_psikososial_aktivitas_konstruktif">Aktivitas konstruktif</label>
+        </div>
+    </div>
 </div>
+
+<div class="row mb-2">
+    <div class="col-sm-2"></div> <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="psikososial[]" value="menghindar" id="cb_psikososial_menghindar" <?= $ro_disabled ?> <?= in_array('menghindar', (array)($existing_data['psikososial'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_psikososial_menghindar">Menghindar</label>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="psikososial[]" value="olahraga" id="cb_psikososial_olahraga" <?= $ro_disabled ?> <?= in_array('olahraga', (array)($existing_data['psikososial'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_psikososial_olahraga">Olahraga</label>
+        </div>
+    </div>
+
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="psikososial[]" value="mencederai_diri" id="cb_psikososial_mencederai_diri" <?= $ro_disabled ?> <?= in_array('mencederai_diri', (array)($existing_data['psikososial'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_psikososial_mencederai_diri">Mencederai diri</label>
+        </div>
+    </div>
+</div>
+
  <div class="row mb-2">
     <label class="col-sm-5 col-form-label text-primary">
         <strong>IX. Masalah Psikososial dan Lingkungan</strong>
@@ -1432,41 +1719,52 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <label class="col-sm-5 col-form-label text-primary">
                             <strong>X. Pengetahuan Kurang Tentang</strong>
                     </div>
- <div class="row mb-3">
-                    <label for="agamaistri" class="col-sm-2 col-form-label"><strong>Pengetahuan Kurang Tentang</strong></label>
-                    <div class="col-sm-10">
-                       
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>Pengetahuan Kurang Tentang</strong></div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pengetahuan[]" value="penyakit_jiwa">
-Penyakit Jiwa
-</label>
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pengetahuan[]" value="penyakit_jiwa" id="cb_pengetahuan_penyakit_jiwa" <?= $ro_disabled ?> <?= in_array('penyakit_jiwa', (array)($existing_data['pengetahuan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pengetahuan_penyakit_jiwa">Penyakit Jiwa</label>
+        </div>
+    </div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pengetahuan[]" value="sistem_pendukung">
-Sistem Pendukung
-</label>
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pengetahuan[]" value="sistem_pendukung" id="cb_pengetahuan_sistem_pendukung" <?= $ro_disabled ?> <?= in_array('sistem_pendukung', (array)($existing_data['pengetahuan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pengetahuan_sistem_pendukung">Sistem Pendukung</label>
+        </div>
+    </div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pengetahuan[]" value="faktor_presipitasi">
-Faktor Presipitasi
-</label>
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pengetahuan[]" value="faktor_presipitasi" id="cb_pengetahuan_faktor_presipitasi" <?= $ro_disabled ?> <?= in_array('faktor_presipitasi', (array)($existing_data['pengetahuan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pengetahuan_faktor_presipitasi">Faktor Presipitasi</label>
+        </div>
+    </div>
+</div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pengetahuan[]" value="penyakit_fisik">
-Penyakit Fisik
-</label>
+<div class="row mb-2">
+    <div class="col-sm-2"></div> <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pengetahuan[]" value="penyakit_fisik" id="cb_pengetahuan_penyakit_fisik" <?= $ro_disabled ?> <?= in_array('penyakit_fisik', (array)($existing_data['pengetahuan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pengetahuan_penyakit_fisik">Penyakit Fisik</label>
+        </div>
+    </div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pengetahuan[]" value="koping">
-Koping
-</label>
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pengetahuan[]" value="koping" id="cb_pengetahuan_koping" <?= $ro_disabled ?> <?= in_array('koping', (array)($existing_data['pengetahuan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pengetahuan_koping">Koping</label>
+        </div>
+    </div>
 
-<label class="form-check-label me-3">
-<input class="form-check-input" type="checkbox" name="pengetahuan[]" value="obat_obatan">
-Obat-obatan
-</label>
-
+    <div class="col-sm-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="pengetahuan[]" value="obat_obatan" id="cb_pengetahuan_obat_obatan" <?= $ro_disabled ?> <?= in_array('obat_obatan', (array)($existing_data['pengetahuan'] ?? [])) ? 'checked' : '' ?>>
+            <label class="form-check-label" for="cb_pengetahuan_obat_obatan">Obat-obatan</label>
+        </div>
+    </div>
 </div>
 
 </div>
