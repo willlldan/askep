@@ -450,6 +450,7 @@ include 'template_pdf.php';
     <div class="field-value"><?= p($pengkajian['kegiatan_ibadah']) ?></div>
 </div>
 <h4>VI. Status Mental</h4>
+<<<<<<< HEAD
 <?php $penampilan_arr = arr($pengkajian['penampilan']); ?>
 <?php $pembicaraan_arr = arr($pengkajian['pembicaraan']); ?>
 <?php $aktivitas_motorik_arr = arr($pengkajian['motorik']); ?>
@@ -629,6 +630,46 @@ include 'template_pdf.php';
     </div>
 </div>
 
+=======
+
+<?php
+$fields = [
+    'penampilan' => ['Tidak rapi','Penggunaan pakaian tidak sesuai','Cara berpakaian tidak seperti biasanya'],
+    'pembicaraan' => ['Cepat','Keras','Gagap','Inkoheren','Apatis','Lambat','Membisu','Tidak mampu memulai pembicaraan'],
+    'aktivitas_motorik' => ['Lesu','Tegang','Gelisah','Agitasi','TIK','Grimasen','Tremor','Kompulsif'],
+    'alam_perasaan' => ['Sedih','Ketakutan','Putus asa','Khawatir','Gembira berlebihan'],
+    'afek' => ['Datar','Tumpul','Tidak sesuai'],
+    'interaksi' => ['Bermusuhan','Tidak kooperatif','Mudah tersinggung','Kontak mata','Defensif','Curiga'],
+    'persepsi_sensorik' => ['Pendengaran','Pengecapan','Penglihatan','Perabaan','Penghidu','Ilusi'],
+    'proses_pikir' => ['Sirkumtansial','Tangensial','Kehilangan asosiasi','Inkoheren','Flight of idea','Blocking','Pengulangan pembicaraan/perseverasi'],
+    'isi_pikir' => ['Obsesi','Fobia','Hipokondria','Depersonalisasi','Ide yang terkait','Pikiran magis','Waham','Agama','Somatik','Kebesaran','Curiga','Nihilistik','Sisip Pikir','Siar Pikir','Kontrol Pikir'],
+    'tingkat_kesadaran' => ['Bingung','Sedasi','Disorientasi waktu','Disorientasi orang','Disorientasi tempat'],
+    'memori' => ['Gangguan daya ingat jangka panjang','Gangguan daya ingat jangka pendek','Gangguan daya ingat saat ini','Konfabulasi'],
+    'tingkat_konsentrasi' => ['Mudah beralih','Tidak mampu berkonsentrasi','Tidak mampu berhitung sederhana'],
+    'kemampuan_penilaian' => ['Gangguan ringan','Gangguan bermakna'],
+    'daya_tilik_diri' => ['Mengingkari penyakit yang diderita','Menyalahkan hal-hal di luar dirinya']
+];
+?>
+
+<?php foreach($fields as $key=>$options): ?>
+    <div class="field-row mb-2">
+        <div class="field-label" style="min-width:220px;"><strong><?= ucwords(str_replace('_',' ',$key)) ?></strong></div>
+        <div class="field-sep">:</div>
+        <div class="field-value">
+            <?php
+            foreach($options as $opt){
+                echo (in_array($opt, explode(',', $jiwa[$key] ?? '')) ? '✔ '.$opt : '(   )'.$opt) . ' &nbsp; ';
+            }
+            ?>
+        </div>
+    </div>
+    <div class="field-row mb-2">
+        <div class="field-label">Penjelasan</div>
+        <div class="field-sep">:</div>
+        <div class="field-value"><?= p($pengkajian[$key.'_penjelasan'] ?? '') ?></div>
+    </div>
+<?php endforeach; ?>
+>>>>>>> master
 <h4>VII. Kebutuhan Persiapan Pulang</h4>
 <h4>4. Spiritual</h4>
 
@@ -703,6 +744,7 @@ include 'template_pdf.php';
 </div>
 
 <h4>VIII. Mekanisme Koping</h4>
+<<<<<<< HEAD
 <?php $psikososial_arr = arr($pengkajian['psikososial']); ?>
 
 <div class="field-row">
@@ -726,6 +768,23 @@ include 'template_pdf.php';
 
 
 
+=======
+<div class="field-row mb-2">
+    <?php
+    $koping_options = [
+        'Adaptif','Maladaptif','Bicara dengan orang lain','Minum alcohol',
+        'Mampu menyelesaikan masalah','Reaksi lambat/berlebih','Teknik relaksasi',
+        'Bekerja berlebihan','Aktivitas Konstruktif','Menghindar','Olahraga','Mencederai diri'
+    ];
+    foreach($koping_options as $opt){
+        $field = 'koping_'.strtolower(str_replace([' ','/'],['_','_'],$opt));
+        echo (isset($pengkajian[$field]) && $pengkajian[$field]=='ya' ? '✔ ' : '(   )') . $opt . ' &nbsp; ';
+    }
+    ?>
+</div>
+
+
+>>>>>>> master
 <h4>IX. Masalah Psikososial dan Lingkungan</h4>
 
 <div class="field-row mb-2">
@@ -768,6 +827,7 @@ include 'template_pdf.php';
     <div class="field-value"><?= p($pengkajian['masalah_lain'] ?? '') ?></div>
 </div>
 
+<<<<<<< HEAD
 <h4>X. PENGETAHUAN KURANG TENTANG :</h4>
 <?php $pengetahuan_arr = arr($pengkajian['pengetahuan']); ?>
 
@@ -783,6 +843,22 @@ include 'template_pdf.php';
         <?= chkIn($pengetahuan_arr, 'obat_obatan') ?> Obat-obatan &nbsp;
         <?= chkIn($pengetahuan_arr, 'lainnya') ?> Lainnya
     </div>
+=======
+<h4>X.	PENGETAHUAN KURANG TENTANG :</h4>
+<div class="field-row mb-2">
+    <?php
+    $koping_options = [
+        'Penyakit Jiwa','Sistem Pendukung','Faktor Presipitasi','Penyakit Fisik',
+        'Koping','Obat-obatan','Lainnya'
+    ];
+    
+    foreach($koping_options as $opt){
+        // buat key field
+        $field = 'koping_'.strtolower(str_replace([' ','/'],['_','_'],$opt));
+        echo (isset($pengkajian[$field]) && $pengkajian[$field]=='ya' ? '✔ ' : '(   )') . $opt . ' &nbsp; ';
+    }
+    ?>
+>>>>>>> master
 </div>
 
 <?php if(isset($pengkajian['koping_lainnya']) && $pengkajian['koping_lainnya']=='ya'): ?>

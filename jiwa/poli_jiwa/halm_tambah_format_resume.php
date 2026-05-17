@@ -33,7 +33,6 @@ if ($level === 'Dosen') {
 
 $existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
 $section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
-
 $existing_analisa     = $existing_data['analisa']     ?? [];
 
 // =============================================

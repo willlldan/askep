@@ -1,4 +1,4 @@
-<?php
+<<?php
 require_once "koneksi.php";
 require_once "utils.php";
 
@@ -44,6 +44,10 @@ foreach ($checkbox_fields as $cf) {
         ? (json_decode($existing_data[$cf], true) ?? [])
         : [];
 }
+$tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
+$rs_ruangan     = $submission['rs_ruangan'] ?? '';
+
+
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
 // =============================================
