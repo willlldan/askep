@@ -145,13 +145,13 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 <h5 class="card-title"><strong>ANALISA DATA</strong></h5>
                 <form class="needs-validation" novalidate action="" method="POST">
                     <!-- ===================== TABEL KLASIFIKASI DATA ===================== -->
-                    <p class="text-primary fw-bold mb-2">Klasifikasi Data</p>
+                    <p class="text-primary fw-bold mb-2">7. Klasifikasi Data</p>
                     <table class="table table-bordered" id="tabel-klasifikasi">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Data Subjektif (DS)</th>
-                                <th class="text-center">Data Objektif (DO)</th>
+                                <th class="text-center">Data Subjektif</th>
+                                <th class="text-center">Data Objektif</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
                         </thead>
@@ -165,12 +165,12 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         </div>
                     </div>
                     <!-- ===================== TABEL ANALISA DATA ===================== -->
-                    <p class="text-primary fw-bold mb-2">Analisa Data</p>
+                    <p class="text-primary fw-bold mb-2">8. Analisa Data</p>
                     <table class="table table-bordered" id="tabel-analisa">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">DS/DO</th>
+                                <th class="text-center">Data</th>
                                 <th class="text-center">Etiologi</th>
                                 <th class="text-center">Masalah</th>
                                 <th class="text-center" style="width:60px">Aksi</th>

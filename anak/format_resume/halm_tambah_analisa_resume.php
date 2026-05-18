@@ -85,8 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Data Subjektif (DS)</th>
-                                <th class="text-center">Data Objektif (DO)</th>
+                                <th class="text-center">Data Subjektif</th>
+                                <th class="text-center">Data Objektif</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
                         </thead>
@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">DS/DO</th>
+                                <th class="text-center">Data</th>
                                 <th class="text-center">Etiologi</th>
                                 <th class="text-center">Masalah</th>
                                 <th class="text-center" style="width:60px">Aksi</th>

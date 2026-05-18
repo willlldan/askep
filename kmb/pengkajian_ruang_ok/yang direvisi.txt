@@ -1,0 +1,9 @@
+yang di-update revisi:
+1. halm_tambah_analisa.php
+2. halm_tambah_lainnya.php
+3. halm_tambah_lp_ruangok.php
+4. halm_tambah_resume.php
+5. halm_tambah_ruang_operasi.php
+6. tab.php
+
+bagian NPM sudah diganti menjadi NIM
