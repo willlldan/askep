@@ -37,7 +37,7 @@ function safe_p($var) {
                 <td><?= p($submission['tanggal_pengkajian']) ?></td>
             </tr>
             <tr>
-                <td><strong>NPM</strong></td>
+                <td><strong>NIM</strong></td>
                 <td>:</td>
                 <td><?= p($submission['npm']) ?></td>
                 <td><strong>RS/Ruangan</strong></td>

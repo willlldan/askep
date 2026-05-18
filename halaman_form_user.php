@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">NPM</label>
+                                <label class="form-label">NIM</label>
                                 <input type="text" name="npm" id="inputNpm" class="form-control"
                                     value="<?= htmlspecialchars($user['npm'] ?? '') ?>"
                                     <?= ($user['level'] !== 'Mahasiswa') ? 'disabled' : '' ?>>

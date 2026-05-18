@@ -1,39 +1,9 @@
 <?php
-require_once "koneksi.php";
-require_once "utils.php";
 
 $form_id       = 5;
-$level         = $_SESSION['level'];
-$user_id       = $_SESSION['id_user'];
 $section_name  = 'pemfis_2';
 $section_label = 'Pemeriksaan Fisik 2';
-
-if ($level === 'Dosen') {
-    $submission_id_param = $_GET['submission_id'] ?? null;
-    if (!$submission_id_param) {
-        echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
-        exit;
-    }
-    $stmt = $mysqli->prepare("
-        SELECT s.*, r.nama as dosen_name
-        FROM submissions s
-        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
-        WHERE s.id = ?
-    ");
-    $stmt->bind_param("i", $submission_id_param);
-    $stmt->execute();
-    $submission = $stmt->get_result()->fetch_assoc();
-} else {
-    $submission = getSubmission($user_id, $form_id, $mysqli);
-}
-
-$existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
-$section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
-
-$is_dosen    = $level === 'Dosen';
-$is_readonly = $is_dosen || isLocked($submission);
-$ro          = $is_readonly ? 'readonly' : '';
-$ro_disabled = $is_readonly ? 'disabled' : '';
+include dirname(__DIR__, 2) . '/partials/init_section.php';
 
 // =============================================
 // HANDLE POST - MAHASISWA
@@ -175,42 +145,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
 }
 
-// =============================================
-// HANDLE POST - DOSEN
-// =============================================
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
-    $submission_id = $submission['id'];
-    $dosen_id      = $user_id;
-    $action        = $_POST['action'] ?? '';
-    $comment       = $_POST['comment'] ?? '';
-
-    if ($action === 'approve') {
-        updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
-        if (!empty($comment)) saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-    } elseif ($action === 'revision') {
-        if (empty($comment)) redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
-        updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
-        saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-    }
-
-    updateReviewer($submission_id, $dosen_id, $mysqli);
-    updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
-    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
-}
-
-$comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
-
 // Decode checkbox fields
 $cb_fields = ['suara_nafas', 'suara_tambahan', 'perkusi_paru'];
 foreach ($cb_fields as $cf) {
     $existing_data[$cf] = isset($existing_data[$cf])
         ? (json_decode($existing_data[$cf], true) ?? [])
         : [];
-}
-
-function ed($key, $data)
-{
-    return htmlspecialchars($data[$key] ?? '');
 }
 
 function radioYaTidak($name, $existing, $disabled)

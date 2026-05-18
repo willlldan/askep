@@ -1,42 +1,11 @@
 <?php
-require_once "koneksi.php";
-require_once "utils.php";
-
 $form_id       = 5;
-$level         = $_SESSION['level'];
-$user_id       = $_SESSION['id_user'];
 $section_name  = 'analisa_data';
 $section_label = 'Analisa Data';
-
-if ($level === 'Dosen') {
-    $submission_id_param = $_GET['submission_id'] ?? null;
-    if (!$submission_id_param) {
-        echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
-        exit;
-    }
-    $stmt = $mysqli->prepare("
-        SELECT s.*, r.nama as dosen_name
-        FROM submissions s
-        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
-        WHERE s.id = ?
-    ");
-    $stmt->bind_param("i", $submission_id_param);
-    $stmt->execute();
-    $submission = $stmt->get_result()->fetch_assoc();
-} else {
-    $submission = getSubmission($user_id, $form_id, $mysqli);
-}
-
-$existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
-$section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
+include dirname(__DIR__, 2) . '/partials/init_section.php';
 
 $existing_klasifikasi = $existing_data['klasifikasi'] ?? [];
 $existing_analisa     = $existing_data['analisa']     ?? [];
-
-$is_dosen    = $level === 'Dosen';
-$is_readonly = $is_dosen || isLocked($submission);
-$ro          = $is_readonly ? 'readonly' : '';
-$ro_disabled = $is_readonly ? 'disabled' : '';
 
 // =============================================
 // HANDLE POST - MAHASISWA
@@ -46,31 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
 
-    // Klasifikasi Data (DS / DO)
-    $klasifikasi = [];
-    if (!empty($_POST['klasifikasi'])) {
-        foreach ($_POST['klasifikasi'] as $row) {
-            if (empty($row['ds']) && empty($row['do'])) continue;
-            $klasifikasi[] = [
-                'ds' => $row['ds'] ?? '',
-                'do' => $row['do'] ?? '',
-            ];
-        }
-    }
-
-    // Analisa Data (DS/DO + Data + Etiologi + Masalah)
-    $analisa = [];
-    if (!empty($_POST['analisa'])) {
-        foreach ($_POST['analisa'] as $row) {
-            if (empty($row['dsdo']) && empty($row['data']) && empty($row['etiologi']) && empty($row['masalah'])) continue;
-            $analisa[] = [
-                'dsdo'     => $row['dsdo']     ?? '',
-                'data'     => $row['data']     ?? '',
-                'etiologi' => $row['etiologi'] ?? '',
-                'masalah'  => $row['masalah']  ?? '',
-            ];
-        }
-    }
+    $klasifikasi = parse_dynamic_rows($_POST['klasifikasi'] ?? [], ['ds', 'do']);
+    $analisa     = parse_dynamic_rows($_POST['analisa'] ?? [], ['dsdo', 'data', 'etiologi', 'masalah']);
 
     $data = [
         'klasifikasi' => $klasifikasi,
@@ -88,30 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
 }
 
-// =============================================
-// HANDLE POST - DOSEN
-// =============================================
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
-    $submission_id = $submission['id'];
-    $dosen_id      = $user_id;
-    $action        = $_POST['action'] ?? '';
-    $comment       = $_POST['comment'] ?? '';
-
-    if ($action === 'approve') {
-        updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
-        if (!empty($comment)) saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-    } elseif ($action === 'revision') {
-        if (empty($comment)) redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
-        updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
-        saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-    }
-
-    updateReviewer($submission_id, $dosen_id, $mysqli);
-    updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
-    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
-}
-
-$comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
 ?>
 
 <main id="main" class="main">
@@ -163,11 +85,55 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                         <div class="row mb-4">
                             <div class="col-sm-12 d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-klasifikasi"
-                                    onclick="tambahRowKlasifikasi()">+ Tambah Baris</button>
+                                    onclick="tambahRowKlasifikasi({tbodyId: 'tbody-klasifikasi', rowCountVar: 'rowKlasifikasiCount', isReadonly: <?= json_encode($is_readonly) ?>})">+ Tambah Baris</button>
                             </div>
                         </div>
                     <?php endif; ?>
+
+
                 </div>
+            </div>
+
+
+            <!-- ===================== ANALISA DATA ===================== -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>Format Analisa Data</strong></h5>
+
+                    <table class="table table-bordered table-analisa" id="tabel-analisa">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width:40px">No</th>
+                                <th class="text-center">DS/DO</th>
+                                <th class="text-center">Etiologi</th>
+                                <th class="text-center">Masalah</th>
+                                <?php if (!$is_readonly): ?>
+                                    <th class="text-center" style="width:60px">Aksi</th>
+                                <?php endif; ?>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-analisa"></tbody>
+                    </table>
+
+                    <?php if (!$is_readonly): ?>
+                        <div class="row mb-4">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-analisa"
+                                    onclick="tambahRowAnalisa({tbodyId: 'tbody-analisa', rowCountVar: 'rowAnalisaCount', isReadonly: <?= json_encode($is_readonly) ?>})">+ Tambah Baris</button>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+               
+
+                <?php if (!$is_dosen): ?>
+                    <div class="row mb-3">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+                 </div>
             </div>
 
             <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
@@ -182,114 +148,45 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
     const existingKlasifikasi = <?= json_encode($existing_klasifikasi) ?>;
     const existingAnalisa = <?= json_encode($existing_analisa) ?>;
 
-    // =============================================
-    // KLASIFIKASI DATA
-    // =============================================
-    function tambahRowKlasifikasi(data = null) {
-        const tbody = document.getElementById('tbody-klasifikasi');
-        const index = rowKlasifikasiCount;
-        const row = document.createElement('tr');
-
-        const aksiCol = isReadonly ? '' : `
-        <td class="text-center align-middle">
-            <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>
-        </td>`;
-
-        row.innerHTML = `
-        <td class="text-center align-middle">${index}</td>
-        <td>
-            <textarea class="form-control form-control-sm"
-                name="klasifikasi[${index}][ds]"
-                rows="2" style="resize:none; overflow:hidden;"
-                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                ${isReadonly ? 'readonly' : ''}
-            >${data?.ds ?? ''}</textarea>
-        </td>
-        <td>
-            <textarea class="form-control form-control-sm"
-                name="klasifikasi[${index}][do]"
-                rows="2" style="resize:none; overflow:hidden;"
-                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                ${isReadonly ? 'readonly' : ''}
-            >${data?.do ?? ''}</textarea>
-        </td>
-        ${aksiCol}
-    `;
-
-        tbody.appendChild(row);
-        rowKlasifikasiCount++;
-    }
-
-    // =============================================
-    // ANALISA DATA
-    // =============================================
-    function tambahRowAnalisa(data = null) {
-        const tbody = document.getElementById('tbody-analisa');
-        const index = rowAnalisaCount;
-        const row = document.createElement('tr');
-
-        const aksiCol = isReadonly ? '' : `
-        <td class="text-center align-middle">
-            <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>
-        </td>`;
-
-        row.innerHTML = `
-        <td class="text-center align-middle">${index}</td>
-        <td>
-            <textarea class="form-control form-control-sm"
-                name="analisa[${index}][dsdo]"
-                rows="2" style="resize:none; overflow:hidden;"
-                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                ${isReadonly ? 'readonly' : ''}
-            >${data?.dsdo ?? ''}</textarea>
-        </td>
-        <td>
-            <textarea class="form-control form-control-sm"
-                name="analisa[${index}][data]"
-                rows="2" style="resize:none; overflow:hidden;"
-                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                ${isReadonly ? 'readonly' : ''}
-            >${data?.data ?? ''}</textarea>
-        </td>
-        <td>
-            <textarea class="form-control form-control-sm"
-                name="analisa[${index}][etiologi]"
-                rows="2" style="resize:none; overflow:hidden;"
-                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                ${isReadonly ? 'readonly' : ''}
-            >${data?.etiologi ?? ''}</textarea>
-        </td>
-        <td>
-            <textarea class="form-control form-control-sm"
-                name="analisa[${index}][masalah]"
-                rows="2" style="resize:none; overflow:hidden;"
-                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                ${isReadonly ? 'readonly' : ''}
-            >${data?.masalah ?? ''}</textarea>
-        </td>
-        ${aksiCol}
-    `;
-
-        tbody.appendChild(row);
-        rowAnalisaCount++;
-    }
-
-    function hapusRow(btn) {
-        btn.closest('tr').remove();
-    }
+    // Import helper
+    const script = document.createElement('script');
+    script.src = '/assets/js/form_row_helpers.js';
+    document.head.appendChild(script);
 
     // Load existing data on page load
     window.addEventListener('load', function() {
         if (existingKlasifikasi && existingKlasifikasi.length > 0) {
-            existingKlasifikasi.forEach(row => tambahRowKlasifikasi(row));
+            existingKlasifikasi.forEach(row => {
+                tambahRowKlasifikasi({
+                    tbodyId: 'tbody-klasifikasi',
+                    rowCountVar: 'rowKlasifikasiCount',
+                    isReadonly,
+                    data: row
+                });
+            });
         } else if (!isReadonly) {
-            tambahRowKlasifikasi();
+            tambahRowKlasifikasi({
+                tbodyId: 'tbody-klasifikasi',
+                rowCountVar: 'rowKlasifikasiCount',
+                isReadonly
+            });
         }
 
         if (existingAnalisa && existingAnalisa.length > 0) {
-            existingAnalisa.forEach(row => tambahRowAnalisa(row));
+            existingAnalisa.forEach(row => {
+                tambahRowAnalisa({
+                    tbodyId: 'tbody-analisa',
+                    rowCountVar: 'rowAnalisaCount',
+                    isReadonly,
+                    data: row
+                });
+            });
         } else if (!isReadonly) {
-            tambahRowAnalisa();
+            tambahRowAnalisa({
+                tbodyId: 'tbody-analisa',
+                rowCountVar: 'rowAnalisaCount',
+                isReadonly
+            });
         }
 
         // Disable tombol tambah jika readonly
