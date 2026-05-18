@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
     $dosen_id      = $user_id;
     $action        = $_POST['action'] ?? '';
     $comment       = $_POST['comment'] ?? '';
+    
 
     if (function_exists('handle_dosen_action')) {
         $err = handle_dosen_action($submission_id, $section_name, $action, $comment, $dosen_id, $mysqli);

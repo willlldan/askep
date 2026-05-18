@@ -75,9 +75,8 @@ function buildTabUrl($tab, $submission_id)
                     Cancel Approval
                 </button>
             </form>
+        <?php endif; ?>
     </div>
-<?php endif; ?>
-</div>
 </div>
 
 <div class="d-flex justify-content-between mt-4">
@@ -99,7 +98,7 @@ function buildTabUrl($tab, $submission_id)
         <div class="d-flex flex-column align-items-end">
             <form action="" method="POST" class="mb-1">
                 <input type="hidden" name="action" value="submit_to_dosen">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary" id="btn-submit-dosen">
                     Submit ke Dosen
                 </button>
             </form>
@@ -108,22 +107,66 @@ function buildTabUrl($tab, $submission_id)
     <?php endif; ?>
 </div>
 
+<script src="assets/vendor/sweetalert2/package/dist/sweetalert2.all.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // SweetAlert confirmation for Approve
         var approveBtn = document.getElementById('btn-approve');
         if (approveBtn) {
             approveBtn.addEventListener('click', function(e) {
-                if (!confirm('Apakah Anda yakin ingin approve data ini?')) {
-                    e.preventDefault();
-                }
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: 'Anda akan menyetujui data ini.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Setujui!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        approveBtn.closest('form').requestSubmit(approveBtn);
+                    }
+                });
             });
         }
+
+        // SweetAlert confirmation for Cancel Approval
         var cancelApproveBtn = document.getElementById('btn-cancel-approve');
         if (cancelApproveBtn) {
             cancelApproveBtn.addEventListener('click', function(e) {
-                if (!confirm('Apakah Anda yakin ingin membatalkan approval?')) {
-                    e.preventDefault();
-                }
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: 'Anda akan membatalkan persetujuan.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Batalkan!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        cancelApproveBtn.closest('form').requestSubmit(cancelApproveBtn);
+                    }
+                });
+            });
+        }
+
+        // SweetAlert confirmation for Submit to Dosen
+        var submitToDosenBtn = document.getElementById('btn-submit-dosen');
+        if (submitToDosenBtn) {
+            submitToDosenBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: 'Pastikan semua data sudah benar sebelum submit.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya, Submit!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        submitToDosenBtn.closest('form').submit();
+                    }
+                });
             });
         }
     });
