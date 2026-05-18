@@ -201,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Diagnosa</th>
+                                <th class="text-center">Diagnosa Keperawatan</th>
                                 <th class="text-center">Tujuan dan Kriteria Hasil</th>
                                 <th class="text-center">Intervensi</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
@@ -253,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <table class="table table-bordered" id="tabel-implementasi">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width:150px">No. Dx</th>
+                                <th class="text-center" style="width:70px">No. Dx</th>
                                 <th class="text-center" style="width:150px">Hari/Tanggal</th>
                                 <th class="text-center" style="width:110px">Jam</th>
                                 <th class="text-center">Implementasi</th>
@@ -306,7 +306,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <table class="table table-bordered" id="tabel-evaluasi">
                         <thead>
                             <tr>
-                                <th class="text-center" style="width:150px">No. Dx</th>
+                                <th class="text-center" style="width:70px">No. Dx</th>
                                 <th class="text-center" style="width:150px">Hari/Tanggal</th>
                                 <th class="text-center" style="width:110px">Jam</th>
                                 <th class="text-center">Evaluasi (SOAP)</th>
