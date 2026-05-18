@@ -143,9 +143,14 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
             <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-              <h5 class="card-title mb-1"><strong>1. Biodata Klien</strong></h5>
+            <h5 class="card-title mb-1"><strong>FORMAT RESUME KEPERAWATAN <br>
+            PRAKTIK KLINIK KEPERAWATAN MEDIKAL BEDAH II DI RUANG OK
+            </strong></h5>
 
-                <!-- 1 BIODATA KLIEN -->
+            <!-- 1. Biodata Klien -->
+            <div class="row mb-2">
+                <label class="col-sm-12 text-primary"><strong>1. Biodata Klien</strong></label>
+            </div>
 
 
 <!-- NAMA KLIEN -->
@@ -255,10 +260,10 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 </div>
 </div>
 
-             
-              <h5 class="card-title mb-1">
-<!-- 2 KELUHAN UTAMA -->
-<strong>2. Keluhan Utama</strong></h5>
+            <!-- 2. Keluhan Utama -->
+            <div class="row mb-2">
+                <label class="col-sm-12 text-primary"><strong>2. Keluhan Utama</strong></label>
+            </div>
 
 
 <div class="row mb-3">
@@ -272,10 +277,10 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 </div>
 </div>
 
-             
-              <h5 class="card-title mb-1">
-
-<strong>3.  Tanda-tanda Vital </strong></h5>
+            <!-- 3. Tanda-tanda Vital -->
+            <div class="row mb-2">
+                <label class="col-sm-12 text-primary"><strong>3. Tanda-tanda Vital</strong></label>
+            </div>
 
 
 <div class="row mb-3">
@@ -288,12 +293,11 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
 </div>
 </div>
-        </div>
 
-            <div class="card-body">
-             
-              <h5 class="card-title mb-1">
-<strong>4. Pengkajian  Data Fokus (Data yang Bermasalah) </strong></h5>
+            <!-- 4. Pengkajian  Data Fokus (Data yang Bermasalah) -->
+            <div class="row mb-2">
+                <label class="col-sm-12 text-primary"><strong>4. Pengkajian  Data Fokus (Data yang Bermasalah)</strong></label>
+            </div>
 
 
 <div class="row mb-3">
@@ -319,12 +323,10 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 </div>
 </div>
 
-<!-- 4 PEMERIKSAAN PENUNJANG -->
-
-             
-              <h5 class="card-title mb-1">
-<strong>5. Pemeriksaan Penunjang</strong></h5>
-</label>
+            <!-- 5. Pemeriksaan Penunjang -->
+            <div class="row mb-2">
+                <label class="col-sm-12 text-primary"><strong>5. Pemeriksaan Penunjang</strong></label>
+            </div>
 
 <div class="row mb-3">
 <label class="col-sm-2 col-form-label"><strong>Pemeriksaan Penunjang</strong>
@@ -338,11 +340,10 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 </div>
 </div>
 
-<!-- 5 TERAPI SAAT INI -->
-
-             
-              <h5 class="card-title mb-1">
-<strong>6. Terapi Saat Ini</strong></h5>
+            <!-- 6. Terapi Saat Ini -->
+            <div class="row mb-2">
+                <label class="col-sm-12 text-primary"><strong>6. Terapi Saat Ini</strong></label>
+            </div>
 
 
 <div class="row mb-3">
@@ -366,6 +367,8 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 <?php endif; ?>
 
                 </form>
+
+                       <?php include "tab_navigasi.php"; ?>
             </div>
         </div>
 
@@ -416,7 +419,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     </div>
                 <?php endif; ?>
 
-                <?php include "tab_navigasi.php"; ?>
+         
 
             </div>
         </div>

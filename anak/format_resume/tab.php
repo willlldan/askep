@@ -9,8 +9,6 @@ $titles = [
 ];
 ?>
 
-
-
 <div class="pagetitle">
     <h1><strong><?= $titles[$jenisanak] ?? 'Pengkajian Asuhan Keperawatan' ?></strong></h1>
 </div>

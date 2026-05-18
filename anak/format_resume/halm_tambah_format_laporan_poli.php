@@ -367,6 +367,9 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 <?php endif; ?>
 
                 </form>
+
+                          <?php include "tab_navigasi.php"; ?>
+
             </div>
         </div>
 
@@ -416,8 +419,6 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         Section ini sudah di-approve.
                     </div>
                 <?php endif; ?>
-
-                 <?php include "tab_navigasi.php"; ?>
 
             </div>
         </div>

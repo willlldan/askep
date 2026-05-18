@@ -29,9 +29,9 @@ include 'template_pdf.php';
             </tr>
             
             <tr>
-                <td><strong>NPM</strong></td>
+                <td><strong>NIM</strong></td>
                 <td>:</td>
-                <td><?= p($submission['npm']) ?></td>
+                <td><?= p($submission['nim']) ?></td>
                 <td><strong>RS/Ruangan</strong></td>
                 <td>:</td>
                 <td><?= p($submission['rs_ruangan']) ?></td>
@@ -168,8 +168,8 @@ include 'template_pdf.php';
         <table class="data">
             <thead>
                 <tr>
-                    <th width="50%">Data Subjektif (DS)</th>
-                    <th width="50%">Data Objektif (DO)</th>
+                    <th width="50%">Data Subjektif</th>
+                    <th width="50%">Data Objektif</th>
                 </tr>
             </thead>
             <tbody>
@@ -193,7 +193,7 @@ include 'template_pdf.php';
         <table class="data">
             <thead>
                 <tr>
-                    <th width="40%">DS/DO</th>
+                    <th width="40%">Data</th>
                     <th width="30%">Etiologi</th>
                     <th width="30%">Masalah</th>
                 </tr>
@@ -215,6 +215,8 @@ include 'template_pdf.php';
             </tbody>
         </table>
 
+        <div class="page-break"></div>
+
         <!-- ================================ -->
         <!-- SECTION 3: CATATAN KEPERAWATAN -->
         <!-- ================================ -->
@@ -223,7 +225,7 @@ include 'template_pdf.php';
         <table class="data">
             <thead>
                 <tr>
-                    <th>Diagnosa</th>
+                    <th>Diagnosa Keperawatan</th>
                     <th>Tanggal Ditemukan</th>
                     <th>Tanggal Teratasi</th>
                 </tr>
@@ -252,7 +254,7 @@ include 'template_pdf.php';
         <table class="data">
             <thead>
                 <tr>
-                    <th width="40%">Diagnosa</th>
+                    <th width="40%">Diagnosa Keperawatan</th>
                     <th width="30%">Tujuan dan Kriteria Hasil</th>
                     <th width="30%">Intervensi</th>
                 </tr>
@@ -281,7 +283,7 @@ include 'template_pdf.php';
         <table class="data">
             <thead>
                 <tr>
-                    <th>No. DX</th>
+                    <th>No. Dx</th>
                     <th>Hari/Tanggal</th>
                     <th>Jam</th>
                     <th>Implementasi</th>
@@ -312,7 +314,7 @@ include 'template_pdf.php';
         <table class="data">
             <thead>
                 <tr>
-                    <th>No. DX</th>
+                    <th>No. Dx</th>
                     <th>Hari/Tanggal</th>
                     <th>Jam</th>
                     <th>S</th>
@@ -426,7 +428,7 @@ include 'template_pdf.php';
             <div class="field-value"><?= p($poli_imunisasi['alamat']) ?></div>
         </div>
 
-        <h4>1. Biodata Orangtua</h4>
+        <h4>2. Biodata Orangtua</h4>
          <div class="field-row">
             <div class="field-label">Nama Ayah</div>
             <div class="field-sep">:</div>
@@ -525,8 +527,8 @@ include 'template_pdf.php';
         <table class="data">
             <thead>
                 <tr>
-                    <th width="50%">Data Subjektif (DS)</th>
-                    <th width="50%">Data Objektif (DO)</th>
+                    <th width="50%">Data Subjektif</th>
+                    <th width="50%">Data Objektif</th>
                 </tr>
             </thead>
             <tbody>
@@ -582,7 +584,7 @@ include 'template_pdf.php';
         <table class="data">
             <thead>
                 <tr>
-                    <th>Diagnosa</th>
+                    <th>DO / DS</th>
                     <th>Tanggal Ditemukan</th>
                     <th>Tanggal Teratasi</th>
                 </tr>
@@ -629,7 +631,7 @@ include 'template_pdf.php';
         <table class="data">
             <thead>
                 <tr>
-                    <th width="40%">Diagnosa</th>
+                    <th width="40%">Diagnosa Keperawatan</th>
                     <th width="30%">Tujuan dan Kriteria Hasil</th>
                     <th width="30%">Intervensi</th>
                 </tr>
@@ -676,7 +678,7 @@ include 'template_pdf.php';
         <table class="data">
             <thead>
                 <tr>
-                    <th>No. DX</th>
+                    <th>No. Dx</th>
                     <th>Hari/Tanggal</th>
                     <th>Jam</th>
                     <th>Implementasi</th>
@@ -725,7 +727,7 @@ include 'template_pdf.php';
         <table class="data">
             <thead>
                 <tr>
-                    <th>No. DX</th>
+                    <th>No. Dx</th>
                     <th>Hari/Tanggal</th>
                     <th>Jam</th>
                     <th>S</th>

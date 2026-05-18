@@ -174,12 +174,11 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                                 
         <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-            <h5 class="card-title"><strong>Format Resume Keperawatan Poli Anak</strong></h5>
-
+            <h5 class="card-title"><strong>FORMAT RESUME KEPERAWATAN POLI ANAK</strong></h5>
 
            <!-- 1. Biodata Klien -->
             <div class="row mb-2">
-                <label class="col-sm-12"><strong>1. Biodata Klien</strong></label>
+                <label class="col-sm-12 text-"><strong>1. Biodata Klien</strong></label>
             </div>
 
             <!-- Nama Anak -->
@@ -358,6 +357,9 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 <?php endif; ?>
 
                 </form>
+
+                          <?php include "tab_navigasi.php"; ?>
+                          
             </div>
         </div>
 
@@ -407,8 +409,6 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         Section ini sudah di-approve.
                     </div>
                 <?php endif; ?>
-
-                 <?php include "tab_navigasi.php"; ?>
 
             </div>
         </div>

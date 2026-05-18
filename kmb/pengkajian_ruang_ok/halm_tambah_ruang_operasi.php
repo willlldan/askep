@@ -53,13 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'tgl_masuk_rs'         => $_POST['tgl_masuk_rs'] ?? '',
         'diagnosa_medis'       => $_POST['diagnosa_medis'] ?? '',
         'jenis_operasi'        => $_POST['jenis_operasi'] ?? '',
+        'jenis_anestesi'       => $_POST['jenis_anestesi'] ?? '',
         'tgl_operasi'          => $_POST['tgl_operasi'] ?? '',
         'pukul_mulai'          => $_POST['pukul_mulai'] ?? '',
         'pukul_selesai'        => $_POST['pukul_selesai'] ?? '',
         'steril'               => $_POST['steril'] ?? '',
         'non_steril'           => $_POST['non_steril'] ?? '',
         'anestesi'             => $_POST['anestesi'] ?? '',
-        'jenis_anestesi'       => $_POST['jenis_anestesi'] ?? '',
+        'klien'                => $_POST['klien'] ?? '',
         'lingkungan'           => $_POST['lingkungan'] ?? '',
         'pemeriksaan_lab'      => $_POST['pemeriksaan_lab'] ?? '',
         'tindakan'             => $_POST['tindakan'] ?? '',
@@ -241,7 +242,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
             <!-- TGL MASUK RS -->
             <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Tgl Masuk RS</strong></label>
+                <label class="col-sm-2 col-form-label"><strong>Tanggal Masuk RS</strong></label>
 
                 <div class="col-sm-10">
                    <input type="date" class="form-control" name="tgl_masuk_rs"
@@ -274,6 +275,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <?= $ro ?>><?= val('jenis_operasi',$existing_data) ?></textarea>
                          </div>
                     </div>
+
             <!-- WAKTU OPERASI -->
             <div class="row mb-3">
                 <label class="col-sm-2 col-form-label"><strong>Waktu Operasi</strong></label>
@@ -352,7 +354,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                         <?= $ro ?>><?= val('jenis_anestesi',$existing_data) ?></textarea>
                          </div>
-                    </div> 
+                    </div>
 
             <!-- LINGKUNGAN -->
             <div class="row mb-3">
@@ -387,6 +389,9 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 <label class="col-sm-2 col-form-label"><strong>Tindakan</strong></label>
 
                 <div class="col-sm-10">
+                    <small style="color:red;">
+                        Tuliskan suatu tindakan yang diberikan mulai dari pemberian anestesi, pelaksanaan operasi, sampai observasi 2 jam setelah operasi beserta waktunya
+                    </small>
                    <textarea name="tindakan" class="form-control"
                         rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                         <?= $ro ?>><?= val('tindakan',$existing_data) ?></textarea>
@@ -406,8 +411,6 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         <?= $ro ?>><?= val('kesimpulan',$existing_data) ?></textarea>                         </div>
                     </div> 
             
-
-            
                <!-- TOMBOL MAHASISWA -->
                 <?php if (!$is_dosen): ?>
                     <div class="row mb-3">
@@ -418,6 +421,9 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 <?php endif; ?>
 
                 </form>
+
+                          <?php include "tab_navigasi.php"; ?>
+
             </div>
         </div>
 
@@ -467,8 +473,6 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         Section ini sudah di-approve.
                     </div>
                 <?php endif; ?>
-
-                 <?php include "tab_navigasi.php"; ?>
 
             </div>
         </div>

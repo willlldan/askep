@@ -109,8 +109,8 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 ?>
 
 <main id="main" class="main">
-
-    <?php include "kmb/pengkajian_ruang_ok/tab.php"; ?>
+<?php include "kmb/pengkajian_ruang_ok/tab.php"; ?>
+    
 
     <section class="section dashboard">
 
@@ -162,7 +162,8 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 <h5 class="card-title"><strong>A.	KONSEP DASAR KAMAR BEDAH</strong></h5>
 
                
-             
+                <!-- General Form Elements -->
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
                 
                     <!-- Bagian Inisial Pasien -->
 
@@ -191,7 +192,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
                 <!-- Bagian Pekerjaan -->
                 <div class="row mb-3">
-                    <label for="kamar_operasi" class="col-sm-2 col-form-label "><strong>3.	Bagian-Bagian Kamar Operasi</strong></label>
+                    <label for="kamar_operasi" class="col-sm-2 col-form-label "><strong>3.	Bagian-bagian Kamar Operasi</strong></label>
                     <div class="col-sm-10">
                         <textarea name="kamar_operasi" class="form-control"
                         rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -254,6 +255,8 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                 <?php endif; ?>
 
                 </form>
+
+                          <?php include "tab_navigasi.php"; ?>
             </div>
         </div>
 
@@ -303,8 +306,6 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                         Section ini sudah di-approve.
                     </div>
                 <?php endif; ?>
-
-                 <?php include "tab_navigasi.php"; ?>
 
             </div>
         </div>
