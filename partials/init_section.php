@@ -44,6 +44,7 @@ $is_readonly = $is_dosen || isLocked($submission);
 $ro          = $is_readonly ? 'readonly' : '';
 $ro_select   = $is_readonly ? 'disabled' : '';
 $ro_disabled = $is_readonly ? 'disabled' : '';
+$ro_check    = $is_readonly ? 'disabled' : '';
 
 // =============================================
 // HANDLE POST - DOSEN (DRY, otomatis di semua section)

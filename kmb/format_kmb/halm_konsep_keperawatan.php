@@ -1,38 +1,9 @@
 <?php
-require_once "koneksi.php";
-require_once "utils.php";
-
 $form_id       = 10;
-$level         = $_SESSION['level'];
-$user_id       = $_SESSION['id_user'];
 $section_name  = 'konsep_keperawatan';
 $section_label = 'Konsep Keperawatan';
+include dirname(__DIR__, 2) . '/partials/init_section.php';
 
-// =============================================
-// DOSEN: ambil submission berdasarkan ?submission_id=
-// MAHASISWA: ambil submission milik sendiri
-// =============================================
-if ($level === 'Dosen') {
-    $submission_id_param = $_GET['submission_id'] ?? null;
-    if (!$submission_id_param) {
-        echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
-        exit;
-    }
-    $stmt = $mysqli->prepare("
-        SELECT s.*, r.nama as dosen_name
-        FROM submissions s
-        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
-        WHERE s.id = ?
-    ");
-    $stmt->bind_param("i", $submission_id_param);
-    $stmt->execute();
-    $submission = $stmt->get_result()->fetch_assoc();
-} else {
-    $submission = getSubmission($user_id, $form_id, $mysqli);
-}
-
-$existing_data   = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
-$section_status  = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
 $tgl_pengkajian  = $submission['tanggal_pengkajian'] ?? '';
 $rs_ruangan      = $submission['rs_ruangan']         ?? '';
 
@@ -40,11 +11,6 @@ $rs_ruangan      = $submission['rs_ruangan']         ?? '';
 $existing_perencanaan    = $existing_data['perencanaan']      ?? [];
 $existing_daftar_pustaka = $existing_data['daftar_pustaka']   ?? [];
 $existing_kdm            = $existing_data['penyimpangan_kdm'] ?? '';
-
-// Readonly flag
-$is_dosen    = $level === 'Dosen';
-$is_readonly = $is_dosen || isLocked($submission);
-$ro          = $is_readonly ? 'readonly' : '';
 
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
@@ -127,35 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
 }
 
-// =============================================
-// HANDLE POST - DOSEN APPROVE / REVISI
-// =============================================
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
-    $submission_id = $submission['id'];
-    $dosen_id      = $user_id;
-    $action        = $_POST['action'] ?? '';
-    $comment       = $_POST['comment'] ?? '';
-
-    if ($action === 'approve') {
-        updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
-        if (!empty($comment)) {
-            saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-        }
-    } elseif ($action === 'revision') {
-        if (empty($comment)) {
-            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
-        }
-        updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
-        saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-    }
-
-    updateReviewer($submission_id, $dosen_id, $mysqli);
-    updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
-    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
-}
-
-// Load komentar section
-$comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
 ?>
 
 <main id="main" class="main">
@@ -500,49 +437,9 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
         </form>
 
-        <!-- ================================ -->
-        <!-- SECTION KOMENTAR & ACTION DOSEN -->
-        <!-- ================================ -->
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5 class="card-title"><strong>Komentar</strong></h5>
-
-                <?php if (!empty($comments)): ?>
-                    <?php foreach ($comments as $cmt): ?>
-                        <div class="alert alert-warning">
-                            <strong><?= htmlspecialchars($cmt['dosen_name']) ?></strong>
-                            <small class="text-muted ms-2"><?= date('d/m/Y H:i', strtotime($cmt['created_at'])) ?></small>
-                            <p class="mb-0 mt-1"><?= htmlspecialchars($cmt['comment']) ?></p>
-                        </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p class="text-muted">Belum ada komentar.</p>
-                <?php endif; ?>
-
-                <?php if ($is_dosen && $section_status !== 'approved'): ?>
-                    <form action="" method="POST">
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
-                            <div class="col-sm-9">
-                                <textarea name="comment" class="form-control" rows="3"
-                                    placeholder="Tulis komentar (wajib jika meminta revisi)..."></textarea>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end gap-2">
-                                <button type="submit" name="action" value="revision" class="btn btn-warning">Minta Revisi</button>
-                                <button type="submit" name="action" value="approve" class="btn btn-success">Approve</button>
-                            </div>
-                        </div>
-                    </form>
-                <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-                    <div class="alert alert-success">Section ini sudah di-approve.</div>
-                <?php endif; ?>
-
-            </div>
+        <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
         </div>
-
-        <?php include "tab_navigasi.php"; ?>
+        </div>
 
     </section>
 </main>
