@@ -44,6 +44,7 @@ $is_readonly = $is_dosen || isLocked($submission);
 $ro          = $is_readonly ? 'readonly' : '';
 $ro_select   = $is_readonly ? 'disabled' : '';
 $ro_disabled = $is_readonly ? 'disabled' : '';
+$ro_check    = $is_readonly ? 'disabled' : '';
 
 // =============================================
 // HANDLE POST - DOSEN (DRY, otomatis di semua section)
@@ -53,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
     $dosen_id      = $user_id;
     $action        = $_POST['action'] ?? '';
     $comment       = $_POST['comment'] ?? '';
+    
 
     if (function_exists('handle_dosen_action')) {
         $err = handle_dosen_action($submission_id, $section_name, $action, $comment, $dosen_id, $mysqli);

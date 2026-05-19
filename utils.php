@@ -575,6 +575,13 @@ function updateSectionStatus($submission_id, $section_name, $status, $mysqli)
     ");
     $stmt->bind_param("sis", $status, $submission_id, $section_name);
     $stmt->execute();
+
+    // if($status === 'cancel_approval') {
+    //     $new_status = 'draft';
+    //     $stmt3 = $mysqli->prepare("UPDATE submissions SET status = ? WHERE id = ?");
+    //     $stmt3->bind_param("si", $new_status, $submission_id);
+    //     $stmt3->execute();
+    // }
 }
 
 /**

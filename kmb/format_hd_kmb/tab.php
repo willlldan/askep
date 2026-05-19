@@ -1,10 +1,13 @@
 <?php
-$jeniskmb = $_GET['jeniskmb'] ?? 'hd';
 $submission_id = $_GET['submission_id'] ?? null;
+$page = $_GET['page'] ?? '';
+$parts = explode('/', $page);
+$jeniskmb = $parts[1] ?? 'format_hd_kmb';
+
 $titles = [
-    'hd' => 'Format HD KMB',
-    'kmb' => 'Keperawatan Medikal Bedah',
-    'ok' => 'Pengkajian Ruang OK',
+    'format_hd_kmb' => 'Format HD KMB',
+    'format_kmb' => 'Keperawatan Medikal Bedah',
+    'pengkajian_ruang_ok' => 'Pengkajian Ruang OK',
 ];
 $tabs = [
     'lp_ruanghd',

@@ -1,60 +1,54 @@
 <?php
-$jeniskmb = $_GET['jeniskmb'] ?? 'ok';
 $submission_id = $_GET['submission_id'] ?? null;
-
+$page = $_GET['page'] ?? '';
+$parts = explode('/', $page);
+$jeniskmb = $parts[1] ?? 'pengkajian_ruang_ok';
 $titles = [
-    'hd' => 'Format HD KMB',
-    'kmb' => 'Keperawatan Medikal Bedah',
-    'ok' => 'Pengkajian Ruang OK',
-
+    'format_hd_kmb' => 'Format HD KMB',
+    'format_kmb' => 'Keperawatan Medikal Bedah',
+    'pengkajian_ruang_ok' => 'Pengkajian Ruang OK',
 ];
+$tabs = [
+    'lp_ruangok',
+    'ruang_operasi',
+    'resume',
+    'analisa',
+    'lainnya',
+];
+$tabLabels = [
+    'lp_ruangok' => 'Format Laporan Pendahuluan Ruang OK',
+    'ruang_operasi' => 'Laporan Ruang Operasi',
+    'resume' => 'Format Resume Keperawatan Ruang OK',
+    'analisa' => 'Analisa Data',
+    'lainnya' => 'Lainnya',
+];
+$currentTab = $_GET['tab'] ?? $tabs[0];
 ?>
 
 <div class="pagetitle">
     <h1><strong><?= $titles[$jeniskmb] ?? 'pengkajian ruang ok' ?></strong></h1>
 </div>
 <br>
-
-
-   <ul class="nav nav-tabs custom-tabs">
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lp_ruangok' ? 'active' : '' ?>"
-        href="index.php?page=kmb/pengkajian_ruang_ok&tab=lp_ruangok<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-        Format Laporan Pendahuluan Ruang OK</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'ruang_operasi' ? 'active' : '' ?>"
-        href="index.php?page=kmb/pengkajian_ruang_ok&tab=ruang_operasi<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-        Laporan Ruang Operasi
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'resume' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=resume<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-        Format Resume Keperawatan Ruang OK
-        </a>
-    </li>
-   
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=analisa<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-        Analisa Data        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya' ? 'active' : '' ?>"
-       href="index.php?page=kmb/pengkajian_ruang_ok&tab=lainnya<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>">
-        Lainnya</a>
-    </li>
-   
-    </ul>
+<ul class="nav nav-tabs custom-tabs">
+    <?php
+    foreach ($tabs as $tab):
+        $isActive = ($currentTab == $tab) ? 'active' : '';
+        $label = $tabLabels[$tab] ?? ucfirst(str_replace('_', ' ', $tab));
+        $url = "index.php?page=kmb/pengkajian_ruang_ok&tab={$tab}";
+        if ($submission_id) $url .= "&submission_id={$submission_id}";
+    ?>
+        <li class="nav-item">
+            <a class="nav-link <?= $isActive ?>" href="<?= htmlspecialchars($url) ?>">
+                <?= htmlspecialchars($label) ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
+</ul>
 
 <style>
     .custom-tabs {
         border-bottom: 1px solid #dee2e6;
     }
-
     .custom-tabs .nav-link {
         border: none;
         background: transparent;
@@ -62,11 +56,9 @@ $titles = [
         font-weight: 500;
         padding: 10px 20px;
     }
-
     .custom-tabs .nav-link:hover {
         color: #4154f1;
     }
-
     .custom-tabs .nav-link.active {
         border: none;
         border-bottom: 3px solid #4154f1;
