@@ -1,5 +1,9 @@
 <?php
 
+
+// PENTING: Semua partial, helper, dan koneksi WAJIB pakai require_once!
+// Jangan pernah pakai include/include_once untuk koneksi.php atau partial DB
+// Dilarang keras membuat koneksi baru di file ini atau file lain selain koneksi.php
 require_once __DIR__ . "/../koneksi.php";
 require_once __DIR__ . "/../utils.php";
 require_once dirname(__DIR__) . "/utils/form_helpers.php";

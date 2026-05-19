@@ -1,25 +1,29 @@
-<?php session_start(); 
+<?php session_start();
 
-require_once 'koneksi.php';
-$sql = "
-    SELECT
-        f.id AS form_id,
-        f.form_name,
-        f.department,
-        f.slug
-    FROM forms f ORDER BY f.department ASC, f.form_name ASC
-";
-$result = $mysqli->query($sql);
-$forms  = [];
-while ($row = $result->fetch_assoc()) {
-    $forms[] = $row;
-}
-
-
-// Group forms by department
+$forms = [];
 $grouped = [];
-foreach ($forms as $form) {
-    $grouped[$form['department']][] = $form;
+
+// Guest tidak perlu koneksi DB dari header.
+if (isset($_SESSION['id_user'])) {
+    require_once 'koneksi.php';
+
+    $sql = "
+        SELECT
+            f.id AS form_id,
+            f.form_name,
+            f.department,
+            f.slug
+        FROM forms f ORDER BY f.department ASC, f.form_name ASC
+    ";
+    $result = $mysqli->query($sql);
+    while ($row = $result->fetch_assoc()) {
+        $forms[] = $row;
+    }
+
+    // Group forms by department
+    foreach ($forms as $form) {
+        $grouped[$form['department']][] = $form;
+    }
 }
 
 ?>

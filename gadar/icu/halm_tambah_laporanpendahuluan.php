@@ -1,5 +1,5 @@
 <?php
-include "koneksi.php";
+require_once "koneksi.php";
 
 if(isset($_POST['submit'])){
 
