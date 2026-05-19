@@ -109,7 +109,7 @@ if ($submission && !$is_dosen && $submission['status'] === 'draft') {
     $stmt->execute();
     $total_filled = $stmt->get_result()->fetch_assoc()['filled'];
 
-    $can_submit = $total_filled >= $count_section;
+    $can_submit = $total_filled >= 1;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submit_to_dosen' && $level === 'Mahasiswa') {
