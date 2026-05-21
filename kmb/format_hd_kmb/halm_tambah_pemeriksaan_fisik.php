@@ -24,69 +24,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     }
 
     $data = [
-        'bentuk_kepala'            => $_POST['bentuk_kepala'] ?? '',
-        'nyeri_tekan_dada'         => $_POST['nyeri_tekan_dada'] ?? '',
-        'benjolan_dada'            => $_POST['benjolan_dada'] ?? '',
-        'penyebaran_merata'        => $_POST['penyebaran_merata'] ?? '',
-        'warna_rambut'             => $_POST['warna_rambut'] ?? '',
+        'kepala'            => $_POST['kepala'] ?? '',
+        'rambut'             => $_POST['rambut'] ?? '',
         'rambut_dicabut'           => $_POST['rambut_dicabut'] ?? '',
         'kelainan_rambut'          => $_POST['kelainan_rambut'] ?? '',
         'ekspresi_wajah'           => $_POST['ekspresi_wajah'] ?? '',
         'simetris_wajah'           => $_POST['simetris_wajah'] ?? '',
         'udema_wajah'              => $_POST['udema_wajah'] ?? '',
         'kelainan_wajah'           => $_POST['kelainan_wajah'] ?? '',
-        'penglihatan'              => $_POST['penglihatan'] ?? '',
-        'kanan'                    => $_POST['kanan'] ?? '',
-        'kiri'                     => $_POST['kiri'] ?? '',
-        'lapang_pandang'           => $_POST['lapang_pandang'] ?? '',
-        'keadaan_mata'             => $_POST['keadaan_mata'] ?? '',
-        'konjungtiva'              => $_POST['konjungtiva'] ?? '',
-        'lesi_mata'                => $_POST['lesi_mata'] ?? '',
-        'sclera'                   => $_POST['sclera'] ?? '',
-        'pupil'                    => $_POST['pupil'] ?? '',
-        'bola_mata'                => $_POST['bola_mata'] ?? '',
-        'kelainan_mata'            => $_POST['kelainan_mata'] ?? '',
-        'pendengaran_kiri'         => $_POST['pendengaran_kiri'] ?? '',
-        'pendengaran_kanan'        => $_POST['pendengaran_kanan'] ?? '',
-        'nyeri_kiri'               => $_POST['nyeri_kiri'] ?? '',
-        'nyeri_kanan'              => $_POST['nyeri_kanan'] ?? '',
-        'serumen'                  => $_POST['serumen'] ?? '',
-        'kelainan_telinga'         => $_POST['kelainan_telinga'] ?? '',
-        'bau'                      => $_POST['bau'] ?? '',
-        'sekresi'                  => $_POST['sekresi'] ?? '',
-        'warna_hidung'             => $_POST['warna_hidung'] ?? '',
-        'mukosa_hidung'            => $_POST['mukosa_hidung'] ?? '',
-        'pembengkakan'             => $_POST['pembengkakan'] ?? '',
-        'cuping_hidung'            => $_POST['cuping_hidung'] ?? '',
-        'kelainan_hidung'          => $_POST['kelainan_hidung'] ?? '',
-        'bibir'                    => $_POST['bibir'] ?? '',
-        'simetris'                 => $_POST['simetris'] ?? '',
-        'kelembaban_mulut'               => $_POST['kelembaban_mulut'] ?? '',
-        'caries'                   => $_POST['caries'] ?? '',
-        'caries1'                   => $_POST['caries1'] ?? '',
-        'jumlah_gigi'              => $_POST['jumlah_gigi'] ?? '',
-        'warna_gigi'               => $_POST['warna_gigi'] ?? '',
-        'frekuensi'                => $_POST['frekuensi'] ?? '',
-        'letak'                    => $_POST['letak'] ?? '',
-        'lidah'                    => $_POST['lidah'] ?? '',
-        'lesi_lidah'               => $_POST['lesi_lidah'] ?? '',
-        'panas_dingin'             => $_POST['panas_dingin'] ?? '',
-        'asampahit'                => $_POST['asampahit'] ?? '',
-        'manis'                    => $_POST['manis'] ?? '',
-        'refleks'                  => $_POST['refleks'] ?? '',
-        'tonsil'                   => $_POST['tonsil'] ?? '',
-        'bau_mulut'                => $_POST['bau_mulut'] ?? [],
-        'sekresi_hidung'           => $_POST['sekresi_hidung'] ?? '',
-        'warna'                    => $_POST['warna'] ?? '',
-        'leher_simetris'           => $_POST['leher_simetris'] ?? '',
-        'kelenjar'                 => $_POST['kelenjar'] ?? '',
-        'jvp'                      => $_POST['jvp'] ?? '',
-        'refleks_menelan'          => $_POST['refleks_menelan'] ?? '',
-        'kelainan_leher'           => $_POST['kelainan_leher'] ?? '',
+        'mata'            => $_POST['mata'] ?? '',
+        'telinga'         => $_POST['telinga'] ?? '',
+        'hidung'          => $_POST['hidung'] ?? '',
+        'mulut'           => $_POST['mulut'] ?? '',
+        'leher'           => $_POST['leher'] ?? '',
         'bentuk_dada'              => $_POST['bentuk_dada'] ?? '',
         'pengembangan_dada'        => $_POST['pengembangan_dada'] ?? '',
         'perbandingan_dada'        => $_POST['perbandingan_dada'] ?? '',
         'otot_pernafasan'          => $_POST['otot_pernafasan'] ?? '',
+        'frekuensi'          => $_POST['frekuensi'] ?? '',
         'frekuensi_nafas'          => $_POST['frekuensi_nafas'] ?? '',
         'teratur_nafas1'            => $_POST['teratur_nafas1'] ?? '',
         'teratur_nafas'            => $_POST['teratur_nafas'] ?? '',
@@ -112,13 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'frekuensi_tekan'            => $_POST['frekuensi_tekan'] ?? '',
         'perkusi_abdomen'          => $_POST['perkusi_abdomen'] ?? '',
         'kelainan_abdomen'         => $_POST['kelainan_abdomen'] ?? '',
-        'bentuk_genetalia'         => $_POST['bentuk_genetalia'] ?? '',
-        'radang_genetalia'         => $_POST['radang_genetalia'] ?? '',
-        'sekret_genetalia'         => $_POST['sekret_genetalia'] ?? '',
-        'skrotum_bengkak'          => $_POST['skrotum_bengkak'] ?? '',
-        'rektum_benjolan'          => $_POST['rektum_benjolan'] ?? '',
-        'lesi_genetalia'           => $_POST['lesi_genetalia'] ?? '',
-        'kelainan_genetalia'       => $_POST['kelainan_genetalia'] ?? '',
+        'genetalia'         => $_POST['genetalia'] ?? '',
         'atas_simetris'            => $_POST['atas_simetris'] ?? '',
         'sensasi_halus'            => $_POST['sensasi_halus'] ?? '',
         'sensasi_tajam'            => $_POST['sensasi_tajam'] ?? '',
@@ -128,8 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'refleks_bisep'                 => $_POST['refleks_bisep'] ?? '',
         'refleks_trisep'                 => $_POST['refleks_trisep'] ?? '',
         'refleks_babinski'         => $_POST['refleks_babinski'] ?? '',
+        'pembengkakan5'             => $_POST['pembengkakan5'] ?? '',
         'pembengkakan2'             => $_POST['pembengkakan2'] ?? '',
         'varises'                  => $_POST['varises'] ?? '',
+        'kelembaban'               => $_POST['kelembaban'] ?? '',
         'kelembaban1'               => $_POST['kelembaban1'] ?? '',
         'temperatur'               => $_POST['temperatur'] ?? '',
         'kanan1'                    => $_POST['kanan1'] ?? '',
@@ -215,85 +166,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                 <h5 class="card-title"><strong>4. Pemeriksaan fisik</strong></h5>
                 <div class="row mb-2">
-                    <label class="col-sm-12 text-primary"><strong>a. Kepala</strong></label>
-                </div>
+    <label class="col-sm-12 text-primary"><strong>a. Kepala</strong></label>
+</div>
 
-                <div class="row mb-3">
-                    <div class="col-sm-2 col-form-label">
-                        <strong>Bentuk Kepala</strong>
-                    </div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="bentuk_kepala" value="<?= val('bentuk_kepala', $existing_data) ?>" <?= $ro ?>>
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>Kepala</strong>
+    </div>
+    <div class="col-sm-9">
+        <!-- Textarea Auto-Resize untuk Pemeriksaan Kepala -->
+        <textarea class="form-control" name="kepala" rows="1" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars(val('kepala', $existing_data) ?? '') ?></textarea>
+    </div>
+</div>
 
-                    </div>
-                </div><!-- Nyeri Dada -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Ada nyeri tekan:</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="nyeri_tekan_dada" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ya" <?= ($existing_data['nyeri_tekan_dada'] ?? '') === 'ya' ? 'selected' : '' ?>>Ya</option>
-                            <option value="tidak" <?= ($existing_data['nyeri_tekan_dada'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
+<div class="row mb-2">
+    <label class="col-sm-12 text-primary"><strong>b. Rambut</strong></label>
+</div>
 
-                <!-- Benjolan Dada -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Ada benjolan:</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="benjolan_dada" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ya" <?= ($existing_data['benjolan_dada'] ?? '') === 'ya' ? 'selected' : '' ?>>Ya</option>
-                            <option value="tidak" <?= ($existing_data['benjolan_dada'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-12 text-primary"><strong>b. Rambut</strong></label>
-                </div>
-
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Penyebaran Merata</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="penyebaran_merata" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ya" <?= ($existing_data['penyebaran_merata'] ?? '') === 'ya' ? 'selected' : '' ?>>Ya</option>
-                            <option value="tidak" <?= ($existing_data['penyebaran_merata'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Warna</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="warna_rambut" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="hitam" <?= ($existing_data['warna_rambut'] ?? '') === 'hitam' ? 'selected' : '' ?>>Hitam</option>
-                            <option value="coklat" <?= ($existing_data['warna_rambut'] ?? '') === 'coklat' ? 'selected' : '' ?>>Coklat</option>
-                            <option value="blonde" <?= ($existing_data['warna_rambut'] ?? '') === 'blonde' ? 'selected' : '' ?>>Blonde</option>
-                            <option value="putih" <?= ($existing_data['warna_rambut'] ?? '') === 'putih' ? 'selected' : '' ?>>Putih</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Mudah Dicabut</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="rambut_dicabut" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ya" <?= ($existing_data['rambut_dicabut'] ?? '') === 'ya' ? 'selected' : '' ?>>Ya</option>
-                            <option value="tidak" <?= ($existing_data['rambut_dicabut'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-sm-2 col-form-label"><strong>Kelainan</strong></div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="kelainan_rambut" value="<?= $existing_data['kelainan_rambut'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-                </div>
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label"><strong>Rambut</strong></div>
+    <div class="col-sm-9">
+        <!-- Textarea Auto-Resize untuk Pemeriksaan Rambut -->
+        <textarea class="form-control" name="rambut" rows="1" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['rambut'] ?? '') ?></textarea>
+    </div>
+</div>
                 <div class="row mb-2">
                     <label class="col-sm-12 text-primary"><strong>c. Wajah</strong></label>
                 </div>
@@ -336,547 +234,118 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <input type="text" class="form-control" name="kelainan_wajah" value="<?= $existing_data['kelainan_wajah'] ?? '' ?>" <?= $ro ?>>
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-12 text-primary"><strong>d. Mata</strong></label>
-                </div>
+               <div class="row mb-2">
+    <label class="col-sm-12 text-primary"><strong>d. Mata</strong></label>
+</div>
 
-                <!-- Penglihatan -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Penglihatan</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="penglihatan" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="jelas" <?= ($existing_data['penglihatan'] ?? '') === 'jelas' ? 'selected' : '' ?>>Jelas</option>
-                            <option value="kabur" <?= ($existing_data['penglihatan'] ?? '') === 'kabur' ? 'selected' : '' ?>>Kabur</option>
-                            <option value="rabun" <?= ($existing_data['penglihatan'] ?? '') === 'rabun' ? 'selected' : '' ?>>Rabun</option>
-                            <option value="berkunang" <?= ($existing_data['penglihatan'] ?? '') === 'berkunang' ? 'selected' : '' ?>>Berkunang</option>
-                        </select>
+<!-- Kelainan Mata -->
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label"><strong>Mata</strong></div>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="mata" rows="1" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['mata'] ?? '') ?></textarea>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <label class="col-sm-12 text-primary"><strong>e. Telinga</strong></label>
+</div>
+
+<!-- Kelainan Telinga -->
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label"><strong>Telinga</strong></div>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="telinga" rows="1" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['telinga'] ?? '') ?></textarea>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <label class="col-sm-12 text-primary"><strong>f. Hidung</strong></label>
+</div>
+
+<!-- Kelainan Hidung -->
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label"><strong>Hidung</strong></div>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="hidung" rows="1" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['hidung'] ?? '') ?></textarea>
+    </div>
+</div>
+
+<div class="row mb-2"> <!-- Diubah ke mb-2 agar jaraknya konsisten dengan judul bagian lain -->
+    <label class="col-sm-12 text-primary"><strong>g. Mulut</strong></label>
+</div>
+
+<!-- Warna Gigi / Pemeriksaan Mulut -->
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label"><strong>Mulut</strong></div>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="mulut" rows="1" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['mulut'] ?? '') ?></textarea>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <label class="col-sm-12 text-primary"><strong>h. Leher</strong></label>
+</div>
+
+<!-- Kelainan Leher -->
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label"><strong>Leher</strong></div>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="leher" rows="1" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars(val('leher', $existing_data) ?? '') ?></textarea>
+    </div>
+</div>
+                        <div class="row mb-2">
+                        <label class="col-sm-12 text-primary"><strong>i. Dada</strong></label>
                     </div>
-                </div>
-
-                <!-- Visus -->
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Visus</strong></label>
-                    <div class="col-sm-9">
-                        <div class="row">
-                            <!-- Kanan -->
-                            <div class="col-md-4 d-flex align-items-center">
-                                <label class="me-2"><strong>Kanan</strong></label>
-                                <input type="text" class="form-control" name="kanan" value="<?= $existing_data['kanan'] ?? '' ?>" <?= $ro ?>>
-                            </div>
-
-                            <!-- Kiri -->
-                            <div class="col-md-4 d-flex align-items-center">
-                                <label class="me-2"><strong>Kiri</strong></label>
-                                <input type="text" class="form-control" name="kiri" value="<?= $existing_data['kiri'] ?? '' ?>" <?= $ro ?>>
-                            </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-2 col-form-label">
+                            <strong>Bentuk Dada</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="bentuk_dada" value="<?= htmlspecialchars($existing_data['bentuk_dada'] ?? '') ?>" <?= $ro ?>>
                         </div>
                     </div>
-                </div>
-
-                <!-- Lapang Pandang -->
-                <div class="row mb-3">
-                    <div class="col-sm-2 col-form-label"><strong>Lapang Pandang</strong></div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="lapang_pandang" value="<?= $existing_data['lapang_pandang'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-                </div>
-
-                <!-- Keadaan Mata -->
-                <div class="row mb-3">
-                    <div class="col-sm-2 col-form-label"><strong>Keadaan Mata</strong></div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="keadaan_mata" value="<?= $existing_data['keadaan_mata'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-                </div>
-
-                <!-- Konjungtiva -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Konjungtiva</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="konjungtiva" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="anemis" <?= ($existing_data['konjungtiva'] ?? '') === 'anemis' ? 'selected' : '' ?>>Anemis</option>
-                            <option value="ananenmis" <?= ($existing_data['konjungtiva'] ?? '') === 'ananenmis' ? 'selected' : '' ?>>Ananenmis</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Lesi Mata -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Lesi</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="lesi_mata" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ada" <?= ($existing_data['lesi_mata'] ?? '') === 'ada' ? 'selected' : '' ?>>Ada</option>
-                            <option value="tidak" <?= ($existing_data['lesi_mata'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Sclera -->
-                <div class="row mb-3">
-                    <div class="col-sm-2 col-form-label"><strong>Sclera</strong></div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="sclera" value="<?= $existing_data['sclera'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-                </div>
-
-                <!-- Reaksi Pupil -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Reaksi Pupil</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="pupil" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="isokor" <?= ($existing_data['pupil'] ?? '') === 'isokor' ? 'selected' : '' ?>>Isokor</option>
-                            <option value="anisokor" <?= ($existing_data['pupil'] ?? '') === 'anisokor' ? 'selected' : '' ?>>Anisokor</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Bola Mata -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Bola Mata</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="bola_mata" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="simetris" <?= ($existing_data['bola_mata'] ?? '') === 'simetris' ? 'selected' : '' ?>>Simetris</option>
-                            <option value="tidak" <?= ($existing_data['bola_mata'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Kelainan Mata -->
-                <div class="row mb-3">
-                    <div class="col-sm-2 col-form-label"><strong>Kelainan</strong></div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="kelainan_mata" value="<?= $existing_data['kelainan_mata'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-                </div>
-
-                <div class="row mb-2">
-                    <label class="col-sm-12 text-primary"><strong>e. Telinga</strong></label>
-                </div>
-
-                <!-- Pendengaran Kiri -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Pendengaran Kiri</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="pendengaran_kiri" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="jelas" <?= ($existing_data['pendengaran_kiri'] ?? '') === 'jelas' ? 'selected' : '' ?>>Jelas</option>
-                            <option value="berkurang" <?= ($existing_data['pendengaran_kiri'] ?? '') === 'berkurang' ? 'selected' : '' ?>>Berkurang</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Pendengaran Kanan -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Pendengaran Kanan</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="pendengaran_kanan" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="jelas" <?= ($existing_data['pendengaran_kanan'] ?? '') === 'jelas' ? 'selected' : '' ?>>Jelas</option>
-                            <option value="berkurang" <?= ($existing_data['pendengaran_kanan'] ?? '') === 'berkurang' ? 'selected' : '' ?>>Berkurang</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Nyeri Kiri -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Nyeri Kiri</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="nyeri_kiri" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ada" <?= ($existing_data['nyeri_kiri'] ?? '') === 'ada' ? 'selected' : '' ?>>Ada</option>
-                            <option value="tidak" <?= ($existing_data['nyeri_kiri'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Nyeri Kanan -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Nyeri Kanan</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="nyeri_kanan" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ada" <?= ($existing_data['nyeri_kanan'] ?? '') === 'ada' ? 'selected' : '' ?>>Ada</option>
-                            <option value="tidak" <?= ($existing_data['nyeri_kanan'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Serumen -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Serumen</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="serumen" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ada" <?= ($existing_data['serumen'] ?? '') === 'ada' ? 'selected' : '' ?>>Ada</option>
-                            <option value="tidak" <?= ($existing_data['serumen'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Kelainan -->
-                <div class="row mb-3">
-                    <div class="col-sm-2 col-form-label"><strong>Kelainan</strong></div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="kelainan_telinga" value="<?= $existing_data['kelainan_telinga'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label class="col-sm-12 text-primary"><strong>f. Hidung</strong></label>
-                </div>
-
-                <!-- Membedakan Bau -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Membedakan Bau</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="bau" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="dapat" <?= ($existing_data['bau'] ?? '') === 'dapat' ? 'selected' : '' ?>>Dapat</option>
-                            <option value="tidak" <?= ($existing_data['bau'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Sekresi -->
-                <div class="row mb-3 align-items-center">
-                    <label class="col-sm-2 col-form-label"><strong>Sekresi</strong></label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" name="sekresi" value="<?= $existing_data['sekresi'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-
-                    <!-- Warna -->
-
-                    <label class="col-sm-2 col-form-label"><strong>Warna</strong></label>
-                    <div class="col-sm-3">
-                        <input type="text" class="form-control" name="warna_hidung" value="<?= $existing_data['warna_hidung'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-                </div>
-
-                <!-- Mukosa -->
-                <div class="row mb-3">
-                    <div class="col-sm-2 col-form-label"><strong>Mukosa</strong></div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="mukosa_hidung" value="<?= $existing_data['mukosa_hidung'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-                </div>
-
-                <!-- Pembengkakan -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Pembengkakan</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="pembengkakan" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ya" <?= ($existing_data['pembengkakan'] ?? '') === 'ya' ? 'selected' : '' ?>>Ya</option>
-                            <option value="tidak" <?= ($existing_data['pembengkakan'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Pernafasan Cuping Hidung -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Pernafasan Cuping Hidung</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="cuping_hidung" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ya" <?= ($existing_data['cuping_hidung'] ?? '') === 'ya' ? 'selected' : '' ?>>Ya</option>
-                            <option value="tidak" <?= ($existing_data['cuping_hidung'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Kelainan -->
-                <div class="row mb-3">
-                    <div class="col-sm-2 col-form-label"><strong>Kelainan</strong></div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="kelainan_hidung" value="<?= $existing_data['kelainan_hidung'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label class="col-sm-12 text-primary"><strong>g. Mulut</strong></label>
-                </div>
-
-                <!-- Bibir (Warna) -->
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Bibir</strong></label>
-                    <div class="col-sm-9">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="bibir" value="<?= $existing_data['bibir'] ?? '' ?>" <?= $ro ?>>
-                            <span class="input-group-text">Warna</span>
+                    <div class="row mb-3">
+                        <div class="col-sm-2 col-form-label">
+                            <strong>Pengembangan Dada</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="pengembangan_dada" value="<?= htmlspecialchars($existing_data['pengembangan_dada'] ?? '') ?>" <?= $ro ?>>
                         </div>
                     </div>
-                </div>
-
-                <!-- Simetris -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Simetris</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="simetris" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ya" <?= ($existing_data['simetris'] ?? '') === 'ya' ? 'selected' : '' ?>>Ya</option>
-                            <option value="tidak" <?= ($existing_data['simetris'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Kelembaban -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Kelembaban</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="kelembaban_mulut" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="basah" <?= ($existing_data['kelembaban_mulut'] ?? '') === 'basah' ? 'selected' : '' ?>>Basah</option>
-                            <option value="kering" <?= ($existing_data['kelembaban_mulut'] ?? '') === 'kering' ? 'selected' : '' ?>>Kering</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Gigi Caries -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Gigi</strong></div>
-                    <div class="col-sm-2"><strong>Caries:</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="caries" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ada" <?= ($existing_data['caries'] ?? '') === 'ada' ? 'selected' : '' ?>>Ada</option>
-                            <option value="tidak" <?= ($existing_data['caries'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Jumlah Gigi -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong></strong></div>
-                    <div class="col-sm-4">
-                        <label><strong>Jumlah</strong></label>
-                        <input type="text" class="form-control" name="jumlah_gigi" value="<?= $existing_data['jumlah_gigi'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-                </div>
-
-                <!-- Warna Gigi -->
-                <div class="row mb-3">
-                    <div class="col-sm-2 col-form-label"><strong>Warna</strong></div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="warna_gigi" value="<?= $existing_data['warna_gigi'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-                </div>
-
-                <!-- Gigi Palsu -->
-                <div class="row mb-3 align-items-center">
-                    <label class="col-sm-2 col-form-label"><strong>Gigi Palsu</strong></label>
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="frekuensi" value="<?= $existing_data['frekuensi'] ?? '' ?>" <?= $ro ?>>
-                            <span class="input-group-text">buah</span>
+                    <div class="row mb-3">
+                        <div class="col-sm-2 col-form-label">
+                            <strong>Perbandingan ukuran anterior-posterior dengan transversal</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="perbandingan_dada" value="<?= htmlspecialchars($existing_data['perbandingan_dada'] ?? '') ?>" <?= $ro ?>>
                         </div>
                     </div>
-
-                    <!-- Letak Gigi Palsu -->
-                    <label class="col-sm-2 col-form-label"><strong>Letak</strong></label>
-                    <div class="col-sm-2">
-                        <input type="text" class="form-control" name="letak" value="<?= $existing_data['letak'] ?? '' ?>" <?= $ro ?>>
-                    </div>
-                </div>
-                <!-- Frekuensi -->
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Lidah</strong></label>
-                    <div class="col-sm-9">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="lidah" value="<?= $existing_data['lidah'] ?? '' ?>" <?= $ro ?>>
-                            <span class="input-group-text">Warna</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Lesi Lidah -->
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Lesi</strong></div>
-                    <div class="col-sm-4">
-                        <select class="form-select" name="lesi_lidah" style="max-width:200px" <?= $ro_select ?>>
-                            <option value="">Pilih</option>
-                            <option value="ada" <?= ($existing_data['lesi_lidah'] ?? '') === 'ada' ? 'selected' : '' ?>>Ada</option>
-                            <option value="tidak" <?= ($existing_data['lesi_lidah'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <div class="col-sm-2"><strong>Sensasi Rasa</strong></div>
-                    <!-- Sensasi Rasa: Panas/Dingin -->
                     <div class="row mb-2">
-                        <div class="col-sm-2"><strong>Panas/Dingin</strong></div>
-                        <div class="col-sm-4">
-                            <select class="form-select" name="panas_dingin" style="max-width:200px" <?= $ro_select ?>>
-                                <option value="">Pilih</option>
-                                <option value="ada" <?= ($existing_data['panas_dingin'] ?? '') === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                <option value="tidak" <?= ($existing_data['panas_dingin'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
+                        <div class="col-sm-2"><strong>Penggunaan Otot Pernafasan Tambahan</strong>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="otot_pernafasan" value="ya" id="otot_pernafasan_ya" <?= $ro_disabled ?> <?= ($existing_data['otot_pernafasan'] ?? '') === 'ya' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="otot_pernafasan_ya">Ya</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="otot_pernafasan" value="tidak" id="otot_pernafasan_tidak" <?= $ro_disabled ?> <?= ($existing_data['otot_pernafasan'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="otot_pernafasan_tidak">Tidak</label>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Sensasi Rasa: Asam/Pahit -->
-                    <div class="row mb-2">
-                        <div class="col-sm-2"><strong>Asam/Pahit</strong></div>
-                        <div class="col-sm-4">
-                            <select class="form-select" name="asampahit" style="max-width:200px" <?= $ro_select ?>>
-                                <option value="">Pilih</option>
-                                <option value="ada" <?= ($existing_data['asampahit'] ?? '') === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                <option value="tidak" <?= ($existing_data['asampahit'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Sensasi Rasa: Manis -->
-                    <div class="row mb-2">
-                        <div class="col-sm-2"><strong>Manis</strong></div>
-                        <div class="col-sm-4">
-                            <select class="form-select" name="manis" style="max-width:200px" <?= $ro_select ?>>
-                                <option value="">Pilih</option>
-                                <option value="ada" <?= ($existing_data['manis'] ?? '') === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                <option value="tidak" <?= ($existing_data['manis'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Refleks Mengunyah -->
-                    <div class="row mb-2">
-                        <div class="col-sm-2"><strong>Refleks Mengunyah</strong></div>
-                        <div class="col-sm-4">
-                            <select class="form-select" name="refleks" style="max-width:200px" <?= $ro_select ?>>
-                                <option value="">Pilih</option>
-                                <option value="dapat" <?= ($existing_data['refleks'] ?? '') === 'dapat' ? 'selected' : '' ?>>Dapat</option>
-                                <option value="tidak" <?= ($existing_data['refleks'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Pembesaran Tonsil -->
-                    <div class="row mb-2">
-                        <div class="col-sm-2"><strong>Pembesaran Tonsil</strong></div>
-                        <div class="col-sm-4">
-                            <select class="form-select" name="tonsil" style="max-width:200px" <?= $ro_select ?>>
-                                <option value="">Pilih</option>
-                                <option value="ya" <?= ($existing_data['tonsil'] ?? '') === 'ya' ? 'selected' : '' ?>>Ya</option>
-                                <option value="tidak" <?= ($existing_data['tonsil'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
-                        </div>
-                        <!-- </div>Bau Mulut -->
                         <div class="row mb-2">
-                            <div class="col-sm-2"><strong>Bau Mulut</strong>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="uranium" id="cb_bau_mulut_uranium" <?= $ro_disabled ?> <?= in_array('uranium', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="cb_bau_mulut_uranium">Uranium + / -</label>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="amoniak" id="cb_bau_mulut_amoniak" <?= $ro_disabled ?> <?= in_array('amoniak', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="cb_bau_mulut_amoniak">Amoniak + / - </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="aceton" id="cb_bau_mulut_aceton" <?= $ro_disabled ?> <?= in_array('aceton', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="cb_bau_mulut_aceton">Aceton + / -</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="busuk" id="cb_bau_mulut_busuk" <?= $ro_disabled ?> <?= in_array('busuk', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="cb_bau_mulut_busuk">Busuk + / - </label>
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="alkohol" id="cb_bau_mulut_alkohol" <?= $ro_disabled ?> <?= in_array('alkohol', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
-                                    <label class="form-check-label" for="cb_bau_mulut_alkohol">Alkohol + / -</label>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Sekret -->
-                        <div class="row mb-2">
-                            <div class="col-sm-2"><strong>Sekret</strong></div>
-                            <div class="col-sm-4">
-                                <select class="form-select" name="caries1" style="max-width:200px" <?= $ro_select ?>>
-                                    <option value="">Pilih</option>
-                                    <option value="ada" <?= (isset($existing_data['caries1']) && $existing_data['caries'] === 'ada') ? 'selected' : '' ?>>Ada</option>
-                                    <option value="tidak" <?= (isset($existing_data['caries1']) && $existing_data['caries'] === 'tidak') ? 'selected' : '' ?>>Tidak</option>
-                                </select>
-                            </div>
-
-                            <div class="col-sm-2"><strong>Warna</strong></div>
-                            <div class="col-sm-4">
-
-                                <input type="text" class="form-control" name="warna" value="<?= $existing_data['warna'] ?? '' ?>" <?= $ro ?>>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <label class="col-sm-12 text-primary"><strong>h. Leher</strong></label>
-                        </div>
-
-                        <!-- Bentuk Simetris -->
-                        <div class="row mb-2">
-                            <div class="col-sm-2"><strong>Bentuk Simetris</strong></div>
-                            <div class="col-sm-4">
-                                <select class="form-select" name="leher_simetris" style="max-width:200px" <?= $ro_disabled ?>>
-                                    <option value="">Pilih</option>
-                                    <option value="ya" <?= ($existing_data['leher_simetris'] ?? '') === 'ya' ? 'selected' : '' ?>>Ya</option>
-                                    <option value="tidak" <?= ($existing_data['leher_simetris'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Pembesaran Kelenjar -->
-                        <div class="row mb-2">
-                            <div class="col-sm-2"><strong>Pembesaran Kelenjar</strong></div>
-                            <div class="col-sm-4">
-                                <select class="form-select" name="kelenjar" style="max-width:200px" <?= $ro_disabled ?>>
-                                    <option value="">Pilih</option>
-                                    <option value="ada" <?= ($existing_data['kelenjar'] ?? '') === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                    <option value="tidak" <?= ($existing_data['kelenjar'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Peninggian JVP -->
-                        <div class="row mb-2">
-                            <div class="col-sm-2"><strong>Peninggian JVP</strong></div>
-                            <div class="col-sm-4">
-                                <select class="form-select" name="jvp" style="max-width:200px" <?= $ro_disabled ?>>
-                                    <option value="">Pilih</option>
-                                    <option value="ada" <?= ($existing_data['jvp'] ?? '') === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                    <option value="tidak" <?= ($existing_data['jvp'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Refleks Menelan -->
-                        <div class="row mb-2">
-                            <div class="col-sm-2"><strong>Refleks Menelan</strong></div>
-                            <div class="col-sm-4">
-                                <select class="form-select" name="refleks_menelan" style="max-width:200px" <?= $ro_disabled ?>>
-                                    <option value="">Pilih</option>
-                                    <option value="dapat" <?= ($existing_data['refleks_menelan'] ?? '') === 'dapat' ? 'selected' : '' ?>>Dapat</option>
-                                    <option value="tidak" <?= ($existing_data['refleks_menelan'] ?? '') === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Kelainan Leher -->
-                        <div class="row mb-3">
-                            <div class="col-sm-2 col-form-label"><strong>Kelainan</strong></div>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="kelainan_leher" value="<?= val('kelainan_leher', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <label class="col-sm-12 text-primary"><strong>i. Paru-Paru</strong></label>
+                            <label class="col-sm-12 text-primary"><strong>j. Paru-Paru</strong></label>
                         </div>
 
                         <!-- Frekuensi Nafas -->
@@ -966,13 +435,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                     <option value="ronchi" <?= val('bunyi_abnormal', $existing_data) === 'ronchi' ? 'selected' : '' ?>>Ronchi</option>
                                 </select>
                             </div>
+                            </div>
+                             <div class="row mb-3">
+                            <div class="col-sm-2 col-form-label"><strong>Lainnya</strong></div>
                             <div class="col-sm-9">
-                                <label><strong>Lainnya</strong></label>
                                 <input type="text" class="form-control" name="abnormal" value="<?= val('abnormal', $existing_data) ?>" <?= $ro_select ?>>
                             </div>
                         </div>
+
                         <div class="row mb-2">
-                            <label class="col-sm-12 text-primary"><strong>j. Jantung</strong></label>
+                            <label class="col-sm-12 text-primary"><strong>k. Jantung</strong></label>
                         </div>
 
                         <!-- S1 -->
@@ -1036,7 +508,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             </div>
                         </div><!-- Abdomen -->
                         <div class="row mb-2">
-                            <label class="col-sm-12 text-primary"><strong>k. Abdomen</strong></label>
+                            <label class="col-sm-12 text-primary"><strong>l. Abdomen</strong></label>
                         </div>
                         <div class="row mb-2">
                             <div class="col-sm-2"><strong>Bentuk</strong>
@@ -1166,85 +638,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <div class="row mb-2">
                             <label class="col-sm-12 text-primary"><strong>m. Genetalia</strong></label>
                         </div>
+                        
 
-                        <!-- Bentuk -->
-                        <div class="row mb-2">
-                            <div class="col-sm-2"><strong>Bentuk</strong></div>
-                            <div class="col-sm-4">
-                                <select class="form-select" name="bentuk_genetalia" style="max-width:200px" <?= $ro_select ?>>
-                                    <option value="">Pilih</option>
-                                    <option value="utuh" <?= val('bentuk_genetalia', $existing_data) === 'utuh' ? 'selected' : '' ?>>Utuh</option>
-                                    <option value="tidak" <?= val('bentuk_genetalia', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Radang -->
-                        <div class="row mb-2">
-                            <div class="col-sm-2"><strong>Radang</strong></div>
-                            <div class="col-sm-4">
-                                <select class="form-select" name="radang_genetalia" style="max-width:200px" <?= $ro_select ?>>
-                                    <option value="">Pilih</option>
-                                    <option value="ada" <?= val('radang_genetalia', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                    <option value="tidak" <?= val('radang_genetalia', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Sekret -->
-                        <div class="row mb-2">
-                            <div class="col-sm-2"><strong>Sekret</strong></div>
-                            <div class="col-sm-4">
-                                <select class="form-select" name="sekret_genetalia" style="max-width:200px" <?= $ro_select ?>>
-                                    <option value="">Pilih</option>
-                                    <option value="ada" <?= val('sekret_genetalia', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                    <option value="tidak" <?= val('sekret_genetalia', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Pembengkakan Skrotum -->
-                        <div class="row mb-2">
-                            <div class="col-sm-2"><strong>Pembengkakan Skrotum</strong></div>
-                            <div class="col-sm-4">
-                                <select class="form-select" name="skrotum_bengkak" style="max-width:200px" <?= $ro_select ?>>
-                                    <option value="">Pilih</option>
-                                    <option value="ada" <?= val('skrotum_bengkak', $existing_data) === 'ada' ? 'selected' : '' ?>>Ada</option>
-                                    <option value="tidak" <?= val('skrotum_bengkak', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Rektum -->
-                        <div class="row mb-2">
-                            <div class="col-sm-2"><strong>Rektum</strong></div>
-                            <div class="col-sm-4">
-                                <select class="form-select" name="rektum_benjolan" style="max-width:200px" <?= $ro_select ?>>
-                                    <option value="">Pilih</option>
-                                    <option value="benjolan" <?= val('rektum_benjolan', $existing_data) === 'benjolan' ? 'selected' : '' ?>>Benjolan</option>
-                                    <option value="tidak" <?= val('rektum_benjolan', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- Lesi -->
-                        <div class="row mb-2">
-                            <div class="col-sm-2"><strong>Lesi</strong></div>
-                            <div class="col-sm-4">
-                                <select class="form-select" name="lesi_genetalia" style="max-width:200px" <?= $ro_select ?>>
-                                    <option value="">Pilih</option>
-                                    <option value="ya" <?= val('lesi_genetalia', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
-                                    <option value="tidak" <?= val('lesi_genetalia', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
-                                </select>
-                            </div>
-                        </div>
 
                         <!-- Kelainan -->
                         <div class="row mb-3">
-                            <div class="col-sm-2 col-form-label"><strong>Kelainan</strong></div>
+                            <div class="col-sm-2 col-form-label"><strong>Genetalia</strong></div>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="kelainan_genetalia" value="<?= val('kelainan_genetalia', $existing_data) ?>" <?= $ro_select ?>>
-                            </div>
+        <textarea class="form-control" name="genetalia" rows="1" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars(val('genetalia', $existing_data) ?? '') ?></textarea>
+    </div>
+                            
                         </div>
                         <div class="row mb-2">
                             <label class="col-sm-12 text-primary"><strong>n. Ekstremitas</strong></label>
@@ -1355,10 +759,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <div class="row mb-2">
                             <div class="col-sm-2"><strong>Pembengkakan</strong></div>
                             <div class="col-sm-4">
-                                <select class="form-select" name="pembengkakan" style="max-width:200px" <?= $ro_select ?>>
+                                <select class="form-select" name="pembengkakan5" style="max-width:200px" <?= $ro_select ?>>
                                     <option value="">Pilih</option>
-                                    <option value="ya" <?= val('pembengkakan', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
-                                    <option value="tidak" <?= val('pembengkakan', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
+                                    <option value="ya" <?= val('pembengkakan5', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
+                                    <option value="tidak" <?= val('pembengkakan5', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak</option>
                                 </select>
                             </div>
                         </div>
@@ -1706,7 +1110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                     <strong>Status Neurologi</strong>
                                 </div>
                                 <div class="col-sm-9">
-                                    <textarea name="neurologi" class="form-control" rows="7" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                    <textarea name="neurologi" class="form-control" rows="1" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                         <?= $ro ?>><?= val('neurologi', $existing_data) ?></textarea>
 
 

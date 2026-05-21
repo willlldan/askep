@@ -154,7 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <div class="col-sm-10">
                             <textarea name="alamat" class="form-control" rows="3"
                                 style="display:block; overflow:hidden; resize: none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"></textarea>
+                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                value="<?= val('alamat', $existing_data) ?>" <?= $ro ?>></textarea>
 
                         </div>
                     </div>

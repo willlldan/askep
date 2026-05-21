@@ -81,7 +81,7 @@ switch ($form_name) {
     case 'format_hd_kmb':
         include 'template_pdf_hd_kmb.php';
         break;
-    case 'format_ressume':
+    case 'format_resume':
         include 'template_pdf_format_resume.php';
         break;
     case 'resume_antenatal_care':
@@ -90,8 +90,20 @@ switch ($form_name) {
     case 'format_kmb':
         include 'template_pdf_kmb.php';
         break;
+    case 'format_kmb_r_angsana':
+        include 'template_pdf_kmb_r_angsana.php';
+        break;
+    case 'format_kmb_r_dahlia':
+        include 'template_pdf_kmb_r_dahkia.php';
+        break;
+    case 'format_kmb_r_damar':
+        include 'template_pdf_kmb_r_damar.php';
+        break;
     case 'format_aster':
         include 'template_pdf_format_aster.php';
+        break;
+    case 'format_poli_tb':
+        include 'template_pdf_poli_tb.php';
         break;
     default:
         include 'template_pdf_format_resume.php';
