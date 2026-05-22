@@ -1,4 +1,5 @@
 <?php
+$lp   = $sections['format_lp'] ?? [];
 $identitas  = $sections['identitas_riwayat'] ?? [];
 $pkjUmum    = $sections['pengkajian_umum'] ?? [];
 $keadaan    = $sections['keadaan_bayi'] ?? [];
@@ -53,9 +54,80 @@ include 'template_pdf.php';
             <td colspan="4"><?= p($identitas['tempat_pengkajian']) ?></td>
         </tr>
     </table>
+ <h1>Format Pengkajian Pendahuluan</h1>
+    
+
+<h4>A.	Konsep Dasar Medis</h4>
+
+<div class="field-row">
+    <div class="field-label">1. Pengertian</div>
+    <div class="field-sep">:</div>
+    <div class="field-value"><?= p($lp['pengertian']) ?></div>
+</div>
+<div class="field-row">
+    <div class="field-label">2. Etiologi</div>
+    <div class="field-sep">:</div>
+    <div class="field-value"><?= p($lp['etiologi']) ?></div>
+</div>
+<div class="field-row">
+    <div class="field-label">3.	Patofisiologi</div>
+    <div class="field-sep">:</div>
+    <div class="field-value"><?= p($lp['patofisiologi']) ?></div>
+</div>
+<div class="field-row">
+    <div class="field-label">4.	Manifestasi Klinik</div>
+    <div class="field-sep">:</div>
+    <div class="field-value"><?= p($lp['manifestasi_klinik']) ?></div>
+</div>
+<div class="field-row">
+    <div class="field-label">6.	Penatalaksanaan</div>
+    <div class="field-sep">:</div>
+    <div class="field-value"><?= p($lp['penatalaksanaan']) ?></div>
+</div>
+
+
+<h4>B.	Konsep Dasar Keperawatan</h4>
+<h4>1.	Pengkajian Keperawatan </h4>
+<div class="field-row">
+    <div class="field-value"><?= p($lp['pengkajian_keperawatan']) ?></div>
+</div>
+<h4>2.	Penyimpangan KDM</h4>
+<div class="field-row">
+    <div class="field-value"><?= p($lp['penyimpangan_kdm']) ?></div>
+</div>
+<h4>3.	Diagnosa Keperawatan </h4>
+<div class="field-row">
+    <div class="field-value"><?= p($lp['diagnosa_keperawatan']) ?></div>
+</div>
+
+<h4>4.	Perencanaan</h4>
+<table class="data">
+    <tr>
+        <th>No</th>
+        <th>iagnosa Keperawatan</th>
+        <th>Tujuan & Kriteria Hasil</th>
+        <th>Intervensi</th>
+    </tr>
+    <?php foreach($lp['obat'] as $i => $row): ?>
+    <tr>
+        <td><?= $i+1 ?></td>
+        <td><?= p($row['diagnosa']) ?></td>
+        <td><?= p($row['tujuan']) ?></td>
+        <td><?= p($row['intervensi']) ?></td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+
+
+
+<h4>C. Daftar Pustaka</h4>
+<div class="field-row">
+    <div class="field-value"><?= p($lp['daftar_pustaka']) ?></div>
+</div>
+<div class="page-break"></div>
 
     <!-- ================================ -->
-    <!-- SECTION 1: IDENTITAS            -->
+    <!-- SECTION 2: IDENTITAS            -->
     <!-- ================================ -->
     <h3>1. Identitas</h3>
 

@@ -12,6 +12,7 @@ $titles = [
 ];
 
 $tabs = [
+    "format_laporan_pendahuluan",
     "identitas_riwayat",
     "keadaan_bayi",
     "pengkajian_umum",
@@ -22,6 +23,7 @@ $tabs = [
 ];
 
 $tabLabels = [
+    'format_laporan_pendahuluan' => 'Format Laporan Pendahuluan',
     'identitas_riwayat' => 'Identitas dan Riwayat',
     'keadaan_bayi' => 'Keadaan Bayi',
     'pengkajian_umum' => 'Pengkajian Umum',

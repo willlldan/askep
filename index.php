@@ -698,9 +698,12 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'anak/format_aster':
 
-                $tab = $tab ?: 'identitas_riwayat';
+                $tab = $tab ?: 'format_laporan_pendahuluan';
 
                 switch ($tab) {
+                    case 'format_laporan_pendahuluan':
+                        include "anak/format_aster/halm_tambah_format_laporan_pendahuluan.php";
+                        break;
 
                     case 'identitas_riwayat':
                         include "anak/format_aster/halm_identitas_riwayat.php";
@@ -727,7 +730,7 @@ if (isset($_SESSION['id_user'])) {
                         include "anak/format_aster/halm_lainnya.php";
                         break;
                     default:
-                        include "anak/format_aster/halm_identitas_riwayat.php";
+                        include "anak/format_aster/halm_tambah_format_laporan_pendahuluan.php";
                 }
 
                 break;
