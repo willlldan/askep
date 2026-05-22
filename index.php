@@ -45,11 +45,12 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/pengkajian_antenatal_care':
 
-                $tab = $tab ?: 'pengkajian';
+                $tab = $tab ?: 'laporan_pendahuluan';
 
                 switch ($tab) {
-
-
+                    case 'laporan_pendahuluan':
+                        include "maternitas/pengkajian_antenatal_care/halm_laporan_pendahuluan.php";
+                        break;
                     case 'data_demografi':
                         include "maternitas/pengkajian_antenatal_care/halm_data_demografi.php";
                         break;
@@ -73,24 +74,8 @@ if (isset($_SESSION['id_user'])) {
                     case 'catatan_keperawatan':
                         include "maternitas/pengkajian_antenatal_care/halm_catatan_keperawatan.php";
                         break;
-
-                    case 'intervensi_keperawatan':
-                        include "maternitas/pengkajian_antenatal_care/halm_tambah_intervensi.php";
-                        break;
-
-                    case 'implementasi_keperawatan':
-                        include "maternitas/pengkajian_antenatal_care/halm_tambah_implementasi.php";
-                        break;
-
-                    case 'evaluasi_keperawatan':
-                        include "maternitas/pengkajian_antenatal_care/halm_tambah_evaluasi.php";
-                        break;
-                    // case 'cetak':       
-                    //     include "maternitas/cetak.php";
-                    //     break;
-
                     default:
-                        include "maternitas/pengkajian_antenatal_care/halm_data_demografi.php";
+                        include "maternitas/pengkajian_antenatal_care/halm_laporan_pendahuluan.php";
                 }
 
                 break;
@@ -197,6 +182,7 @@ if (isset($_SESSION['id_user'])) {
                 $tab = $tab ?: 'identitas';
 
                 switch ($tab) {
+                    
                     case 'identitas':
                         include "maternitas/resume_antenatal_care/halm_tambah_identitas.php";
                         break;

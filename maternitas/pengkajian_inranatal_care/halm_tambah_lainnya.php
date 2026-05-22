@@ -1,36 +1,8 @@
 <?php
-
-require_once "koneksi.php";
-require_once "utils.php";
-
 $form_id       = 13;
-$level         = $_SESSION['level'];
-$user_id       = $_SESSION['id_user'];
 $section_name  = 'lainnya';
 $section_label = 'Lainnya';
-
-// Ambil submission sesuai role
-if ($level === 'Dosen') {
-    $submission_id_param = $_GET['submission_id'] ?? null;
-    if (!$submission_id_param) {
-        echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
-        exit;
-    }
-    $stmt = $mysqli->prepare("
-        SELECT s.*, r.nama as dosen_name
-        FROM submissions s
-        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
-        WHERE s.id = ?
-    ");
-    $stmt->bind_param("i", $submission_id_param);
-    $stmt->execute();
-    $submission = $stmt->get_result()->fetch_assoc();
-} else {
-    $submission = getSubmission($user_id, $form_id, $mysqli);
-}
-
-$existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
-$section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
+include dirname(__DIR__, 2) . '/partials/init_section.php';
 
 // Load existing dynamic rows
 $existing_diagnosa     = $existing_data['diagnosa']     ?? [];
@@ -38,157 +10,93 @@ $existing_intervensi   = $existing_data['intervensi']   ?? [];
 $existing_implementasi = $existing_data['implementasi'] ?? [];
 $existing_evaluasi     = $existing_data['evaluasi']     ?? [];
 
-// Komentar section
-$comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
-
-// Readonly jika mahasiswa + locked, atau jika dosen
-$is_dosen    = $level === 'Dosen';
-$is_readonly = $is_dosen || isLocked($submission);
-$ro          = $is_readonly ? 'readonly' : '';
-$ro_select   = $is_readonly ? 'disabled' : '';
-
-$can_submit = false;
-if ($submission && !$is_dosen && $submission['status'] === 'draft') {
-
-    // Ambil count_section dari forms
-    $stmt = $mysqli->prepare("SELECT count_section FROM forms WHERE id = ?");
-    $stmt->bind_param("i", $form_id);
-    $stmt->execute();
-    $count_section = $stmt->get_result()->fetch_assoc()['count_section'];
-
-    // Ambil total section yang sudah diisi
-    $stmt = $mysqli->prepare("SELECT COUNT(*) as filled FROM submission_sections WHERE submission_id = ?");
-    $stmt->bind_param("i", $submission['id']);
-    $stmt->execute();
-    $total_filled = $stmt->get_result()->fetch_assoc()['filled'];
-
-    $can_submit = $total_filled >= $count_section;
-}
-
-
 // POST handler
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
+    if (isLocked($submission)) {
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
+    }
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submit_to_dosen') {
-        $result = submitSubmission($submission['id'], $mysqli);
-        if ($result['success']) {
-            redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disubmit ke dosen!');
-        } else {
-            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $result['message']);
+    // Proses dynamic rows diagnosa
+    $diagnosa = [];
+    if (!empty($_POST['diagnosa'])) {
+        foreach ($_POST['diagnosa'] as $index => $row) {
+            if (empty($row['diagnosa']) && empty($row['tgl_ditemukan']) && empty($row['tgl_teratasi'])) {
+                continue;
+            }
+            $diagnosa[] = [
+                'diagnosa'      => $row['diagnosa']      ?? '',
+                'tgl_ditemukan' => $row['tgl_ditemukan'] ?? '',
+                'tgl_teratasi'  => $row['tgl_teratasi']  ?? '',
+            ];
         }
     }
-    // Mahasiswa: simpan data
-    if ($level === 'Mahasiswa') {
-        if (isLocked($submission)) {
-            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
-        }
 
-        // Proses dynamic rows diagnosa
-        $diagnosa = [];
-        if (!empty($_POST['diagnosa'])) {
-            foreach ($_POST['diagnosa'] as $index => $row) {
-                if (empty($row['diagnosa']) && empty($row['tgl_ditemukan']) && empty($row['tgl_teratasi'])) {
-                    continue;
-                }
-                $diagnosa[] = [
-                    'diagnosa'      => $row['diagnosa']      ?? '',
-                    'tgl_ditemukan' => $row['tgl_ditemukan'] ?? '',
-                    'tgl_teratasi'  => $row['tgl_teratasi']  ?? '',
-                ];
+    // Proses dynamic rows intervensi
+    $intervensi = [];
+    if (!empty($_POST['intervensi'])) {
+        foreach ($_POST['intervensi'] as $index => $row) {
+            if (empty($row['diagnosa']) && empty($row['tujuan_kriteria']) && empty($row['intervensi'])) {
+                continue;
             }
+            $intervensi[] = [
+                'diagnosa'        => $row['diagnosa']        ?? '',
+                'tujuan_kriteria' => $row['tujuan_kriteria'] ?? '',
+                'intervensi'      => $row['intervensi']      ?? '',
+            ];
         }
-
-        // Proses dynamic rows intervensi
-        $intervensi = [];
-        if (!empty($_POST['intervensi'])) {
-            foreach ($_POST['intervensi'] as $index => $row) {
-                if (empty($row['diagnosa']) && empty($row['tujuan_kriteria']) && empty($row['intervensi'])) {
-                    continue;
-                }
-                $intervensi[] = [
-                    'diagnosa'        => $row['diagnosa']        ?? '',
-                    'tujuan_kriteria' => $row['tujuan_kriteria'] ?? '',
-                    'intervensi'      => $row['intervensi']      ?? '',
-                ];
-            }
-        }
-
-        // Proses dynamic rows implementasi
-        $implementasi = [];
-        if (!empty($_POST['implementasi'])) {
-            foreach ($_POST['implementasi'] as $index => $row) {
-                if (empty($row['no_dx']) && empty($row['hari_tgl']) && empty($row['implementasi'])) {
-                    continue;
-                }
-                $implementasi[] = [
-                    'no_dx'        => $row['no_dx']        ?? '',
-                    'hari_tgl'     => $row['hari_tgl']      ?? '',
-                    'jam'          => $row['jam']            ?? '',
-                    'implementasi' => $row['implementasi']  ?? '',
-                ];
-            }
-        }
-
-        // Proses dynamic rows evaluasi
-        $evaluasi = [];
-        if (!empty($_POST['evaluasi'])) {
-            foreach ($_POST['evaluasi'] as $index => $row) {
-                if (empty($row['no_dx']) && empty($row['hari_tgl']) && empty($row['evaluasi_s'])) {
-                    continue;
-                }
-                $evaluasi[] = [
-                    'no_dx'      => $row['no_dx']      ?? '',
-                    'hari_tgl'   => $row['hari_tgl']   ?? '',
-                    'jam'        => $row['jam']         ?? '',
-                    'evaluasi_s' => $row['evaluasi_s']  ?? '',
-                    'evaluasi_o' => $row['evaluasi_o']  ?? '',
-                    'evaluasi_a' => $row['evaluasi_a']  ?? '',
-                    'evaluasi_p' => $row['evaluasi_p']  ?? '',
-                ];
-            }
-        }
-
-        $data = [
-            'diagnosa'     => $diagnosa,
-            'intervensi'   => $intervensi,
-            'implementasi' => $implementasi,
-            'evaluasi'     => $evaluasi,
-        ];
-
-        if (!$submission) {
-            $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
-        } else {
-            $submission_id = $submission['id'];
-        }
-
-        saveSection($submission_id, $section_name, $section_label, $data, $mysqli);
-        updateSubmissionStatus($submission_id, $form_id, $mysqli);
-        redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
     }
-    // Dosen: approve/revisi/komentar
-    if ($level === 'Dosen') {
+
+    // Proses dynamic rows implementasi
+    $implementasi = [];
+    if (!empty($_POST['implementasi'])) {
+        foreach ($_POST['implementasi'] as $index => $row) {
+            if (empty($row['no_dx']) && empty($row['hari_tgl']) && empty($row['implementasi'])) {
+                continue;
+            }
+            $implementasi[] = [
+                'no_dx'        => $row['no_dx']        ?? '',
+                'hari_tgl'     => $row['hari_tgl']      ?? '',
+                'jam'          => $row['jam']            ?? '',
+                'implementasi' => $row['implementasi']  ?? '',
+            ];
+        }
+    }
+
+    // Proses dynamic rows evaluasi
+    $evaluasi = [];
+    if (!empty($_POST['evaluasi'])) {
+        foreach ($_POST['evaluasi'] as $index => $row) {
+            if (empty($row['no_dx']) && empty($row['hari_tgl']) && empty($row['evaluasi_s'])) {
+                continue;
+            }
+            $evaluasi[] = [
+                'no_dx'      => $row['no_dx']      ?? '',
+                'hari_tgl'   => $row['hari_tgl']   ?? '',
+                'jam'        => $row['jam']         ?? '',
+                'evaluasi_s' => $row['evaluasi_s']  ?? '',
+                'evaluasi_o' => $row['evaluasi_o']  ?? '',
+                'evaluasi_a' => $row['evaluasi_a']  ?? '',
+                'evaluasi_p' => $row['evaluasi_p']  ?? '',
+            ];
+        }
+    }
+
+    $data = [
+        'diagnosa'     => $diagnosa,
+        'intervensi'   => $intervensi,
+        'implementasi' => $implementasi,
+        'evaluasi'     => $evaluasi,
+    ];
+
+    if (!$submission) {
+        $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
+    } else {
         $submission_id = $submission['id'];
-        $dosen_id      = $user_id;
-        $action        = $_POST['action'] ?? '';
-        $comment       = $_POST['comment'] ?? '';
-
-        if ($action === 'approve') {
-            updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
-            if (!empty($comment)) {
-                saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-            }
-        } elseif ($action === 'revision') {
-            if (empty($comment)) {
-                redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
-            }
-            updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
-            saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-        }
-
-        updateReviewer($submission_id, $dosen_id, $mysqli);
-        updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
-        redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
     }
+
+    saveSection($submission_id, $section_name, $section_label, $data, $mysqli);
+    updateSubmissionStatus($submission_id, $form_id, $mysqli);
+    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
 }
 
 ?>
@@ -601,10 +509,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 </form>
-
-               <?php include "partials/footer_form.php"; ?>
-
             </div>
+        </div>
+
+
+        <?php include "partials/footer_form.php"; ?>
+
+        </div>
         </div>
 
     </section>

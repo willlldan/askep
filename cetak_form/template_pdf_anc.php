@@ -1,5 +1,7 @@
 <?php
 // Shortcut per section
+
+$laporan_pendahuluan = $sections['laporan_pendahuluan'] ?? [];
 $demografi   = $sections['data_demografi'] ?? [];
 $riwayat     = $sections['riwayat_kehamilan_persalinan'] ?? [];
 $fisik       = $sections['pengkajian_fisik'] ?? [];
@@ -39,12 +41,186 @@ include 'template_pdf.php';
         </table>
 
         <!-- ================================ -->
-        <!-- SECTION 1: DATA DEMOGRAFI -->
+        <!-- SECTION 1: LAPORAN PENDAHULUAN -->
+        <!-- ================================ -->
+        <h3 class="mt-5">Laporan Pendahuluan</h3>
+
+        <h4>A. Konsep Dasar Medis</h4>
+        <div class="field-row">
+            <div class="field-label">Pengertian Antenatal Care</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['pengertian_anc']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Etiologi Antenatal Care</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['etiologi_anc']) ?></div>
+        </div>
+
+        <div class="subsection-title">Manifestasi Klinis Antenatal Care</div>
+        <div class="field-hint" style="color:#666; font-style:normal; margin-bottom:4px;">
+            Tanda kehamilan pada wanita disebabkan oleh adanya janin dan perubahan hormon sehingga memunculkan 3 diagnosis kehamilan yaitu:
+        </div>
+        <div class="field-row">
+            <div class="field-label">Tanda Presumtif / Dugaan</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['tanda_presumtif']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Probable (Tanda Mungkin)</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['tanda_probable']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Tanda Pasti (Positif Sign)</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['tanda_pasti']) ?></div>
+        </div>
+
+        <div class="subsection-title">Perubahan Fisik Pada Masa Kehamilan</div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Fisik Pada Trimester I meliputi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['perubahan_fisik_tm1']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Fisik Pada Trimester II meliputi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['perubahan_fisik_tm2']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Fisik Pada Trimester III meliputi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['perubahan_fisik_tm3']) ?></div>
+        </div>
+
+        <div class="subsection-title">Adaptasi Fisiologis pada Masa Kehamilan</div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Psikologis Pada Trimester I</div>
+            <div class="field-sep">:</div>
+            <div class="field-value">
+                <div class="field-hint" style="color:#666; font-style:normal;">(Periode Penyesuaian)</div>
+                <?= p($laporan_pendahuluan['psikologis_tm1']) ?>
+            </div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Psikologis Pada Trimester II</div>
+            <div class="field-sep">:</div>
+            <div class="field-value">
+                <div class="field-hint" style="color:#666; font-style:normal;">(Periode Kesehatan Yang Baik)</div>
+                <?= p($laporan_pendahuluan['psikologis_tm2']) ?>
+            </div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Psikologis Pada Trimester III</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['psikologis_tm3']) ?></div>
+        </div>
+
+        <div class="field-row">
+            <div class="field-label">Komplikasi Dalam Antenatal Care</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['komplikasi']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Penatalaksanaan Medis</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['penatalaksanaan_medis']) ?></div>
+        </div>
+
+        <h4>B. Konsep Dasar Keperawatan</h4>
+        <div class="field-row">
+            <div class="field-label">Pengkajian</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['pengkajian_keperawatan']) ?></div>
+        </div>
+
+        <div class="subsection-title">Diagnosa Keperawatan</div>
+        <div class="field-hint" style="color:#666; font-style:normal; margin-bottom:4px;">
+            Diagnosa keperawatan yang mungkin muncul trimester I - III
+        </div>
+        <div class="field-row">
+            <div class="field-label">a. Gangguan Rasa Nyaman</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_a']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">b. Ansietas Berhubungan Dengan Krisis Situasional</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_b']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">c. Defisit Nutrisi Berhubungan Dengan Peningkatan Kebutuhan Metabolisme</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_c']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">d. Defisit Pengetahuan Berhubungan Dengan Kurang Terpapar Informasi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_d']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">e. Perfusi Perifer Tidak Efektif Berhubungan Dengan Penurunan Konsentrasi Hemoglobin</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_e']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">f. Nyeri Akut Berhubungan Dengan Agen Pencedera Fisiologis</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_f']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">g. Inkontinensia Urine Stres Berhubungan Dengan Peningkatan Tekanan Intra Abdomen</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_g']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">h. Gangguan Pertukaran Gas Berhubungan Dengan Perubahan Membran Alveolus-Kapiler</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_h']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">i. Kesiapan Peningkatan Menjadi Orang Tua</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_i']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">j. Risiko Cedera Pada Ibu</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_j']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">k. Risiko Cedera Pada Janin</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_k']) ?></div>
+        </div>
+
+        <h4>C. Daftar Pustaka</h4>
+        <?php if (!empty($laporan_pendahuluan['daftar_pustaka'])): ?>
+            <?php foreach ($laporan_pendahuluan['daftar_pustaka'] as $idx => $pustaka): ?>
+                <div class="field-row">
+                    <div class="field-label"><?= ($idx + 1) ?>.</div>
+                    <div class="field-sep"></div>
+                    <div class="field-value"><?= p($pustaka) ?></div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="field-row">
+                <div class="field-label">Daftar Pustaka</div>
+                <div class="field-sep">:</div>
+                <div class="field-value">-</div>
+            </div>
+        <?php endif; ?>
+
+        <div class="page-break"></div>
+
+        <!-- ================================ -->
+        <!-- SECTION 2: DATA DEMOGRAFI -->
         <!-- ================================ -->
         <h3 class="mt-5">Data Demografi</h3>
 
-        <table class="header-table" style="border:1px solid #000;">
-            <tr style="border:1px solid #000;">
+        <table class="header-table">
+            <tr>
                 <td width="25%"><strong>Inisial Pasien</strong></td>
                 <td width="2%">:</td>
                 <td width="23%"><?= p($demografi['inisial_pasien']) ?></td>
@@ -335,71 +511,71 @@ include 'template_pdf.php';
         <div class="subsection-title">Abdomen - Inspeksi Uterus</div>
         <table class="header-table">
             <tr>
-                <td width="30%" style="border:1px solid #000;"><strong>TFU</strong></td>
-                <td width="2%" style="border:1px solid #000;">:</td>
-                <td width="18%" style="border:1px solid #000;"><?= p($fisik['tfu']) ?> cm</td>
-                <td width="20%" style="border:1px solid #000;"><strong>Kontraksi</strong></td>
-                <td width="2%" style="border:1px solid #000;">:</td>
-                <td style="border:1px solid #000;"><?= p($fisik['kontraksi']) ?></td>
+                <td width="30%"><strong>TFU</strong></td>
+                <td width="2%">:</td>
+                <td width="18%"><?= p($fisik['tfu']) ?> cm</td>
+                <td width="20%"><strong>Kontraksi</strong></td>
+                <td width="2%">:</td>
+                <td><?= p($fisik['kontraksi']) ?></td>
             </tr>
-            <tr style="border:1px solid #000;">
-                <td style="border:1px solid #000;"><strong>Leopold I</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['leopold_i']) ?></td>
+            <tr>
+                <td><strong>Leopold I</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($fisik['leopold_i']) ?></td>
             </tr>
-            <tr style="border:1px solid #000;">
-                <td style="border:1px solid #000;"><strong>Leopold II Kanan</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td style="border:1px solid #000;"><?= p($fisik['leopold_ii_kanan']) ?></td>
-                <td style="border:1px solid #000;"><strong>Leopold II Kiri</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td style="border:1px solid #000;"><?= p($fisik['leopold_ii_kiri']) ?></td>
+            <tr>
+                <td><strong>Leopold II Kanan</strong></td>
+                <td>:</td>
+                <td><?= p($fisik['leopold_ii_kanan']) ?></td>
+                <td><strong>Leopold II Kiri</strong></td>
+                <td>:</td>
+                <td><?= p($fisik['leopold_ii_kiri']) ?></td>
             </tr>
-            <tr style="border:1px solid #000;">
-                <td style="border:1px solid #000;"><strong>Leopold III</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['leopold_iii']) ?></td>
+            <tr>
+                <td><strong>Leopold III</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($fisik['leopold_iii']) ?></td>
             </tr>
-            <tr style="border:1px solid #000;">
-                <td style="border:1px solid #000;"><strong>Leopold IV</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['leopold_iv']) ?></td>
+            <tr>
+                <td><strong>Leopold IV</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($fisik['leopold_iv']) ?></td>
             </tr>
-            <tr style="border:1px solid #000;">
-                <td style="border:1px solid #000;"><strong>Pemeriksaan DJJ</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td style="border:1px solid #000;"><?= p($fisik['djj']) ?> Frek</td>
-                <td style="border:1px solid #000;"><strong>Intensitas</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td style="border:1px solid #000;"><?= p($fisik['intensitas']) ?></td>
+            <tr>
+                <td><strong>Pemeriksaan DJJ</strong></td>
+                <td>:</td>
+                <td><?= p($fisik['djj']) ?> Frek</td>
+                <td><strong>Intensitas</strong></td>
+                <td>:</td>
+                <td><?= p($fisik['intensitas']) ?></td>
             </tr>
-            <tr style="border:1px solid #000;">
-                <td style="border:1px solid #000;"><strong>Keteraturan</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['keteraturan']) ?></td>
+            <tr>
+                <td><strong>Keteraturan</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($fisik['keteraturan']) ?></td>
             </tr>
-            <tr style="border:1px solid #000;">
-                <td style="border:1px solid #000;"><strong>Linea Nigra</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td style="border:1px solid #000;"><?= p($fisik['linea_nigra']) ?></td>
-                <td style="border:1px solid #000;"><strong>Striae</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td style="border:1px solid #000;"><?= p($fisik['striae']) ?></td>
+            <tr>
+                <td><strong>Linea Nigra</strong></td>
+                <td>:</td>
+                <td><?= p($fisik['linea_nigra']) ?></td>
+                <td><strong>Striae</strong></td>
+                <td>:</td>
+                <td><?= p($fisik['striae']) ?></td>
             </tr>
-            <tr style="border:1px solid #000;">
-                <td style="border:1px solid #000;"><strong>Fungsi Pencernaan</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['fungsi_pencernaan']) ?></td>
+            <tr>
+                <td><strong>Fungsi Pencernaan</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($fisik['fungsi_pencernaan']) ?></td>
             </tr>
-            <tr style="border:1px solid #000;">
-                <td style="border:1px solid #000;"><strong>Bising Usus</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['bising_usus']) ?></td>
+            <tr>
+                <td><strong>Bising Usus</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($fisik['bising_usus']) ?></td>
             </tr>
-            <tr style="border:1px solid #000;">
-                <td style="border:1px solid #000;"><strong>Masalah Khusus</strong></td>
-                <td style="border:1px solid #000;">:</td>
-                <td colspan="4" style="border:1px solid #000;"><?= p($fisik['masalah_abdomen']) ?></td>
+            <tr>
+                <td><strong>Masalah Khusus</strong></td>
+                <td>:</td>
+                <td colspan="4"><?= p($fisik['masalah_abdomen']) ?></td>
             </tr>
         </table>
 

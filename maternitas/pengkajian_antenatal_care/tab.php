@@ -13,6 +13,7 @@ $titles = [
 ];
 
 $tabs = [
+    "laporan_pendahuluan",
     "data_demografi",
     "riwayat_kelahiran_persalinan",
     "pengkajian_fisik",
@@ -23,6 +24,7 @@ $tabs = [
 
 // Label mapping for tab display names
 $tabLabels = [
+    'laporan_pendahuluan' => 'Laporan Pendahuluan',
     'data_demografi' => 'Data Demografi',
     'riwayat_kelahiran_persalinan' => 'Riwayat Kelahiran dan Persalinan',
     'pengkajian_fisik' => 'Pengkajian Fisik',

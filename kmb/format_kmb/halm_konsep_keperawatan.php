@@ -100,25 +100,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     <?php include "kmb/format_kmb/tab.php"; ?>
 
     <section class="section dashboard">
-
-        <!-- NOTIFIKASI -->
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-        <?php endif; ?>
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
-        <?php endif; ?>
-
-        <!-- Status badge -->
-        <?php if ($section_status): ?>
-            <?php $badge = ['draft' => 'secondary', 'submitted' => 'primary', 'revision' => 'warning', 'approved' => 'success']; ?>
-            <div class="alert alert-<?= $badge[$section_status] ?>">
-                Status: <strong><?= ucfirst($section_status) ?></strong>
-                | Reviewed by: <strong><?= $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-' ?></strong>
-            </div>
-        <?php endif; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
 
         <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
@@ -431,8 +414,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         tambahPustaka();
                     }
                 });
-
-                const existingData = <?= json_encode($existing_data) ?>;
             </script>
 
         </form>
