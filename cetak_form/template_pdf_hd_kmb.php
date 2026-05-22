@@ -1,6 +1,7 @@
 <?php
 // Shortcut per section
 $lp   = $sections['lp_ruanghd'] ?? [];
+$lp['intervensi'] = arr($lp['intervensi'] ?? []);
 $format     = $sections['format_hermodalisa'] ?? [];
 $pengkajian     = $sections['pengkajian'] ?? [];
 $fisik     = $sections['pemeriksaan_fisik'] ?? [];
@@ -81,56 +82,106 @@ include 'template_pdf.php';
                 <td><?= p($submission['rs_ruangan']) ?></td>
             </tr> 
         </table>
- <h3 class="card-title"><strong>A. Konsep Dasar Penyakit (CKD)</strong></h3>
+    <h3 class="card-title"><strong>A. Konsep Dasar Penyakit (CKD)</strong></h3>
 
         <div class="field-row mb-2">
-            <div class="field-label">Definisi</div>
+            <div class="field-label"> 1. Definisi CKD</div>
             <div class="field-sep">:</div>
             <div class="field-value"><?= p($lp['definisi'] ?? '') ?></div>
         </div>
 
         <div class="field-row mb-2">
-            <div class="field-label">Klasifikasi</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($lp['klasifikasi'] ?? '') ?></div>
-        </div>
-
-        <div class="field-row mb-2">
-            <div class="field-label">Etiologi</div>
+            <div class="field-label">2. Etiologi CKD</div>
             <div class="field-sep">:</div>
             <div class="field-value"><?= p($lp['etiologi'] ?? '') ?></div>
         </div>
 
         <div class="field-row mb-2">
-            <div class="field-label">Manifestasi Klinik</div>
+            <div class="field-label">3. Klasifikasi CKD</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($lp['klasifikasi'] ?? '') ?></div>
+        </div>
+
+
+        <div class="field-row mb-2">
+            <div class="field-label">4. Manifestasi Klinik CKD</div>
             <div class="field-sep">:</div>
             <div class="field-value"><?= p($lp['manifestasi_klinik'] ?? '') ?></div>
         </div>
 
         <div class="field-row mb-2">
-            <div class="field-label">Patofisiologi</div>
+            <div class="field-label">5. Patofisiologi dan Pathway</div>
             <div class="field-sep">:</div>
             <div class="field-value"><?= p($lp['patofisiologi'] ?? '') ?></div>
         </div>
 
         <div class="field-row mb-2">
-            <div class="field-label">Pemeriksaan Penunjang</div>
+            <div class="field-label">6. Pemeriksaan Penunjang</div>
             <div class="field-sep">:</div>
             <div class="field-value"><?= p($lp['penunjang'] ?? '') ?></div>
         </div>
 
         <div class="field-row mb-2">
-            <div class="field-label">Penatalaksanaan</div>
+            <div class="field-label">7. Penatalaksanaan</div>
             <div class="field-sep">:</div>
             <div class="field-value"><?= p($lp['penatalaksanaan'] ?? '') ?></div>
         </div>
+         <h3 class="card-title"><strong>B. Konsep Dasar Keperawatan </strong></h3>
 
         <div class="field-row mb-2">
-            <div class="field-label">Komplikasi</div>
+            <div class="field-label"> 1. Pengkajian</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($lp['pengkajian'] ?? '') ?></div>
+        </div>
+
+        <div class="field-row mb-2">
+            <div class="field-label">2. Diagnosa</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($lp['diagnosa'] ?? '') ?></div>
+        </div>
+
+ <div class="field">3. Intervensi Keperawatan</div>
+
+        <table class="data">
+            <thead>
+                <tr>
+                    <th width="40%">Diagnosa</th>
+                    <th width="30%">Tujuan dan Kriteria Hasil</th>
+                    <th width="30%">Intervensi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($lp['intervensi'])): ?>
+                    <?php foreach ($lp['intervensi'] as $int): ?>
+                        <tr>
+                            <td><?= p($int['diagnosa']) ?></td>
+                            <td><?= p($int['tujuan_kriteria']) ?></td>
+                            <td><?= p($int['intervensi']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="3" style="text-align:center">-</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+
+       
+
+
+        <div class="field-row mb-2">
+            <div class="field-label">8. Komplikasi</div>
             <div class="field-sep">:</div>
             <div class="field-value"><?= p($lp['komplikasi'] ?? '') ?></div>
         </div>
-        <h3 class="card-title"><strong>B. Konsep Dasar Hemodialisa</strong></h3>
+        <div class="field-row mb-2">
+            <div class="field-label">9. Daftar Pustaka</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($lp['daftarpustakackd'] ?? '') ?></div>
+        </div> 
+
+        <h3 class="card-title"><strong>C . Konsep Dasar Hemodialisa</strong></h3>
 
         <div class="field-row mb-2">
             <div class="field-label">Pengertian</div>
@@ -657,59 +708,22 @@ include 'template_pdf.php';
 <h3>a. Kepala</h3>
 
 <div class="field-row">
-    <div class="field-label"><strong>Bentuk Kepala</strong></div>
+    <div class="field-label"><strong>Kepala</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= p($fisik['bentuk_kepala'] ?? '') ?>
+        <?= p($fisik['kepala'] ?? '') ?>
     </div>
 </div>
 
-<div class="field-row">
-    <div class="field-label"><strong>Nyeri Tekan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['nyeri_tekan_dada'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Benjolan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['benjolan_dada'] ?? '') ?>
-    </div>
-</div>
 <!-- Rambut -->
  <h3>b. Rambut</h3>
-<div class="field-row">
-    <div class="field-label"><strong>Penyebaran Merata</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['penyebaran_merata'] ?? '') ?>
-    </div>
-</div>
+
 
 <div class="field-row">
-    <div class="field-label"><strong>Warna</strong></div>
+    <div class="field-label"><strong>Rambut</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= p($fisik['warna_rambut'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Mudah Dicabut</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['rambut_dicabut'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Kelainan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kelainan_rambut'] ?? '') ?>
+        <?= p($fisik['rambut'] ?? '') ?>
     </div>
 </div>
 
@@ -750,349 +764,76 @@ include 'template_pdf.php';
 
 
 <div class="field-row">
-    <div class="field-label"><strong>Penglihatan</strong></div>
+    <div class="field-label"><strong>Mata</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= p($fisik['penglihatan'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label "><strong>Visus Kanan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kanan'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Visus Kiri</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kiri'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Lapang Pandang</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['lapang_pandang'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Keadaan Mata</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['keadaan_mata'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Konjungtiva</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['konjungtiva'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Lesi</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['lesi_mata'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Sclera</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['sclera'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Reaksi Pupil</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['pupil'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Bola Mata</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['bola_mata'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Kelainan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kelainan_mata'] ?? '') ?>
+        <?= p($fisik['mata'] ?? '') ?>
     </div>
 </div>
 <h3>e. Telinga</h3>
 
 
-<!-- Pendengaran Kiri -->
-<div class="field-row d-flex gap-3 mb-2">
-    <div class="field-label">Pendengaran Kiri</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($fisik['pendengaran_kiri'] ?? '') ?></div>
-</div>
-
-<!-- Pendengaran Kanan -->
-<div class="field-row d-flex gap-3 mb-2">
-    <div class="field-label">Pendengaran Kanan</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($fisik['pendengaran_kanan'] ?? '') ?></div>
-</div>
-
-<!-- Nyeri Kiri -->
-<div class="field-row d-flex gap-3 mb-2">
-    <div class="field-label">Nyeri Kiri</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($fisik['nyeri_kiri'] ?? '') ?></div>
-</div>
-
-<!-- Nyeri Kanan -->
-<div class="field-row d-flex gap-3 mb-2">
-    <div class="field-label">Nyeri Kanan</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($fisik['nyeri_kanan'] ?? '') ?></div>
-</div>
-
-<!-- Serumen -->
-<div class="field-row d-flex gap-3 mb-2">
-    <div class="field-label">Serumen</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($fisik['serumen'] ?? '') ?></div>
-</div>
-
 <!-- Kelainan -->
 <div class="field-row d-flex gap-3 mb-2">
-    <div class="field-label">Kelainan</div>
+    <div class="field-label">Telinga</div>
     <div class="field-sep">:</div>
-    <div class="field-value"><?= p($fisik['kelainan_telinga'] ?? '') ?></div>
+    <div class="field-value"><?= p($fisik['telinga'] ?? '') ?></div>
 </div>
 
 <h3>f. Hidung</h3>
 
 
 <div class="field-row">
-    <div class="field-label"><strong>Membedakan Bau</strong></div>
+    <div class="field-label"><strong>Hidung</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= p($fisik['bau'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Sekresi</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['sekresi'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Warna</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['warna_hidung'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Mukosa</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['mukosa_hidung'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Pembengkakan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['pembengkakan'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Pernafasan Cuping</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['cuping_hidung'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Kelainan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kelainan_hidung'] ?? '') ?>
+        <?= p($fisik['hidung'] ?? '') ?>
     </div>
 </div>
 <h3>g. Mulut</h3>
-        <?php $bau_mulut_arr = arr($fisik['bau_mulut']); ?>
-
 
 <div class="field-row">
-    <div class="field-label"><strong>Bibir</strong></div>
+    <div class="field-label"><strong>Mulut</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= p($fisik['bibir'] ?? '') ?> Warna
+        <?= p($fisik['mulut'] ?? '') ?>
     </div>
 </div>
 
-<div class="field-row">
-    <div class="field-label"><strong>Simetris</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['simetris'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Kelembaban</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kelembaban'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Gigi</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        Caries: <?= p($fisik['caries'] ?? '') ?>, Jumlah: <?= p($fisik['jumlah_gigi'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Warna</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['warna_gigi'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Gigi Palsu</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['frekuensi'] ?? '') ?> buah, Letak:  <?= p($fisik['letak'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Lidah</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['lidah'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Lesi</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['lesi_lidah'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Sensasi Rasa</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        Panas/Dingin: <?= p($fisik['panas_dingin'] ?? '') ?>, Asam/Pahit: <?= p($fisik['asampahit'] ?? '') ?>, Manis: <?= p($fisik['manis'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Refleks Mengunyah</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['refleks'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Pembesaran Tonsil</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['tonsil'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-            <div class="field-label">Bau Mulut</div>
-            <div class="field-sep">:</div>
-            <div class="field-value">
-                <?= chkIn($bau_mulut_arr, 'uranium') ?> Uranium &nbsp;
-                <?= chkIn($bau_mulut_arr, 'amoniak') ?> Amoniak &nbsp;
-                <?= chkIn($bau_mulut_arr, 'aceton') ?> Aceton &nbsp;
-                <?= chkIn($bau_mulut_arr, 'busuk') ?> Busuk &nbsp;
-                <?= chkIn($bau_mulut_arr, 'alkohol') ?> Alkohol
-            </div>
-        </div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Sekret</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['caries1'] ?? '') ?>, Warna: <?= p($fisik['warna'] ?? '') ?>
-    </div>
-</div>
 <h3>h. Leher</h3>
 
-
 <div class="field-row">
-    <div class="field-label"><strong>Bentuk Simetris</strong></div>
+    <div class="field-label"><strong>Leher</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= p($fisik['leher_simetris'] ?? '') ?>
+        <?= p($fisik['leher'] ?? '') ?>
     </div>
 </div>
+<h3>i. Dada</h3>
+        <!-- DATA BIOLOGIS 2 -->
+        
+        <div class="field-row">
+            <div class="field-label">Bentuk Dada</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($fisik['bentuk_dada']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Pengembangan Dada</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($fisik['pengembangan_dada']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Perbandingan Ukuran AP dengan Transversal</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($fisik['perbandingan_dada']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Penggunaan Otot Pernafasan Tambahan</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= chk($fisik['otot_pernafasan'], 'ya') ?> Ya &nbsp; <?= chk($fisik['otot_pernafasan'], 'tidak') ?> Tidak</div>
+        </div>
 
-<div class="field-row">
-    <div class="field-label"><strong>Kelenjar Membesar</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kelenjar'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Peninggian JVP</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['jvp'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Refleks Menelan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['refleks_menelan'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Kelainan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kelainan_leher'] ?? '') ?>
-    </div>
-</div>
-<h3>i. Paru-Paru</h3>
+<h3>j. Paru-Paru</h3>
 
 <div class="field-row">
     <div class="field-label"><strong>Frekuensi Nafas</strong></div>
@@ -1149,7 +890,7 @@ include 'template_pdf.php';
         <?= p($fisik['bunyi_abnormal'] ?? '') ?>, <?= p($fisik['abnormal'] ?? '') ?>
     </div>
 </div>
-<h3>j. Jantung</h3>
+<h3>k. Jantung</h3>
 
 <div class="field-row">
     <div class="field-label"><strong>S1</strong></div>
@@ -1198,7 +939,7 @@ include 'template_pdf.php';
         <?= p($fisik['irama_jantung'] ?? '') ?>
     </div>
 </div>
-<h3>k. Abdomen</h3>
+<h3>l. Abdomen</h3>
 <?php $bentuk_abd = arr($fisik['bentuk_abdomen']);
         $keadaan_abd = arr($fisik['keadaan_abdomen']); ?>
 <div class="field-row">
@@ -1264,167 +1005,13 @@ include 'template_pdf.php';
 
 
 <div class="field-row">
-    <div class="field-label"><strong>Bentuk</strong></div>
+    <div class="field-label"><strong>Genetalia</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= p($fisik['bentuk_genetalia'] ?? '') ?>
+        <?= p($fisik['genetalia'] ?? '') ?>
     </div>
 </div>
 
-<div class="field-row">
-    <div class="field-label"><strong>Radang</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['radang_genetalia'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Sekret</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['sekret_genetalia'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Pembengkakan Skrotum</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['skrotum_bengkak'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Rektum</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['rektum_benjolan'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Lesi</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['lesi_genetalia'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Kelainan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kelainan_genetalia'] ?? '') ?>
-    </div>
-</div>
-<div class="field-row">
-    <div class="field-label"><strong>n. Ekstremitas Atas</strong></div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Bentuk Simetris</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['atas_simetris'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Sensasi Halus</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['sensasi_halus'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Sensasi Tajam</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['sensasi_tajam'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Sensasi Panas</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['sensasi_panas'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Sensasi Dingin</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['sensasi_dingin'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Gerakan ROM</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['rom_atas'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Refleks Bisep</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['refleks_bisep'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Refleks Trisep</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['refleks_trisep'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Pembengkakan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['pembengkakan'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Kelembaban</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kelembaban'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Temperatur</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['temperatur'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Kekuatan Otot Tangan</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        Kanan: <?= p($fisik['kanan1'] ?? '') ?>, Kiri: <?= p($fisik['kiri1'] ?? '') ?>
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label"><strong>Bawah</strong></div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= p($fisik['kelainan_genetalia1'] ?? '') ?>
-    </div>
-</div>
 <h3>n. Ekstremitas Bawah</h3>
 
 <div class="field-row">
@@ -1487,7 +1074,7 @@ include 'template_pdf.php';
     <div class="field-label"><strong>Pembengkakan</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= p($fisik['pembengkakan2'] ?? '') ?>
+        <?= p($fisik['pembengkakan5'] ?? '') ?>
     </div>
 </div>
 
@@ -1654,282 +1241,50 @@ include 'template_pdf.php';
                 <?= actRow('Makan/Minum', $kebutuhan['makan']) ?>
             </tbody>
         </table>
+      
 <h4>b. Pola Kognitif dan Perceptual</h4>
-
-<div class="field-row mb-2">
-    <div class="field-label">1. Nyeri (kualitas, intensitas, durasi, skala nyeri, cara mengurangi nyeri)</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($kebutuhan['nyeri'] ?? '') ?></div>
+  <div class="field-row mb-2">
+    <div class="field-value"><?= p($kebutuhan['kognitif'] ?? '') ?></div>
 </div>
 
-<div class="field-row mb-2">
-    <div class="field-label">2. Fungsi Panca Indra (penglihatan, pendengaran, pengecapan, penghidu, perasa) menggunakan alat bantu?</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($kebutuhan['panca_indra'] ?? '') ?></div>
-</div>
-
-<div class="field-row mb-2">
-    <div class="field-label">3. Kemampuan Berbicara</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($kebutuhan['berbicara'] ?? '') ?></div>
-</div>
-
-<div class="field-row mb-2">
-    <div class="field-label">4. Kemampuan Membaca</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($kebutuhan['membaca'] ?? '') ?></div>
-</div>
-
-<h3>Aktivitas Sehari-hari</h3>
 <h4> c. Pola Nutrisi</h4>
-<!-- Nutrisi -->
-<table class="data" border="1" cellspacing="0" cellpadding="5" width="100%">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Kondisi</th>
-            <th>Sebelum Sakit</th>
-            <th>Saat Ini</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Frekuensi Makan</td>
-            <td><?= p($kebutuhan['frekuensi_makan_sebelum']) ?></td>
-            <td><?= p($kebutuhan['frekuensi_makan_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Selera Makan</td>
-            <td><?= p($kebutuhan['selera_makan_sebelum']) ?></td>
-            <td><?= p($kebutuhan['selera_makan_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Menu Makanan</td>
-            <td><?= p($kebutuhan['menu_makan_sebelum']) ?></td>
-            <td><?= p($kebutuhan['menu_makan_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Ritual Saat Makan</td>
-            <td><?= p($kebutuhan['ritual_makan_sebelum']) ?></td>
-            <td><?= p($kebutuhan['ritual_makan_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Bantuan Makan Parenteral</td>
-            <td><?= p($kebutuhan['bantuan_makan_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bantuan_makan_sekarang']) ?></td>
-        </tr>
-    </tbody>
-</table>
+ <div class="field-row mb-2">
+    <div class="field-value"><?= p($kebutuhan['pola_nutrisi'] ?? '') ?></div>
+</div>
+
 <h4>d. Cairan</h4>
-<!-- Cairan -->
-<table class="data" border="1" cellspacing="0" cellpadding="5" width="100%" style="margin-top:10px;">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Kondisi</th>
-            <th>Sebelum Sakit</th>
-            <th>Saat Ini</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Jenis Minuman</td>
-            <td><?= p($kebutuhan['jenis_minum_sebelum']) ?></td>
-            <td><?= p($kebutuhan['jenis_minum_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Jumlah Cairan</td>
-            <td><?= p($kebutuhan['jumlah_cairan_sebelum']) ?></td>
-            <td><?= p($kebutuhan['jumlah_cairan_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Cairan Parenteral</td>
-            <td><?= p($kebutuhan['bantuan_cairan_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bantuan_cairan_sekarang']) ?></td>
-        </tr>
-    </tbody>
-</table>
+ <div class="field-row mb-2">
+    <div class="field-value"><?= p($kebutuhan['cairan'] ?? '') ?></div>
+</div>
+
 <h4>e. Pola Eliminasi BAB</h4>
-<!-- Pola Eliminasi BAB -->
-<table class="data" border="1" cellspacing="0" cellpadding="5" width="100%" style="margin-top:10px;">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Kondisi</th>
-            <th>Sebelum Sakit</th>
-            <th>Saat Ini</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Frekuensi (Waktu)</td>
-            <td><?= p($kebutuhan['bab_frekuensi_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bab_frekuensi_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Konsistensi</td>
-            <td><?= p($kebutuhan['bab_konsistensi_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bab_konsistensi_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Warna</td>
-            <td><?= p($kebutuhan['bab_warna_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bab_warna_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Bau</td>
-            <td><?= p($kebutuhan['bab_bau_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bab_bau_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Kesulitan saat BAB</td>
-            <td><?= p($kebutuhan['bab_kesulitan_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bab_kesulitan_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>Penggunaan Obat Pencahar</td>
-            <td><?= p($kebutuhan['bab_obat_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bab_obat_sekarang']) ?></td>
-        </tr>
-    </tbody>
-</table>
+ <div class="field-row mb-2">
+    <div class="field-value"><?= p($kebutuhan['bab'] ?? '') ?></div>
+</div>
+
 <h4>f. Pola Eliminasi BAK</h4>
-<!-- Pola Eliminasi BAK -->
-<table class="data" border="1" cellspacing="0" cellpadding="5" width="100%" style="margin-top:10px;">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Kondisi</th>
-            <th>Sebelum Sakit</th>
-            <th>Saat Ini</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Frekuensi (Waktu)</td>
-            <td><?= p($kebutuhan['bak_frekuensi_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bak_frekuensi_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Warna</td>
-            <td><?= p($kebutuhan['bak_warna_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bak_warna_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Bau</td>
-            <td><?= p($kebutuhan['bak_bau_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bak_bau_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Kesulitan saat BAK</td>
-            <td><?= p($kebutuhan['bak_kesulitan_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bak_kesulitan_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Penggunaan Obat Diuretik</td>
-            <td><?= p($kebutuhan['bak_obat_sebelum']) ?></td>
-            <td><?= p($kebutuhan['bak_obat_sekarang']) ?></td>
-        </tr>
-    </tbody>
-</table>
+ <div class="field-row mb-2">
+    <div class="field-value"><?= p($kebutuhan['bak'] ?? '') ?></div>
+</div>
+
 <h4>g. Pola Tidur</h4>
-<!-- Pola Tidur -->
-<table class="data" border="1" cellspacing="0" cellpadding="5" width="100%" style="margin-top:10px;">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Kondisi</th>
-            <th>Sebelum Sakit</th>
-            <th>Saat Ini</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Jam Tidur </td>
-            <td>Siang: <?= p($kebutuhan['tidur_siang_sebelum']) ?>, Malam: <?= p($kebutuhan['tidur_malam_sebelum']) ?></td>
-            <td>Siang: <?= p($kebutuhan['tidur_siang_sekarang']) ?>, Malam: <?= p($kebutuhan['tidur_malam_sekarang']) ?></td>
-        </tr>
-       
-        <tr>
-            <td>2</td>
-            <td>Kesulitan Tidur</td>
-            <td><?= p($kebutuhan['kesulitan_tidur_sebelum']) ?></td>
-            <td><?= p($kebutuhan['kesulitan_tidur_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Kebiasaan Sebelum Tidur</td>
-            <td><?= p($kebutuhan['kebiasaan_tidur_sebelum']) ?></td>
-            <td><?= p($kebutuhan['kebiasaan_tidur_sekarang']) ?></td>
-        </tr>
-    </tbody>
-</table>
-<h4>n. Pola Personal Hygiene</h4>
-<!-- Personal Hygiene -->
-<table class="data" border="1" cellspacing="0" cellpadding="5" width="100%" style="margin-top:10px;">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Kondisi</th>
-            <th>Sebelum Sakit</th>
-            <th>Saat Ini</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Mandi</td>
-            <td>Frekuensi: <?= p($kebutuhan['mandi_frekuensi_sebelum']) ?></td>
-            <td>Frekuensi: <?= p($kebutuhan['mandi_frekuensi_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Cuci Rambut</td>
-            <td>Frekuensi: <?= p($kebutuhan['rambut_frekuensi_sebelum']) ?></td>
-            <td>Frekuensi: <?= p($kebutuhan['rambut_frekuensi_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Gunting Kuku</td>
-            <td>Frekuensi <?= p($kebutuhan['kuku_frekuensi_sebelum']) ?></td>
-            <td>Frekuensi <?= p($kebutuhan['kuku_frekuensi_sekarang']) ?></td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Gosok Gigi</td>
-            <td>Frekuensi: <?= p($kebutuhan['gigi_frekuensi_sebelum']) ?></td>
-            <td>Frekuensi: <?= p($kebutuhan['gigi_frekuensi_sekarang']) ?></td>
-        </tr>
-    </tbody>
-</table>
-<h4>c. Data Penunjang</h4>
+ <div class="field-row mb-2">
+    <div class="field-value"><?= p($kebutuhan['tidur'] ?? '') ?></div>
+</div>
+
+<h4>h. Pola Personal Hygiene</h4>
+ <div class="field-row mb-2">
+    <div class="field-value"><?= p($kebutuhan['hygiene'] ?? '') ?></div>
+</div>
+
+<h3>6. Data Penunjang</h3>
 <div class="field-row mb-2">
     <div class="field-label">Tanggal Pemeriksaan
 </div>
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($kebutuhan['tanggal_pemeriksaan'] ?? '') ?></div>
 </div>
-<h4>1) Laboratorium</h4>
+<h4>a) Laboratorium</h4>
 <table class="data">
     <thead>
         <tr>
@@ -1958,12 +1313,12 @@ include 'template_pdf.php';
     </tbody>
 </table>
       <div class="field-row mb-2">
-    <div class="field-label">2) Radiologi (Tgl Pemeriksaan & Hasil)</div>
+    <div class="field-label">b) Radiologi (Tgl Pemeriksaan & Hasil)</div>
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($kebutuhan['radiologi'] ?? '') ?></div>
 </div>          
 <div class="field-row mb-2">
-    <div class="field-label">3) Lainnya (USG, CT Scan, dll)</div>
+    <div class="field-label">c) Lainnya (USG, CT Scan, dll)</div>
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($kebutuhan['data_penunjang_lain'] ?? '') ?></div>
 </div>

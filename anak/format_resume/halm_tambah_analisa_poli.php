@@ -197,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         const existingData = <?= json_encode($existing_data) ?>;
                     </script>
                 </form>
-                <?php include "tab_navigasi.php"; ?>
+               
             </div>
         </div>
 

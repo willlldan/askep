@@ -1,0 +1,533 @@
+<?php
+$form_id       = 17;
+$section_name  = 'resume';
+$section_label = 'Format Resume Ruang OK';
+include dirname(__DIR__, 2) . '/partials/init_section.php';
+
+// Load existing dynamic rows
+$existing_obat = $existing_data['obat'] ?? [];
+$existing_lab  = $existing_data['lab']  ?? [];
+$existing_ekg = $existing_data['ekg'] ?? '';
+// =============================================
+// HANDLE POST - MAHASISWA SIMPAN DATA
+// =============================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
+    if (isLocked($submission)) {
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
+    }
+
+     // Upload ekg
+    $path_ekg = $existing_data['ekg'] ?? '';
+    if (!empty($_FILES['ekg']['name'])) {
+        $upload = uploadImage($_FILES['ekg'], 'uploads/ekg/', 50);
+        if ($upload['success']) {
+            if (!empty($path_ekg) && file_exists($path_ekg)) {
+                unlink($path_ekg);
+            }
+            $path_ekg= $upload['path'];
+        } else {
+            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $upload['error']);
+            exit;
+        }
+    }
+     // Proses dynamic rows obat
+    $obat = [];
+    if (!empty($_POST['obat'])) {
+        foreach ($_POST['obat'] as $index => $row) {
+            if (empty($row['jenis_obat']) && empty($row['dosis']) && empty($row['kegunaan'])) {
+                continue;
+            }
+            $obat[] = [
+                'jenis_obat'     => $row['jenis_obat']     ?? '',
+                'dosis'          => $row['dosis']           ?? '',
+                'kegunaan'       => $row['kegunaan']        ?? '',
+                'cara_pemberian' => $row['cara_pemberian']  ?? '',
+            ];
+        }
+    }
+
+    // Proses dynamic rows lab
+    $lab = [];
+    if (!empty($_POST['lab'])) {
+        foreach ($_POST['lab'] as $index => $row) {
+            if (empty($row['pemeriksaan']) && empty($row['hasil']) && empty($row['nilai_normal'])) {
+                continue;
+            }
+            $lab[] = [
+                'pemeriksaan'  => $row['pemeriksaan']  ?? '',
+                'hasil'        => $row['hasil']         ?? '',
+                'nilai_normal' => $row['nilai_normal']  ?? '',
+            ];
+        }
+    }
+
+  
+    $data = [
+        'obat' => $obat,
+        'lab'  => $lab,
+    'nama_klien'            => $_POST['nama_klien'] ?? '',
+    'jenis_kelamin'         => $_POST['jenis_kelamin'] ?? '',
+    'umur'                  => $_POST['umur'] ?? '',
+    'agama'                 => $_POST['agama'] ?? '',
+    'status_perkawinan'     => $_POST['status_perkawinan'] ?? '',
+    'pendidikan'            => $_POST['pendidikan'] ?? '',
+    'pekerjaan'             => $_POST['pekerjaan'] ?? '',
+    'alamat'                => $_POST['alamat'] ?? '',
+    'kunjungan'             => $_POST['kunjungan'] ?? '',
+    'diagnosa_medis'        => $_POST['diagnosa_medis'] ?? '',
+    'keluhan_utama'         => $_POST['keluhan_utama'] ?? '',
+    'riwayatsaatini'        => $_POST['riwayatsaatini'] ?? '',
+    'tanda_vital'           => $_POST['tanda_vital'] ?? '',
+    'pemeriksaanfisik'      => $_POST['pemeriksaanfisik'] ?? '',
+    'kesehatanlalu'         => $_POST['kesehatanlalu'] ?? '',
+    'radiologi'             => $_POST['radiologi'] ?? '',
+    'ekg'                   => $path_ekg,
+    'usg'                   => $_POST['usg'] ?? '',
+    'ct'                    => $_POST['ct'] ?? '',
+    'pemeriksaan'           => $_POST['pemeriksaan'] ?? '',
+];
+
+    if (!$submission) {
+        $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
+    } else {
+        $submission_id = $submission['id'];
+    }
+    saveSection($submission_id, $section_name, $section_label, $data, $mysqli);
+    updateSubmissionStatus($submission_id, $form_id, $mysqli);
+    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
+}
+?>
+
+<main id="main" class="main">
+
+    <?php include "kmb/format_poli_tb/tab.php"; ?>
+
+    <section class="section dashboard">
+
+        <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
+
+        <div class="card">
+            <div class="card-body">
+
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+
+                    <h5 class="card-title mb-1"><strong>FORMAT RESUME KEPERAWATAN <br>
+                            PRAKTIK KLINIK KEPERAWATAN MEDIKAL BEDAH II DI RUANG OK
+                        </strong></h5>
+
+                    <!-- 1. Biodata Klien -->
+                    <div class="row mb-2">
+                        <label class="col-sm-12 text-primary"><strong>1. Biodata Klien</strong></label>
+                    </div>
+
+
+                    <!-- NAMA KLIEN -->
+                    <div class="row mb-3">
+                        <label for="nama_klien" class="col-sm-2 col-form-label"><strong>Nama Klien</strong></label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="nama_klien"
+                                value="<?= val('nama_klien', $existing_data) ?>" <?= $ro ?>>
+
+                        </div>
+                    </div>
+
+                    <!-- JENIS KELAMIN -->
+                    <div class="row mb-3">
+                        <label for="jenis_kelamin" class="col-sm-2 col-form-label"><strong>Jenis Kelamin</strong></label>
+
+                        <div class="col-sm-10">
+                            <select class="form-select" name="jenis_kelamin" <?= $ro_select ?>>
+                                <option value="">Pilih</option>
+                                <option value="Laki-laki" <?= val('jenis_kelamin', $existing_data) === 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
+                                <option value="Perempuan" <?= val('jenis_kelamin', $existing_data) === 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
+
+                            </select>
+
+
+                        </div>
+                    </div>
+
+                    <!-- UMUR -->
+                    <div class="row mb-3">
+                        <label for="umur" class="col-sm-2 col-form-label"><strong>Umur</strong></label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="umur"
+                                value="<?= val('umur', $existing_data) ?>" <?= $ro ?>>
+
+
+                        </div>
+                    </div>
+
+                    <!-- AGAMA -->
+                    <div class="row mb-3">
+                        <label for="agama" class="col-sm-2 col-form-label"><strong>Agama</strong></label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="agama"
+                                value="<?= val('agama', $existing_data) ?>" <?= $ro ?>>
+
+                        </div>
+                    </div>
+
+                    <!-- STATUS PERKAWINAN -->
+                    <div class="row mb-3">
+                        <label for="status_perkawinan" class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="status_perkawinan"
+                                value="<?= val('status_perkawinan', $existing_data) ?>" <?= $ro ?>>
+
+                        </div>
+                    </div>
+
+                    <!-- PENDIDIKAN -->
+                    <div class="row mb-3">
+                        <label for="pendidikan" class="col-sm-2 col-form-label"><strong>Pendidikan</strong></label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="pendidikan"
+                                value="<?= val('pendidikan', $existing_data) ?>" <?= $ro ?>>
+                        </div>
+
+                    </div>
+
+                    <!-- PEKERJAAN -->
+                    <div class="row mb-3">
+                        <label for="pekerjaan" class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
+
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" name="pekerjaan"
+                                value="<?= val('pekerjaan', $existing_data) ?>" <?= $ro ?>>
+
+                        </div>
+                    </div>
+
+                    <!-- ALAMAT -->
+                    <div class="row mb-3">
+                        <label for="alamat" class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
+
+                        <div class="col-sm-10">
+                            <textarea name="alamat" class="form-control" rows="3"
+                                style="display:block; overflow:hidden; resize: none;"
+                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('alamat', $existing_data) ?></textarea>
+
+                        </div>
+                    </div>
+                    <!-- Kunjungan -->
+                    <div class="row mb-3">
+                        <label for="kunjungan" class="col-sm-2 col-form-label"><strong>Kunjungan Ke </strong></label>
+
+                        <div class="col-sm-10">
+                            <textarea name="kunjungan" class="form-control" rows="3"
+                                style="display:block; overflow:hidden; resize: none;"
+                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('kunjungan', $existing_data) ?></textarea>
+
+                        </div>
+                    </div>
+
+                    <!-- DIAGNOSA MEDIS -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Diagnosa Medis</strong></label>
+
+                        <div class="col-sm-10">
+                            <textarea name="diagnosa_medis" class="form-control"
+                                rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('diagnosa_medis', $existing_data) ?></textarea>
+
+                        </div>
+                    </div>
+
+                    <!-- 2. Keluhan Utama -->
+                    <div class="row mb-2">
+                        <label class="col-sm-12 text-primary"><strong>2. Keluhan Utama</strong></label>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Keluhan Utama</strong></label>
+
+                        <div class="col-sm-10">
+                            <textarea name="keluhan_utama" class="form-control"
+                                rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('keluhan_utama', $existing_data) ?></textarea>
+
+                        </div>
+                    </div>
+                    <!-- 2. Keluhan Utama -->
+                    <div class="row mb-2">
+                        <label class="col-sm-12 text-primary"><strong>3. Riwayat Kesehatan Saat ini</strong></label>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Riwayat Kesehatan Saat ini</strong></label>
+
+                        <div class="col-sm-10">
+                            <textarea name="riwayatsaatini" class="form-control"
+                                rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('riwayatsaatini', $existing_data) ?></textarea>
+
+                        </div>
+                    </div>
+
+                    <!-- 3. Tanda-tanda Vital -->
+                    <div class="row mb-2">
+                        <label class="col-sm-12 text-primary"><strong>4. Tanda-tanda Vital</strong></label>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Tanda-tanda Vital </strong></label>
+
+                        <div class="col-sm-10">
+                            <textarea name="tanda_vital" class="form-control"
+                                rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('tanda_vital', $existing_data) ?></textarea>
+
+                        </div>
+                    </div>
+
+                    <!-- 4. Pengkajian  Data Fokus (Data yang Bermasalah) -->
+                    <div class="row mb-2">
+                        <label class="col-sm-12 text-primary"><strong>5. Pemeriksaan Fisik (secara umum dan singkat yang bermasalah)</strong></label>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Pemeriksaan Fisik (secara umum dan singkat yang bermasalah) </strong></label>
+
+                        <div class="col-sm-10">
+                            <textarea name="pemeriksaanfisik" class="form-control"
+                                rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('pemeriksaanfisik', $existing_data) ?></textarea>
+
+                        </div>
+                    </div>
+                        <!-- 6. Terapi Saat Ini -->
+                    <div class="row mb-2">
+                        <label class="col-sm-12 text-primary"><strong>6. Riwayat Kesehatan yang Lalu</strong></label>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Riwayat Kesehatan yang Lalu</strong>
+                        </label>
+
+                        <div class="col-sm-10">
+                            <textarea name="kesehatanlalu" class="form-control"
+                                rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('kesehatanlalu', $existing_data) ?></textarea>
+                        </div>
+                    </div>
+
+                    <!-- 5. Pemeriksaan Penunjang -->
+                    <div class="row mb-2">
+                        <label class="col-sm-12 text-primary"><strong>7. Pemeriksaan Penunjang</strong></label>
+                    </div>
+                    <!-- ===================== TABEL LAB ===================== -->
+                    <p class=" fw-bold mb-2">a.  Laboratorium</p>
+                    <table class="table table-bordered" id="tabel-lab">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width:40px">No</th>
+                                <th class="text-center">Pemeriksaan</th>
+                                <th class="text-center">Hasil</th>
+                                <th class="text-center">Nilai Normal</th>
+                                <th class="text-center" style="width:60px">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-lab">
+                            <!-- Dynamic rows masuk sini -->
+                        </tbody>
+                    </table>
+                    <div class="row mb-4">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-lab" onclick="tambahRowLab()">+ Tambah Pemeriksaan</button>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>b.	Radiologi</strong>
+                        </label>
+
+                        <div class="col-sm-10">
+                            <textarea name="radiologi" class="form-control"
+                                rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('radiologi', $existing_data) ?></textarea>
+
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>c.	EKG</strong></label>
+                        <div class="col-sm-9">
+                            <?php if (!empty($existing_ekg)): ?>
+                                <img src="<?= htmlspecialchars($existing_ekg) ?>"
+                                    class="img-fluid rounded border mb-2"
+                                    style="max-height:400px;">
+                            <?php endif; ?>
+                            <?php if (!$is_readonly): ?>
+                                <input type="file" class="form-control" name="ekg"
+                                    accept="image/jpeg,image/png,image/webp">
+                                <small class="text-muted">Format: JPG, PNG, WebP. Maks 2MB.</small>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                     
+                     <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>d.	USG</strong>
+                        </label>
+
+                        <div class="col-sm-10">
+                            <textarea name="usg" class="form-control"
+                                rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('usg', $existing_data) ?></textarea>
+
+                        </div>
+                    </div>
+                     <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>e.	CT Scan</strong>
+                        </label>
+
+                        <div class="col-sm-10">
+                            <textarea name="ct" class="form-control"
+                                rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('ct', $existing_data) ?></textarea>
+
+                        </div>
+                    </div>
+                     <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>f.	Pemeriksaan Lain (Sebutkan)</strong>
+                        </label>
+
+                        <div class="col-sm-10">
+                            <textarea name="pemeriksaan" class="form-control"
+                                rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('pemeriksaan', $existing_data) ?></textarea>
+
+                        </div>
+                    </div>
+
+                     
+                <form class="needs-validation" novalidate action="" method="POST">
+                    <!-- ===================== TABEL OBAT ===================== -->
+                    <p class="text-primary fw-bold mb-2">8. Obat-obatan yang Dikonsumsi Saat Ini</p>
+                    <table class="table table-bordered" id="tabel-obat">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width:40px">No</th>
+                                <th class="text-center">Jenis Obat</th>
+                                <th class="text-center">Dosis</th>
+                                <th class="text-center">Kegunaan</th>
+                                <th class="text-center">Cara Pemberian</th>
+                                <th class="text-center" style="width:60px">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-obat">
+                            <!-- Dynamic rows masuk sini -->
+                        </tbody>
+                    </table>
+                    <div class="row mb-4">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-obat" onclick="tambahRowObat()">+ Tambah Obat</button>
+                        </div>
+                    </div>
+
+
+
+
+                
+
+                    <!-- TOMBOL MAHASISWA -->
+                    <?php if (!$is_dosen): ?>
+                        <div class="row mb-3">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                </form>
+            </div>
+        </div>
+
+
+
+
+                    <script>
+                        let rowObatCount = 1;
+                        let rowLabCount = 1;
+                        const existingObat = <?= json_encode($existing_obat) ?>;
+                        const existingLab = <?= json_encode($existing_lab) ?>;
+                        const isReadonly = <?= json_encode($is_readonly) ?>;
+                        // ---- OBAT ----
+                        function tambahRowObat(data = null) {
+                            const tbody = document.getElementById('tbody-obat');
+                            const index = rowObatCount;
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td class="text-center align-middle">${index}</td>
+                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][jenis_obat]" value="${data?.jenis_obat ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][dosis]" value="${data?.dosis ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][kegunaan]" value="${data?.kegunaan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][cara_pemberian]" value="${data?.cara_pemberian ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td class="text-center align-middle">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
+                                </td>
+                            `;
+                            tbody.appendChild(row);
+                            rowObatCount++;
+                        }
+                        // ---- LAB ----
+                        function tambahRowLab(data = null) {
+                            const tbody = document.getElementById('tbody-lab');
+                            const index = rowLabCount;
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td class="text-center align-middle">${index}</td>
+                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][pemeriksaan]" value="${data?.pemeriksaan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][hasil]" value="${data?.hasil ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][nilai_normal]" value="${data?.nilai_normal ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td class="text-center align-middle">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
+                                </td>
+                            `;
+                            tbody.appendChild(row);
+                            rowLabCount++;
+                        }
+
+                        function hapusRow(btn) {
+                            btn.closest('tr').remove();
+                        }
+                        // Load existing rows on page load
+                        window.addEventListener('load', function() {
+                            if (existingObat && existingObat.length > 0) {
+                                existingObat.forEach(row => tambahRowObat(row));
+                            } else {
+                                tambahRowObat(); // default 1 row kosong
+                            }
+                            if (existingLab && existingLab.length > 0) {
+                                existingLab.forEach(row => tambahRowLab(row));
+                            } else {
+                                tambahRowLab(); // default 1 row kosong
+                            }
+                            // Disable add buttons if readonly
+                            if (isReadonly) {
+                                document.getElementById('btn-tambah-obat').setAttribute('disabled', 'disabled');
+                                document.getElementById('btn-tambah-lab').setAttribute('disabled', 'disabled');
+                            }
+                        });
+                        const existingData = <?= json_encode($existing_data) ?>;
+                    </script>
+                </form>
+
+            </div>
+        </div>
+
+        <?php include "partials/footer_form.php" ?>
+
+    </section>
+</main>

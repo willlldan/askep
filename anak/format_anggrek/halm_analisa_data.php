@@ -37,136 +37,143 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
 
 <main id="main" class="main">
+
     <?php include "anak/format_anggrek/tab.php"; ?>
+
     <section class="section dashboard">
+
         <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
         <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
-        <form class="needs-validation" novalidate action="" method="POST">
-            <!-- ===================== KLASIFIKASI DATA ===================== -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><strong>Format Klasifikasi Data</strong></h5>
-                    <p class="text-primary fw-bold mb-2">Klasifikasi Data</p>
-                    <table class="table table-bordered table-klasifikasidata" id="tabel-klasifikasi">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><strong>Format Klasifikasi Data</strong></h5>
+                <form class="needs-validation" novalidate action="" method="POST">
+                    <!-- ===================== TABEL KLASIFIKASI DATA ===================== -->
+                    <p class="text-primary fw-bold mb-2">C. Klasifikasi Data</p>
+                    <table class="table table-bordered" id="tabel-klasifikasi">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Data Subjektif (DS)</th>
-                                <th class="text-center">Data Objektif (DO)</th>
-                                <?php if (!$is_readonly): ?>
-                                    <th class="text-center" style="width:60px">Aksi</th>
-                                <?php endif; ?>
+                                <th class="text-center">Data Subjektif</th>
+                                <th class="text-center">Data Objektif</th>
+                                <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="tbody-klasifikasi"></tbody>
+                        <tbody id="tbody-klasifikasi">
+                            <!-- Dynamic rows masuk sini -->
+                        </tbody>
                     </table>
-                    <?php if (!$is_readonly): ?>
-                        <div class="row mb-4">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-klasifikasi"
-                                    onclick="tambahRowKlasifikasi({tbodyId: 'tbody-klasifikasi', rowCountVar: 'rowKlasifikasiCount', isReadonly: <?= json_encode($is_readonly) ?>})">+ Tambah Baris</button>
-                            </div>
+                    <div class="row mb-4">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-klasifikasi" onclick="tambahRowKlasifikasi()">+ Tambah Baris</button>
                         </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-
-            <!-- ===================== ANALISA DATA ===================== -->
-            <div class="card mt-4">
-                <div class="card-body">
-                    <h5 class="card-title"><strong>Format Analisa Data</strong></h5>
-                    <p class="text-primary fw-bold mb-2">Analisa Data</p>
-                    <table class="table table-bordered table-analisa" id="tabel-analisa">
+                    </div>
+                    <!-- ===================== TABEL ANALISA DATA ===================== -->
+                    <p class="text-primary fw-bold mb-2">D. Analisa Data</p>
+                    <table class="table table-bordered" id="tabel-analisa">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">DS/DO</th>
+                                <th class="text-center">Data</th>
                                 <th class="text-center">Etiologi</th>
                                 <th class="text-center">Masalah</th>
-                                <?php if (!$is_readonly): ?>
-                                    <th class="text-center" style="width:60px">Aksi</th>
-                                <?php endif; ?>
+                                <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="tbody-analisa"></tbody>
+                        <tbody id="tbody-analisa">
+                            <!-- Dynamic rows masuk sini -->
+                        </tbody>
                     </table>
-                    <?php if (!$is_readonly): ?>
-                        <div class="row mb-4">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-analisa"
-                                    onclick="tambahRowAnalisa({tbodyId: 'tbody-analisa', rowCountVar: 'rowAnalisaCount', isReadonly: <?= json_encode($is_readonly) ?>})">+ Tambah Baris</button>
-                            </div>
+                    <div class="row mb-4">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-analisa" onclick="tambahRowAnalisa()">+ Tambah Baris</button>
                         </div>
-                    <?php endif; ?>
+                    </div>
+                    <!-- TOMBOL SIMPAN -->
                     <?php if (!$is_dosen): ?>
-                        <div class="row mb-3">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary" <?= $ro_disabled ?>>Simpan Data</button>
-                            </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary" <?= $ro ?>>Simpan Data</button>
                         </div>
+                    </div>
                     <?php endif; ?>
-                </div>
+                    <script>
+                        let rowKlasifikasiCount = 1;
+                        let rowAnalisaCount     = 1;
+                        const existingKlasifikasi = <?= json_encode($existing_klasifikasi) ?>;
+                        const existingAnalisa     = <?= json_encode($existing_analisa) ?>;
+                        const isReadonly = <?= json_encode($is_readonly) ?>;
+                        // ---- KLASIFIKASI DATA ----
+                        function tambahRowKlasifikasi(data = null) {
+                            const tbody = document.getElementById('tbody-klasifikasi');
+                            const index = rowKlasifikasiCount;
+                            const row   = document.createElement('tr');
+                            row.innerHTML = `
+                                <td class="text-center align-middle">${index}</td>
+                                <td>
+                                    <textarea class="form-control form-control-sm" name="klasifikasi[${index}][ds]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.ds ?? ''}</textarea>
+                                </td>
+                                <td>
+                                    <textarea class="form-control form-control-sm" name="klasifikasi[${index}][do]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.do ?? ''}</textarea>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
+                                </td>
+                            `;
+                            tbody.appendChild(row);
+                            rowKlasifikasiCount++;
+                        }
+                        // ---- ANALISA DATA ----
+                        function tambahRowAnalisa(data = null) {
+                            const tbody = document.getElementById('tbody-analisa');
+                            const index = rowAnalisaCount;
+                            const row   = document.createElement('tr');
+                            row.innerHTML = `
+                                <td class="text-center align-middle">${index}</td>
+                                <td>
+                                    <textarea class="form-control form-control-sm" name="analisa[${index}][ds_do]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.ds_do ?? ''}</textarea>
+                                </td>
+                                <td>
+                                    <textarea class="form-control form-control-sm" name="analisa[${index}][etiologi]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.etiologi ?? ''}</textarea>
+                                </td>
+                                <td>
+                                    <textarea class="form-control form-control-sm" name="analisa[${index}][masalah]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.masalah ?? ''}</textarea>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
+                                </td>
+                            `;
+                            tbody.appendChild(row);
+                            rowAnalisaCount++;
+                        }
+                        function hapusRow(btn) {
+                            btn.closest('tr').remove();
+                        }
+                        // Load existing rows on page load
+                        window.addEventListener('load', function () {
+                            if (existingKlasifikasi && existingKlasifikasi.length > 0) {
+                                existingKlasifikasi.forEach(row => tambahRowKlasifikasi(row));
+                            } else {
+                                tambahRowKlasifikasi(); // default 1 row kosong
+                            }
+                            if (existingAnalisa && existingAnalisa.length > 0) {
+                                existingAnalisa.forEach(row => tambahRowAnalisa(row));
+                            } else {
+                                tambahRowAnalisa(); // default 1 row kosong
+                            }
+                            // Disable add buttons if readonly
+                            if (isReadonly) {
+                                document.getElementById('btn-tambah-klasifikasi').setAttribute('disabled', 'disabled');
+                                document.getElementById('btn-tambah-analisa').setAttribute('disabled', 'disabled');
+                            }
+                        });
+                        const existingData = <?= json_encode($existing_data) ?>;
+                    </script>
+                </form>
             </div>
+        </div>
 
-            <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
-        </form>
+        <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
+
     </section>
-</main>
-
-<script>
-    let rowKlasifikasiCount = 1;
-    let rowAnalisaCount = 1;
-    const isReadonly = <?= json_encode($is_readonly) ?>;
-    const existingKlasifikasi = <?= json_encode($existing_klasifikasi) ?>;
-    const existingAnalisa = <?= json_encode($existing_analisa) ?>;
-
-    // Import helper
-    const script = document.createElement('script');
-    script.src = '/assets/js/form_row_helpers.js';
-    document.head.appendChild(script);
-
-    // Load existing data on page load
-    window.addEventListener('load', function() {
-        if (existingKlasifikasi && existingKlasifikasi.length > 0) {
-            existingKlasifikasi.forEach(row => {
-                tambahRowKlasifikasi({
-                    tbodyId: 'tbody-klasifikasi',
-                    rowCountVar: 'rowKlasifikasiCount',
-                    isReadonly,
-                    data: row
-                });
-            });
-        } else if (!isReadonly) {
-            tambahRowKlasifikasi({
-                tbodyId: 'tbody-klasifikasi',
-                rowCountVar: 'rowKlasifikasiCount',
-                isReadonly
-            });
-        }
-
-        if (existingAnalisa && existingAnalisa.length > 0) {
-            existingAnalisa.forEach(row => {
-                tambahRowAnalisa({
-                    tbodyId: 'tbody-analisa',
-                    rowCountVar: 'rowAnalisaCount',
-                    isReadonly,
-                    data: row
-                });
-            });
-        } else if (!isReadonly) {
-            tambahRowAnalisa({
-                tbodyId: 'tbody-analisa',
-                rowCountVar: 'rowAnalisaCount',
-                isReadonly
-            });
-        }
-
-        // Disable tombol tambah jika readonly
-        if (isReadonly) {
-            const btnK = document.getElementById('btn-tambah-klasifikasi');
-            const btnA = document.getElementById('btn-tambah-analisa');
-            if (btnK) btnK.setAttribute('disabled', 'disabled');
-            if (btnA) btnA.setAttribute('disabled', 'disabled');
-        }
-    });
-</script>
