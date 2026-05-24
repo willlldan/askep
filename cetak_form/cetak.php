@@ -94,7 +94,7 @@ switch ($form_name) {
         include 'template_pdf_kmb_r_angsana.php';
         break;
     case 'format_kmb_r_dahlia':
-        include 'template_pdf_kmb_r_dahkia.php';
+        include 'template_pdf_kmb_r_dahlia.php';
         break;
     case 'format_kmb_r_damar':
         include 'template_pdf_kmb_r_damar.php';
