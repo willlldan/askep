@@ -113,10 +113,10 @@ include 'template_pdf.php';
         <div class="subsection-title">Penyimpangan KDM</div>
         <?php if (!empty($konsep['penyimpangan_kdm'])): ?>
             <div style="margin: 6px 0; text-align:center;">
-                <img src="<?= cetakGambar(p($konsep['penyimpangan_kdm'])) ?>" style="max-height:250px;" />
+                <img src="<?= cetakGambar($konsep['penyimpangan_kdm']) ?>" style="max-height:250px;" />
             </div>
         <?php else: ?>
-            <div class="field-value" style="border-bottom:1px solid #ccc; min-height:20px;">-</div>
+            <div style="border:1px solid #ccc; min-height:20px; padding:2px 4px;">-</div>
         <?php endif; ?>
 
         <div class="field-row" style="margin-top:6px;">
