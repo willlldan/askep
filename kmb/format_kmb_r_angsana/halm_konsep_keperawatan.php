@@ -338,6 +338,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 const existingPerencanaan = <?= json_encode($existing_perencanaan) ?>;
                 const existingDaftarPustaka = <?= json_encode($existing_daftar_pustaka) ?>;
 
+                
+
                 // ---- PERENCANAAN ----
                 function tambahRowPerencanaan(data = null) {
                     const tbody = document.getElementById('tbody-perencanaan');

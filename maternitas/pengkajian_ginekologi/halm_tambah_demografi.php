@@ -4,9 +4,6 @@ $section_name  = 'data_demografi';
 $section_label = 'Data Demografi';
 include dirname(__DIR__, 2) . '/partials/init_section.php';
 
-$tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
-$rs_ruangan     = $submission['rs_ruangan'] ?? '';
-
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
 // =============================================
@@ -15,9 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     if (isLocked($submission)) {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
-
-    $tgl_pengkajian = $_POST['tglpengkajian'] ?? '';
-    $rs_ruangan     = $_POST['rsruangan'] ?? '';
 
     $data = [
         'inisial_pasien'            => $_POST['inisialpasien'] ?? '',
@@ -39,10 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     ];
 
     if (!$submission) {
-        $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
+        $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
     } else {
         $submission_id = $submission['id'];
-        updateSubmissionHeader($submission_id, $tgl_pengkajian, $rs_ruangan, $mysqli);
     }
 
 
@@ -63,21 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-                    <div class="row mb-3 mt-3">
-                        <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
-                        <div class="col-sm-9">
-                            <input type="date" class="form-control" name="tglpengkajian"
-                                value="<?= htmlspecialchars($tgl_pengkajian) ?>" <?= $ro ?> required>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>RS/Ruangan</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="rsruangan"
-                                value="<?= htmlspecialchars($rs_ruangan) ?>" <?= $ro ?> required>
-                        </div>
-                    </div>
+                    
 
                     <h5 class="card-title"><strong>DATA DEMOGRAFI</strong></h5>
 

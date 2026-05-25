@@ -109,6 +109,16 @@ function buildTabUrl($tab, $submission_id)
 
 <script src="assets/vendor/sweetalert2/package/dist/sweetalert2.all.min.js"></script>
 <script>
+    function autoResizeTextarea(el) {
+        if (!el) return;
+        el.style.height = 'auto';
+        el.style.overflow = 'hidden';
+        el.style.height = el.scrollHeight + 'px';
+    }
+
+    function autoResizeAllTextareas(scope = document) {
+        scope.querySelectorAll('textarea').forEach(autoResizeTextarea);
+    }
     document.addEventListener('DOMContentLoaded', function() {
         var mainForm = document.querySelector('form.needs-validation[action=""]');
         var isDirty = false;
@@ -213,5 +223,7 @@ function buildTabUrl($tab, $submission_id)
                 });
             });
         }
+
+        autoResizeAllTextareas();
     });
 </script>

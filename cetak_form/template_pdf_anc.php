@@ -135,66 +135,6 @@ include 'template_pdf.php';
             <div class="field-value"><?= p($laporan_pendahuluan['pengkajian_keperawatan']) ?></div>
         </div>
 
-        <div class="subsection-title">Diagnosa Keperawatan</div>
-        <div class="field-hint" style="color:#666; font-style:normal; margin-bottom:4px;">
-            Diagnosa keperawatan yang mungkin muncul trimester I - III
-        </div>
-        <div class="field-row">
-            <div class="field-label">a. Gangguan Rasa Nyaman</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_a']) ?></div>
-        </div>
-        <div class="field-row">
-            <div class="field-label">b. Ansietas Berhubungan Dengan Krisis Situasional</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_b']) ?></div>
-        </div>
-        <div class="field-row">
-            <div class="field-label">c. Defisit Nutrisi Berhubungan Dengan Peningkatan Kebutuhan Metabolisme</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_c']) ?></div>
-        </div>
-        <div class="field-row">
-            <div class="field-label">d. Defisit Pengetahuan Berhubungan Dengan Kurang Terpapar Informasi</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_d']) ?></div>
-        </div>
-        <div class="field-row">
-            <div class="field-label">e. Perfusi Perifer Tidak Efektif Berhubungan Dengan Penurunan Konsentrasi Hemoglobin</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_e']) ?></div>
-        </div>
-        <div class="field-row">
-            <div class="field-label">f. Nyeri Akut Berhubungan Dengan Agen Pencedera Fisiologis</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_f']) ?></div>
-        </div>
-        <div class="field-row">
-            <div class="field-label">g. Inkontinensia Urine Stres Berhubungan Dengan Peningkatan Tekanan Intra Abdomen</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_g']) ?></div>
-        </div>
-        <div class="field-row">
-            <div class="field-label">h. Gangguan Pertukaran Gas Berhubungan Dengan Perubahan Membran Alveolus-Kapiler</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_h']) ?></div>
-        </div>
-        <div class="field-row">
-            <div class="field-label">i. Kesiapan Peningkatan Menjadi Orang Tua</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_i']) ?></div>
-        </div>
-        <div class="field-row">
-            <div class="field-label">j. Risiko Cedera Pada Ibu</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_j']) ?></div>
-        </div>
-        <div class="field-row">
-            <div class="field-label">k. Risiko Cedera Pada Janin</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($laporan_pendahuluan['diagnosa_k']) ?></div>
-        </div>
-
         <h4>C. Daftar Pustaka</h4>
         <?php if (!empty($laporan_pendahuluan['daftar_pustaka'])): ?>
             <?php foreach ($laporan_pendahuluan['daftar_pustaka'] as $idx => $pustaka): ?>
