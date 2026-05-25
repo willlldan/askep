@@ -1,5 +1,6 @@
 <?php
 // Shortcut per section
+$laporan_pendahuluan = $sections['laporan_pendahuluan'] ?? [];
 $demografi   = $sections['data_demografi'] ?? [];
 $riwayat     = $sections['riwayat_kehamilan_kesehatan'] ?? [];
 $fisik       = $sections['pengkajian_fisik'] ?? [];
@@ -38,7 +39,70 @@ include 'template_pdf.php';
         </table>
 
         <!-- ================================ -->
-        <!-- SECTION 1: DATA DEMOGRAFI -->
+        <!-- SECTION 1: LAPORAN PENDAHULUAN -->
+        <!-- ================================ -->
+        <h3 class="mt-5">Laporan Pendahuluan</h3>
+
+        <h4>A. Konsep Dasar Medis</h4>
+        <div class="field-row">
+            <div class="field-label">Definisi Nifas</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['definisi_nifas']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Anatomi Sistem Reproduksi Wanita</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['anatomi_sistem_reproduksi_wanita']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Tahapan Masa Nifas</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['tahapan_masa_nifas']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Fisiologis Organ pada Masa Nifas</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['perubahan_fisiologis_organ_pada_masa_nifas']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Adaptasi Psikologis Masa Nifas</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['adaptasi_psikologis_masa_nifas']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Komplikasi Masa Nifas</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['komplikasi_masa_nifas']) ?></div>
+        </div>
+
+        <h4>B. Konsep Dasar Keperawatan</h4>
+        <div class="field-row">
+            <div class="field-label">Pengkajian</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan['pengkajian_keperawatan']) ?></div>
+        </div>
+
+        <h4>C. Daftar Pustaka</h4>
+        <?php if (!empty($laporan_pendahuluan['daftar_pustaka'])): ?>
+            <?php foreach ($laporan_pendahuluan['daftar_pustaka'] as $idx => $pustaka): ?>
+                <div class="field-row">
+                    <div class="field-label"><?= ($idx + 1) ?>.</div>
+                    <div class="field-sep"></div>
+                    <div class="field-value"><?= p($pustaka) ?></div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="field-row">
+                <div class="field-label">Daftar Pustaka</div>
+                <div class="field-sep">:</div>
+                <div class="field-value">-</div>
+            </div>
+        <?php endif; ?>
+
+        <div class="page-break"></div>
+
+        <!-- ================================ -->
+        <!-- SECTION 2: DATA DEMOGRAFI -->
         <!-- ================================ -->
         <h3 class="mt-5">A. Data Demografi</h3>
 
@@ -112,7 +176,7 @@ include 'template_pdf.php';
         </table>
   
         <!-- ================================ -->
-        <!-- SECTION 2: RIWAYAT KEHAMILAN -->
+        <!-- SECTION 3: RIWAYAT KEHAMILAN -->
         <!-- ================================ -->
         <h3 class="mt-5">Riwayat Kehamilan dan Persalinan</h3>
 
@@ -238,7 +302,7 @@ include 'template_pdf.php';
         <div class="page-break"></div>
 
         <!-- ================================ -->
-        <!-- SECTION 3: PENGKAJIAN FISIK -->
+        <!-- SECTION 4: PENGKAJIAN FISIK -->
         <!-- ================================ -->
         <h3 class="mt-5">Pengkajian Fisik</h3>
 
@@ -398,7 +462,7 @@ include 'template_pdf.php';
         <div class="page-break"></div>
 
         <!-- ================================ -->
-        <!-- SECTION 4: PROGRAM TERAPI & LAB -->
+        <!-- SECTION 5: PROGRAM TERAPI & LAB -->
         <!-- ================================ -->
         <h3 class="mt-5">Program Terapi</h3>
 
@@ -457,7 +521,7 @@ include 'template_pdf.php';
         </table>
 
         <!-- ================================ -->
-        <!-- SECTION 5: ANALISA DATA -->
+        <!-- SECTION 6: ANALISA DATA -->
         <!-- ================================ -->
         <h3 class="mt-5">Klasifikasi Data</h3>
 
@@ -514,7 +578,7 @@ include 'template_pdf.php';
         <div class="page-break"></div>
 
         <!-- ================================ -->
-        <!-- SECTION 6: CATATAN KEPERAWATAN -->
+        <!-- SECTION 7: CATATAN KEPERAWATAN -->
         <!-- ================================ -->
         <h3 class="mt-5">Diagnosa Keperawatan</h3>
 

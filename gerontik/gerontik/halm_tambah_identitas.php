@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="card-body">
                 <h5 class="card-title">Tambah Identitas Lansia</h5>
-                <?php if (!empty($alert)) echo $alert; ?>
+                
 
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" autocomplete="off">

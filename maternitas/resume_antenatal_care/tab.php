@@ -13,6 +13,8 @@ $titles = [
 ];
 
 $tabs = [
+    "laporan_pendahuluan_anc",
+    "laporan_pendahuluan_kb",
     "identitas",
     "pengkajian_anamnesa",
     "pengkajian_tanda_vital",
@@ -22,6 +24,8 @@ $tabs = [
 ];
 
 $tab_labels = [
+    'laporan_pendahuluan_anc' => 'Laporan Pendahuluan ANC',
+    'laporan_pendahuluan_kb' => 'Laporan Pendahuluan KB',
     'identitas' => 'Identitas',
     'pengkajian_anamnesa' => 'Anamnesa & Antropometri',
     'pengkajian_tanda_vital' => 'TTV & Pemeriksaan Umum',

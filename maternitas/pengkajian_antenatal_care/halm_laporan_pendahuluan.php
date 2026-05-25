@@ -1,7 +1,8 @@
 <?php
-$form_id       = 1;
-$section_name  = 'laporan_pendahuluan';
-$section_label = 'Laporan Pendahuluan';
+$form_id       = $form_id ?? 1;
+$section_name  = $section_name ?? 'laporan_pendahuluan';
+$section_label = $section_label ?? 'Laporan Pendahuluan';
+$tab_include   = $tab_include ?? 'maternitas/pengkajian_antenatal_care/tab.php';
 include dirname(__DIR__, 2) . '/partials/init_section.php';
 
 $tgl_pengkajian  = $submission['tanggal_pengkajian'] ?? '';
@@ -52,18 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'penatalaksanaan_medis'  => $_POST['penatalaksanaan_medis']  ?? '',
         // B. Konsep Dasar Keperawatan
         'pengkajian_keperawatan' => $_POST['pengkajian_keperawatan'] ?? '',
-        // Diagnosa Keperawatan (a-k)
-        'diagnosa_a'             => $_POST['diagnosa_a']             ?? '',
-        'diagnosa_b'             => $_POST['diagnosa_b']             ?? '',
-        'diagnosa_c'             => $_POST['diagnosa_c']             ?? '',
-        'diagnosa_d'             => $_POST['diagnosa_d']             ?? '',
-        'diagnosa_e'             => $_POST['diagnosa_e']             ?? '',
-        'diagnosa_f'             => $_POST['diagnosa_f']             ?? '',
-        'diagnosa_g'             => $_POST['diagnosa_g']             ?? '',
-        'diagnosa_h'             => $_POST['diagnosa_h']             ?? '',
-        'diagnosa_i'             => $_POST['diagnosa_i']             ?? '',
-        'diagnosa_j'             => $_POST['diagnosa_j']             ?? '',
-        'diagnosa_k'             => $_POST['diagnosa_k']             ?? '',
         // C. Daftar Pustaka
         'daftar_pustaka'         => $daftar_pustaka,
     ];
@@ -84,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
 <main id="main" class="main">
 
-    <?php include "maternitas/pengkajian_antenatal_care/tab.php"; ?>
+    <?php include $tab_include; ?>
 
     <section class="section dashboard">
 
@@ -301,132 +290,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <?= $ro ?>><?= val('pengkajian_keperawatan', $existing_data) ?></textarea>
                         </div>
                     </div>
-
-                    <!-- Diagnosa Keperawatan -->
-                    <p class="text-primary fw-bold mb-1">Diagnosa Keperawatan</p>
-                    <p class="text-muted mb-3"><small>Diagnosa keperawatan yang mungkin muncul trimester I &ndash; III</small></p>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">a. Gangguan Rasa Nyaman</label>
-                        <div class="col-sm-9">
-                            <textarea name="diagnosa_a" class="form-control" rows="2"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                placeholder="Trimester I, II, dan III"
-                                <?= $ro ?>><?= val('diagnosa_a', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">b. Ansietas Berhubungan Dengan Krisis Situasional</label>
-                        <div class="col-sm-9">
-                            <textarea name="diagnosa_b" class="form-control" rows="2"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                placeholder="Trimester I"
-                                <?= $ro ?>><?= val('diagnosa_b', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">c. Defisit Nutrisi Berhubungan Dengan Peningkatan Kebutuhan Metabolisme</label>
-                        <div class="col-sm-9">
-                            <textarea name="diagnosa_c" class="form-control" rows="2"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                placeholder="Trimester I"
-                                <?= $ro ?>><?= val('diagnosa_c', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">d. Defisit Pengetahuan Berhubungan Dengan Kurang Terpapar Informasi</label>
-                        <div class="col-sm-9">
-                            <textarea name="diagnosa_d" class="form-control" rows="2"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                placeholder="Trimester I"
-                                <?= $ro ?>><?= val('diagnosa_d', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">e. Perfusi Perifer Tidak Efektif Berhubungan Dengan Penurunan Konsentrasi Hemoglobin</label>
-                        <div class="col-sm-9">
-                            <textarea name="diagnosa_e" class="form-control" rows="2"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                placeholder="Trimester I"
-                                <?= $ro ?>><?= val('diagnosa_e', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">f. Nyeri Akut Berhubungan Dengan Agen Pencedera Fisiologis</label>
-                        <div class="col-sm-9">
-                            <textarea name="diagnosa_f" class="form-control" rows="2"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                placeholder="Trimester I dan III"
-                                <?= $ro ?>><?= val('diagnosa_f', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">g. Inkontinensia Urine Stres Berhubungan Dengan Peningkatan Tekanan Intra Abdomen</label>
-                        <div class="col-sm-9">
-                            <textarea name="diagnosa_g" class="form-control" rows="2"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                placeholder="Trimester I dan III"
-                                <?= $ro ?>><?= val('diagnosa_g', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">h. Gangguan Pertukaran Gas Berhubungan Dengan Perubahan Membran Alveolus-Kapiler</label>
-                        <div class="col-sm-9">
-                            <textarea name="diagnosa_h" class="form-control" rows="2"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                placeholder="Trimester III"
-                                <?= $ro ?>><?= val('diagnosa_h', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">i. Kesiapan Peningkatan Menjadi Orang Tua</label>
-                        <div class="col-sm-9">
-                            <textarea name="diagnosa_i" class="form-control" rows="2"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                placeholder="Trimester I dan III"
-                                <?= $ro ?>><?= val('diagnosa_i', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">j. Risiko Cedera Pada Ibu</label>
-                        <div class="col-sm-9">
-                            <textarea name="diagnosa_j" class="form-control" rows="2"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                placeholder="Trimester I, II, dan III"
-                                <?= $ro ?>><?= val('diagnosa_j', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label">k. Risiko Cedera Pada Janin</label>
-                        <div class="col-sm-9">
-                            <textarea name="diagnosa_k" class="form-control" rows="2"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                placeholder="Trimester I, II, dan III"
-                                <?= $ro ?>><?= val('diagnosa_k', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
                 </div>
             </div>
 

@@ -1,7 +1,7 @@
 <?php
-$form_id       = 14;
-$section_name  = 'konsep_keperawatan';
-$section_label = 'Konsep Keperawatan';
+$form_id       = 17;
+$section_name  = 'laporan_pedahuluan';
+$section_label = 'Laporan Pendahuluan';
 include dirname(__DIR__, 2) . '/partials/init_section.php';
 
 $tgl_pengkajian  = $submission['tanggal_pengkajian'] ?? '';
@@ -9,7 +9,6 @@ $rs_ruangan      = $submission['rs_ruangan']         ?? '';
 
 // Load existing dynamic rows
 $existing_perencanaan    = $existing_data['perencanaan']      ?? [];
-$existing_daftar_pustaka = $existing_data['daftar_pustaka']   ?? [];
 $existing_kdm            = $existing_data['penyimpangan_kdm'] ?? '';
 
 // =============================================
@@ -39,29 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         }
     }
 
-    // Proses dynamic list daftar pustaka
-    $daftar_pustaka = [];
-    if (!empty($_POST['daftar_pustaka'])) {
-        foreach ($_POST['daftar_pustaka'] as $item) {
-            if (empty(trim($item))) continue;
-            $daftar_pustaka[] = trim($item);
-        }
-    }
-
-    // Proses upload penyimpangan KDM
-    $path_kdm = $existing_data['penyimpangan_kdm'] ?? '';
-    if (!empty($_FILES['penyimpangan_kdm']['name'])) {
-        $upload = uploadImage($_FILES['penyimpangan_kdm'], 'uploads/kdm/', 50);
-        if ($upload['success']) {
-            if (!empty($path_kdm) && file_exists($path_kdm)) {
-                unlink($path_kdm);
-            }
-            $path_kdm = $upload['path'];
-        } else {
-            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $upload['error']);
-            exit;
-        }
-    }
 
     $data = [
         // A. Konsep Dasar Medis
@@ -72,13 +48,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'patofisiologi'          => $_POST['patofisiologi']          ?? '',
         'pemeriksaan_diagnostik' => $_POST['pemeriksaan_diagnostik'] ?? '',
         'penatalaksanaan'        => $_POST['penatalaksanaan']        ?? '',
+        'pathway'        => $_POST['pathway']        ?? '',
+        'pemeriksaan_penunjang'        => $_POST['pemeriksaan_penunjang']        ?? '',
+
+
         // B. Konsep Dasar Keperawatan
-        'pengkajian_keperawatan' => $_POST['pengkajian_keperawatan'] ?? '',
-        'penyimpangan_kdm'       => $path_kdm,
+        'keluhan' => $_POST['keluhan'] ?? '',
+        'kesehatan' => $_POST['kesehatan'] ?? '',
+       'pemeriksaan' => $_POST['pemeriksaan'] ?? '',
         'diagnosa_keperawatan'   => $_POST['diagnosa_keperawatan']   ?? '',
         'perencanaan'            => $perencanaan,
         // C. Daftar Pustaka
-        'daftar_pustaka'         => $daftar_pustaka,
+        'daftar'         => $_POST['daftar']   ?? '',
     ];
 
     if (!$submission) {
@@ -97,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
 <main id="main" class="main">
 
-    <?php include "kmb/format_kmb_r_angsana/tab.php"; ?>
+    <?php include "kmb/format_poli_tb/tab.php"; ?>
 
     <section class="section dashboard">
 
@@ -151,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             <div class="card">
                 <div class="card-body">
 
-                    <h5 class="card-title"><strong>A. Konsep Dasar Medis</strong></h5>
+                    <h5 class="card-title"><strong>A. Laporan Pendahuluan</strong></h5>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pengertian</strong></label>
@@ -164,16 +145,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     </div>
 
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Klasifikasi</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="klasifikasi" class="form-control" rows="3"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                <?= $ro ?>><?= val('klasifikasi', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Etiologi</strong></label>
                         <div class="col-sm-9">
                             <textarea name="etiologi" class="form-control" rows="3"
@@ -182,7 +153,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <?= $ro ?>><?= val('etiologi', $existing_data) ?></textarea>
                         </div>
                     </div>
-
+                     <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Patofisiologi</strong></label>
+                        <div class="col-sm-9">
+                            <textarea name="patofisiologi" class="form-control" rows="3"
+                                style="overflow:hidden; resize:none;"
+                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('patofisiologi', $existing_data) ?></textarea>
+                        </div>
+                    </div>
+                     <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Pathway</strong></label>
+                        <div class="col-sm-9">
+                            <textarea name="pathway" class="form-control" rows="3"
+                                style="overflow:hidden; resize:none;"
+                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('pathway', $existing_data) ?></textarea>
+                        </div>
+                    </div>
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Manifestasi Klinik</strong></label>
                         <div class="col-sm-9">
@@ -193,27 +181,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Patofisiologi</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="patofisiologi" class="form-control" rows="3"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                <?= $ro ?>><?= val('patofisiologi', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Pemeriksaan Diagnostik</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="pemeriksaan_diagnostik" class="form-control" rows="3"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                <?= $ro ?>><?= val('pemeriksaan_diagnostik', $existing_data) ?></textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
+                  
+                      <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Penatalaksanaan</strong></label>
                         <div class="col-sm-9">
                             <textarea name="penatalaksanaan" class="form-control" rows="3"
@@ -222,6 +191,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <?= $ro ?>><?= val('penatalaksanaan', $existing_data) ?></textarea>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Pemeriksaan Penunjang</strong></label>
+                        <div class="col-sm-9">
+                            <textarea name="pemeriksaan_penunjang" class="form-control" rows="3"
+                                style="overflow:hidden; resize:none;"
+                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('pemeriksaan_penunjang', $existing_data) ?></textarea>
+                        </div>
+                    </div>
+
+                  
 
                 </div>
             </div>
@@ -231,36 +211,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 <div class="card-body">
 
                     <h5 class="card-title"><strong>B. Konsep Dasar Keperawatan</strong></h5>
-
+                    
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Pengkajian Keperawatan</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>1. Pengkajian </strong></label>
+                        
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>a. Keluhan Utama</strong></label>
                         <div class="col-sm-9">
-                            <textarea name="pengkajian_keperawatan" class="form-control" rows="3"
+                            <textarea name="keluhan" class="form-control" rows="3"
                                 style="overflow:hidden; resize:none;"
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                <?= $ro ?>><?= val('pengkajian_keperawatan', $existing_data) ?></textarea>
+                                <?= $ro ?>><?= val('keluhan', $existing_data) ?></textarea>
                         </div>
                     </div>
-
-                    <!-- Penyimpangan KDM -->
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Penyimpangan KDM</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>b. Riwayat kesehatan sekarang dan dahulu</strong></label>
                         <div class="col-sm-9">
-                            <?php if (!empty($existing_kdm)): ?>
-                                <img src="<?= htmlspecialchars($existing_kdm) ?>"
-                                    class="img-fluid rounded border mb-2"
-                                    style="max-height:400px;">
-                            <?php endif; ?>
-                            <?php if (!$is_readonly): ?>
-                                <input type="file" class="form-control" name="penyimpangan_kdm"
-                                    accept="image/jpeg,image/png,image/webp">
-                                <small class="text-muted">Format: JPG, PNG, WebP. Maks 2MB.</small>
-                            <?php endif; ?>
+                            <textarea name="kesehatan" class="form-control" rows="3"
+                                style="overflow:hidden; resize:none;"
+                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('kesehatan', $existing_data) ?></textarea>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>c. Pemeriksaan Fisik</strong></label>
+                        <div class="col-sm-9">
+                            <textarea name="pemeriksaan" class="form-control" rows="3"
+                                style="overflow:hidden; resize:none;"
+                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('pemeriksaan', $existing_data) ?></textarea>
                         </div>
                     </div>
 
+                    
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Diagnosa Keperawatan</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>2. Diagnosa Keperawatan</strong></label>
                         <div class="col-sm-9">
                             <textarea name="diagnosa_keperawatan" class="form-control" rows="3"
                                 style="overflow:hidden; resize:none;"
@@ -270,7 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     </div>
 
                     <!-- TABEL PERENCANAAN -->
-                    <p class="text-primary fw-bold mb-2">Perencanaan</p>
+                    <p class="text-primary fw-bold mb-2">3. Intervensi</p>
 
                     <table class="table table-bordered" id="tabel-perencanaan">
                         <thead>
@@ -301,32 +287,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             <!-- ===================== C. DAFTAR PUSTAKA ===================== -->
             <div class="card">
                 <div class="card-body">
+                                        <h5 class="card-title"><strong>C. Daftar Pustaka</strong></h5>
 
-                    <h5 class="card-title"><strong>C. Daftar Pustaka</strong></h5>
-
-                    <div id="list-pustaka"></div>
-
-                    <?php if (!$is_readonly): ?>
-                        <div class="row mb-3">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm " onclick="tambahPustaka()">+ Tambah Pustaka</button>
-                            </div>
+                             <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Daftar Pustaka</strong></label>
+                        <div class="col-sm-9">
+                            <textarea name="daftar" class="form-control" rows="3"
+                                style="overflow:hidden; resize:none;"
+                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro ?>><?= val('Daftar', $existing_data) ?></textarea>
                         </div>
-                    <?php endif; ?>
-
-                    <!-- TOMBOL SIMPAN (mahasiswa only) -->
+                    </div>
+                    <!-- TOMBOL MAHASISWA -->
                     <?php if (!$is_dosen): ?>
-
                         <div class="row mb-3">
                             <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">Simpan Data</button>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </div>
-
                     <?php endif; ?>
 
-                </div>
+                </form>
             </div>
+        </div>
+
 
 
 
@@ -336,9 +320,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 const isReadonly = <?= $is_readonly ? 'true' : 'false' ?>;
 
                 const existingPerencanaan = <?= json_encode($existing_perencanaan) ?>;
-                const existingDaftarPustaka = <?= json_encode($existing_daftar_pustaka) ?>;
-
-                
 
                 // ---- PERENCANAAN ----
                 function tambahRowPerencanaan(data = null) {
@@ -383,41 +364,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     rowPerencanaanCount++;
                 }
 
-                // ---- DAFTAR PUSTAKA ----
-                function tambahPustaka(value = '') {
-                    const container = document.getElementById('list-pustaka');
-                    const index = pustakCount;
-                    const div = document.createElement('div');
+         
 
-                    div.className = 'row mb-2 pustaka-item';
-                    div.innerHTML = isReadonly ?
-                        `<div class="col-sm-11 d-flex align-items-center gap-2">
-                                <span class="text-muted fw-bold" style="min-width:24px;">${index + 1}.</span>
-                                <input type="text" class="form-control" value="${value}" readonly>
-                           </div>` :
-                        `<div class="col-sm-11 d-flex align-items-center gap-2">
-                                <span class="text-muted fw-bold" style="min-width:24px;">${index + 1}.</span>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="daftar_pustaka[]"
-                                        value="${value}" placeholder="Masukkan referensi pustaka...">
-                                    <button type="button" class="btn btn-danger" onclick="hapusPustaka(this)">x</button>
-                                </div>
-                           </div>`;
-
-                    container.appendChild(div);
-                    pustakCount++;
-                }
 
                 function hapusRow(btn) {
                     btn.closest('tr').remove();
                 }
 
-                function hapusPustaka(btn) {
-                    btn.closest('.pustaka-item').remove();
-                    document.querySelectorAll('.pustaka-item').forEach((item, i) => {
-                        item.querySelector('span.text-muted').textContent = (i + 1) + '.';
-                    });
-                }
+             
 
                 // Load existing data on page load
                 window.addEventListener('load', function() {
@@ -427,11 +381,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         tambahRowPerencanaan();
                     }
 
-                    if (existingDaftarPustaka && existingDaftarPustaka.length > 0) {
-                        existingDaftarPustaka.forEach(v => tambahPustaka(v));
-                    } else if (!isReadonly) {
-                        tambahPustaka();
-                    }
+                   
                 });
 
                 const existingData = <?= json_encode($existing_data) ?>;

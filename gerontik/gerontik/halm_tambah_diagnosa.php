@@ -90,7 +90,6 @@ if (isset($_POST['submit'])) {
                     <section class="section dashboard">
 
                         <!-- General Form Elements -->
-                        <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
                             <!-- Bagian No. DX -->
 

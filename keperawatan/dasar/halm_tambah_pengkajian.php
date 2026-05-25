@@ -505,37 +505,37 @@ $ro_check    = $is_readonly ? 'disabled' : '';
 <label class="col-sm-12"><strong>Antropomentri</strong></label>
 </div>
 
+
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>BB Sebelum Sakit</strong></label>
                         <div class="col-sm-9">
+                            <div class="input-group">
                             <input type="text" class="form-control" name="bb_sebelum"
                                 value="<?= htmlspecialchars($existing_data['bb_sebelum'] ?? '') ?>" <?= $ro ?>>
+                                <span class="input-group-text">kg</span></div>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>BB Saat Sakit</strong></label>
                         <div class="col-sm-9">
+                            <div class="input-group">
                             <input type="text" class="form-control" name="bb_saat_sakit"
                                 value="<?= htmlspecialchars($existing_data['bb_saat_sakit'] ?? '') ?>" <?= $ro ?>>
+                                <span class="input-group-text">kg</span></div>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Lingkar Lengan Atas</strong></label>
                         <div class="col-sm-9">
+                            <div class="input-group">
                             <input type="text" class="form-control" name="lingkar_lengan"
                                 value="<?= htmlspecialchars($existing_data['lingkar_lengan'] ?? '') ?>" <?= $ro ?>>
+                                <span class="input-group-text">cm</span></div>
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Tinggi Badan</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="tinggi_badan"
-                                value="<?= htmlspecialchars($existing_data['tinggi_badan'] ?? '') ?>" <?= $ro ?>>
-                        </div>
-                    </div>
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Indeks Massa Tubuh (IMT)</strong></label>
 
