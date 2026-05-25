@@ -815,9 +815,12 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'kmb/format_poli_tb':
 
-                $tab = $tab ?: 'resume';
+                $tab = $tab ?: 'laporan_pendahuluan';
 
                 switch ($tab) {
+                    case 'laporan_pendahuluan':
+                        include "kmb/format_poli_tb/halm_laporan_pendahuluan.php";
+                        break;
 
                     case 'resume':
                         include "kmb/format_poli_tb/halm_tambah_resume.php";
@@ -832,7 +835,7 @@ if (isset($_SESSION['id_user'])) {
                         break;
 
                     default:
-                        include "kmb/format_poli_tb/halm_tambah_resume.php";
+                        include "kmb/format_poli_tb/halm_laporan_pendahuluan.php";
                 }
 
                 break;

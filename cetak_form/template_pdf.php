@@ -202,5 +202,6 @@ function cetakGambar($path)
             margin-left: 2cm;
             margin-right: 2cm;
         }
+ -
     </style>
 </head>

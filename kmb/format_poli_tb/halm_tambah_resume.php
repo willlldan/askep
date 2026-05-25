@@ -112,9 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
-                    <h5 class="card-title mb-1"><strong>FORMAT RESUME KEPERAWATAN <br>
-                            PRAKTIK KLINIK KEPERAWATAN MEDIKAL BEDAH II DI RUANG OK
-                        </strong></h5>
+                   
 
                     <!-- 1. Biodata Klien -->
                     <div class="row mb-2">
