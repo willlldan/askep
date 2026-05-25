@@ -1,5 +1,7 @@
 <?php
 // Shortcut per section
+$laporan_pendahuluan_anc = $sections['laporan_pendahuluan_anc'] ?? [];
+$laporan_pendahuluan_kb   = $sections['laporan_pendahuluan_kb'] ?? [];
 $identitas   = $sections['identitas'] ?? [];
 $anamnesa    = $sections['anamnesa_antropometri'] ?? [];
 $ttv         = $sections['ttv_pemeriksaan_umum'] ?? [];
@@ -37,7 +39,199 @@ include 'template_pdf.php';
         </table>
 
         <!-- ================================ -->
-        <!-- SECTION 1: DATA DEMOGRAFI -->
+        <!-- SECTION 1: LAPORAN PENDAHULUAN ANC -->
+        <!-- ================================ -->
+        <h3>Laporan Pendahuluan ANC</h3>
+
+        <h4>A. Konsep Dasar Medis</h4>
+        <div class="field-row">
+            <div class="field-label">Pengertian Antenatal Care</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_anc['pengertian_anc']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Etiologi Antenatal Care</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_anc['etiologi_anc']) ?></div>
+        </div>
+
+        <div class="subsection-title">Manifestasi Klinis Antenatal Care</div>
+        <div class="field-hint" style="color:#666; font-style:normal; margin-bottom:4px;">
+            Tanda kehamilan pada wanita disebabkan oleh adanya janin dan perubahan hormon sehingga memunculkan 3 diagnosis kehamilan yaitu:
+        </div>
+        <div class="field-row">
+            <div class="field-label">Tanda Presumtif / Dugaan</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_anc['tanda_presumtif']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Probable (Tanda Mungkin)</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_anc['tanda_probable']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Tanda Pasti (Positif Sign)</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_anc['tanda_pasti']) ?></div>
+        </div>
+
+        <div class="subsection-title">Perubahan Fisik Pada Masa Kehamilan</div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Fisik Pada Trimester I meliputi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_anc['perubahan_fisik_tm1']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Fisik Pada Trimester II meliputi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_anc['perubahan_fisik_tm2']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Fisik Pada Trimester III meliputi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_anc['perubahan_fisik_tm3']) ?></div>
+        </div>
+
+        <div class="subsection-title">Adaptasi Fisiologis pada Masa Kehamilan</div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Psikologis Pada Trimester I</div>
+            <div class="field-sep">:</div>
+            <div class="field-value">
+                <div class="field-hint" style="color:#666; font-style:normal;">(Periode Penyesuaian)</div>
+                <?= p($laporan_pendahuluan_anc['psikologis_tm1']) ?>
+            </div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Psikologis Pada Trimester II</div>
+            <div class="field-sep">:</div>
+            <div class="field-value">
+                <div class="field-hint" style="color:#666; font-style:normal;">(Periode Kesehatan Yang Baik)</div>
+                <?= p($laporan_pendahuluan_anc['psikologis_tm2']) ?>
+            </div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Perubahan Psikologis Pada Trimester III</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_anc['psikologis_tm3']) ?></div>
+        </div>
+
+        <div class="field-row">
+            <div class="field-label">Komplikasi Dalam Antenatal Care</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_anc['komplikasi']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Penatalaksanaan Medis</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_anc['penatalaksanaan_medis']) ?></div>
+        </div>
+
+        <h4>B. Konsep Dasar Keperawatan</h4>
+        <div class="field-row">
+            <div class="field-label">Pengkajian</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_anc['pengkajian_keperawatan']) ?></div>
+        </div>
+
+        <h4>C. Daftar Pustaka</h4>
+        <?php if (!empty($laporan_pendahuluan_anc['daftar_pustaka'])): ?>
+            <?php foreach ($laporan_pendahuluan_anc['daftar_pustaka'] as $idx => $pustaka): ?>
+                <div class="field-row">
+                    <div class="field-label"><?= ($idx + 1) ?>.</div>
+                    <div class="field-sep"></div>
+                    <div class="field-value"><?= p($pustaka) ?></div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="field-row">
+                <div class="field-label">Daftar Pustaka</div>
+                <div class="field-sep">:</div>
+                <div class="field-value">-</div>
+            </div>
+        <?php endif; ?>
+
+        <div class="page-break"></div>
+
+        <!-- ================================ -->
+        <!-- SECTION 2: LAPORAN PENDAHULUAN KB -->
+        <!-- ================================ -->
+        <h3>Laporan Pendahuluan KB</h3>
+
+        <h4>A. Konsep Dasar Medis</h4>
+        <div class="field-row">
+            <div class="field-label">Definisi Keluarga Berencana (KB)</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_kb['definisi_kb']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Ruang Lingkup Program KB</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_kb['ruang_lingkup_program_kb']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Manfaat Usaha KB Dipandang Dari Segi Kesehatan</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_kb['manfaat_kb_kesehatan']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Akseptor Keluarga Berencana</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_kb['akseptor_kb']) ?></div>
+        </div>
+
+        <div class="subsection-title">Kontrasepsi</div>
+        <div class="field-row">
+            <div class="field-label">Definisi Kontrasepsi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_kb['definisi_kontrasepsi']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Faktor-faktor Pemilihan Metode Kontrasepsi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_kb['faktor_pemilihan_metode_kontrasepsi']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Akseptor KB Menurut Sasaran Pemakaian Kontrasepsi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_kb['akseptor_kb_sasaran_pemakaian']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Syarat-syarat Kontrasepsi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_kb['syarat_kontrasepsi']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Metode Kontrasepsi Jangka Pendek dan Jangka Panjang</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_kb['metode_kontrasepsi_jangka_pendek_panjang']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Jenis Kontrasepsi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($laporan_pendahuluan_kb['jenis_kontrasepsi']) ?></div>
+        </div>
+
+        <h4>B. Daftar Pustaka</h4>
+        <?php if (!empty($laporan_pendahuluan_kb['daftar_pustaka'])): ?>
+            <?php foreach ($laporan_pendahuluan_kb['daftar_pustaka'] as $idx => $pustaka): ?>
+                <div class="field-row">
+                    <div class="field-label"><?= ($idx + 1) ?>.</div>
+                    <div class="field-sep"></div>
+                    <div class="field-value"><?= p($pustaka) ?></div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="field-row">
+                <div class="field-label">Daftar Pustaka</div>
+                <div class="field-sep">:</div>
+                <div class="field-value">-</div>
+            </div>
+        <?php endif; ?>
+
+        <div class="page-break"></div>
+
+        <!-- ================================ -->
+        <!-- SECTION 3: DATA DEMOGRAFI -->
         <!-- ================================ -->
         <h3>Data Demografi</h3>
 
@@ -85,7 +279,7 @@ include 'template_pdf.php';
         </table>
 
         <!-- ================================ -->
-        <!-- SECTION 2: PENGKAJIAN / ANAMNESA -->
+        <!-- SECTION 4: PENGKAJIAN / ANAMNESA -->
         <!-- ================================ -->
         <h3>Pengkajian</h3>
         <h4>Anamnesa</h4>
@@ -168,7 +362,7 @@ include 'template_pdf.php';
         </table>
 
         <!-- ================================ -->
-        <!-- SECTION 3: PEMERIKSAAN UMUM -->
+        <!-- SECTION 5: PEMERIKSAAN UMUM -->
         <!-- ================================ -->
         <h3>Pemeriksaan Umum</h3>
 
@@ -185,7 +379,7 @@ include 'template_pdf.php';
       
 
         <!-- ================================ -->
-        <!-- SECTION 4: PEMERIKSAAN FISIK -->
+        <!-- SECTION 6: PEMERIKSAAN FISIK -->
         <!-- ================================ -->
         <h3>Pemeriksaan Fisik</h3>
 
@@ -487,7 +681,7 @@ include 'template_pdf.php';
         <div class="page-break"></div>
 
         <!-- ================================ -->
-        <!-- SECTION 5: PROGRAM TERAPI & LAB -->
+        <!-- SECTION 7: PROGRAM TERAPI & LAB -->
         <!-- ================================ -->
         <h3>Program Terapi</h3>
 
@@ -542,7 +736,7 @@ include 'template_pdf.php';
         </table>
 
         <!-- ================================ -->
-        <!-- SECTION 6: ANALISA DATA -->
+        <!-- SECTION 8: ANALISA DATA -->
         <!-- ================================ -->
         <h3>Klasifikasi Data</h3>
 
@@ -595,7 +789,7 @@ include 'template_pdf.php';
         <div class="page-break"></div>
 
         <!-- ================================ -->
-        <!-- SECTION 7: CATATAN KEPERAWATAN -->
+        <!-- SECTION 9: CATATAN KEPERAWATAN -->
         <!-- ================================ -->
         <h3>Diagnosa Keperawatan</h3>
 

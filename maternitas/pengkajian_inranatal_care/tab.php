@@ -13,6 +13,7 @@ $titles = [
 ];
 
 $tabs = [
+    "laporan_pendahuluan",
     "umum",
     "riwayat_persalinan",
     "terapi_lab",
@@ -21,6 +22,7 @@ $tabs = [
     "lainnya",
 ];
 $tabLabels = [
+    'laporan_pendahuluan' => 'Laporan Pendahuluan',
     'umum' => 'Data Umum',
     'riwayat_persalinan' => 'Riwayat Persalinan',
     'terapi_lab' => 'Terapi Lab',

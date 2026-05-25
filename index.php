@@ -45,11 +45,12 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/pengkajian_antenatal_care':
 
-                $tab = $tab ?: 'pengkajian';
+                $tab = $tab ?: 'laporan_pendahuluan';
 
                 switch ($tab) {
-
-
+                    case 'laporan_pendahuluan':
+                        include "maternitas/pengkajian_antenatal_care/halm_laporan_pendahuluan.php";
+                        break;
                     case 'data_demografi':
                         include "maternitas/pengkajian_antenatal_care/halm_data_demografi.php";
                         break;
@@ -73,24 +74,8 @@ if (isset($_SESSION['id_user'])) {
                     case 'catatan_keperawatan':
                         include "maternitas/pengkajian_antenatal_care/halm_catatan_keperawatan.php";
                         break;
-
-                    case 'intervensi_keperawatan':
-                        include "maternitas/pengkajian_antenatal_care/halm_tambah_intervensi.php";
-                        break;
-
-                    case 'implementasi_keperawatan':
-                        include "maternitas/pengkajian_antenatal_care/halm_tambah_implementasi.php";
-                        break;
-
-                    case 'evaluasi_keperawatan':
-                        include "maternitas/pengkajian_antenatal_care/halm_tambah_evaluasi.php";
-                        break;
-                    // case 'cetak':       
-                    //     include "maternitas/cetak.php";
-                    //     break;
-
                     default:
-                        include "maternitas/pengkajian_antenatal_care/halm_data_demografi.php";
+                        include "maternitas/pengkajian_antenatal_care/halm_laporan_pendahuluan.php";
                 }
 
                 break;
@@ -100,9 +85,12 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/pengkajian_pascapartum':
 
-                $tab = $tab ?: 'identitas';
+                $tab = $tab ?: 'laporan_pendahuluan';
 
                 switch ($tab) {
+                    case 'laporan_pendahuluan':
+                        include "maternitas/pengkajian_pascapartum/halm_laporan_pendahuluan.php";
+                        break;
                     case 'identitas':
                         include "maternitas/pengkajian_pascapartum/halm_tambah_identitas.php";
                         break;
@@ -148,7 +136,7 @@ if (isset($_SESSION['id_user'])) {
                         break;
 
                     default:
-                        include "maternitas/pengkajian_pascapartum/identitas.php";
+                        include "maternitas/pengkajian_pascapartum/halm_laporan_pendahuluan.php";
                 }
 
                 break;
@@ -158,9 +146,12 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/pengkajian_inranatal_care':
 
-                $tab = $tab ?: 'umum';
+                $tab = $tab ?: 'laporan_pendahuluan';
 
                 switch ($tab) {
+                    case 'laporan_pendahuluan':
+                        include "maternitas/pengkajian_inranatal_care/halm_laporan_pendahuluan.php";
+                        break;
 
                     case 'umum':
                         include "maternitas/pengkajian_inranatal_care/halm_tambah_umum.php";
@@ -182,7 +173,7 @@ if (isset($_SESSION['id_user'])) {
                         include "maternitas/pengkajian_inranatal_care/halm_tambah_lainnya.php";
                         break;
                     default:
-                        include "maternitas/pengkajian_inranatal_care/halm_tambah_umum.php";
+                        include "maternitas/pengkajian_inranatal_care/halm_laporan_pendahuluan.php";
                 }
 
                 break;
@@ -194,9 +185,18 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/resume_antenatal_care':
 
-                $tab = $tab ?: 'identitas';
+                $tab = $tab ?: 'laporan_pendahuluan_anc';
 
                 switch ($tab) {
+
+                    case 'laporan_pendahuluan_anc':
+                        include "maternitas/resume_antenatal_care/halm_laporan_pendahuluan_anc.php";
+                        break;
+
+                    case 'laporan_pendahuluan_kb':
+                        include "maternitas/resume_antenatal_care/halm_laporan_pendahuluan_kb.php";
+                        break;
+                    
                     case 'identitas':
                         include "maternitas/resume_antenatal_care/halm_tambah_identitas.php";
                         break;
@@ -224,7 +224,7 @@ if (isset($_SESSION['id_user'])) {
                         break;
 
                     default:
-                        include "maternitas/resume_antenatal_care/halm_tambah_identitas.php";
+                        include "maternitas/resume_antenatal_care/halm_laporan_pendahuluan_anc.php";
                 }
 
                 break;
@@ -234,9 +234,13 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'maternitas/pengkajian_ginekologi':
 
-                $tab = $tab ?: 'demografi';
+                $tab = $tab ?: 'laporan_pendahuluan';
 
                 switch ($tab) {
+
+                    case 'laporan_pendahuluan':
+                        include "maternitas/pengkajian_ginekologi/halm_laporan_pendahuluan.php";
+                        break;
 
                     case 'demografi':
                         include "maternitas/pengkajian_ginekologi/halm_tambah_demografi.php";
@@ -254,7 +258,7 @@ if (isset($_SESSION['id_user'])) {
                         include "maternitas/pengkajian_ginekologi/halm_tambah_lainnya.php";
                         break;
                     default:
-                        include "maternitas/pengkajian_ginekologi/halm_tambah_demografi.php";
+                        include "maternitas/pengkajian_ginekologi/halm_laporan_pendahuluan.php";
                 }
 
                 break;

@@ -82,7 +82,7 @@ function buildTabUrl($tab, $submission_id)
 <div class="d-flex justify-content-between mt-4">
     <!-- Tombol Sebelumnya -->
     <?php if ($prevTab): ?>
-        <a href="<?= htmlspecialchars(buildTabUrl($prevTab, $submission_id)) ?>" class="btn btn-secondary">
+        <a href="<?= htmlspecialchars(buildTabUrl($prevTab, $submission_id)) ?>" class="btn btn-secondary js-nav-tab" data-nav-type="prev">
             Sebelumnya
         </a>
     <?php else: ?>
@@ -91,7 +91,7 @@ function buildTabUrl($tab, $submission_id)
 
     <!-- Tombol Selanjutnya atau Submit -->
     <?php if ($nextTab): ?>
-        <a href="<?= htmlspecialchars(buildTabUrl($nextTab, $submission_id)) ?>" class="btn btn-primary">
+        <a href="<?= htmlspecialchars(buildTabUrl($nextTab, $submission_id)) ?>" class="btn btn-primary js-nav-tab" data-nav-type="next">
             Selanjutnya
         </a>
     <?php elseif (!empty($can_submit)): ?>
@@ -109,7 +109,61 @@ function buildTabUrl($tab, $submission_id)
 
 <script src="assets/vendor/sweetalert2/package/dist/sweetalert2.all.min.js"></script>
 <script>
+    function autoResizeTextarea(el) {
+        if (!el) return;
+        el.style.height = 'auto';
+        el.style.overflow = 'hidden';
+        el.style.height = el.scrollHeight + 'px';
+    }
+
+    function autoResizeAllTextareas(scope = document) {
+        scope.querySelectorAll('textarea').forEach(autoResizeTextarea);
+    }
     document.addEventListener('DOMContentLoaded', function() {
+        var mainForm = document.querySelector('form.needs-validation[action=""]');
+        var isDirty = false;
+        var initialSnapshot = '';
+
+        function snapshotForm(form) {
+            return new URLSearchParams(new FormData(form)).toString();
+        }
+
+        if (mainForm) {
+            initialSnapshot = snapshotForm(mainForm);
+
+            var markDirty = function() {
+                isDirty = snapshotForm(mainForm) !== initialSnapshot;
+            };
+
+            mainForm.addEventListener('input', markDirty);
+            mainForm.addEventListener('change', markDirty);
+            mainForm.addEventListener('submit', function() {
+                isDirty = false;
+            });
+
+            document.querySelectorAll('.js-nav-tab').forEach(function(link) {
+                link.addEventListener('click', function(e) {
+                    if (!isDirty) return;
+
+                    e.preventDefault();
+                    var targetUrl = link.getAttribute('href');
+
+                    Swal.fire({
+                        title: 'Perubahan belum disimpan',
+                        text: 'Silakan simpan data terlebih dahulu agar perubahan tidak hilang. Apakah Anda tetap ingin melanjutkan ke section lain?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Tetap Pindah',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = targetUrl;
+                        }
+                    });
+                });
+            });
+        }
+
         // SweetAlert confirmation for Approve
         var approveBtn = document.getElementById('btn-approve');
         if (approveBtn) {
@@ -169,5 +223,7 @@ function buildTabUrl($tab, $submission_id)
                 });
             });
         }
+
+        autoResizeAllTextareas();
     });
 </script>

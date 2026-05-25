@@ -16,6 +16,7 @@ $titles = [
 
 // Tab dan label
 $tabs = [
+    "laporan_pendahuluan",
     "demografi",
     "riwayat",
     "pengkajianfisik",
@@ -23,6 +24,7 @@ $tabs = [
     "lainnya"
 ];
 $tabLabels = [
+    'laporan_pendahuluan' => 'Laporan Pendahuluan',
     'demografi' => 'Data Demografi',
     'riwayat' => 'Riwayat Kehamilan dan Kesehatan',
     'pengkajianfisik' => 'Pengkajian Fisik',

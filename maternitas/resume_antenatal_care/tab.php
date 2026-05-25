@@ -2,7 +2,7 @@
 $submission_id = $_GET['submission_id'] ?? null;
 $page = $_GET['page'] ?? '';
 $parts = explode('/', $page);
-$jenismaternitas = $parts[1] ?? 'pengkajian_pascapartum';
+$jenismaternitas = $parts[1] ?? 'resume_antenatal_care';
 
 $titles = [
     'pengkajian_antenatal_care' => 'Pengkajian Asuhan Keperawatan Antenatal Care',
@@ -13,6 +13,8 @@ $titles = [
 ];
 
 $tabs = [
+    "laporan_pendahuluan_anc",
+    "laporan_pendahuluan_kb",
     "identitas",
     "pengkajian_anamnesa",
     "pengkajian_tanda_vital",
@@ -22,6 +24,8 @@ $tabs = [
 ];
 
 $tab_labels = [
+    'laporan_pendahuluan_anc' => 'Laporan Pendahuluan ANC',
+    'laporan_pendahuluan_kb' => 'Laporan Pendahuluan KB',
     'identitas' => 'Identitas',
     'pengkajian_anamnesa' => 'Anamnesa & Antropometri',
     'pengkajian_tanda_vital' => 'TTV & Pemeriksaan Umum',
@@ -39,19 +43,18 @@ $currentTab = $_GET['tab'] ?? $tabs[0];
 <br>
 
 <ul class="nav nav-tabs custom-tabs">
-    <?php
-    // Label mapping for tabs
-
-    $active_tab = $_GET['tab'] ?? $tabs[0];
-    foreach ($tabs as $tab) {
+    <?php foreach ($tabs as $tab):
+        $isActive = ($currentTab == $tab) ? 'active' : '';
         $label = $tab_labels[$tab] ?? ucfirst(str_replace('_', ' ', $tab));
-        $active = $active_tab === $tab ? 'active' : '';
-        $url = "index.php?page=maternitas/resume_antenatal_care&tab=$tab";
-        echo "<li class='nav-item'>";
-        echo "<a class='nav-link $active' href='$url'>$label</a>";
-        echo "</li>";
-    }
+        $url = "index.php?page=maternitas/resume_antenatal_care&tab={$tab}";
+        if ($submission_id) $url .= "&submission_id={$submission_id}";
     ?>
+        <li class="nav-item">
+            <a class="nav-link <?= $isActive ?>" href="<?= htmlspecialchars($url) ?>">
+                <?= htmlspecialchars($label) ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
 </ul>
 
 <style>
