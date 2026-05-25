@@ -62,49 +62,49 @@ document.addEventListener('DOMContentLoaded', function() {
 
      <li class="nav-item">
          <a class="nav-link <?= ($_GET['tab'] ?? 'identitas') == 'identitas' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=identitas">
+             href="index.php?page=gerontik/gerontik&tab=identitas">
              Identitas
          </a>
      </li>
 
      <li class="nav-item">
          <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian-riwayat' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=pengkajian-riwayat">
+             href="index.php?page=gerontik/gerontik&tab=pengkajian-riwayat">
              Pengkajian Riwayat
          </a>
      </li>
 
       <li class="nav-item">
          <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian-fisik' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=pengkajian-fisik">
+             href="index.php?page=gerontik/gerontik&tab=pengkajian-fisik">
              Pengkajian Fisik
          </a>
      </li>
 
       <li class="nav-item">
          <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian-kebiasaan' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=pengkajian-kebiasaan">
+             href="index.php?page=gerontik/gerontik&tab=pengkajian-kebiasaan">
              Pengkajian Kebiasaan
          </a>
      </li>
 
       <li class="nav-item">
          <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian-psikis' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=pengkajian-psikis">
+             href="index.php?page=gerontik/gerontik&tab=pengkajian-psikis">
              Pengkajian Psikis
          </a>
      </li>
 
      <li class="nav-item">
          <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian-depresi' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=pengkajian-depresi">
+             href="index.php?page=gerontik/gerontik&tab=pengkajian-depresi">
              Pengkajian Depresi
          </a>
      </li>
 
       <li class="nav-item">
          <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian-lanjutan' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=pengkajian-lanjutan">
+             href="index.php?page=gerontik/gerontik&tab=pengkajian-lanjutan">
              Pengkajian Lanjutan
          </a>
      </li>
@@ -112,35 +112,35 @@ document.addEventListener('DOMContentLoaded', function() {
      
      <li class="nav-item">
          <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa_keperawatan' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=diagnosa_keperawatan">
+             href="index.php?page=gerontik/gerontik&tab=diagnosa_keperawatan">
              Diagnosa Keperawatan
          </a>
      </li>
 
      <li class="nav-item">
          <a class="nav-link <?= ($_GET['tab'] ?? '') == 'rencana' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=rencana">
+             href="index.php?page=gerontik/gerontik&tab=rencana">
              Rencana Keperawatan
          </a>
      </li>
 
      <li class="nav-item">
          <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi_keperawatan' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=implementasi_keperawatan">
+             href="index.php?page=gerontik/gerontik&tab=implementasi_keperawatan">
              Implementasi Keperawatan
          </a>
      </li>
 
      <li class="nav-item">
          <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi_keperawatan' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=evaluasi_keperawatan">
+             href="index.php?page=gerontik/gerontik&tab=evaluasi_keperawatan">
              Evaluasi keperawatan
          </a>
      </li>
 
      <li class="nav-item">
          <a class="nav-link <?= ($_GET['tab'] ?? '') == 'sap' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=sap">
+             href="index.php?page=gerontik/gerontik&tab=sap">
              Format SAP
          </a>
      </li>

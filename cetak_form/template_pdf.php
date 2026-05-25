@@ -40,6 +40,8 @@ function cetakGambar($path)
 <head>
     <meta charset="UTF-8">
     <style>
+
+        
         body {
             font-family: Arial, sans-serif;
             font-size: 10px;
@@ -200,5 +202,6 @@ function cetakGambar($path)
             margin-left: 2cm;
             margin-right: 2cm;
         }
+ -
     </style>
 </head>

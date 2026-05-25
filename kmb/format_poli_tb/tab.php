@@ -13,11 +13,13 @@ $titles = [
     'format_poli_tb' => 'Format Poli Tb/Umum ',
 ];
 $tabs = [
+    'laporan_pendahuluan',
     'resume',
     'analisa',
     'lainnya',
 ];
 $tabLabels = [
+    'laporan_pendahuluan'=> 'Laporan Pendahuluan',
     'resume' => 'Format Resume Keperawatan',
     'analisa' => 'Analisa Data',
     'lainnya' => 'Lainnya',

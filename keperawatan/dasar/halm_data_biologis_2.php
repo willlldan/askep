@@ -1,29 +1,8 @@
 <?php
-$form_id       = 10;
+$form_id       = 20;
 $section_name  = 'data_biologis_2';
 $section_label = 'Data Biologis 2';
-
-if ($level === 'Dosen') {
-    $submission_id_param = $_GET['submission_id'] ?? null;
-    if (!$submission_id_param) {
-        echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
-        exit;
-    }
-    $stmt = $mysqli->prepare("
-        SELECT s.*, r.nama as dosen_name
-        FROM submissions s
-        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
-        WHERE s.id = ?
-    ");
-    $stmt->bind_param("i", $submission_id_param);
-    $stmt->execute();
-    $submission = $stmt->get_result()->fetch_assoc();
-} else {
-    $submission = getSubmission($user_id, $form_id, $mysqli);
-}
-
-$existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
-$section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
+include dirname(__DIR__, 2) . '/partials/init_section.php';
 
 // Decode checkbox fields
 $checkbox_fields = ['bunyi_tambahan', 'bentuk_abdomen', 'keadaan_abdomen'];
@@ -33,11 +12,6 @@ foreach ($checkbox_fields as $cf) {
         : [];
 }
 
-$is_dosen    = $level === 'Dosen';
-$is_readonly = $is_dosen || isLocked($submission);
-$ro          = $is_readonly ? 'readonly' : '';
-$ro_disabled = $is_readonly ? 'disabled' : '';
-
 // =============================================
 // HANDLE POST - MAHASISWA
 // =============================================
@@ -45,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     if (isLocked($submission)) {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
-    $text_fields = ['bentuk_dada', 'pengembangan_dada', 'perbandingan_dada', 'otot_pernafasan', 'frekuensi_nafas', 'teratur_nafas', 'irama_nafas', 'suara_nafas', 'sesak_nafas', 'taktil_fremitus', 'perkusi_paru', 'suara_nafas_uraian', 'bunyi_abnormal', 'abnormal', 's1_jantung', 's2_jantung', 'bunyi_jantung', 'pulsasi_jantung', 'irama_jantung', 'bising_usus', 'bising_usus_kali', 'benjolan_abdomen', 'benjolan_letak', 'nyeri_abdomen', 'nyeri_letak', 'perkusi_abdomen', 'kelainan_abdomen', 'bentuk_genetalia', 'radang_genetalia', 'sekret_genetalia', 'skrotum_bengkak', 'rektum_benjolan', 'lesi_genetalia', 'kelainan_genetalia', 'atas_simetris', 'sensasi_halus', 'sensasi_tajam', 'sensasi_panas', 'sensasi_dingin', 'rom_atas', 'refleks_bisep', 'refleks_trisep', 'pembengkakan_atas', 'kelembaban_atas', 'temperatur_atas', 'kelembaban_kulit', 'otot_tangan_kanan', 'otot_tangan_kiri', 'kelainan_ekstremitas_atas', 'bawah_simetris', 'bawah_sensasi_halus', 'bawah_sensasi_tajam', 'bawah_sensasi_panas', 'bawah_sensasi_dingin', 'rom_bawah', 'refleks_babinski', 'varises_bawah', 'pembengkakan_bawah', 'kelembaban_bawah', 'temperatur_bawah', 'otot_kaki_kanan', 'otot_kaki_kiri', 'kelainan_ekstremitas_bawah', 'warna_kulit', 'turgor_kulit', 'edema_kulit', 'pada_daerah', 'luka_kulit', 'karakteristik_luka', 'tekstur_kulit', 'kelainan_kulit', 'clubbing_finger', 'capillary_refill_time', 'nervus1_penciuman', 'nervus2_penglihatan', 'konstriksi_pupil', 'gerakan_kelopak', 'gerakan_bola_mata', 'gerakan_mata_bawah', 'refleks_dagu', 'refleks_cornea', 'pengecapan_depan', 'fungsi_pendengaran', 'refleks_menelan', 'refleks_muntah', 'pengecapan_belakang', 'suara_pasien', 'gerakan_kepala', 'angkat_bahu', 'deviasi_lidah', 'kaku_kuduk', 'kernig_sign', 'refleks_brudzinski'];
+    $text_fields = ['lab','bunyi_tambahan_jantung','kelainan_jantung','terdapat_pada_s2','terdapat_pada_s1','kelainan_paru','bentuk_dada', 'pengembangan_dada', 'perbandingan_dada', 'otot_pernafasan', 'frekuensi_nafas', 'teratur_nafas', 'irama_nafas', 'suara_nafas', 'sesak_nafas', 'taktil_fremitus', 'perkusi_paru', 'suara_nafas_uraian', 'bunyi_abnormal', 'abnormal', 's1_jantung', 's2_jantung', 'bunyi_jantung', 'pulsasi_jantung', 'irama_jantung', 'bising_usus', 'bising_usus_kali', 'benjolan_abdomen', 'benjolan_letak', 'nyeri_abdomen', 'nyeri_letak', 'perkusi_abdomen', 'kelainan_abdomen', 'bentuk_genetalia', 'radang_genetalia', 'sekret_genetalia', 'skrotum_bengkak', 'rektum_benjolan', 'lesi_genetalia', 'kelainan_genetalia', 'atas_simetris', 'sensasi_halus', 'sensasi_tajam', 'sensasi_panas', 'sensasi_dingin', 'rom_atas', 'refleks_bisep', 'refleks_trisep', 'pembengkakan_atas', 'kelembaban_atas', 'temperatur_atas', 'kelembaban_kulit', 'otot_tangan_kanan', 'otot_tangan_kiri', 'kelainan_ekstremitas_atas', 'bawah_simetris', 'bawah_sensasi_halus', 'bawah_sensasi_tajam', 'bawah_sensasi_panas', 'bawah_sensasi_dingin', 'rom_bawah', 'refleks_babinski', 'varises_bawah', 'pembengkakan_bawah', 'kelembaban_bawah', 'temperatur_bawah', 'otot_kaki_kanan', 'otot_kaki_kiri', 'kelainan_ekstremitas_bawah', 'warna_kulit', 'turgor_kulit', 'edema_kulit', 'pada_daerah', 'luka_kulit', 'karakteristik_luka', 'tekstur_kulit', 'kelainan_kulit', 'clubbing_finger', 'capillary_refill_time', 'nervus1_penciuman', 'nervus2_penglihatan', 'konstriksi_pupil', 'gerakan_kelopak', 'gerakan_bola_mata', 'gerakan_mata_bawah', 'refleks_dagu', 'refleks_cornea', 'pengecapan_depan', 'fungsi_pendengaran', 'refleks_menelan', 'refleks_muntah', 'pengecapan_belakang', 'suara_pasien', 'gerakan_kepala', 'angkat_bahu', 'deviasi_lidah', 'kaku_kuduk', 'kernig_sign', 'refleks_brudzinski'];
     $data = [];
     foreach ($text_fields as $f) {
         $data[$f] = $_POST[$f] ?? '';
@@ -62,31 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     updateSubmissionStatus($submission_id, $form_id, $mysqli);
     redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
 }
-
-// =============================================
-// HANDLE POST - DOSEN
-// =============================================
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
-    $submission_id = $submission['id'];
-    $dosen_id      = $user_id;
-    $action        = $_POST['action'] ?? '';
-    $comment       = $_POST['comment'] ?? '';
-    if ($action === 'approve') {
-        updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
-        if (!empty($comment)) saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-    } elseif ($action === 'revision') {
-        if (empty($comment)) redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
-        updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
-        saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-    }
-    updateReviewer($submission_id, $dosen_id, $mysqli);
-    updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
-    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
-}
-
-$comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
 ?>
-
 <main id="main" class="main">
     <?php include "keperawatan/dasar/tab.php"; ?>
 
@@ -299,24 +249,37 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     <div class="row mb-2">
                         <label class="col-sm-12 text-primary"><strong>c. Jantung</strong></label>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-2 col-form-label">
-                            <strong>S1</strong>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="s1_jantung" value="<?= htmlspecialchars($existing_data['s1_jantung'] ?? '') ?>" <?= $ro ?>>
+                  <!-- Baris S1 -->
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>S1</strong>
+    </div>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="s1_jantung" value="<?= htmlspecialchars($existing_data['s1_jantung'] ?? '') ?>" <?= $ro ?>>
+    </div>
+    <div class="col-sm-2 col-form-label">
+        <strong>Terdapat pada</strong>
+    </div>
+    <div class="col-sm-3">
+        <input type="text" class="form-control" name="terdapat_pada_s1" value="<?= htmlspecialchars($existing_data['terdapat_pada_s1'] ?? '') ?>" <?= $ro ?>>
+    </div>
+</div>
 
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-2 col-form-label">
-                            <strong>S2</strong>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="s2_jantung" value="<?= htmlspecialchars($existing_data['s2_jantung'] ?? '') ?>" <?= $ro ?>>
-
-                        </div>
-                    </div>
+<!-- Baris S2 -->
+<div class="row mb-3">
+    <div class="col-sm-2 col-form-label">
+        <strong>S2</strong>
+    </div>
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="s2_jantung" value="<?= htmlspecialchars($existing_data['s2_jantung'] ?? '') ?>" <?= $ro ?>>
+    </div>
+    <div class="col-sm-2 col-form-label">
+        <strong>Terdapat pada</strong>
+    </div>
+    <div class="col-sm-3">
+        <input type="text" class="form-control" name="terdapat_pada_s2" value="<?= htmlspecialchars($existing_data['terdapat_pada_s2'] ?? '') ?>" <?= $ro ?>>
+    </div>
+</div>
                     <div class="row mb-2">
                         <div class="col-sm-2"><strong>Bunyi Teratur</strong>
                         </div>
@@ -335,26 +298,27 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="row mb-2">
+            <div class="row mb-2">
                         <div class="col-sm-2"><strong>Bunyi Tambahan</strong>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bunyi_tambahan[]" value="murmur" id="cb_bunyi_tambahan_murmur" <?= $ro_disabled ?> <?= in_array('murmur', (array)($existing_data['bunyi_tambahan'] ?? [])) ? 'checked' : '' ?>>
-                                <label class="form-check-label">Murmur</label>
+                                <input class="form-check-input" type="radio" name="bunyi_tambahan_jantung" value="murmur" id="cb_bunyi_tambahan_murmur" <?= $ro_disabled ?> <?= ($existing_data['bunyi_tambahan_jantung'] ?? '') === 'murmur' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="cb_bunyi_tambahan_murmur">Murmur</label>
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bunyi_tambahan[]" value="tidak" id="cb_bunyi_tambahan_tidak" <?= $ro_disabled ?> <?= in_array('tidak', (array)($existing_data['bunyi_tambahan'] ?? [])) ? 'checked' : '' ?>>
-                                <label class="form-check-label">Tidak</label>
+                                <input class="form-check-input" type="radio" name="bunyi_tambahan_jantung" value="tidak" id="cb_bunyi_tambahan_tidak" <?= $ro_disabled ?> <?= ($existing_data['bunyi_tambahan_jantung'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="cb_bunyi_tambahan_tidak">Tidak</label>
                             </div>
                         </div>
                     </div>
+
+                   <div class="row mb-2">
+
                     <div class="row mb-3">
                         <div class="col-sm-2 col-form-label">
                             <strong>Pulsasi Jantung</strong>
@@ -875,7 +839,8 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     <div class="row mb-3">
 
                         <div class="row mb-2">
-                            <label class="col-sm-12"><strong>12. Ekstremitas Bawah</strong></label>
+                            <label class="col-sm-12 text-primary
+                            "><strong>12. Ekstremitas Bawah</strong></label>
                         </div>
 
                         <div class="row mb-2">

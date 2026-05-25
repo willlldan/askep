@@ -227,7 +227,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                                 <th class="text-center" width="40">No</th>
                                 <th class="text-center">Jenis Obat</th>
                                 <th class="text-center">Dosis</th>
-                                <th class="text-center">Kegunaan</th>
+                                <th class="text-center">Manfaat</th>
                                 <th class="text-center">Cara Pemberian</th>
                                 <th class="text-center" width="60">Aksi</th>
                             </tr>
@@ -390,7 +390,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                     <td>
                         <input type="text"
                             class="form-control form-control-sm"
-                            name="obat[${rowObatCount}][kegunaan]"
+                            name="obat[${rowObatCount}][[P]]"
                             value="${data.kegunaan ?? ''}"
                             ${isReadonly ? 'readonly' : ''}>
                     </td>

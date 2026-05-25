@@ -2,37 +2,34 @@
 $submission_id = $_GET['submission_id'] ?? null;
 $page = $_GET['page'] ?? '';
 $parts = explode('/', $page);
-$jeniskeperawatan = $parts[1] ?? 'dasar';
+$jenisgadar = $parts[1] ?? 'format_icu';
 $titles = [
-    'dasar' => 'Askep Keperawatan Dasar',
+    'format_icu' => 'Askep Keperawatan Ruang ICU',
+    'format_igd' => 'Pengkajian Keperawatan Ruang IGD',
     
 ];
 $tabs = [
-    'resume_keperawatan',
-    'analisa_resume',
-    'lainnya_resume',
+    'laporan_pendahuluan',
     'pengkajian',
-    'data_biologis_1',
-    'data_biologis_2',
-    'klasifikasi_analisa_data',
+    'pemeriksaan_fisik',
+    'pemeriksaan_penunjang',
+    'analisa_data',
     'lainnya',
    
 ];
 $tabLabels = [
-    'resume_keperawatan' => 'Format Resume ',
-    'analisa_resume' => 'Analisa Resume',
-    'lainnya_resume' => 'Lainnya Resume',
+    'laporan_pendahuluan' => 'Laporan Pendahuluan ',
     'pengkajian' => 'Pengkajian',
-    'data_biologis_1' => 'Data Biologis 1',
-    'data_biologis_2' => 'Data Biologis 2',
-    'klasifikasi_analisa_data' => 'Klasifikasi Analisa Data',
+    'pemeriksaan_fisik' => 'Pemeriksaan Fisik',
+    'pemeriksaan_penunjang' => 'Pemeriksaan Penunjang',
+    'analisa_data' => 'Analisa Data',
     'lainnya' => 'Lainnya',
 ];
 $currentTab = $_GET['tab'] ?? $tabs[0];
 ?>
 
 <div class="pagetitle">
-    <h1><strong><?= $titles[$jeniskeperawatan] ?? 'Askep Keperawatan Dasar' ?></strong></h1>
+    <h1><strong><?= $titles[$jenisgadar] ?? 'Askep Keperawatan Ruang ICU' ?></strong></h1>
 </div>
 <br>
 <ul class="nav nav-tabs custom-tabs">
@@ -40,7 +37,7 @@ $currentTab = $_GET['tab'] ?? $tabs[0];
     foreach ($tabs as $tab):
         $isActive = ($currentTab == $tab) ? 'active' : '';
         $label = $tabLabels[$tab] ?? ucfirst(str_replace('_', ' ', $tab));
-        $url = "index.php?page=keperawatan/dasar&tab={$tab}";
+        $url = "index.php?page=gadar/icu&tab={$tab}";
         if ($submission_id) $url .= "&submission_id={$submission_id}";
     ?>
         <li class="nav-item">

@@ -105,6 +105,15 @@ switch ($form_name) {
     case 'format_poli_tb':
         include 'template_pdf_poli_tb.php';
         break;
+    case 'dasar':
+        include 'template_pdf_keperawatan_dasar.php';
+        break;
+    case 'icu':
+        include 'template_pdf_icu.php';
+        break;
+    case 'igd':
+        include 'template_pdf_igd.php';
+        break;
     default:
         include 'template_pdf_format_resume.php';
         break;

@@ -6,7 +6,7 @@ $form_id       = 20;
 $level         = $_SESSION['level'];
 $user_id       = $_SESSION['id_user'];
 $section_name  = 'resume_keperawatan';
-$section_label = 'Format Resume Keperawatan Poli Anak';
+$section_label = 'Format Resume Keperawatan';
 
 // =============================================
 // DOSEN: ambil submission berdasarkan ?submission_id=
@@ -168,10 +168,13 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                                 value="<?= htmlspecialchars($rs_ruangan) ?>" <?= $ro ?> required>
                         </div>
                     </div>
+            </div>
+        </div>
 
                                 
         <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
+   <div class="card mt-3">
+            <div class="card-body">
             <h5 class="card-title"><strong>Format Resume Keperawatan</strong></h5>
 
 
@@ -182,7 +185,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
             <!-- Nama Anak -->
             <div class="row mb-3">
-                <label class="col-sm-2 col-form-label"><strong>Nama Anak</strong></label>
+                <label class="col-sm-2 col-form-label"><strong>Nama Klien</strong></label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="nama_anak"
                     value="<?= val('nama_anak', $existing_data) ?>" <?= $ro ?>></div>
@@ -405,6 +408,8 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
                 </form>
             </div>
+        </div>
+        </div>
         </div>
 
         <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
