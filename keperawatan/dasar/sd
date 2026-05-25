@@ -1,0 +1,42 @@
+<?php
+$form_id       = 20;
+$section_name  = 'identitas';
+$section_label = 'Identitas';
+include dirname(__DIR__, 2) . '/partials/init_section.php';
+
+// Decode checkbox fields
+$checkbox_fields = ['bau_mulut'];
+foreach ($checkbox_fields as $cf) {
+    $existing_data[$cf] = isset($existing_data[$cf])
+        ? (json_decode($existing_data[$cf], true) ?? [])
+        : [];
+}
+
+// =============================================
+// HANDLE POST - MAHASISWA
+// =============================================
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
+    if (isLocked($submission)) {
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
+    }
+    $data = [];
+    $text_fields = ['bentuk_kepala', 'nyeridada', 'benjolan_kepala', 'penyebaran_merata', 'warna_rambut', 'rambut_dicabut', 'kelainan_rambut', 'ekspresi_wajah', 'simetris_wajah', 'udema_wajah', 'kelainan_wajah', 'penglihatan', 'visus_kanan', 'visus_kiri', 'lapang_pandang', 'keadaan_mata', 'konjungtiva', 'lesi_mata', 'sclera', 'pupil', 'bola_mata', 'kelainan_mata', 'pendengaran_kiri', 'pendengaran_kanan', 'nyeri_Kiri', 'nyeri_kanan', 'serumen', 'kelainan_telinga', 'bau', 'sekresi', 'warna_hidung', 'mukosa_hidung', 'pembengkakan', 'cuping_hidung', 'kelainan_hidung', 'bibir', 'simetris', 'kelembaban', 'caries', 'jumlah_gigi', 'warna_gigi', 'gigi_palsu_jumlah', 'letak', 'lidah', 'lesi_lidah', 'panas/dingin', 'asampahit', 'manis', 'refleks', 'tonsil', 'sekret_mulut', 'sekret_mulut_warna', 'leher_simetris', 'kelenjar', 'jvp', 'refleks_menelan', 'kelainan_leher'];
+    foreach ($text_fields as $f) {
+        $data[$f] = $_POST[$f] ?? '';
+    }
+    $checkbox_fields = ['bau_mulut'];
+    foreach ($checkbox_fields as $cf) {
+        $data[$cf] = json_encode(isset($_POST[$cf]) ? (array)$_POST[$cf] : []);
+    }
+
+    if (!$submission) {
+        $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
+    } else {
+        $submission_id = $submission['id'];
+    }
+    saveSection($submission_id, $section_name, $section_label, $data, $mysqli);
+    updateSubmissionStatus($submission_id, $form_id, $mysqli);
+    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
+}
+
+?>
