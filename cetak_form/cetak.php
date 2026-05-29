@@ -87,6 +87,9 @@ switch ($form_name) {
     case 'resume_antenatal_care':
         include 'template_pdf_resume_anc.php';
         break;
+    case 'askep_gerontik':
+        include 'template_pdf_gerontik.php';
+        break;
     case 'format_kmb':
         include 'template_pdf_kmb.php';
         break;

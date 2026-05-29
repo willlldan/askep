@@ -1,5 +1,37 @@
- <?php $username = $_SESSION['username'];
-    $identitas_result = $mysqli->query("SELECT id, nama, tempat_lahir, tgl_lahir FROM tbl_gerontik_identitas WHERE created_by = '$username' ORDER BY created_at DESC"); ?>
+<?php
+$username = $_SESSION['username'];
+$selected_id = $_GET['idpasien'] ?? '';
+$currentTab = $_GET['tab'] ?? 'identitas';
+$tabs = [
+    'identitas',
+    'pengkajian-riwayat',
+    'pengkajian-fisik',
+    'pengkajian-kebiasaan',
+    'pengkajian-psikis',
+    'pengkajian-depresi',
+    'pengkajian-lanjutan',
+    'diagnosa_keperawatan',
+    'rencana',
+    'implementasi_keperawatan',
+    'evaluasi_keperawatan',
+    'sap',
+];
+$tabLabels = [
+    'identitas' => 'Identitas',
+    'pengkajian-riwayat' => 'Pengkajian Riwayat',
+    'pengkajian-fisik' => 'Pengkajian Fisik',
+    'pengkajian-kebiasaan' => 'Pengkajian Kebiasaan',
+    'pengkajian-psikis' => 'Pengkajian Psikis',
+    'pengkajian-depresi' => 'Pengkajian Depresi',
+    'pengkajian-lanjutan' => 'Pengkajian Lanjutan',
+    'diagnosa_keperawatan' => 'Diagnosa Keperawatan',
+    'rencana' => 'Rencana Keperawatan',
+    'implementasi_keperawatan' => 'Implementasi Keperawatan',
+    'evaluasi_keperawatan' => 'Evaluasi Keperawatan',
+    'sap' => 'Format SAP',
+];
+$identitas_result = $mysqli->query("SELECT id, nama, tempat_lahir, tgl_lahir FROM tbl_gerontik_identitas WHERE created_by = '$username' ORDER BY created_at DESC");
+?>
 
 <!-- Overlay & Script for Section Dashboard (Reusable) -->
 <style>
@@ -52,100 +84,28 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
- <div class="pagetitle">
-     <h1><strong>Asuhan Keperawatan Gerontik</strong></h1>
- </div><!-- End Page Title -->
- <br>
+<div class="pagetitle">
+    <h1><strong>Asuhan Keperawatan Gerontik</strong></h1>
+</div>
+<br>
 
-
- <ul class="nav nav-tabs custom-tabs">
-
-     <li class="nav-item">
-         <a class="nav-link <?= ($_GET['tab'] ?? 'identitas') == 'identitas' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=identitas">
-             Identitas
-         </a>
-     </li>
-
-     <li class="nav-item">
-         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian-riwayat' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=pengkajian-riwayat">
-             Pengkajian Riwayat
-         </a>
-     </li>
-
-      <li class="nav-item">
-         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian-fisik' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=pengkajian-fisik">
-             Pengkajian Fisik
-         </a>
-     </li>
-
-      <li class="nav-item">
-         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian-kebiasaan' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=pengkajian-kebiasaan">
-             Pengkajian Kebiasaan
-         </a>
-     </li>
-
-      <li class="nav-item">
-         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian-psikis' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=pengkajian-psikis">
-             Pengkajian Psikis
-         </a>
-     </li>
-
-     <li class="nav-item">
-         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian-depresi' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=pengkajian-depresi">
-             Pengkajian Depresi
-         </a>
-     </li>
-
-      <li class="nav-item">
-         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian-lanjutan' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=pengkajian-lanjutan">
-             Pengkajian Lanjutan
-         </a>
-     </li>
-
-     
-     <li class="nav-item">
-         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'diagnosa_keperawatan' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=diagnosa_keperawatan">
-             Diagnosa Keperawatan
-         </a>
-     </li>
-
-     <li class="nav-item">
-         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'rencana' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=rencana">
-             Rencana Keperawatan
-         </a>
-     </li>
-
-     <li class="nav-item">
-         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'implementasi_keperawatan' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=implementasi_keperawatan">
-             Implementasi Keperawatan
-         </a>
-     </li>
-
-     <li class="nav-item">
-         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'evaluasi_keperawatan' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=evaluasi_keperawatan">
-             Evaluasi keperawatan
-         </a>
-     </li>
-
-     <li class="nav-item">
-         <a class="nav-link <?= ($_GET['tab'] ?? '') == 'sap' ? 'active' : '' ?>"
-             href="index.php?page=gerontik&tab=sap">
-             Format SAP
-         </a>
-     </li>
-
- </ul>
+<ul class="nav nav-tabs custom-tabs">
+    <?php foreach ($tabs as $tab): ?>
+        <?php
+        $isActive = ($currentTab === $tab) ? 'active' : '';
+        $label = $tabLabels[$tab] ?? ucfirst(str_replace('_', ' ', $tab));
+        $url = "index.php?page=gerontik&tab={$tab}";
+        if (!empty($selected_id)) {
+            $url .= "&idpasien={$selected_id}";
+        }
+        ?>
+        <li class="nav-item">
+            <a class="nav-link js-nav-tab <?= $isActive ?>" href="<?= htmlspecialchars($url) ?>">
+                <?= htmlspecialchars($label) ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
+</ul>
 
  <style>
      .custom-tabs {
@@ -173,15 +133,13 @@ document.addEventListener('DOMContentLoaded', function() {
      }
  </style>
 
-<?php if (($_GET['tab'] ?? 'identitas') !== 'identitas'): ?>
+<?php if ($currentTab !== 'identitas'): ?>
 <div class="card">
         <div class="card-body">
                 <!-- Dropdown Identitas Pasien -->
                 <div class="row mb-3 mt-3">
                         <label class="col-sm-2 col-form-label"><strong>Identitas Pasien</strong></label>
                         <div class="col-sm-9">
-                                <?php $selected_id = $_GET['idpasien'] ?? ''; ?>
-                                <?= "ini adalah $selected_id" ?>
                                 <select id="identitasDropdown" name="identitas_id" class="form-control" required>
                                         <option value="">Pilih Satu</option>
                                         <?php while ($row = $identitas_result->fetch_assoc()): ?>
