@@ -62,9 +62,9 @@ $data = [
 
     // c. Persyarafan (B3: Brain)
     'kesadaran'                  => $_POST['kesadaran']                  ?? '',
-    'gcs_e'                      => $_POST['gcs_e']                      ?? '',
-    'gcs_m'                      => $_POST['gcs_m']                      ?? '',
-    'gcs_v'                      => $_POST['gcs_v']                      ?? '',
+    'e'                      => $_POST['e']                      ?? '',
+    'm'                      => $_POST['m']                      ?? '',
+    'v'                      => $_POST['v']                      ?? '',
     'kejang'                     => $_POST['kejang']                     ?? '',
     'kepala'                     => $_POST['kepala']                     ?? '',
     'wajah'                      => $_POST['wajah']                      ?? '',
@@ -79,7 +79,7 @@ $data = [
     'pendengaran_kanan'          => $_POST['pendengaran_kanan']          ?? '',
     'penciuman'                 => $_POST['penciuman']                 ?? '',
 'pengecapan'                 => $_POST['pengecapan']                 ?? '',
-    'penglihatan_kiri'           => $_POST['pengpenglihatan_kiri']       ?? '', // Menyesuaikan typo input name di HTML kamu: name="pengpenglihatan_kiri"
+    'penglihatan_kiri'           => $_POST['penglihatan_kiri']       ?? '', // Menyesuaikan typo input name di HTML kamu: name="pengpenglihatan_kiri"
     'penglihatan_kanan'          => $_POST['penglihatan_kanan']          ?? '',
     'alatbantu'                  => $_POST['alatbantu']                  ?? '',
     'perabaan_panas'             => $_POST['perabaan_panas']             ?? '',
@@ -157,6 +157,7 @@ $data = [
     'dukungankel'                => $_POST['dukungankel']                ?? '',
     'hubunganklien'              => $_POST['hubunganklien']              ?? '',
     'menungguklien'              => $_POST['menungguklien']              ?? '',
+    'hidung_lainlain'              => $_POST['hidung_lainlain']              ?? '',
 ];
  $checkbox_fields = ['mulutdantenggorokan'];
     foreach ($checkbox_fields as $cf) {
@@ -244,13 +245,29 @@ $data = [
         </div>
     </div>
 
-    <div class="col-sm-2">
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="hidung" value="lainlain" <?= ($existing_data['hidung'] ?? '') === 'lainlain' ? 'checked' : '' ?> <?= $ro_disabled ?>>
-            <label class="form-check-label">Lain-lain</label>
-        </div>
+   <div class="col-sm-4"> <div class="form-check">
+        <input class="form-check-input" type="radio" name="hidung" id="radio_lainlain" value="lainlain" 
+            <?= ($existing_data['hidung'] ?? '') === 'lainlain' ? 'checked' : '' ?> <?= $ro_disabled ?>>
+        <label class="form-check-label" for="radio_lainlain">Lain-lain</label>
+
+        <input type="text" 
+               class="form-control form-control-sm mt-2 input-lain-lain" 
+               name="hidung_lainlain" 
+               placeholder="Sebutkan lainnya..." 
+               value="<?= htmlspecialchars($existing_data['hidung_lainlain'] ?? '') ?>" 
+               <?= $ro_disabled ?>>
     </div>
 </div>
+<style>
+    /* Sembunyikan input teks secara default */
+    .input-lain-lain {
+        display: none;
+    }
+    /* Tampilkan input teks jika radio dengan value 'lainlain' dicentang */
+    input[value="lainlain"]:checked ~ .input-lain-lain {
+        display: inline-block;
+    }
+</style>
 
 <div class="row mb-2">
     <div class="col-sm-2">
@@ -454,7 +471,7 @@ $data = [
 
 <div class="row mb-2">
     <div class="col-sm-2">
-        <strong>Suara Tambahan Napas</strong>
+        <strong>Suara Napas Tambahan </strong>
     </div> 
 
     <div class="col-sm-2">
@@ -695,12 +712,7 @@ $data = [
             </div>
         </div>
 
-        <div class="row mt-2">
-            <div class="col-sm-12">
-                <label><strong>Sebutkan</strong></label>
-                <input type="text" class="form-control" name="sebutkanedema" value="<?= htmlspecialchars($existing_data['sebutkanedema'] ?? '') ?>" <?= $ro ?>>
-            </div>
-        </div>
+        
     </div> 
 </div>
                                                       
@@ -711,29 +723,48 @@ $data = [
 </div>   
 
 <div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Kesadaran</strong></label>
+    <label class="col-sm-2 col-form-label"><strong>Glasgow Coma Scale (GCS)</strong></label>
     <div class="col-sm-10">
-        <input type="text" class="form-control" name="kesadaran" value="<?= htmlspecialchars($existing_data['kesadaran'] ?? '') ?>" <?= $ro ?>>
+        <div class="row">
+            <div class="col-md-4 d-flex align-items-center">
+                <label class="me-2"><strong>E</strong></label>
+                <input type="text" class="form-control" name="e" value="<?= htmlspecialchars($existing_data['e'] ?? '') ?>" <?= $ro ?>>
+            </div>
+            <div class="col-md-4 d-flex align-items-center">
+                <label class="me-2"><strong>M</strong></label>
+                <input type="text" class="form-control" name="m" value="<?= htmlspecialchars($existing_data['m'] ?? '') ?>" <?= $ro ?>>
+            </div>
+            <div class="col-md-4 d-flex align-items-center">
+                <label class="me-2"><strong>V</strong></label>
+                <input type="text" class="form-control" name="v" value="<?= htmlspecialchars($existing_data['v'] ?? '') ?>" <?= $ro ?>>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Glasgow Coma Scale (GCS)</strong></label>
-    <div class="col-sm-10">
-        <div class="row">
-            <div class="col-md-4 d-flex align-items-center mb-2 mb-md-0">
-                <label class="me-2"><strong>E</strong></label>
-                <input type="text" class="form-control" name="gcs_e" value="<?= htmlspecialchars($existing_data['gcs_e'] ?? '') ?>" <?= $ro ?>>
+    <label class="col-sm-2 col-form-label"><strong>Tingkat Kesadaran</strong></label>
+    <div class="col-sm-9">
+        <?php
+        $kesadaran_options = ['Kompos Mentis', 'Apatis', 'Somnolent', 'Stupor / Suppor', 'Semikoma', 'Koma'];
+        $kesadaran_values  = ['Kompos Mentis', 'Apatis', 'Somnolent', 'Stupor', 'Semikoma', 'Koma'];
+        
+        // Asumsi $existing_data berisi nilai tunggal yang tersimpan
+        $selected_val = val('kesadaran', $existing_data); 
+
+        foreach ($kesadaran_options as $i => $label):
+            $val = $kesadaran_values[$i];
+        ?>
+            <div class="form-check-inline">
+                <input class="form-check-input" type="radio" 
+                    name="kesadaran" 
+                    id="kesadaran_<?= $i ?>" 
+                    value="<?= $val ?>" 
+                    <?= ($val === $selected_val) ? 'checked' : '' ?> 
+                    <?= $ro_check ?>>
+                <label class="form-check-label" for="kesadaran_<?= $i ?>"><?= $label ?></label>
             </div>
-            <div class="col-md-4 d-flex align-items-center mb-2 mb-md-0">
-                <label class="me-2"><strong>M</strong></label>
-                <input type="text" class="form-control" name="gcs_m" value="<?= htmlspecialchars($existing_data['gcs_m'] ?? '') ?>" <?= $ro ?>>
-            </div>
-            <div class="col-md-4 d-flex align-items-center">
-                <label class="me-2"><strong>V</strong></label>
-                <input type="text" class="form-control" name="gcs_v" value="<?= htmlspecialchars($existing_data['gcs_v'] ?? '') ?>" <?= $ro ?>>
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 </div>
 
@@ -1248,8 +1279,8 @@ $data = [
     <div class="col-sm-4">
         <select class="form-select" name="anjuranpuasa" <?= $ro_disabled ?>>
             <option value="">Pilih</option>
-            <option value="Terpasang" <?= ($existing_data['anjuranpuasa'] ?? '') === 'Terpasang' ? 'selected' : '' ?>>Terpasang</option>
-            <option value="Tidak Terpasang" <?= ($existing_data['anjuranpuasa'] ?? '') === 'Tidak Terpasang' ? 'selected' : '' ?>>Tidak Terpasang</option>
+            <option value="ya" <?= ($existing_data['anjuranpuasa'] ?? '') === 'ya' ? 'selected' : '' ?>>Ya</option>
+            <option value="Tidak" <?= ($existing_data['anjuranpuasa'] ?? '') === 'Tidak ' ? 'selected' : '' ?>>Tidak </option>
         </select>  
     </div>
                                     
@@ -1271,8 +1302,8 @@ $data = [
     <div class="col-sm-4">
         <select class="form-select" name="terpasangngt" <?= $ro_disabled ?>>
             <option value="">Pilih</option>
-            <option value="Terpasang" <?= ($existing_data['terpasangngt'] ?? '') === 'Terpasang' ? 'selected' : '' ?>>Terpasang</option>
-            <option value="Tidak Terpasang" <?= ($existing_data['terpasangngt'] ?? '') === 'Tidak Terpasang' ? 'selected' : '' ?>>Tidak Terpasang</option>
+            <option value="ya" <?= ($existing_data['terpasangngt'] ?? '') === 'ya' ? 'selected' : '' ?>>Ya</option>
+            <option value="Tidak" <?= ($existing_data['terpasangngt'] ?? '') === 'Tidak' ? 'selected' : '' ?>>Tidak</option>
         </select>  
     </div>
                                     

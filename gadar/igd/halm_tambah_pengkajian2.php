@@ -1014,7 +1014,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 <div class="col-sm-2">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="dindingabdomen" value="asimetris" <?= val('dindingabdomen', $existing_data) == 'asimetris' ? 'checked' : '' ?> <?= $ro ?>>
-                        <label class="form-check-label">Asimetris</label>
+                        <label class="form-check-label">An-simetris</label>
                     </div>
                 </div>
             </div>

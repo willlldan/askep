@@ -141,7 +141,7 @@ include 'template_pdf.php';
         <div class="field-value"><?= p($laporan['diagnosa'] ?? '-') ?></div>
     </div>
 
-    <div class="subsection-title">Perencanaan</div>
+    <div class="subsection-title">Intervensi</div>
     <table class="data">
         <thead>
             <tr>
@@ -293,9 +293,18 @@ include 'template_pdf.php';
     <div class="field-label">Obstruksi</div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= chk($pkj['obstruksi'] ?? '', 'lidah') ?> Lidah &nbsp;
-        <?= chk($pkj['obstruksi'] ?? '', 'cairan') ?> Cairan &nbsp;
-        <?= chk($pkj['obstruksi'] ?? '', 'bendaasing') ?> Benda Asing
+        <?php
+        $val = $pkj['obstruksi'] ?? '';
+        $detail = htmlspecialchars($pkj['detail_benda'] ?? '');
+        ?>
+
+        <?= chk($val, 'lidah') ?> Lidah &nbsp;&nbsp;
+        <?= chk($val, 'cairan') ?> Cairan &nbsp;&nbsp;
+        
+        <?= chk($val, 'bendaasing') ?> Benda Asing: 
+        <?php if ($val === 'bendaasing'): ?>
+            <u><?= $detail ?></u>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -304,7 +313,8 @@ include 'template_pdf.php';
     <div class="field-sep">:</div>
     <div class="field-value">
         <?= chk($pkj['suaranapas_airway'] ?? '', 'snoring') ?> Snoring &nbsp;
-        <?= chk($pkj['suaranapas_airway'] ?? '', 'gurgling') ?> Gurgling
+        <?= chk($pkj['suaranapas_airway'] ?? '', 'gurgling') ?> Gurgling &nbsp;
+        <?= chk($pkj['suaranapas_airway'] ?? '', 'stridot') ?> Stridot
     </div>
 </div>
 
@@ -321,7 +331,7 @@ include 'template_pdf.php';
     <div class="field-sep">:</div>
     <div class="field-value">
         <?= chk($pkj['gerakandada'] ?? '', 'simetris') ?> Simetris &nbsp;
-        <?= chk($pkj['gerakandada'] ?? '', 'asimetris') ?> Asimetris
+        <?= chk($pkj['gerakandada'] ?? '', 'asimetris') ?> An-simetris
     </div>
 </div>
 
@@ -367,11 +377,23 @@ include 'template_pdf.php';
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($pkj['rr'] ?? '-') ?> x/menit</div>
 </div>
-
 <div class="field-row">
-    <div class="field-label">Suara Napas</div>
+    <div class="field-label">Suara Napas Tambahan</div>
     <div class="field-sep">:</div>
-    <div class="field-value"><?= p($pkj['suaranapas'] ?? '-') ?></div>
+    <div class="field-value">
+        <?php
+        $val = $pkj['suara_napas_tambahan'] ?? '';
+        $detail = htmlspecialchars($pkj['detail_suara_napas'] ?? '');
+        ?>
+
+        <?= chk($val, 'ada') ?> Ada: 
+        <?php if ($val === 'ada'): ?>
+            <u><?= $detail ?></u>
+        <?php endif; ?>
+        &nbsp;&nbsp;
+        
+        <?= chk($val, 'tidakada') ?> Tidak Ada
+    </div>
 </div>
 
 <div class="field-row">
@@ -406,7 +428,8 @@ include 'template_pdf.php';
     <div class="field-value">
         <?= chk($pkj['pendarahan'] ?? '', 'ya') ?> Ya &nbsp;
         <?= chk($pkj['pendarahan'] ?? '', 'tidak') ?> Tidak &nbsp;
-        (Jumlah: <?= p($pkj['berapabanyak'] ?? '-') ?>)
+        (Berapa Banyak <?= p($pkj['berapabanyak'] ?? '-') ?>)  (Letak <?= p($pkj['letak_pendarahan'] ?? '-') ?>)
+
     </div>
 </div>
 
@@ -436,8 +459,8 @@ include 'template_pdf.php';
     <div class="field-label">CRT</div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= chk($pkj['crt'] ?? '', 'kurang2') ?> < 2 Detik &nbsp;
-        <?= chk($pkj['crt'] ?? '', 'lebih2') ?> > 2 Detik
+<span><?= chk($pkj['crt'] ?? '', 'kurang2'); ?></span> &lt; 2 Detik &nbsp;
+        <?= chk($pkj['crt'] ?? '', 'lebih2') ?> >2 Detik
     </div>
 </div>
 
@@ -470,23 +493,6 @@ include 'template_pdf.php';
 </div>
 
 <div class="field-row">
-    <div class="field-label">Kesadaran</div>
-    <div class="field-sep">:</div>
-    <div class="field-value">
-        <?= chk($pkj['kesadaran'] ?? '', 'cm') ?> CM &nbsp;
-        <?= chk($pkj['kesadaran'] ?? '', 'apatis') ?> Apatis &nbsp;
-        <?= chk($pkj['kesadaran'] ?? '', 'samnolene') ?> Samnolen &nbsp;
-    </div>
-</div>
-
-<div class="field-row">
-    <div class="field-label">Lainnya</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($pkj['lainnyasebutkan'] ?? '-') ?></div>
-</div>
-
-
-<div class="field-row">
     <div class="field-label">GCS</div>
     <div class="field-sep">:</div>
     <div class="field-value">
@@ -497,13 +503,32 @@ include 'template_pdf.php';
 </div>
 
 <div class="field-row">
+    <div class="field-label">Kesadaran</div>
+    <div class="field-sep">:</div>
+    <div class="field-value">
+        <?php 
+        $opsi = [
+            'Kompos Mentis'        => 'Kompos Mentis',
+            'apatis'    => 'Apatis',
+            'samnolene' => 'Samnolen',
+            'stupor'    => 'Stupor',
+            'semikoma'  => 'Semikoma',
+            'koma'      => 'Koma'
+        ];
+        
+        $nilai = $pkj['kesadaran'] ?? '';
+        foreach ($opsi as $key => $label) : ?>
+            <?= chk($nilai, $key) ?> <?= $label ?> &nbsp;
+        <?php endforeach; ?>
+    </div>
+</div>
+
+<div class="field-row">
     <div class="field-label">Pupil</div>
     <div class="field-sep">:</div>
     <div class="field-value">
         <?= chk($pkj['pupil'] ?? '', 'isokor') ?> Isokor &nbsp;
-        <?= chk($pkj['pupil'] ?? '', 'anisokor') ?> Anisokor &nbsp;
-        <?= chk($pkj['pupil'] ?? '', 'miosis') ?> Miosis &nbsp;
-        <?= chk($pkj['pupil'] ?? '', 'midriasis') ?> Midriasis
+        <?= chk($pkj['pupil'] ?? '', 'anisokor') ?> Anisokor 
     </div>
 </div>
 
@@ -1012,7 +1037,7 @@ include 'template_pdf.php';
 </div>
 
 <div class="field-row">
-    <div class="field-label">Otot Bantu Napas</div>
+    <div class="field-label">Penggunaan Otot-otot Dinding Dada</div>
     <div class="field-sep">:</div>
     <div class="field-value">
         <?= chk($pkjl['ototdada'] ?? '', 'ya') ?> Ya &nbsp;
@@ -1052,7 +1077,7 @@ include 'template_pdf.php';
     <div class="field-sep">:</div>
     <div class="field-value">
         <?= chk($pkjl['dindingabdomen'] ?? '', 'simetris') ?> Simetris &nbsp;
-        <?= chk($pkjl['dindingabdomen'] ?? '', 'asimetris') ?> Asimetris
+        <?= chk($pkjl['dindingabdomen'] ?? '', 'asimetris') ?> An-simetris
     </div>
 </div>
 
@@ -1098,7 +1123,7 @@ include 'template_pdf.php';
     <div class="field-sep">:</div>
     <div class="field-value">
         <?= chk($pkjl['bisingusus'] ?? '', 'ada') ?> Ada 
-        (Frekuensi: <?= p($pkjl['jikadaaberapakali'] ?? '-') ?> kali) &nbsp;
+        (Berapa Kali: <?= p($pkjl['jikadaaberapakali'] ?? '-') ?> kali) &nbsp;
         <?= chk($pkjl['bisingusus'] ?? '', 'tidak') ?> Tidak
     </div>
 </div>
@@ -1346,20 +1371,15 @@ include 'template_pdf.php';
         <!-- BAGIAN 2: FORMAT PENGKAJIAN     -->
         <!-- ================================ -->
 <div class="page-break"></div>
+<h3>d. Pemeriksaan  Penunjang</h3>
 
-   <h3 class="mt-5">k. Pemeriksaan Laboratorium</h3>
-<div class="field-row">
-    <div class="field-label">Laboratorium</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($pemeriksaan['tgllaboratorium'] ?? '-') ?></div>
-</div>
+
         <table class="data">
             <thead>
                 <tr>
                     <th>Pemeriksaan</th>
                     <th>Hasil</th>
-                    <th>Satuan</th>
-                    <th>Nilai Rujukan</th>
+                    <th>Nilai Normal</th>
                 </tr>
             </thead>
             <tbody>
@@ -1369,37 +1389,63 @@ include 'template_pdf.php';
                             <td><?= p($lab['pemeriksaan']) ?></td>
                             <td><?= p($lab['hasil']) ?></td>
                             <td><?= p($lab['satuan']) ?></td>
-                            <td><?= p($lab['rujukan']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="4" style="text-align:center">-</td>
+                        <td colspan="3" style="text-align:center">-</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
         <div class="field-row">
-    <div class="field-label">Radiologi</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($pemeriksaan['tglradiologi'] ?? '-') ?>| hasil <?= p($pemeriksaan['radiologi'] ?? '-') ?></div>
-</div>
+            <div class="field-label">b.	Radiologi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($pemeriksaan['radiologi']) ?></div>
+        </div>
+        <div class="field-row">
+    <div class="subsection-title">c. EKG</div>
+        <?php if (!empty($pemeriksaan['ekg'])): ?>
+            <div style="margin: 6px 0; text-align:center;">
+                <img src="<?= cetakGambar($pemeriksaan['ekg']) ?>" style="max-height:250px; width:auto;" />
+            </div>
+        <?php else: ?>
+            <div style="border:1px solid #ccc; min-height:60px; padding:4px;">-</div>
+        <?php endif; ?>
 
-          <h3 class="mt-5">9. Pengobatan</h3>
+        <div class="field-row">
+            <div class="field-label">d.	USG</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($pemeriksaan['usg']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">e.	CT Scan</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($pemeriksaan['ct']) ?></div>
+        </div>
+      
 
+
+        <!-- ================================ -->
+        <!-- KLASIFIKASI & ANALISA DATA      -->
+        <!-- ================================ -->
+         <h3>2. Terapi / Obat</h3>
         <table class="data">
             <thead>
                 <tr>
-                    <th>Nama Obat</th>
-                    <th>Dosis</th>
-                    <th>Rute Pemberian</th>
-                    <th>Berapa Kali Pemberian/hari</th>
+                    <th width="5%">No.</th>
+                    <th width="40%">Jenis Obat</th>
+                    <th width="30%">Dosis</th>
+                    <th width="25%">Manfaat</th>
+                    <th width="25%">Cara Pemberian</th>
+
                 </tr>
             </thead>
             <tbody>
                 <?php if (!empty($pemeriksaan['obat'])): ?>
-                    <?php foreach ($pemeriksaan['obat'] as $obat): ?>
-                        <tr>
+                    <?php foreach ($pemeriksaan['obat'] as $i => $obat): ?>
+                          <tr>
+                            <td><?= $i + 1 ?></td>
                             <td><?= p($obat['nama_obat']) ?></td>
                             <td><?= p($obat['dosis']) ?></td>
                             <td><?= p($obat['rute']) ?></td>
@@ -1408,7 +1454,7 @@ include 'template_pdf.php';
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="4" style="text-align:center">-</td>
+                        <td colspan="2" style="text-align:center">-</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
@@ -1421,7 +1467,7 @@ include 'template_pdf.php';
         <!-- ================================ -->
         <!-- KLASIFIKASI & ANALISA DATA      -->
         <!-- ================================ -->
-        <h3>Klasifikasi Data</h3>
+        <h3>3. Klasifikasi Data</h3>
         <table class="data">
             <thead>
                 <tr>
@@ -1445,7 +1491,7 @@ include 'template_pdf.php';
             </tbody>
         </table>
 
-        <h3>Analisa Data</h3>
+        <h3>4. Analisa Data</h3>
         <table class="data">
             <thead>
                 <tr>
@@ -1476,7 +1522,7 @@ include 'template_pdf.php';
         <!-- ================================ -->
         <!-- CATATAN KEPERAWATAN             -->
         <!-- ================================ -->
-        <h3>Diagnosa Keperawatan Prioritas</h3>
+        <h3>5. Diagnosa Keperawatan Prioritas</h3>
         <table class="data">
             <thead>
                 <tr>
@@ -1504,7 +1550,7 @@ include 'template_pdf.php';
             </tbody>
         </table>
 
-        <h3>Rencana Keperawatan</h3>
+        <h3>6. Intervensi Keperawatan</h3>
         <table class="data">
             <thead>
                 <tr>
@@ -1532,7 +1578,7 @@ include 'template_pdf.php';
             </tbody>
         </table>
 
-        <h3>Implementasi</h3>
+        <h3>7. Implementasi Keperawatan</h3>
         <table class="data">
             <thead>
                 <tr>
@@ -1560,7 +1606,7 @@ include 'template_pdf.php';
             </tbody>
         </table>
 
-        <h3>Evaluasi</h3>
+        <h3>8. Evaluasi Keperawatan</h3>
         <table class="data">
             <thead>
                 <tr>
