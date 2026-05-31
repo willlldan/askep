@@ -115,7 +115,7 @@ $data = [
     'riwayat_pernah_dialami'    => $_POST['riwayat_pernah_dialami'] ?? '',
     'riwayat_kesehatan_keluarga'=> $_POST['riwayat_kesehatan_keluarga'] ?? '',
     'genogram'                  => $_POST['genogram'] ?? '',
-    'kesadaran'                  => isset($_POST['kesadaran']) ? (array)$_POST['kesadaran'] : [],
+    'kesadaran'                  => $_POST['kesadaran'] ??'',
 
 ];
 
@@ -172,6 +172,7 @@ $is_readonly = $is_dosen || isLocked($submission);
 $ro          = $is_readonly ? 'readonly' : '';
 $ro_select   = $is_readonly ? 'disabled' : '';
 $ro_check    = $is_readonly ? 'disabled' : '';
+$ro_disabled    = $is_readonly ? 'disabled' : '';
 ?>
 
 <main id="main" class="main">
@@ -387,7 +388,7 @@ $ro_check    = $is_readonly ? 'disabled' : '';
 <label class="col-sm-12 text-primary"><strong>c. Keadaan Umum</strong></label>
 </div>
 <div class="row mb-2">
-<label class="col-sm-12"><strong>Tanda Vital</strong></label>
+<label class="col-sm-12"><strong>Tanda-tanda Vital</strong></label>
 </div>
 
 <!-- TD -->
@@ -480,27 +481,37 @@ $ro_check    = $is_readonly ? 'disabled' : '';
                   
         </div>
         </div>
-<div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Tingkat Kesadaran</strong></label>
-                        <div class="col-sm-9">
-                            <?php
-                            $kesadaran_options = ['Kompos Mentis', 'Apatis', 'Somnolent', 'Stupor / Suppor', 'Semikoma', 'Koma'];
-                            $kesadaran_values  = ['Kompos Mentis', 'Apatis', 'Somnolent', 'Stupor', 'Semikoma', 'Koma'];
-                            foreach ($kesadaran_options as $i => $label):
-                                $val = $kesadaran_values[$i];
-                            ?>
-                                <div class="form-check-inline">
-                                    <input class="form-check-input" type="checkbox"
-                                        name="kesadaran[]"
-                                        id="kesadaran_<?= $i ?>"
-                                        value="<?= $val ?>"
-                                        <?= in_array($val, $kesadaran_checked) ? 'checked' : '' ?>
-                                        <?= $ro_check ?>>
-                                    <label class="form-check-label" for="kesadaran_<?= $i ?>"><?= $label ?></label>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
+ <div class="row mb-3">
+    <div class="col-sm-2">
+        <strong>Tingkat Kesadaran</strong>
+    </div>
+    <div class="col-sm-10 d-flex flex-wrap align-items-center">
+        <div class="form-check form-check-inline me-4">
+            <input class="form-check-input" type="radio" name="kesadaran" id="kesadaran_kompos" value="Kompos Mentis" <?= $ro_disabled ?> <?= ($existing_data['kesadaran'] ?? '') === 'Kompos Mentis' ? 'checked' : '' ?>>
+            <label class="form-check-label" for="kesadaran_kompos">Kompos Mentis</label>
+        </div>
+        <div class="form-check form-check-inline me-4">
+            <input class="form-check-input" type="radio" name="kesadaran" id="kesadaran_apatis" value="Apatis" <?= $ro_disabled ?> <?= ($existing_data['kesadaran'] ?? '') === 'Apatis' ? 'checked' : '' ?>>
+            <label class="form-check-label" for="kesadaran_apatis">Apatis</label>
+        </div>
+        <div class="form-check form-check-inline me-4">
+            <input class="form-check-input" type="radio" name="kesadaran" id="kesadaran_somnolent" value="Somnolent" <?= $ro_disabled ?> <?= ($existing_data['kesadaran'] ?? '') === 'Somnolent' ? 'checked' : '' ?>>
+            <label class="form-check-label" for="kesadaran_somnolent">Somnolent</label>
+        </div>
+        <div class="form-check form-check-inline me-4">
+            <input class="form-check-input" type="radio" name="kesadaran" id="kesadaran_stupor" value="Stupor" <?= $ro_disabled ?> <?= ($existing_data['kesadaran'] ?? '') === 'Stupor' ? 'checked' : '' ?>>
+            <label class="form-check-label" for="kesadaran_stupor">Stupor</label>
+        </div>
+        <div class="form-check form-check-inline me-4">
+            <input class="form-check-input" type="radio" name="kesadaran" id="kesadaran_semikoma" value="Semikoma" <?= $ro_disabled ?> <?= ($existing_data['kesadaran'] ?? '') === 'Semikoma' ? 'checked' : '' ?>>
+            <label class="form-check-label" for="kesadaran_semikoma">Semikoma</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="kesadaran" id="kesadaran_koma" value="Koma" <?= $ro_disabled ?> <?= ($existing_data['kesadaran'] ?? '') === 'Koma' ? 'checked' : '' ?>>
+            <label class="form-check-label" for="kesadaran_koma">Koma</label>
+        </div>
+    </div>
+</div>
                     <div class="row mb-2">
 <label class="col-sm-12"><strong>Antropomentri</strong></label>
 </div>
@@ -627,6 +638,8 @@ $ro_check    = $is_readonly ? 'disabled' : '';
                 <div class="row mb-3">
                     <label for="genogram" class="col-sm-2 col-form-label"><strong>Genogram</strong></label>
                     <div class="col-sm-9">
+                                <small class="form-text text-danger">3 generasi</small>
+
         <textarea class="form-control" rows="2" name="genogram"
         style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
         <?= $ro ?>><?= val('genogram', $existing_data) ?></textarea>

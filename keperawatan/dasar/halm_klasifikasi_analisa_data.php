@@ -205,49 +205,12 @@ $ro_select   = $is_readonly ? 'disabled' : '';
 
             <div class="card-body">
 
-                <!-- JUDUL -->
-                <h5 class="card-title">
-                    <strong>PROGRAM TERAPI & LABORATORIUM</strong>
-                </h5>
+               
 
                 <!-- FORM -->
                 <form class="needs-validation" novalidate method="POST">
 
-                    <!-- ========================= -->
-                    <!-- TERAPI / OBAT -->
-                    <!-- ========================= -->
-                    <p class="text-primary fw-bold mb-2">
-                        Terapi / Obat
-                    </p>
-
-                    <table class="table table-bordered align-middle" id="tabel-obat">
-
-                        <thead class="table-light">
-                            <tr>
-                                <th class="text-center" width="40">No</th>
-                                <th class="text-center">Jenis Obat</th>
-                                <th class="text-center">Dosis</th>
-                                <th class="text-center">Manfaat</th>
-                                <th class="text-center">Cara Pemberian</th>
-                                <th class="text-center" width="60">Aksi</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="tbody-obat"></tbody>
-
-                    </table>
-
-                    <?php if (!$is_readonly): ?>
-                        <div class="text-end mb-4">
-                            <button type="button"
-                                class="btn btn-primary btn-sm"
-                                onclick="tambahRowObat()">
-
-                                + Tambah Obat
-
-                            </button>
-                        </div>
-                    <?php endif; ?>
+                   
 
 
                     <!-- ========================= -->
@@ -311,10 +274,13 @@ $ro_select   = $is_readonly ? 'disabled' : '';
                                 <th class="text-center" width="60">Aksi</th>
                             </tr>
                         </thead>
-
                         <tbody id="tbody-analisa"></tbody>
-
                     </table>
+                     <div class="row mb-4">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-analisa" onclick="tambahRowAnalisa({tbodyId: 'tbody-analisa', rowCountVar: 'rowAnalisaCount', isReadonly: <?= json_encode($is_readonly) ?>})">+ Tambah Baris</button>
+                        </div>
+                    </div>
 
                   <!-- TOMBOL SUBMIT -->
                     <?php if (!$is_dosen): ?>
@@ -341,12 +307,10 @@ $ro_select   = $is_readonly ? 'disabled' : '';
             // =========================
             // EXISTING DATA
             // =========================
-            const existingObat        = <?= json_encode($existing_obat) ?>;
             const existingKlasifikasi = <?= json_encode($existing_klasifikasi) ?>;
             const existingAnalisa     = <?= json_encode($existing_analisa) ?>;
             const isReadonly          = <?= json_encode($is_readonly) ?>;
 
-            let rowObatCount        = 1;
             let rowKlasifikasiCount = 1;
             let rowAnalisaCount     = 1;
 
@@ -359,66 +323,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
             }
 
 
-            // =========================
-            // TAMBAH ROW OBAT
-            // =========================
-            function tambahRowObat(data = {}) {
-
-                const tbody = document.getElementById('tbody-obat');
-
-                const row = document.createElement('tr');
-
-                row.innerHTML = `
-                    <td class="text-center">${rowObatCount}</td>
-
-                    <td>
-                        <input type="text"
-                            class="form-control form-control-sm"
-                            name="obat[${rowObatCount}][jenis_obat]"
-                            value="${data.jenis_obat ?? ''}"
-                            ${isReadonly ? 'readonly' : ''}>
-                    </td>
-
-                    <td>
-                        <input type="text"
-                            class="form-control form-control-sm"
-                            name="obat[${rowObatCount}][dosis]"
-                            value="${data.dosis ?? ''}"
-                            ${isReadonly ? 'readonly' : ''}>
-                    </td>
-
-                    <td>
-                        <input type="text"
-                            class="form-control form-control-sm"
-                            name="obat[${rowObatCount}][[P]]"
-                            value="${data.kegunaan ?? ''}"
-                            ${isReadonly ? 'readonly' : ''}>
-                    </td>
-
-                    <td>
-                        <input type="text"
-                            class="form-control form-control-sm"
-                            name="obat[${rowObatCount}][cara_pemberian]"
-                            value="${data.cara_pemberian ?? ''}"
-                            ${isReadonly ? 'readonly' : ''}>
-                    </td>
-
-                    <td class="text-center">
-                        ${
-                            !isReadonly
-                            ? `<button type="button"
-                                    class="btn btn-danger btn-sm"
-                                    onclick="hapusRow(this)">
-                                    x
-                               </button>`
-                            : ''
-                        }
-                    </td>
-                `;
-
-                tbody.appendChild(row);
-                rowObatCount++;
-            }
+       
 
 
             // =========================
@@ -526,11 +431,7 @@ $ro_select   = $is_readonly ? 'disabled' : '';
             // =========================
             window.addEventListener('DOMContentLoaded', () => {
 
-                if (existingObat.length > 0) {
-                    existingObat.forEach(item => tambahRowObat(item));
-                } else {
-                    tambahRowObat();
-                }
+             
 
                 if (existingKlasifikasi.length > 0) {
                     existingKlasifikasi.forEach(item => tambahRowKlasifikasi(item));

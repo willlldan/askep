@@ -7,6 +7,8 @@ include dirname(__DIR__, 2) . '/partials/init_section.php';
 // Load existing dynamic rows
 $existing_obat = $existing_data['obat'] ?? [];
 $existing_lab  = $existing_data['lab']  ?? [];
+$existing_ekg = $existing_data['ekg'] ?? '';
+
 
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
@@ -43,17 +45,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 'pemeriksaan'  => $row['pemeriksaan']  ?? '',
                 'hasil'        => $row['hasil']         ?? '',
                 'satuan' => $row['satuan']  ?? '',
-                'rujukan' => $row['rujukan']  ?? '',
             ];
+        }
+    }
+    // Upload EKG
+    $path_ekg = $existing_data['ekg'] ?? '';
+    if (!empty($_FILES['ekg']['name'])) {
+        $upload = uploadImage($_FILES['ekg'], 'uploads/ekg/', 2);
+        if ($upload['success']) {
+            if (!empty($path_ekg) && file_exists($path_ekg)) {
+                unlink($path_ekg);
+            }
+            $path_ekg = $upload['path'];
+        } else {
+            redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $upload['error']);
+            exit;
         }
     }
 
     $data = [
+                'ekg'  => $path_ekg,
+
         'obat' => $obat,
         'lab'  => $lab,
         'tgllaboratorium'                 => $_POST['tgllaboratorium']                 ?? '',
         'radiologi'                 => $_POST['radiologi']                 ?? '',
         'tglradiologi'                 => $_POST['tglradiologi']                 ?? '',
+        // 8. Penunjang
+        'usg'       => $_POST['usg']       ?? '',
+        'ct'        => $_POST['ct']        ?? '',
+
     ];
 
     if (!$submission) {
@@ -108,55 +129,86 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             <strong>k. Pemeriksaan Penunjang </strong>
                     </div> 
                     
-                    <!-- Laboratorium -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Laboratorium</strong></label>
-
-                        <div class="col-sm-9">
-                            <input type="date" class="form-control" name="tgllaboratorium">
-                        </div>
-                    </div>
-                              <!-- ===================== TABEL LAB ===================== -->
-                    <p class="text-primary fw-bold mb-2">Hasil Pemeriksaan Penunjang dan Laboratorium</p>
+                   
+                    <!-- a. Laboratorium -->
+                    <p class="fw-bold mb-2">a. Laboratorium</p>
                     <table class="table table-bordered" id="tabel-lab">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
                                 <th class="text-center">Pemeriksaan</th>
                                 <th class="text-center">Hasil</th>
-                                <th class="text-center">Satuan</th>
-                                <th class="text-center">Nilai Rujukan</th>
+                                <th class="text-center">Nilai Normal</th>
+                                <?php if (!$is_readonly): ?>
                                 <th class="text-center" style="width:60px">Aksi</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
-                        <tbody id="tbody-lab">
-                            <!-- Dynamic rows masuk sini -->
-                        </tbody>
+                        <tbody id="tbody-lab"></tbody>
                     </table>
+                    <?php if (!$is_readonly): ?>
                     <div class="row mb-4">
                         <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-lab" onclick="tambahRowLab()">+ Tambah Pemeriksaan</button>
+                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-lab"
+                                onclick="tambahRowLab()">+ Tambah Pemeriksaan</button>
                         </div>
                     </div>
-                            
-                    
-                    <!-- Radiologi -->
+                    <?php endif; ?>
+
+                    <!-- b. Radiologi -->
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Radiologi</strong></label>
-
-                        <div class="col-sm-9">
-                            <input type="date" class="form-control" name="tglradiologi">
-                            <small class="form-text" style="color: red;"> Hasil:</small>
-                            <textarea name="radiologi" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                            value="<?= val('radiologi', $existing_data) ?>" <?= $ro ?>></textarea>
-
+                        <label class="col-sm-2 col-form-label"><strong>b. Radiologi</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="radiologi" class="form-control" rows="3"
+                                style="overflow:hidden; resize:none;"
+                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro_disabled ?>><?= val('radiologi', $existing_data) ?></textarea>
                         </div>
-                    </div>  
+                    </div>
+
+                    <!-- c. EKG -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>c. EKG</strong></label>
+                        <div class="col-sm-10">
+                            <?php if (!empty($existing_ekg)): ?>
+                                <img src="<?= htmlspecialchars($existing_ekg) ?>"
+                                    class="img-fluid rounded border mb-2"
+                                    style="max-height:400px;">
+                            <?php endif; ?>
+                            <?php if (!$is_readonly): ?>
+                                <input type="file" class="form-control" name="ekg"
+                                    accept="image/jpeg,image/png,image/webp">
+                                <small class="text-muted">Format: JPG, PNG, WebP. Maks 2MB.</small>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <!-- d. USG -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>d. USG</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="usg" class="form-control" rows="3"
+                                style="overflow:hidden; resize:none;"
+                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro_disabled ?>><?= val('usg', $existing_data) ?></textarea>
+                        </div>
+                    </div>
+
+                    <!-- e. CT Scan -->
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>e. CT Scan</strong></label>
+                        <div class="col-sm-10">
+                            <textarea name="ct" class="form-control" rows="3"
+                                style="overflow:hidden; resize:none;"
+                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                                <?= $ro_disabled ?>><?= val('ct', $existing_data) ?></textarea>
+                        </div>
+                    </div>
 
                 <!-- Pengobatan -->
                     <div class="row mb-2">
                         <label class="col-sm-10 col-form-label text-primary">
-                            <strong>9. Pengobatan</strong>
+                            <strong>9. Terapi Obat</strong>
                     </div>
                        <!-- ===================== TABEL OBAT ===================== -->
                     
@@ -167,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <th class="text-center">Nama Obat</th>
                                 <th class="text-center">Dosis</th>
                                 <th class="text-center">Rute Pemberian</th>
-                                <th class="text-center">Berapa Kali Pemberian/hari</th>
+                                <th class="text-center">Manfaat</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
                         </thead>
@@ -227,7 +279,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <td><input type="text" class="form-control form-control-sm" name="lab[${index}][pemeriksaan]" value="${data?.pemeriksaan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
                                 <td><input type="text" class="form-control form-control-sm" name="lab[${index}][hasil]" value="${data?.hasil ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
                                 <td><input type="text" class="form-control form-control-sm" name="lab[${index}][satuan]" value="${data?.satuan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>\
-                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][rujukan]" value="${data?.rujukan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
 
                                 <td class="text-center align-middle">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
