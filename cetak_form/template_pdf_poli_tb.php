@@ -267,19 +267,14 @@ include 'template_pdf.php';
             <div class="field-value"><?= p($resume['radiologi']) ?></div>
         </div>
         <div class="field-row">
-    <div class="field-label"><strong>c. EKG</strong></div>
-    <div class="field-value" style="margin: 10px 0; text-align: center;">
-        <?php if (!empty($konsep['ekg'])): ?>
-            <img src="<?= cetakGambar(p($konsep['ekg'])) ?>" 
-                 alt="Hasil EKG"
-                 style="max-width: 100%; max-height: 250px; border: 1px solid #000; padding: 5px; page-break-inside: avoid;" />
-        <?php else: ?>
-            <div style="border: 1px solid #ccc; padding: 10px; color: #777; font-style: italic;">
-                Tidak ada data EKG
+    <div class="subsection-title">EKG</div>
+        <?php if (!empty($resume['ekg'])): ?>
+            <div style="margin: 6px 0; text-align:center;">
+                <img src="<?= cetakGambar($resume['ekg']) ?>" style="max-height:250px; width:auto;" />
             </div>
+        <?php else: ?>
+            <div style="border:1px solid #ccc; min-height:60px; padding:4px;">-</div>
         <?php endif; ?>
-    </div>
-</div>
 
         <div class="field-row">
             <div class="field-label">d.	USG</div>

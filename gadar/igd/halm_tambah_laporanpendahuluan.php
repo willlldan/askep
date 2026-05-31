@@ -266,7 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
         
                     <!-- TABEL PERENCANAAN -->
-                    <p class="text-primary fw-bold mb-2">Perencanaan</p>
+                    <p class="text-primary fw-bold mb-2">Intervensi</p>
 
                     <table class="table table-bordered" id="tabel-perencanaan">
                         <thead>
@@ -286,7 +286,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <?php if (!$is_readonly): ?>
                         <div class="row mb-4">
                             <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowPerencanaan()">+ Tambah Baris</button>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowPerencanaan()">+ Tambah Intervensi</button>
                             </div>
                         </div>
                     <?php endif; ?>

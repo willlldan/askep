@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <?php endif; ?>
 
                     <!-- ===================== TABEL INTERVENSI ===================== -->
-                    <p class="text-primary fw-bold mb-2">Rencana Keperawatan</p>
+                    <p class="text-primary fw-bold mb-2">Intervensi Keperawatan</p>
 
                     <table class="table table-bordered" id="tabel-rencana">
                         <thead>
@@ -156,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <th class="text-center" style="width:40px">No</th>
                                 <th class="text-center">Diagnosa</th>
                                 <th class="text-center">Tujuan dan Kriteria Hasil</th>
-                                <th class="text-center">Rencana</th>
+                                <th class="text-center">Intervensi</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
                         </thead>
@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <?php if (!$is_readonly): ?>
                         <div class="row mb-4">
                             <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowRencana()">+ Tambah Rencana</button>
+                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowRencana()">+ Tambah Intervensi</button>
                             </div>
                         </div>
                     <?php endif; ?>

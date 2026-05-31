@@ -87,8 +87,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     // Alat Terpasang
     'folleyterpasang'          => $_POST['folleyterpasang']          ?? '',
     'gastricterpasang'         => $_POST['gastricterpasang']         ?? '',
-    'heartterpasang'           => $_POST['heartterpasang']           ?? '',
-];
+    'detail_benda'           => $_POST['detail_benda']           ?? '',
+    'letak_pendarahan'           => $_POST['letak_pendarahan']           ?? '',
+    'detail_suara_napas'           => $_POST['detail_suara_napas']           ?? '',
+    'suara_napas_tambahan'           => $_POST['suara_napas_tambahan']           ?? '',
+
+    ];
     if (!$submission) {
         $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
     } else {
@@ -291,27 +295,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             </div>
         </div>
 
-        <div class="row mb-2">
-            <div class="col-sm-2"><strong>Obstruksi</strong></div>    
-            <div class="col-sm-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="obstruksi" value="lidah" <?= ($existing_data['obstruksi'] ?? '') === 'lidah' ? 'checked' : '' ?> <?= $ro ?>>
-                    <label class="form-check-label">Lidah</label>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="obstruksi" value="cairan" <?= ($existing_data['obstruksi'] ?? '') === 'cairan' ? 'checked' : '' ?> <?= $ro ?>>
-                    <label class="form-check-label">Cairan</label>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="obstruksi" value="bendaasing" <?= ($existing_data['obstruksi'] ?? '') === 'bendaasing' ? 'checked' : '' ?> <?= $ro ?>>
-                    <label class="form-check-label">Benda Asing</label>
-                </div>
+        <style>
+    /* Sembunyikan input teks secara default */
+    .input-benda-container {
+        display: none;
+    }
+    /* Jika radio dengan value 'bendaasing' dicentang, tampilkan container-nya */
+    input[value="bendaasing"]:checked ~ .input-benda-container {
+        display: inline-block;
+    }
+</style>
+
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>Obstruksi</strong></div>    
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="obstruksi" value="lidah" <?= ($existing_data['obstruksi'] ?? '') === 'lidah' ? 'checked' : '' ?> <?= $ro ?>>
+            <label class="form-check-label">Lidah</label>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="obstruksi" value="cairan" <?= ($existing_data['obstruksi'] ?? '') === 'cairan' ? 'checked' : '' ?> <?= $ro ?>>
+            <label class="form-check-label">Cairan</label>
+        </div>
+    </div>
+    <div class="col-sm-6"> <div class="form-check">
+            <input class="form-check-input" type="radio" name="obstruksi" value="bendaasing" <?= ($existing_data['obstruksi'] ?? '') === 'bendaasing' ? 'checked' : '' ?> <?= $ro ?>>
+            <label class="form-check-label">Benda Asing</label>
+            
+            <div class="input-benda-container ms-9">
+                <input type="text" class="form-control form-control-sm" name="detail_benda" 
+                       placeholder="" 
+                       value="<?= htmlspecialchars($existing_data['detail_benda'] ?? '') ?>" <?= $ro ?>>
             </div>
         </div>
+    </div>
+</div>
 
         <div class="row mb-2">
             <div class="col-sm-2"><strong>Suara Napas </strong></div>    
@@ -325,6 +345,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="suaranapas_airway" value="gurgling" <?= ($existing_data['suaranapas_airway'] ?? '') === 'gurgling' ? 'checked' : '' ?> <?= $ro ?>>
                     <label class="form-check-label">Gurgling</label>
+                </div>
+            </div>
+       
+        <div class="col-sm-2">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="suaranapas_airway" value="stridot" <?= ($existing_data['suaranapas_airway'] ?? '') === 'stridot' ? 'checked' : '' ?> <?= $ro ?>>
+                    <label class="form-check-label">Stridot</label>
                 </div>
             </div>
         </div>
@@ -416,8 +443,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             <div class="col-sm-2"><strong>Sesak Napas</strong></div>    
             <div class="col-sm-2">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="sesaknapas" value="ada" <?= ($existing_data['sesaknapas'] ?? '') === 'ada' ? 'checked' : '' ?> <?= $ro ?>>
-                    <label class="form-check-label">Ada</label>
+                    <input class="form-check-input" type="radio" name="sesaknapas" value="ya" <?= ($existing_data['sesaknapas'] ?? '') === 'ya' ? 'checked' : '' ?> <?= $ro ?>>
+                    <label class="form-check-label">Ya</label>
                 </div>
             </div>
             <div class="col-sm-2">
@@ -443,7 +470,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             <div class="col-sm-10">
                <textarea name="suaranapas" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= htmlspecialchars($existing_data['suaranapas'] ?? '') ?></textarea>
             </div>
-        </div>     
+        </div>   
+       <style>
+    /* Sembunyikan container input secara default */
+    .input-napas-container {
+        display: none;
+    }
+    /* Jika radio dengan value 'ada' dicentang, tampilkan input */
+    input[value="ada"]:checked ~ .input-napas-container {
+        display: inline-block;
+    }
+</style>
+
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>Suara Napas Tambahan</strong></div>    
+    <div class="col-sm-6"> <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="suara_napas_tambahan" value="ada" 
+                <?= ($existing_data['suara_napas_tambahan'] ?? '') === 'ada' ? 'checked' : '' ?> <?= $ro ?>>
+            <label class="form-check-label">Ada</label>
+            
+            <div class="input-napas-container ms-2">
+                <input type="text" class="form-control form-control-sm" name="detail_suara_napas" 
+                    placeholder="Sebutkan suara napas..." 
+                    value="<?= htmlspecialchars($existing_data['detail_suara_napas'] ?? '') ?>" <?= $ro ?>>
+            </div>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="suara_napas_tambahan" value="tidakada" 
+                <?= ($existing_data['suara_napas_tambahan'] ?? '') === 'tidakada' ? 'checked' : '' ?> <?= $ro ?>>
+            <label class="form-check-label">Tidak Ada</label>
+        </div>
+    </div>
+</div>  
 
         <div class="row mb-3">
             <label for="keluhanlainbreathing" class="col-sm-2 col-form-label"><strong>Keluhan Lain </strong></label>
@@ -490,26 +549,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             </div>
         </div>
 
-        <div class="row mb-2">
-            <div class="col-sm-2"><strong>Pendarahan</strong></div>  
-            <div class="col-sm-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="pendarahan" value="ya" <?= ($existing_data['pendarahan'] ?? '') === 'ya' ? 'checked' : '' ?> <?= $ro ?>>
-                    <label class="form-check-label">Ya</label>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="pendarahan" value="tidak" <?= ($existing_data['pendarahan'] ?? '') === 'tidak' ? 'checked' : '' ?> <?= $ro ?>>
-                    <label class="form-check-label">Tidak</label>
-                </div>
-            </div>
+    
 
-            <div class="col-sm-10 offset-sm-2 mt-2">
+<div class="row mb-2">
+    <div class="col-sm-2"><strong>Pendarahan</strong></div>  
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="pendarahan" id="pendarahan_ya" value="ya" 
+                <?= ($existing_data['pendarahan'] ?? '') === 'ya' ? 'checked' : '' ?> <?= $ro ?>>
+            <label class="form-check-label" for="pendarahan_ya">Ya</label>
+        </div>
+    </div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="pendarahan" id="pendarahan_tidak" value="tidak" 
+                <?= ($existing_data['pendarahan'] ?? '') === 'tidak' ? 'checked' : '' ?> <?= $ro ?>>
+            <label class="form-check-label" for="pendarahan_tidak">Tidak</label>
+        </div>
+    </div>
+
+    <div class="detail-pendarahan col-sm-10 offset-sm-2 mt-2">
+        <div class="row">
+            <div class="col-sm-6">
                 <label><strong>Berapa Banyak</strong></label>
-                <input type="text" class="form-control" name="berapabanyak" value="<?= htmlspecialchars($existing_data['berapabanyak'] ?? '') ?>" <?= $ro ?>>
+                <input type="text" class="form-control" name="berapabanyak" 
+                    value="<?= htmlspecialchars($existing_data['berapabanyak'] ?? '') ?>" <?= $ro ?>>
+            </div>
+            <div class="col-sm-6">
+                <label><strong>Letak</strong></label>
+                <input type="text" class="form-control" name="letak_pendarahan" 
+                    placeholder="Masukkan lokasi..."
+                    value="<?= htmlspecialchars($existing_data['letak_pendarahan'] ?? '') ?>" <?= $ro ?>>
             </div>
         </div>
+    </div>
+</div>
 
         <div class="row mb-2">
             <div class="col-sm-2"><strong>Nadi</strong></div>  
@@ -538,8 +612,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         <div class="row mb-3">
             <label class="col-sm-2 col-form-label"><strong>Tekanan Darah</strong></label>
             <div class="col-sm-10">
-               <textarea name="tekanandarah" class="form-control" rows="3" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= htmlspecialchars($existing_data['tekanandarah'] ?? '') ?></textarea>
+                <div class="input-group">
+                <textarea name="tekanandarah" class="form-control" rows="1" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= htmlspecialchars($existing_data['tekanandarah'] ?? '') ?></textarea>
+                                <span class="input-group-text">mmHg</span>
+
             </div>
+        </div>
         </div>
 
         <div class="row mb-3">
@@ -625,33 +703,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             </div>
         </div>
 
-        <div class="row mb-2">
-            <div class="col-sm-2"><strong>Kesadaran</strong></div>  
-            <div class="col-sm-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="kesadaran" value="cm" <?= ($existing_data['kesadaran'] ?? '') === 'cm' ? 'checked' : '' ?> <?= $ro ?>>
-                    <label class="form-check-label">CM</label>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="kesadaran" value="apatis" <?= ($existing_data['kesadaran'] ?? '') === 'apatis' ? 'checked' : '' ?> <?= $ro ?>>
-                    <label class="form-check-label">Apatis</label>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="kesadaran" value="samnolene" <?= ($existing_data['kesadaran'] ?? '') === 'samnolene' ? 'checked' : '' ?> <?= $ro ?>>
-                    <label class="form-check-label">Samnolene</label>
-                </div>
-            </div>
-
-            <div class="col-sm-10 offset-sm-2 mt-2">
-                <label><strong>Lainnya (Sebutkan)</strong></label>
-                <input type="text" class="form-control" name="lainnyasebutkan" value="<?= htmlspecialchars($existing_data['lainnyasebutkan'] ?? '') ?>" <?= $ro ?>>
-            </div>
-        </div>
-        
 <div class="row mb-3">
                 <label class="col-sm-2 col-form-label"><strong>GCS</strong></label>
                 
@@ -674,6 +725,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     </div>
                 </div>
             </div>
+            
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Tingkat Kesadaran</strong></label>
+    <div class="col-sm-9">
+        <?php
+        $kesadaran_options = ['Kompos Mentis', 'Apatis', 'Somnolent', 'Stupor / Suppor', 'Semikoma', 'Koma'];
+        $kesadaran_values  = ['Kompos Mentis', 'Apatis', 'Somnolent', 'Stupor', 'Semikoma', 'Koma'];
+        
+        // Asumsi $existing_data berisi nilai tunggal yang tersimpan
+        $selected_val = val('kesadaran', $existing_data); 
+
+        foreach ($kesadaran_options as $i => $label):
+            $val = $kesadaran_values[$i];
+        ?>
+            <div class="form-check-inline">
+                <input class="form-check-input" type="radio" 
+                    name="kesadaran" 
+                    id="kesadaran_<?= $i ?>" 
+                    value="<?= $val ?>" 
+                    <?= ($val === $selected_val) ? 'checked' : '' ?> 
+                    <?= $ro_check ?>>
+                <label class="form-check-label" for="kesadaran_<?= $i ?>"><?= $label ?></label>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
   
             <div class="row mb-2">
                 <div class="col-sm-2"><strong>Pupil</strong></div>    
@@ -692,19 +770,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     </div>
                 </div>
 
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="pupil" value="miosis" <?= val('pupil', $existing_data) == 'miosis' ? 'checked' : '' ?> <?= $ro ?>>
-                        <label class="form-check-label">Miosis</label>
-                    </div>
-                </div>
-
-                <div class="col-sm-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="respon" value="midriasis" <?= val('respon', $existing_data) == 'midriasis' ? 'checked' : '' ?> <?= $ro ?>>
-                        <label class="form-check-label">Midriasis</label>
-                    </div>
-                </div>
+              
             </div>
 
             <div class="row mb-2">

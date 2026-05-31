@@ -53,7 +53,7 @@ function actRow($label, $val)
 include 'template_pdf.php';
 ?>
 <body>
-     <h1>Format Askep Keperawatan  R. (Icu)</h1>
+     <h1>Format Askep Keperawatan  Ruang ICU</h1>
      <table class="header-table">
             <tr>
                 <td width="25%"><strong>Nama Mahasiswa</strong></td>
@@ -97,7 +97,11 @@ include 'template_pdf.php';
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($laporan['patofisiologi'] ?? '-') ?></div>
 </div>
-
+<div class="field-row">
+    <div class="field-label">Pathway</div>
+    <div class="field-sep">:</div>
+    <div class="field-value"><?= p($laporan['pathway'] ?? '-') ?></div>
+</div>
 <div class="field-row">
     <div class="field-label">Manifestasi Klinik</div>
     <div class="field-sep">:</div>
@@ -134,9 +138,15 @@ include 'template_pdf.php';
         <div class="field-sep">:</div>
         <div class="field-value"><?= p($laporan['link_penyimpangan'] ?? '-') ?></div>
     </div>
+         <div class="field-row">
+        <div class="field-label">Diagnosa Keperawatan
+</div>
+        <div class="field-sep">:</div>
+        <div class="field-value"><?= p($laporan['diagnosa_keperawatan'] ?? '-') ?></div>
+    </div>
 
 
-    <div class="subsection-title">Perencanaan</div>
+    <div class="subsection-title">Intervensi</div>
     <table class="data">
         <thead>
             <tr>
@@ -177,7 +187,7 @@ include 'template_pdf.php';
         <!-- ================================ -->
         <!-- BAGIAN 2: FORMAT PENGKAJIAN     -->
         <!-- ================================ -->
-        <h1>Format Askep Keperawatan  R. (Icu)</h1>
+        <h1>Pengkajian Keperawatan  Ruang icu</h1>
 
        
         <!-- ================================ -->
@@ -302,13 +312,23 @@ include 'template_pdf.php';
         <td width="2%">:</td>
         <td><?= p($pkj['tanggal'] ?? '-') ?></td>
     </tr>
-
-    <tr><td colspan="3" class="bg-header">Airway (Jalan Napas)</td></tr>
-    <tr>
-        <td>Sumbatan Jalan Nafas/Sekret</td>
-        <td>:</td>
-        <td><?= p($pkj['jalannafas'] ?? '-') ?></td>
-    </tr>
+<tr>
+    <td colspan="3" class="bg-header"><strong>Airway (Jalan Napas)</strong></td>
+</tr>
+<tr>
+    <td>Sumbatan Jalan Nafas/Sekret</td>
+    <td>:</td>
+    <td>
+        <?php
+        $status = $pkj['jalannafas'] ?? '-';
+        if ($status === 'ya') {
+            echo 'Ada - ' . htmlspecialchars($pkj['detail_jalannafas'] ?? '');
+        } else {
+            echo 'Tidak Ada';
+        }
+        ?>
+    </td>
+</tr>
     <tr>
         <td>ETT/Trakeostomi</td>
         <td>:</td>
@@ -332,9 +352,14 @@ include 'template_pdf.php';
         <td><?= p($pkj['ventilator'] ?? '-') ?></td>
     </tr>
     <tr>
-        <td>Pernafasan Cuping Hidung</td>
+        <td>Ventilator (mode/PEEP/FiO2)</td>
         <td>:</td>
-        <td><?= p($pkj['pernafasancupinghidung'] ?? '-') ?></td>
+        <td><?= p($pkj['ventilator'] ?? '-') ?></td>
+    </tr>
+    <tr>
+        <td>Suara Nafas Tambahan</td>
+        <td>:</td>
+        <td><?= p($pkj['suaranafastambahan'] ?? '-') ?></td>
     </tr>
     <tr>
         <td>Retraksi Dinding Dada</td>
@@ -351,53 +376,89 @@ include 'template_pdf.php';
     <tr>
         <td>Nadi</td>
         <td>:</td>
-        <td><?= p($pkj['nadi'] ?? '-') ?> x/menit</td>
+        <td><?= p($pkj['nadi1'] ?? '-') ?> x/menit</td>
     </tr>
     <tr>
-        <td>CVP / CRT</td>
+        <td>Tekanan Darah</td>
         <td>:</td>
-        <td><?= p($pkj['cvp'] ?? '-') ?> / <?= p($pkj['crt'] ?? '-') ?> detik</td>
+        <td><?= p($pkj['tekanandarah1'] ?? '-') ?> mmHg</td>
     </tr>
     <tr>
-        <td>Suara Jantung / Perfusi</td>
+        <td>CVP </td>
         <td>:</td>
-        <td><?= p($pkj['suarajantung'] ?? '-') ?> / <?= p($pkj['perfusiperifer'] ?? '-') ?></td>
+        <td><?= p($pkj['cvp'] ?? '-') ?> </td>
+    </tr>
+    <tr>
+        <td> CRT</td>
+        <td>:</td>
+        <td> <?= p($pkj['crt'] ?? '-') ?> detik</td>
+    </tr>
+    <tr>
+        <td>Suara Jantung </td>
+        <td>:</td>
+        <td><?= p($pkj['suarajantung'] ?? '-') ?> </td>
+    </tr>
+     <tr>
+        <td>Perfusi Perifer</td>
+        <td>:</td>
+        <td>< <?= p($pkj['perfusiperifer'] ?? '-') ?></td>
     </tr>
 
+
     <tr><td colspan="3" class="bg-header">Disability (Neurologi)</td></tr>
-    <tr>
-        <td>Tingkat Kesadaran</td>
-        <td>:</td>
-        <td><?= p($pkj['tingkatkesadaran'] ?? '-') ?></td>
-    </tr>
+    
     <tr>
         <td>GCS (E, M, V)</td>
         <td>:</td>
         <td>E: <?= p($pkj['e'] ?? '-') ?>, M: <?= p($pkj['m'] ?? '-') ?>, V: <?= p($pkj['v'] ?? '-') ?></td>
     </tr>
     <tr>
-        <td>Pupil / Respon Motorik</td>
+        <td>Tingkat Kesadaran</td>
         <td>:</td>
-        <td><?= p($pkj['pupil'] ?? '-') ?> / <?= p($pkj['responmotorik'] ?? '-') ?></td>
+        <td><?= p($pkj['kesadaran'] ?? '-') ?></td>
+    </tr>
+    <tr>
+        <td>Pupil </td>
+        <td>:</td>
+        <td> <?= p($pkj['responmotorik'] ?? '-') ?></td>
+    </tr>
+    <tr>
+        <td> Respon Motorik</td>
+        <td>:</td>
+        <td> <?= p($pkj['responmotorik'] ?? '-') ?></td>
     </tr>
 
     <tr><td colspan="3" class="bg-header">Exposure & Fluid</td></tr>
     <tr>
-        <td>Suhu / Lainnya</td>
+        <td>Suhu </td>
         <td>:</td>
-        <td><?= p($pkj['suhu'] ?? '-') ?> °C / <?= p($pkj['lainnya'] ?? '-') ?></td>
+        <td><?= p($pkj['suhu'] ?? '-') ?> °C </td>
     </tr>
     <tr>
-        <td>Infuse / Cairan / Tetesan</td>
+        <td> Lainnya</td>
         <td>:</td>
-        <td><?= p($pkj['infuse'] ?? '-') ?> / <?= p($pkj['cairan'] ?? '-') ?> / <?= p($pkj['jumlahtetesan'] ?? '-') ?> x/m</td>
+        <td> <?= p($pkj['lainnya'] ?? '-') ?></td>
+    </tr>
+    <tr>
+        <td>Infuse yang Terpasang</td>
+        <td>:</td>
+        <td><?= p($pkj['infuse'] ?? '-') ?> </td>
+    </tr>
+    <tr>
+        <td> Cairan </td>
+        <td>:</td>
+        <td><?= p($pkj['cairan'] ?? '-') ?> </td>
+    </tr>
+    <tr>
+        <td>Jumlah Tetesan</td>
+        <td>:</td>
+        <td><?= p($pkj['jumlahtetesan'] ?? '-') ?> x/m</td>
     </tr>
 </table>
 
         <!-- ================================ -->
         <!-- BAGIAN 2: FORMAT PENGKAJIAN     -->
         <!-- ================================ -->
-<div class="page-break"></div>
 <h3>2. Pemeriksaan Fisik Spesifik With Body Sistem</h3>
 <div class="field-row">
     <div class="field-label">a. Pernafasan (B1: Breathing)</div>
@@ -410,10 +471,19 @@ include 'template_pdf.php';
     <div class="field-label">Hidung</div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        <?= chk($fisik['hidung'] ?? '', 'asimetris') ?> Asimetris &nbsp;
-        <?= chk($fisik['hidung'] ?? '', 'deviasiseptum') ?> Deviasi Septum &nbsp;
-        <?= chk($fisik['hidung'] ?? '', 'epistaksis') ?> Epistaksis &nbsp;
-        <?= chk($fisik['hidung'] ?? '', 'lainlain') ?> Lain-lain &nbsp;
+        <?php
+        $hidung_val = $fisik['hidung'] ?? '';
+        $detail_lain = htmlspecialchars($fisik['hidung_lainlain'] ?? '');
+        ?>
+
+        <?= chk($hidung_val, 'asimetris') ?> Asimetris &nbsp;&nbsp;
+        <?= chk($hidung_val, 'deviasiseptum') ?> Deviasi Septum &nbsp;&nbsp;
+        <?= chk($hidung_val, 'epistaksis') ?> Epistaksis &nbsp;&nbsp;
+        
+        <?= chk($hidung_val, 'lainlain') ?> Lain-lain: 
+        <?php if ($hidung_val === 'lainlain'): ?>
+            <u><?= $detail_lain ?></u>
+        <?php endif; ?>
     </div>
 </div>
 <div class="field-row">
@@ -436,7 +506,7 @@ include 'template_pdf.php';
 <div class="field-row"><div class="field-label">Trakeostomi</div><div class="field-sep">:</div><div class="field-value"><?= chk($fisik['trakeostomi'], 'ya') ?> Ya &nbsp; <?= chk($fisik['trakeostomi'], 'tidak') ?> Tidak</div></div>
 
 <div class="field-row">
-    <div class="field-label">Suara Napas</div>
+    <div class="field-label">Suara Napas Tambahan</div>
     <div class="field-sep">:</div>
     <div class="field-value">
         <?= chk($fisik['suaratambahannapas'] ?? '', 'weezhing') ?> Weezhing &nbsp;
@@ -509,8 +579,7 @@ include 'template_pdf.php';
         <?= chk($fisik['edema'] ?? '', 'ekstremitasatas') ?> Ekstremitas Atas &nbsp;
         <?= chk($fisik['edema'] ?? '', 'ekstremitasbawah') ?> Ekstremitas Bawah &nbsp;
         <?= chk($fisik['edema'] ?? '', 'ascites') ?> Ascites<br>
-        <strong>Lainnya:</strong> <?= p($fisik['lainnyaedema'] ?? '-') ?> &nbsp;
-        <strong>Sebutkan:</strong> <?= p($fisik['sebutkanedema'] ?? '-') ?>
+        <strong>Lainnya:</strong> <?= p($fisik['lainnyaedema'] ?? '-') ?>
     </div>
 </div>
 
@@ -519,9 +588,8 @@ include 'template_pdf.php';
     <div class="field-label">c. Persyarafan (B3: Brain) </div>
 </div>
 
-
+<div class="field-row"><div class="field-label">GCS (E-M-V)</div><div class="field-sep">:</div><div class="field-value">E: <?= p($fisik['e'] ?? '-') ?> | M: <?= p($fisik['m'] ?? '-') ?> | V: <?= p($fisik['v'] ?? '-') ?></div></div>
 <div class="field-row"><div class="field-label">Kesadaran</div><div class="field-sep">:</div><div class="field-value"><?= p($fisik['kesadaran'] ?? '-') ?></div></div>
-<div class="field-row"><div class="field-label">GCS (E-M-V)</div><div class="field-sep">:</div><div class="field-value">E: <?= p($fisik['gcs_e'] ?? '-') ?> | M: <?= p($fisik['gcs_m'] ?? '-') ?> | V: <?= p($fisik['gcs_v'] ?? '-') ?></div></div>
 <div class="field-row"><div class="field-label">Kejang</div><div class="field-sep">:</div><div class="field-value"><?= p($fisik['kejang'] ?? '-') ?></div></div>
 
 <div class="field-row">
@@ -621,13 +689,13 @@ include 'template_pdf.php';
 </div>
 
 <div class="field-row">
-    <div class="field-label">Spolling Blass</div>
+    <div class="field-label">Spolling Blass dengan cairan NaCL 0,9%</div>
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($fisik['spollingblass'] ?? '-') ?></div>
 </div>
 
 <div class="field-row">
-    <div class="field-label">Kelainan Urine</div>
+    <div class="field-label">Kelainan dalam Urine (Sebutkan)</div>
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($fisik['kelainandalamurine'] ?? '-') ?></div>
 </div>
@@ -672,7 +740,7 @@ include 'template_pdf.php';
 </div>
 
 <div class="field-row">
-    <div class="field-label">Diet</div>
+    <div class="field-label">Diet yang diberikan</div>
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($fisik['dietyangdiberikan'] ?? '-') ?></div>
 </div>
@@ -684,7 +752,7 @@ include 'template_pdf.php';
 </div>
 
 <div class="field-row">
-    <div class="field-label">Kelainan Cerna</div>
+    <div class="field-label">Kelainan Saluran Cerna</div>
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($fisik['kelainansalurancerna'] ?? '-') ?></div>
 </div>
@@ -826,19 +894,16 @@ include 'template_pdf.php';
 </div>
 <div class="page-break"></div>
 
-   <h3 class="mt-5">k. Pemeriksaan Laboratorium</h3>
 <div class="field-row">
-    <div class="field-label">Laboratorium</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($pemeriksaan['tgllaboratorium'] ?? '-') ?></div>
+    <div class="field-label"><strong>k. Pemeriksaan  Penunjang</strong></div>
 </div>
+
         <table class="data">
             <thead>
                 <tr>
                     <th>Pemeriksaan</th>
                     <th>Hasil</th>
-                    <th>Satuan</th>
-                    <th>Nilai Rujukan</th>
+                    <th>Nilai Normal</th>
                 </tr>
             </thead>
             <tbody>
@@ -848,37 +913,63 @@ include 'template_pdf.php';
                             <td><?= p($lab['pemeriksaan']) ?></td>
                             <td><?= p($lab['hasil']) ?></td>
                             <td><?= p($lab['satuan']) ?></td>
-                            <td><?= p($lab['rujukan']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="4" style="text-align:center">-</td>
+                        <td colspan="3" style="text-align:center">-</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
         <div class="field-row">
-    <div class="field-label">Radiologi</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($pemeriksaan['tglradiologi'] ?? '-') ?>| hasil <?= p($pemeriksaan['radiologi'] ?? '-') ?></div>
-</div>
+            <div class="field-label">b.	Radiologi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($pemeriksaan['radiologi']) ?></div>
+        </div>
+        <div class="field-row">
+    <div class="subsection-title">c. EKG</div>
+        <?php if (!empty($pemeriksaan['ekg'])): ?>
+            <div style="margin: 6px 0; text-align:center;">
+                <img src="<?= cetakGambar($pemeriksaan['ekg']) ?>" style="max-height:250px; width:auto;" />
+            </div>
+        <?php else: ?>
+            <div style="border:1px solid #ccc; min-height:60px; padding:4px;">-</div>
+        <?php endif; ?>
 
-          <h3 class="mt-5">9. Pengobatan</h3>
+        <div class="field-row">
+            <div class="field-label">d.	USG</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($pemeriksaan['usg']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">e.	CT Scan</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($pemeriksaan['ct']) ?></div>
+        </div>
+      
 
+
+        <!-- ================================ -->
+        <!-- KLASIFIKASI & ANALISA DATA      -->
+        <!-- ================================ -->
+         <h3>3. Terapi / Obat</h3>
         <table class="data">
             <thead>
                 <tr>
-                    <th>Nama Obat</th>
-                    <th>Dosis</th>
-                    <th>Rute Pemberian</th>
-                    <th>Berapa Kali Pemberian/hari</th>
+                    <th width="5%">No.</th>
+                    <th width="40%">Jenis Obat</th>
+                    <th width="30%">Dosis</th>
+                    <th width="25%">Manfaat</th>
+                    <th width="25%">Cara Pemberian</th>
+
                 </tr>
             </thead>
             <tbody>
                 <?php if (!empty($pemeriksaan['obat'])): ?>
-                    <?php foreach ($pemeriksaan['obat'] as $obat): ?>
-                        <tr>
+                    <?php foreach ($pemeriksaan['obat'] as $i => $obat): ?>
+                          <tr>
+                            <td><?= $i + 1 ?></td>
                             <td><?= p($obat['nama_obat']) ?></td>
                             <td><?= p($obat['dosis']) ?></td>
                             <td><?= p($obat['rute']) ?></td>
@@ -887,12 +978,11 @@ include 'template_pdf.php';
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="4" style="text-align:center">-</td>
+                        <td colspan="2" style="text-align:center">-</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
         </table>
-
        
 
         <div class="page-break"></div>
@@ -900,7 +990,7 @@ include 'template_pdf.php';
         <!-- ================================ -->
         <!-- KLASIFIKASI & ANALISA DATA      -->
         <!-- ================================ -->
-        <h3>Klasifikasi Data</h3>
+        <h3>4. Klasifikasi Data</h3>
         <table class="data">
             <thead>
                 <tr>
@@ -924,7 +1014,7 @@ include 'template_pdf.php';
             </tbody>
         </table>
 
-        <h3>Analisa Data</h3>
+        <h3>5. Analisa Data</h3>
         <table class="data">
             <thead>
                 <tr>
@@ -955,7 +1045,7 @@ include 'template_pdf.php';
         <!-- ================================ -->
         <!-- CATATAN KEPERAWATAN             -->
         <!-- ================================ -->
-        <h3>Diagnosa Keperawatan Prioritas</h3>
+        <h3>6. Diagnosa Keperawatan Prioritas</h3>
         <table class="data">
             <thead>
                 <tr>
@@ -983,7 +1073,7 @@ include 'template_pdf.php';
             </tbody>
         </table>
 
-        <h3>Rencana Keperawatan</h3>
+        <h3>7. Intervensi Keperawatan</h3>
         <table class="data">
             <thead>
                 <tr>
@@ -1011,7 +1101,7 @@ include 'template_pdf.php';
             </tbody>
         </table>
 
-        <h3>Implementasi</h3>
+        <h3>8. Implementasi Keperawatan</h3>
         <table class="data">
             <thead>
                 <tr>
@@ -1039,7 +1129,7 @@ include 'template_pdf.php';
             </tbody>
         </table>
 
-        <h3>Evaluasi</h3>
+        <h3>9. Evaluasi Keperawatan</h3>
         <table class="data">
             <thead>
                 <tr>

@@ -108,6 +108,9 @@ $data = [
     'infuse'                  => $_POST['infuse']                  ?? '',
     'cairan'                  => $_POST['cairan']                  ?? '',
     'jumlahtetesan'           => $_POST['jumlahtetesan']           ?? '',
+    'kesadaran'           => $_POST['kesadaran']           ?? '',
+    'detail_jalannafas'           => $_POST['detail_jalannafas']           ?? '',
+
 ];
 
     if (!$submission) {
@@ -358,25 +361,51 @@ $data = [
     <label class="col-sm-12 col-form-label"><strong>Airways (Jalan Nafas)</strong></label>
 </div> 
 
+<style>
+    /* Sembunyikan container input secara default */
+    .detail-container {
+        display: none;
+    }
+    
+    /* Jika radio button dengan ID 'jn_ya' dicentang, tampilkan .detail-container */
+    #jn_ya:checked ~ .detail-container {
+        display: inline-block;
+        vertical-align: top;
+    }
+</style>
+
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Sumbatan Jalan Nafas/Sekret</strong></label>
     <div class="col-sm-10">
-        <select class="form-select" name="jalannafas" required <?= $ro ?>>
-            <option value="">Pilih</option>
-            <option value="ya" <?= val('jalannafas', $existing_data) === 'ya' ? 'selected' : '' ?>>Ya</option>
-            <option value="tidak" <?= val('jalannafas', $existing_data) === 'tidak' ? 'selected' : '' ?>>Tidak Ada</option>
-        </select>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="jalannafas" id="jn_ya" value="ya" 
+                <?= val('jalannafas', $existing_data) === 'ya' ? 'checked' : '' ?> <?= $ro ?>>
+            <label class="form-check-label" for="jn_ya">Ya</label>
+
+            <div class="detail-container ms-2">
+                <span class="d-block text-danger" style="font-size: 0.75rem;">
+                    *Apabila ada, sebutkan:
+                </span>
+                <input type="text" class="form-control form-control-sm" name="detail_jalannafas" 
+                    placeholder="Sebutkan..." value="<?= val('detail_jalannafas', $existing_data) ?>" <?= $ro ?>>
+            </div>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="jalannafas" id="jn_tidak" value="tidak" 
+                <?= val('jalannafas', $existing_data) === 'tidak' ? 'checked' : '' ?> <?= $ro ?>>
+            <label class="form-check-label" for="jn_tidak">Tidak Ada</label>
+        </div>
     </div>
 </div>
-
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>ETT/Trakeostomi</strong></label>
     <div class="col-sm-10">
-        <select class="form-select" name="ett" required <?= $ro ?>>
-            <option value="">Pilih</option>
-            <option value="Ya" <?= val('ett', $existing_data) === 'Ya' ? 'selected' : '' ?>>Ya</option>
-            <option value="Tidak" <?= val('ett', $existing_data) === 'Tidak' ? 'selected' : '' ?>>Tidak</option>
-        </select>
+        <input type="text" 
+               class="form-control" 
+               name="ett" 
+               value="<?= htmlspecialchars(val('ett', $existing_data)) ?>" 
+               <?= $ro ?>>
     </div>
 </div>
 
@@ -457,7 +486,7 @@ $data = [
     <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
     <div class="col-sm-10">
         <div class="input-group">
-            <input type="text" class="form-control" name="nadi1" value="<?= htmlspecialchars($existing_data['nadi'] ?? '') ?>" <?= $ro ?>>
+            <input type="text" class="form-control" name="nadi1" value="<?= htmlspecialchars($existing_data['nadi1'] ?? '') ?>" <?= $ro ?>>
             <span class="input-group-text">x/menit</span>
         </div>
     </div>
@@ -467,7 +496,7 @@ $data = [
     <label class="col-sm-2 col-form-label"><strong>Tekanan Darah</strong></label>
     <div class="col-sm-10">
         <div class="input-group">
-            <input type="text" class="form-control" name="tekanandarah1" value="<?= htmlspecialchars($existing_data['tekanandarah'] ?? '') ?>" <?= $ro ?>>
+            <input type="text" class="form-control" name="tekanandarah1" value="<?= htmlspecialchars($existing_data['tekanandarah1'] ?? '') ?>" <?= $ro ?>>
             <span class="input-group-text">mmHg</span>
         </div>
     </div>
@@ -508,12 +537,6 @@ $data = [
     <label class="col-sm-12 col-form-label"><strong>Disability (Neurologi)</strong></label>
 </div> 
 
-<div class="row mb-3">
-    <label class="col-sm-2 col-form-label"><strong>Tingkat Kesadaran</strong></label>
-    <div class="col-sm-10">
-        <input type="text" class="form-control" name="tingkatkesadaran" value="<?= htmlspecialchars($existing_data['tingkatkesadaran'] ?? '') ?>" <?= $ro ?>>
-    </div>
-</div>
 
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>Glasgow Coma Scale (GCS)</strong></label>
@@ -532,6 +555,32 @@ $data = [
                 <input type="text" class="form-control" name="v" value="<?= htmlspecialchars($existing_data['v'] ?? '') ?>" <?= $ro ?>>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Tingkat Kesadaran</strong></label>
+    <div class="col-sm-9">
+        <?php
+        $kesadaran_options = ['Kompos Mentis', 'Apatis', 'Somnolent', 'Stupor / Suppor', 'Semikoma', 'Koma'];
+        $kesadaran_values  = ['Kompos Mentis', 'Apatis', 'Somnolent', 'Stupor', 'Semikoma', 'Koma'];
+        
+        // Asumsi $existing_data berisi nilai tunggal yang tersimpan
+        $selected_val = val('kesadaran', $existing_data); 
+
+        foreach ($kesadaran_options as $i => $label):
+            $val = $kesadaran_values[$i];
+        ?>
+            <div class="form-check-inline">
+                <input class="form-check-input" type="radio" 
+                    name="kesadaran" 
+                    id="kesadaran_<?= $i ?>" 
+                    value="<?= $val ?>" 
+                    <?= ($val === $selected_val) ? 'checked' : '' ?> 
+                    <?= $ro_check ?>>
+                <label class="form-check-label" for="kesadaran_<?= $i ?>"><?= $label ?></label>
+            </div>
+        <?php endforeach; ?>
     </div>
 </div>
 
@@ -597,149 +646,6 @@ $data = [
         </div>
     </div>
 </div>
-
-                <!-- Bagian Button -->    
-                <div class="row mb-3">
-                    <div class="col-sm-11 justify-content-end d-flex">
-                        <button type="submit" name="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </div> 
-
-                <style>
-                
-                .table-primarysurvey {
-                    table-layout: fixed;
-                    width: 100;
-                }
-
-                .table-primarysurvey td,
-                .table-primarysurvey th {
-                    word-wrap: break-word;
-                    white-space: normal;
-                    vertical-align: top;
-                }
-
-                </style>
-
-                <h5 class="card-title"><strong>Primary Survey</strong></h5>
-
-                <table class="table table-bordered table-primarysurvey">
-                   
-                <tbody>
-
-                <tr>
-                <td><strong>Pengumpulan Data</strong></td>
-                <td>Tanggal: <?= $row['tanggal'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td rowspan="2"><strong>Airways (Jalan Nafas)</strong></td>
-                <td>Sumbatan Jalan Nafas: <?= $row['jalannafas'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>ETT/Trakeostomi: <?= $row['ett'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td rowspan="7"><strong>Breathing (Pernafasan)</strong></td>
-                <td>Pola Napas: <?= $row['polanafas'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>SpO2: <?= $row['sp02'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Ventilator (mode/PEEP/FiO2): <?= $row['ventilator'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Penafasan Cuping Hidung: <?= $row['pernafasancupinghidung'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Suara Nafas Tambahan: <?= $row['suaranafastambahan'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Retraksi Dinding Dada: <?= $row['retraksidindingdada'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Menggunakan Otot Bantu: <?= $row['otobantu'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td rowspan="6"><strong>Circulation (Sirkulasi)</strong></td>
-                <td>Nadi: <?= $row['nadi'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Tekanan Darah: <?= $row['tekanandarah'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>CVP: <?= $row['cvp'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>CRT: <?= $row['crt'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Suara Jantung: <?= $row['suarajantung'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Perfusi Perifer: <?= $row['perfusiperifer'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td rowspan="4"><strong>Disability (Neurologi)</strong></td>
-                <td>Tingkat Kesadaran: <?= $row['tingkatkesadaran'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Glasgow Coma Scale (GCS):
-                    E<?= $row['e'] ?? '0'; ?>
-                    M<?= $row['m'] ?? '0'; ?>
-                    V<?= $row['v'] ?? '0'; ?>
-                </td> 
-                </tr>
-
-                <tr>
-                <td>Pupil: <?= $row['pupil'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Respon Motorik: <?= $row['responmotorik'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td rowspan="2"><strong>Exposure</strong></td>
-                <td>Suhu: <?= $row['suhu'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Lainnya: <?= $row['lainnya'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td rowspan="3"><strong>Fluid (Cairan dan Elektrolit)</strong></td>
-                <td>Infuse yang Terpasang: <?= $row['infuse'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Cairan: <?= $row['cairan'] ?? ''; ?></td>
-                </tr>
-
-                <tr>
-                <td>Jumlah Tetesan: <?= $row['jumlahtetesan'] ?? ''; ?></td>
-                </tr>
-
-                </tbody>
-                </table>
 
             
  <!-- TOMBOL SIMPAN (mahasiswa only) -->

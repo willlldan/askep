@@ -198,10 +198,64 @@ include 'template_pdf.php';
     <div class="field-value"><?= p($resume_keperawatan['riwayat_kesehatan_yang_lalu']) ?></div>
 </div>
 
-<h3>8. Pemeriksaan Penunjang</h3>
-<div class="field-row">
-    <div class="field-value"><?= p($resume_keperawatan['pemeriksaan']) ?></div>
-</div>
+
+        <h3>8. Pemeriksaan Penunjang</h3>
+            <h4 class="mt-5">Laboratorium</h4>
+
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>Pemeriksaan</th>
+                    <th>Hasil</th>
+                    <th>Nilai Normal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($resume_keperawatan['lab'])): ?>
+                    <?php foreach ($resume_keperawatan['lab'] as $lab): ?>
+                        <tr>
+                            <td><?= p($lab['pemeriksaan']) ?></td>
+                            <td><?= p($lab['hasil']) ?></td>
+                            <td><?= p($lab['nilai_normal']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="3" style="text-align:center">-</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+        <div class="field-row">
+            <div class="field-label">b.	Radiologi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($resume_keperawatan['radiologi']) ?></div>
+        </div>
+        <div class="field-row">
+    <div class="subsection-title">EKG</div>
+        <?php if (!empty($resume_keperawatan['ekg'])): ?>
+            <div style="margin: 6px 0; text-align:center;">
+                <img src="<?= cetakGambar($resume_keperawatan['ekg']) ?>" style="max-height:250px; width:auto;" />
+            </div>
+        <?php else: ?>
+            <div style="border:1px solid #ccc; min-height:60px; padding:4px;">-</div>
+        <?php endif; ?>
+
+        <div class="field-row">
+            <div class="field-label">d.	USG</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($resume_keperawatan['usg']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">e.	CT Scan</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($resume_keperawatan['ct']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">f.	Pemeriksaan Lain (Sebutkan)</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($resume_keperawatan['pemeriksaan']) ?></div>
+        </div>
 
 <h3>9. Terapi/Obat</h3>
 <div class="field-row">
@@ -994,6 +1048,7 @@ include 'template_pdf.php';
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($bio1['kelainan_leher']) ?></div>
 </div>
+        <div class="page-break"></div>
         <!-- DATA BIOLOGIS 2 -->
        <div class="subsection-title">8. Thorax</div>
 <div class="subsection-subtitle">a. Dada</div>
@@ -1472,14 +1527,62 @@ include 'template_pdf.php';
     <div class="field-label"><strong>f. Data Penunjang</strong></div>
 </div>
 
-<div class="field-row">
-    <div class="field-label">Lab/Radiologi</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= htmlspecialchars($bio2['lab'] ?? '-') ?></div>
-</div>
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>Pemeriksaan</th>
+                    <th>Hasil</th>
+                    <th>Nilai Normal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($bio2['lab'])): ?>
+                    <?php foreach ($bio2['lab'] as $lab): ?>
+                        <tr>
+                            <td><?= p($lab['pemeriksaan']) ?></td>
+                            <td><?= p($lab['hasil']) ?></td>
+                            <td><?= p($lab['nilai_normal']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="3" style="text-align:center">-</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+        <div class="field-row">
+            <div class="field-label">b.	Radiologi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($bio2['radiologi']) ?></div>
+        </div>
+        <div class="field-row">
+    <div class="subsection-title">EKG</div>
+        <?php if (!empty($bio2['ekg'])): ?>
+            <div style="margin: 6px 0; text-align:center;">
+                <img src="<?= cetakGambar($bio2['ekg']) ?>" style="max-height:250px; width:auto;" />
+            </div>
+        <?php else: ?>
+            <div style="border:1px solid #ccc; min-height:60px; padding:4px;">-</div>
+        <?php endif; ?>
+
+        <div class="field-row">
+            <div class="field-label">d.	USG</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($bio2['usg']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">e.	CT Scan</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($bio2['ct']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">f.	Pemeriksaan Lain (Sebutkan)</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($bio2['pemeriksaan']) ?></div>
+        </div>
    
 
-        <div class="page-break"></div>
 
         <!-- ================================ -->
         <!-- KLASIFIKASI & ANALISA DATA      -->
