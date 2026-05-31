@@ -1,6 +1,6 @@
 <?php
 // Shortcut per section
-
+$konsep       = $sections['laporan_pedahuluan'] ?? [];
 $resume        = $sections['resume'] ?? [];
 $analisa       = $sections['analisa'] ?? [];
 $lainnya       = $sections['lainnya'] ?? [];
@@ -26,9 +26,9 @@ include 'template_pdf.php';
             </tr>
             
             <tr>
-                <td><strong>NIM</strong></td>
+                <td><strong>NPM</strong></td>
                 <td>:</td>
-                <td><?= p($submission['nim']) ?></td>
+                <td><?= p($submission['npm']) ?></td>
                 <td><strong>RS/Ruangan</strong></td>
                 <td>:</td>
                 <td><?= p($submission['rs_ruangan']) ?></td>
@@ -42,8 +42,110 @@ include 'template_pdf.php';
         <!-- ================================ -->
         <h1>FORMAT RESUME KEPERAWATAN <br> PRAKTIK KLINIK KEPERAWATAN POLI TB/UMUM </h1>
         <br>
+         <h3>A. Konsep Dasar Medis</h3>
+
+        <div class="field-row">
+            <div class="field-label">Pengertian</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($konsep['pengertian']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Etiologi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($konsep['etiologi']) ?></div>
+        </div>
+
+         <div class="field-row">
+            <div class="field-label">Patofisiologi</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($konsep['patofisiologi']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Pathway</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($konsep['pathway']) ?></div>
+        </div>
+       
+        <div class="field-row">
+            <div class="field-label">Manifestasi Klinik</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($konsep['manifestasi_klinik']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Penatalaksanaan</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($konsep['penatalaksanaan']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">Pemeriksaan Penunjang</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($konsep['pemeriksaan_penunjang']) ?></div>
+        </div>
         
-        <h3 class="mt-5">Format Resume Ruang OK</h3>
+
+        <h3>B. Konsep Dasar Keperawatan</h3>
+            <div class="subsection-title">1. Pengkajian</div>
+
+        <div class="field-row">
+            <div class="field-label">a. Keluhan Utama</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($konsep['keluhan']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">b. Riwayat kesehatan sekarang dan dahulu</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($konsep['kesehatan']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">c. Pemeriksaan Fisik</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($konsep['pemeriksaan']) ?></div>
+        </div>
+        <div class="field-row">
+            <div class="field-label">2. Diagnosa Keperawatan</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($konsep['diagnosa_keperawatan']) ?></div>
+        </div>
+       
+
+        <div class="subsection-title">3. Intervensi</div>
+        <table class="data">
+            <thead>
+                <tr>
+                    <th width="5%">No.</th>
+                    <th width="35%">Diagnosa Keperawatan</th>
+                    <th width="30%">Tujuan &amp; Kriteria Hasil</th>
+                    <th width="30%">Intervensi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($konsep['perencanaan'])): ?>
+                    <?php foreach ($konsep['perencanaan'] as $i => $row): ?>
+                        <tr>
+                            <td><?= $i + 1 ?></td>
+                            <td><?= p($row['diagnosa']) ?></td>
+                            <td><?= p($row['tujuan_kriteria']) ?></td>
+                            <td><?= p($row['intervensi']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="4" style="text-align:center">-</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+
+        <h3>C. Daftar Pustaka</h3>
+       <div class="field-row">
+            <div class="field-label">Daftar Pustaka</div>
+            <div class="field-sep">:</div>
+            <div class="field-value"><?= p($konsep['daftar']) ?></div>
+        </div>
+
+        <div class="page-break"></div>
+
+        <h3 class="mt-5">Format Resume </h3>
 
         <h4>1. Biodata Klien</h4>
         <div class="field-row">
@@ -164,10 +266,11 @@ include 'template_pdf.php';
             <div class="field-sep">:</div>
             <div class="field-value"><?= p($resume['radiologi']) ?></div>
         </div>
-        <div class="subsection-title">c.	EKG </div>
-        <?php if (!empty($pkj['ekg'])): ?>
+        <div class="field-row">
+    <div class="subsection-title">EKG</div>
+        <?php if (!empty($resume['ekg'])): ?>
             <div style="margin: 6px 0; text-align:center;">
-                <img src="<?= cetakGambar(p($pkj['ekg'])) ?>" style="max-height:250px; width:auto;" />
+                <img src="<?= cetakGambar($resume['ekg']) ?>" style="max-height:250px; width:auto;" />
             </div>
         <?php else: ?>
             <div style="border:1px solid #ccc; min-height:60px; padding:4px;">-</div>

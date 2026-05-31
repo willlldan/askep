@@ -1,67 +1,60 @@
 <?php
-$jeniskeperawatan = $_GET['jeniskeperawatan'] ?? 'keperawatan';
 $submission_id = $_GET['submission_id'] ?? null;
-
+$page = $_GET['page'] ?? '';
+$parts = explode('/', $page);
+$jeniskeperawatan = $parts[1] ?? 'dasar';
 $titles = [
-    'keperawatan' => 'Keperawatan Dasar',
-
-
+    'dasar' => 'Askep Keperawatan Dasar',
+    
 ];
+$tabs = [
+    'resume_keperawatan',
+    'analisa_resume',
+    'lainnya_resume',
+    'pengkajian',
+    'data_biologis_1',
+    'data_biologis_2',
+    'klasifikasi_analisa_data',
+    'lainnya',
+   
+];
+$tabLabels = [
+    'resume_keperawatan' => 'Format Resume ',
+    'analisa_resume' => 'Analisa Resume',
+    'lainnya_resume' => 'Lainnya Resume',
+    'pengkajian' => 'Pengkajian',
+    'data_biologis_1' => 'Data Biologis 1',
+    'data_biologis_2' => 'Data Biologis 2',
+    'klasifikasi_analisa_data' => 'Klasifikasi Analisa Data',
+    'lainnya' => 'Lainnya',
+];
+$currentTab = $_GET['tab'] ?? $tabs[0];
 ?>
 
-
 <div class="pagetitle">
-    <h1><strong><?= $titles[$jeniskeperawatan] ?? 'keperawatan' ?></strong></h1>
+    <h1><strong><?= $titles[$jeniskeperawatan] ?? 'Askep Keperawatan Dasar' ?></strong></h1>
 </div>
 <br>
-
-
 <ul class="nav nav-tabs custom-tabs">
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'resume_keperawatan' ? 'active' : '' ?>"
-            href="index.php?page=keperawatan/dasar&jeniskeperawatan=<?= $jeniskeperawatan ?>&tab=resume_keperawatan"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Format Resume </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'analisa_resume' ? 'active' : '' ?>"
-            href="index.php?page=keperawatan/dasar&jeniskeperawatan=<?= $jeniskeperawatan ?>&tab=analisa_resume"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Analisa Resume </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya_resume' ? 'active' : '' ?>"
-            href="index.php?page=keperawatan/dasar&jeniskeperawatan=<?= $jeniskeperawatan ?>&tab=lainnya_resume"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Lainnya Resume </a>
-    </li>
-
-     <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'pengkajian' ? 'active' : '' ?>"
-            href="index.php?page=keperawatan/dasar&jeniskeperawatan=<?= $jeniskeperawatan ?>&tab=pengkajian"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Pengkajian </a>
-</li>   
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'data_biologis_1' ? 'active' : '' ?>"
-            href="index.php?page=keperawatan/dasar&jeniskeperawatan=<?= $jeniskeperawatan ?>&tab=data_biologis_1"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Data Biologis 1 </a>
-    </li>
-
-   <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'data_biologis_2' ? 'active' : '' ?>"
-            href="index.php?page=keperawatan/dasar&jeniskeperawatan=<?= $jeniskeperawatan ?>&tab=data_biologis_2"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Data Biologis 2 </a>
-    </li>
-
-
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'klasifikasi_analisa_data' ? 'active' : '' ?>"
-            href="index.php?page=keperawatan/dasar&jeniskeperawatan=<?= $jeniskeperawatan ?>&tab=klasifikasi_analisa_data"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Klasifikasi Analisa Data </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link <?= ($_GET['tab'] ?? '') == 'lainnya' ? 'active' : '' ?>"
-            href="index.php?page=keperawatan/dasar&jeniskeperawatan=<?= $jeniskeperawatan ?>&tab=lainnya"<?php if($submission_id) echo '&submission_id=' . $submission_id; ?>> Lainnya </a>
-    </li>
+    <?php
+    foreach ($tabs as $tab):
+        $isActive = ($currentTab == $tab) ? 'active' : '';
+        $label = $tabLabels[$tab] ?? ucfirst(str_replace('_', ' ', $tab));
+        $url = "index.php?page=keperawatan/dasar&tab={$tab}";
+        if ($submission_id) $url .= "&submission_id={$submission_id}";
+    ?>
+        <li class="nav-item">
+            <a class="nav-link <?= $isActive ?>" href="<?= htmlspecialchars($url) ?>">
+                <?= htmlspecialchars($label) ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
 </ul>
 
 <style>
     .custom-tabs {
         border-bottom: 1px solid #dee2e6;
     }
-
     .custom-tabs .nav-link {
         border: none;
         background: transparent;
@@ -69,11 +62,9 @@ $titles = [
         font-weight: 500;
         padding: 10px 20px;
     }
-
     .custom-tabs .nav-link:hover {
         color: #4154f1;
     }
-
     .custom-tabs .nav-link.active {
         border: none;
         border-bottom: 3px solid #4154f1;

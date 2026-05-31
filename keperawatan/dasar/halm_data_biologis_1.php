@@ -1,34 +1,8 @@
 <?php
-require_once "koneksi.php";
-require_once "utils.php";
-
 $form_id       = 20;
-$level         = $_SESSION['level'];
-$user_id       = $_SESSION['id_user'];
-$section_name  = 'identitas';
-$section_label = 'Identitas';
-
-if ($level === 'Dosen') {
-    $submission_id_param = $_GET['submission_id'] ?? null;
-    if (!$submission_id_param) {
-        echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
-        exit;
-    }
-    $stmt = $mysqli->prepare("
-        SELECT s.*, r.nama as dosen_name
-        FROM submissions s
-        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
-        WHERE s.id = ?
-    ");
-    $stmt->bind_param("i", $submission_id_param);
-    $stmt->execute();
-    $submission = $stmt->get_result()->fetch_assoc();
-} else {
-    $submission = getSubmission($user_id, $form_id, $mysqli);
-}
-
-$existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
-$section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
+$section_name  = 'data_biologis_1';
+$section_label = 'Data Biologis 1';
+include dirname(__DIR__, 2) . '/partials/init_section.php';
 
 // Decode checkbox fields
 $checkbox_fields = ['bau_mulut'];
@@ -38,11 +12,6 @@ foreach ($checkbox_fields as $cf) {
         : [];
 }
 
-$is_dosen    = $level === 'Dosen';
-$is_readonly = $is_dosen || isLocked($submission);
-$ro          = $is_readonly ? 'readonly' : '';
-$ro_disabled = $is_readonly ? 'disabled' : '';
-
 // =============================================
 // HANDLE POST - MAHASISWA
 // =============================================
@@ -50,9 +19,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     if (isLocked($submission)) {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
-    $data = [];
-    $text_fields = ['bentuk_kepala', 'nyeridada', 'benjolan_kepala', 'penyebaran_merata', 'warna_rambut', 'rambut_dicabut', 'kelainan_rambut', 'ekspresi_wajah', 'simetris_wajah', 'udema_wajah', 'kelainan_wajah', 'penglihatan', 'visus_kanan', 'visus_kiri', 'lapang_pandang', 'keadaan_mata', 'konjungtiva', 'lesi_mata', 'sclera', 'pupil', 'bola_mata', 'kelainan_mata', 'pendengaran_kiri', 'pendengaran_kanan', 'nyeri_Kiri', 'nyeri_kanan', 'serumen', 'kelainan_telinga', 'bau', 'sekresi', 'warna_hidung', 'mukosa_hidung', 'pembengkakan', 'cuping_hidung', 'kelainan_hidung', 'bibir', 'simetris', 'kelembaban', 'caries', 'jumlah_gigi', 'warna_gigi', 'gigi_palsu_jumlah', 'letak', 'lidah', 'lesi_lidah', 'panas/dingin', 'asampahit', 'manis', 'refleks', 'tonsil', 'sekret_mulut', 'sekret_mulut_warna', 'leher_simetris', 'kelenjar', 'jvp', 'refleks_menelan', 'kelainan_leher'];
-    foreach ($text_fields as $f) { $data[$f] = $_POST[$f] ?? ''; }
+    $data = [   // i. Nutrisi
+        'frekuensi_makan_sebelum'   => $_POST['frekuensi_makan_sebelum']   ?? '',
+        'frekuensi_makan_sekarang'  => $_POST['frekuensi_makan_sekarang']  ?? '',
+        'selera_makan_sebelum'      => $_POST['selera_makan_sebelum']      ?? '',
+        'selera_makan_sekarang'     => $_POST['selera_makan_sekarang']     ?? '',
+        'porsi_makan_sekarang'     => $_POST['porsi_makan_sekarang']     ?? '',
+        'porsi_makan_sebelum'     => $_POST['porsi_makan_sebelum']     ?? '',
+        'menu_makan_sebelum'        => $_POST['menu_makan_sebelum']        ?? '',
+        'menu_makan_sekarang'       => $_POST['menu_makan_sekarang']       ?? '',
+        'ritual_makan_sebelum'      => $_POST['ritual_makan_sebelum']      ?? '',
+        'ritual_makan_sekarang'     => $_POST['ritual_makan_sekarang']     ?? '',
+        'bantuan_makan_sebelum'     => $_POST['bantuan_makan_sebelum']     ?? '',
+        'bantuan_makan_sekarang'    => $_POST['bantuan_makan_sekarang']    ?? '',
+        // j. Cairan
+        'jenis_minum_sebelum'       => $_POST['jenis_minum_sebelum']       ?? '',
+        'jenis_minum_sekarang'      => $_POST['jenis_minum_sekarang']      ?? '',
+        'jumlah_cairan_sebelum'     => $_POST['jumlah_cairan_sebelum']     ?? '',
+        'jumlah_cairan_sekarang'    => $_POST['jumlah_cairan_sekarang']    ?? '',
+        'bantuan_cairan_sebelum'    => $_POST['bantuan_cairan_sebelum']    ?? '',
+        'bantuan_cairan_sekarang'   => $_POST['bantuan_cairan_sekarang']   ?? '',
+        // k. BAB
+        'bab_frekuensi_sebelum'     => $_POST['bab_frekuensi_sebelum']     ?? '',
+        'bab_frekuensi_sekarang'    => $_POST['bab_frekuensi_sekarang']    ?? '',
+        'bab_konsistensi_sebelum'   => $_POST['bab_konsistensi_sebelum']   ?? '',
+        'bab_konsistensi_sekarang'  => $_POST['bab_konsistensi_sekarang']  ?? '',
+        'bab_warna_sebelum'         => $_POST['bab_warna_sebelum']         ?? '',
+        'bab_warna_sekarang'        => $_POST['bab_warna_sekarang']        ?? '',
+        'bab_bau_sebelum'           => $_POST['bab_bau_sebelum']           ?? '',
+        'bab_bau_sekarang'          => $_POST['bab_bau_sekarang']          ?? '',
+        'bab_kesulitan_sebelum'     => $_POST['bab_kesulitan_sebelum']     ?? '',
+        'bab_kesulitan_sekarang'    => $_POST['bab_kesulitan_sekarang']    ?? '',
+        'bab_obat_sebelum'          => $_POST['bab_obat_sebelum']          ?? '',
+        'bab_obat_sekarang'         => $_POST['bab_obat_sekarang']         ?? '',
+        // l. BAK
+        'bak_frekuensi_sebelum'     => $_POST['bak_frekuensi_sebelum']     ?? '',
+        'bak_frekuensi_sekarang'    => $_POST['bak_frekuensi_sekarang']    ?? '',
+        'bak_warna_sebelum'         => $_POST['bak_warna_sebelum']         ?? '',
+        'bak_warna_sekarang'        => $_POST['bak_warna_sekarang']        ?? '',
+        'bak_bau_sebelum'           => $_POST['bak_bau_sebelum']           ?? '',
+        'bak_bau_sekarang'          => $_POST['bak_bau_sekarang']          ?? '',
+        'bak_kesulitan_sebelum'     => $_POST['bak_kesulitan_sebelum']     ?? '',
+        'bak_kesulitan_sekarang'    => $_POST['bak_kesulitan_sekarang']    ?? '',
+        'bak_obat_sebelum'          => $_POST['bak_obat_sebelum']          ?? '',
+        'bak_obat_sekarang'         => $_POST['bak_obat_sekarang']         ?? '',
+        // m. Tidur
+        'tidur_siang_sebelum'       => $_POST['tidur_siang_sebelum']       ?? '',
+        'tidur_siang_sekarang'      => $_POST['tidur_siang_sekarang']      ?? '',
+        'tidur_malam_sebelum'       => $_POST['tidur_malam_sebelum']       ?? '',
+        'tidur_malam_sekarang'      => $_POST['tidur_malam_sekarang']      ?? '',
+        'kesulitan_tidur_sebelum'   => $_POST['kesulitan_tidur_sebelum']   ?? '',
+        'kesulitan_tidur_sekarang'  => $_POST['kesulitan_tidur_sekarang']  ?? '',
+        'kebiasaan_tidur_sebelum'   => $_POST['kebiasaan_tidur_sebelum']   ?? '',
+        'kebiasaan_tidur_sekarang'  => $_POST['kebiasaan_tidur_sekarang']  ?? '',
+        // n. Personal Hygiene
+        'mandi_frekuensi_sebelum'   => $_POST['mandi_frekuensi_sebelum']   ?? '',
+        'mandi_frekuensi_sekarang'  => $_POST['mandi_frekuensi_sekarang']  ?? '',
+        'mandi_cara_sebelum'        => $_POST['mandi_cara_sebelum']        ?? '',
+        'mandi_cara_sekarang'       => $_POST['mandi_cara_sekarang']       ?? '',
+        'mandi_tempat_sebelum'      => $_POST['mandi_tempat_sebelum']      ?? '',
+        'mandi_tempat_sekarang'     => $_POST['mandi_tempat_sekarang']     ?? '',
+        'rambut_frekuensi_sebelum'  => $_POST['rambut_frekuensi_sebelum']  ?? '',
+        'rambut_frekuensi_sekarang' => $_POST['rambut_frekuensi_sekarang'] ?? '',
+        'rambut_cara_sebelum'       => $_POST['rambut_cara_sebelum']       ?? '',
+        'rambut_cara_sekarang'      => $_POST['rambut_cara_sekarang']      ?? '',
+        'kuku_frekuensi_sebelum'    => $_POST['kuku_frekuensi_sebelum']    ?? '',
+        'kuku_frekuensi_sekarang'   => $_POST['kuku_frekuensi_sekarang']   ?? '',
+        'kuku_cara_sebelum'         => $_POST['kuku_cara_sebelum']         ?? '',
+        'kuku_cara_sekarang'        => $_POST['kuku_cara_sekarang']        ?? '',
+        'gigi_frekuensi_sebelum'    => $_POST['gigi_frekuensi_sebelum']    ?? '',
+        'gigi_frekuensi_sekarang'   => $_POST['gigi_frekuensi_sekarang']   ?? '',
+        'gigi_cara_sebelum'         => $_POST['gigi_cara_sebelum']         ?? '',
+        'gigi_cara_sekarang'        => $_POST['gigi_cara_sekarang']        ?? '',
+        'berpakaian'        => $_POST['berpakaian']        ?? '',
+        ];
+    $text_fields = ['warna_bibir','bau_mulut','jvp_keterangan','konjungtiva','nyeri_tekan','kelainan_rambut','warna_penyebaran','bentuk_kepala', 'nyeridada', 'benjolan_kepala', 'penyebaran_merata', 'warna_rambut', 'rambut_dicabut', 'kelainan_rambut', 'ekspresi_wajah', 'simetris_wajah', 'udema_wajah', 'kelainan_wajah', 'penglihatan', 'visus_kanan', 'visus_kiri', 'lapang_pandang', 'keadaan_mata', 'konjungtiva', 'lesi_mata', 'sclera', 'pupil', 'bola_mata', 'kelainan_mata', 'pendengaran_kiri', 'pendengaran_kanan', 'nyeri_Kiri', 'nyeri_kanan', 'serumen', 'kelainan_telinga', 'bau', 'sekresi', 'warna_hidung', 'mukosa_hidung', 'pembengkakan', 'cuping_hidung', 'kelainan_hidung', 'bibir', 'simetris', 'kelembaban', 'caries', 'jumlah_gigi', 'warna_gigi', 'gigi_palsu_jumlah', 'letak', 'lidah', 'lesi_lidah', 'panas/dingin', 'asampahit', 'manis', 'refleks', 'tonsil', 'sekret_mulut', 'sekret_mulut_warna', 'leher_simetris', 'kelenjar', 'jvp', 'refleks_menelan', 'kelainan_leher'];
+    foreach ($text_fields as $f) {
+        $data[$f] = $_POST[$f] ?? '';
+    }
     $checkbox_fields = ['bau_mulut'];
     foreach ($checkbox_fields as $cf) {
         $data[$cf] = json_encode(isset($_POST[$cf]) ? (array)$_POST[$cf] : []);
@@ -68,28 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
 }
 
-// =============================================
-// HANDLE POST - DOSEN
-// =============================================
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
-    $submission_id = $submission['id'];
-    $dosen_id      = $user_id;
-    $action        = $_POST['action'] ?? '';
-    $comment       = $_POST['comment'] ?? '';
-    if ($action === 'approve') {
-        updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
-        if (!empty($comment)) saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-    } elseif ($action === 'revision') {
-        if (empty($comment)) redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Komentar wajib diisi saat meminta revisi.');
-        updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
-        saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
-    }
-    updateReviewer($submission_id, $dosen_id, $mysqli);
-    updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
-    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');
-}
-
-$comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
 ?>
 <main id="main" class="main">
     <?php include "keperawatan/dasar/tab.php"; ?>
@@ -117,7 +139,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                                             <tr>
                                                 <th><strong>No</strong></th>
                                                 <th><strong>Kondisi</strong></th>
-                                                <th><strong>Sebelum sakiy</strong></th>
+                                                <th><strong>Sebelum sakit</strong></th>
                                                 <th><strong>Saat Ini</strong></th>
                                             </tr>
                                         </thead>
@@ -436,6 +458,13 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                                                 <td><input type="text" class="form-control" name="gigi_cara_sebelum" value="<?= htmlspecialchars($existing_data["gigi_cara_sebelum"] ?? "") ?>" <?= $ro ?>></td>
                                                 <td><input type="text" class="form-control" name="gigi_cara_sekarang" value="<?= htmlspecialchars($existing_data["gigi_cara_sekarang"] ?? "") ?>" <?= $ro ?>></td>
                                             </tr>
+                                            <tr>
+                                                <td rowspan="1">5</td>
+                                                <td><strong>Berpakaian</strong></td>
+                                                <td><input type="text" class="form-control" name="berpakaian" value="<?= htmlspecialchars($existing_data["berpakaian"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><input type="text" class="form-control" name="berpakaian" value="<?= htmlspecialchars($existing_data["berpakaian"] ?? "") ?>" <?= $ro ?>></td>
+                                            </tr>
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -443,35 +472,98 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                         </div>
 
                     <h5 class="card-title"><strong>5. Data Biologis</strong></h5>
-             
-                    <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>1. Rambut</strong></label>
+                <div class="row mb-2">
+                        <label class="col-sm-12 text-primary"><strong>1. Kepala</strong></label>
                     </div>
 
-                    <div class="row mb-2">
-                        <div class="col-sm-2"><strong>Penyebaran Merata</strong>
-                        </div>
-
-                        <div class="col-sm-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="penyebaran_merata" value="ya" id="penyebaran_merata_ya" <?= $ro_disabled ?> <?= ($existing_data['penyebaran_merata'] ?? '') === 'ya' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="penyebaran_merata_ya">Ya</label>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="penyebaran_merata" value="tidak" id="penyebaran_merata_tidak" <?= $ro_disabled ?> <?= ($existing_data['penyebaran_merata'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="penyebaran_merata_tidak">Tidak</label>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="row mb-2 align-items-center">
+    <div class="col-sm-2">
+        <strong>Bentuk Kepala</strong>
+    </div>
+    <!-- Input Warna Ditambahkan di sini -->
+    <div class="col-sm-9">
+        <input type="text" class="form-control " name="bentuk_kepala" id="bentuk_kepala" value="<?= htmlspecialchars($existing_data['bentuk_kepala'] ?? '') ?>" <?= $ro ?>>
+    </div>
+</div>
 
 
 
                     <!-- Nyeri Dada -->
                     <div class="row mb-2">
-                        <div class="col-sm-2"><strong>Mudah Dicabut</strong>
+                        <div class="col-sm-2"><strong>Nyeri Tekan</strong>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="nyeri_tekan" value="ya" id="nyeri_tekan_ya" <?= $ro_disabled ?> <?= ($existing_data['nyeri_tekan'] ?? '') === 'ya' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="nyeri_tekan_ya">Ya</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="nyeri_tekan" value="tidak" id="nyeri_tekan_tidak" <?= $ro_disabled ?> <?= ($existing_data['nyeri_tekan'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="nyeri_tekan_tidak">Tidak</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-2"><strong>Benjolan</strong>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="benjolan_kepala" value="ya" id="benjolan_ya" <?= $ro_disabled ?> <?= ($existing_data['benjolan_kepala'] ?? '') === 'ya' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="benjolan_ya">Ya</label>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="benjolan" value="tidak" id="benjolan_tidak" <?= $ro_disabled ?> <?= ($existing_data['benjolan'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="benjolan_tidak">Tidak</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-2 col-form-label">
+                            <strong>Lain-lain</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="kelainan_rambut" value="<?= htmlspecialchars($existing_data['kelainan_rambut'] ?? '') ?>" <?= $ro ?>>
+
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <label class="col-sm-12 text-primary"><strong>2. Rambut</strong></label>
+                    </div>
+
+                    <div class="row mb-2 align-items-center">
+    <div class="col-sm-2">
+        <strong>Penyebaran Merata</strong>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="penyebaran_merata" value="ya" id="penyebaran_merata_ya" <?= $ro_disabled ?> <?= ($existing_data['penyebaran_merata'] ?? '') === 'ya' ? 'checked' : '' ?>>
+            <label class="form-check-label" for="penyebaran_merata_ya">Ya</label>
+        </div>
+    </div>
+
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="penyebaran_merata" value="tidak" id="penyebaran_merata_tidak" <?= $ro_disabled ?> <?= ($existing_data['penyebaran_merata'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+            <label class="form-check-label" for="penyebaran_merata_tidak">Tidak</label>
+        </div>
+    </div>
+    </div>
+   
+
+
+                    <!-- Nyeri Dada -->
+                    <div class="row mb-2">
+                        <div class="col-sm-2"><strong>Mudah Rontok</strong>
                         </div>
 
                         <div class="col-sm-2">
@@ -488,6 +580,15 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             </div>
                         </div>
                     </div>
+                      <div class="row mb-3">
+                        <div class="col-sm-2 col-form-label">
+                            <strong>Warna Rambut</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="warna_penyebaran" value="<?= htmlspecialchars($existing_data['warna_penyebaran'] ?? '') ?>" <?= $ro ?>>
+
+                        </div>
+                    </div>
                     <div class="row mb-3">
                         <div class="col-sm-2 col-form-label">
                             <strong>Lain-lain</strong>
@@ -501,7 +602,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
 
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>2. Wajah</strong></label>
+                        <label class="col-sm-12 text-primary"><strong>3. Wajah</strong></label>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-2 col-form-label">
@@ -512,22 +613,21 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
                         </div>
                     </div>
-                    <!-- Nyeri Dada -->
-                    <div class="row mb-2">
+                  <div class="row mb-2">
                         <div class="col-sm-2"><strong>Kesimetrisan Wajah</strong>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="simetris_wajah" value="ya" id="simetris_wajah_ya" <?= $ro_disabled ?> <?= ($existing_data['simetris_wajah'] ?? '') === 'ya' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="simetris_wajah_ya">Ya</label>
+                                <input class="form-check-input" type="radio" name="kesimentrisan_wajah" value="ya" id="kesimentrisan_wajah_ya" <?= $ro_disabled ?> <?= ($existing_data['kesimentrisan_wajah'] ?? '') === 'ya' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="kesimentrisan_wajah_ya">Ya</label>
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="simetris_wajah" value="tidak" id="simetris_wajah_tidak" <?= $ro_disabled ?> <?= ($existing_data['simetris_wajah'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="simetris_wajah_tidak">Tidak</label>
+                                <input class="form-check-input" type="radio" name="kesimentrisan_wajah" value="tidak" id="kesimentrisan_wajah_tidak" <?= $ro_disabled ?> <?= ($existing_data['kesimentrisan_wajah'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="kesimentrisan_wajah_tidak">Tidak</label>
                             </div>
                         </div>
                     </div>
@@ -566,7 +666,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
 
                     <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>3. Mata</strong></label>
+                        <label class="col-sm-12 text-primary"><strong>4. Mata</strong></label>
                     </div>
 
 
@@ -645,31 +745,23 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-2 col-form-label">
-                            <strong>Keadaan Mata</strong>
+                            <strong>Konjungtiva</strong>
                         </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="keadaan_mata" value="<?= htmlspecialchars($existing_data['keadaan_mata'] ?? '') ?>" <?= $ro ?>>
-
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-2"><strong>Konjungtiva</strong>
-                        </div>
-
-                        <div class="col-sm-2">
+                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="konjungtiva" value="anemis" id="konjungtiva_anemis" <?= $ro_disabled ?> <?= ($existing_data['konjungtiva'] ?? '') === 'anemis' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="konjungtiva_anemis">Anemis</label>
+                                <input class="form-check-input" type="radio" name="Konjungtiva" value="ada" id="anemis" <?= $ro_disabled ?> <?= ($existing_data['Konjungtiva'] ?? '') === 'ada' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="anemis">Anemis</label>
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="konjungtiva" value="ananenmis" id="konjungtiva_ananenmis" <?= $ro_disabled ?> <?= ($existing_data['konjungtiva'] ?? '') === 'ananenmis' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="konjungtiva_ananenmis">Ananenmis</label>
+                                <input class="form-check-input" type="radio" name="Konjungtiva" value="tidak" id="an-anemis" <?= $ro_disabled ?> <?= ($existing_data['Konjungtiva'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="an-anemis">An-anemis</label>
                             </div>
                         </div>
                     </div>
+
              
                     <div class="row mb-2">
                         <div class="col-sm-2"><strong>Lesi</strong>
@@ -723,13 +815,13 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                         <div class="col-sm-2">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="pupil" value="anisokor" id="pupil_anisokor" <?= $ro_disabled ?> <?= ($existing_data['pupil'] ?? '') === 'anisokor' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="pupil_anisokor">Anisokor</label>
+                                <label class="form-check-label" for="pupil_anisokor">An-isokor</label>
                             </div>
                         </div>
                     </div>
 
                     <div class="row mb-2">
-                        <div class="col-sm-2"><strong>Bola Mata</strong>
+                        <div class="col-sm-2"><strong>pergerakan Bola Mata</strong>
                         </div>
 
                         <div class="col-sm-2">
@@ -886,7 +978,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     </div>
                     <!-- Pupil -->
                     <div class="row mb-3 align-items-center">
-                        <label class="col-sm-2 col-form-label"><strong>Sekresi</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>Sekret</strong></label>
                         <div class="col-sm-3">
                             <input type="text" class="form-control" name="sekresi" value="<?= htmlspecialchars($existing_data['sekresi'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -966,16 +1058,28 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Bibir</strong></label>
 
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="bibir" value="<?= htmlspecialchars($existing_data['bibir'] ?? '') ?>" <?= $ro ?>>
-                                <span class="input-group-text">Warna</span>
+                        <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="bibir" value="ya" id="simetris_ya" <?= $ro_disabled ?> <?= ($existing_data['bibir'] ?? '') === 'ya' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="simetris_ya">Simetris</label>
                             </div>
+                        </div>
 
+                        <div class="col-sm-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="simetris" value="tidak" id="simetris_tidak" <?= $ro_disabled ?> <?= ($existing_data['bibir'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="simetris_tidak">Tidak Simetris</label>
+                            </div>
+                        </div>
+                         <div class="row mb-3">
+                        <div class="col-sm-2 col-form-label">
+                            <strong>Warna Bibir</strong>
+                        </div>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="warna_bibir" value="<?= htmlspecialchars($existing_data['warna_bibir'] ?? '') ?>" <?= $ro ?>>
 
                         </div>
                     </div>
-
                     <div class="row mb-2">
                         <div class="col-sm-2"><strong>Simetris</strong>
                         </div>
@@ -1012,6 +1116,12 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                                 <label class="form-check-label" for="kelembaban_kering">Kering</label>
                             </div>
                         </div>
+                    <div class="col-sm-2">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="kelembaban" value="lesi" id="kelembaban_lesi" <?= $ro_disabled ?> <?= ($existing_data['kelembaban'] ?? '') === 'lesi' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="kelembaban_lesi">Lesi</label>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Suara Jantung -->
@@ -1022,56 +1132,44 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
 
 
-                        <div class="col-sm-2">
-                            <strong>Caries :</strong>
-                        </div>
+                      <div class="row mb-2">
+    <div class="col-sm-2">
+        <strong>Caries :</strong>
+    </div>
 
-                        <div class="col-sm-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="caries" value="ada" id="caries_ada" <?= $ro_disabled ?> <?= ($existing_data['caries'] ?? '') === 'ada' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="caries_ada">Ada</label>
-                            </div>
-                        </div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="caries" value="ada" id="caries_ada" <?= $ro_disabled ?> <?= ($existing_data['caries'] ?? '') === 'ada' ? 'checked' : '' ?>>
+            <label class="form-check-label" for="caries_ada">Ada</label>
+        </div>
+    </div>
 
-                        <div class="col-sm-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="caries" value="tidak" id="caries_tidak" <?= $ro_disabled ?> <?= ($existing_data['caries'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="caries_tidak">Tidak</label>
-                            </div>
-                        </div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="caries" value="tidak" id="caries_tidak" <?= $ro_disabled ?> <?= ($existing_data['caries'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+            <label class="form-check-label" for="caries_tidak">Tidak</label>
+        </div>
+    </div>
 
-                        <div class="col-sm-2">
-                            <div class="form-check">
-
-                                <label class="form-check-label"></label>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-2">
-                            <div class="form-check">
-
-                                <label class="form-check-label"></label>
-                            </div>
-
-                        </div>
-                        <div class="col-sm-2"></div>
-                        <!-- Lainnya -->
-                        <div class="col-sm-9">
-                            <label><strong>Jumlah</strong></label>
-                            <input type="text" class="form-control" name="jumlah_gigi" value="<?= htmlspecialchars($existing_data['jumlah_gigi'] ?? '') ?>" <?= $ro ?>>
-
-
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-2 col-form-label">
-                            <strong>Warna</strong>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="warna_gigi" value="<?= htmlspecialchars($existing_data['warna_gigi'] ?? '') ?>" <?= $ro ?>>
-
-                        </div>
-                    </div>
+    </div>
+<div class="col-sm-2">
+        <strong></strong>
+    </div>
+    <!-- Menyesuaikan layout agar input jumlah dan warna sejajar -->
+    <div class="col-sm-10">
+        <div class="row">
+            <div class="col-sm-5">
+                <label><strong>Jumlah</strong></label>
+                <input type="text" class="form-control" name="jumlah_gigi" value="<?= htmlspecialchars($existing_data['jumlah_gigi'] ?? '') ?>" <?= $ro ?>>
+            </div>
+            <div class="col-sm-5">
+                <label><strong>Warna</strong></label>
+                <input type="text" class="form-control" name="warna_gigi" value="<?= htmlspecialchars($existing_data['warna_gigi'] ?? '') ?>" <?= $ro ?>>
+            </div>
+        </div>
+    </div>
+</div>
+                    
 
 
                     <!-- Pupil -->
@@ -1093,12 +1191,11 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
                     <!-- Frekuensi -->
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Lidah</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>Warna Lidah</strong></label>
 
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="lidah" value="<?= htmlspecialchars($existing_data['lidah'] ?? '') ?>" <?= $ro ?>>
-                                <span class="input-group-text">Warna</span>
                             </div>
                         </div>
                     </div>
@@ -1240,33 +1337,33 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="uranium" id="cb_bau_mulut_uranium" <?= $ro_disabled ?> <?= in_array('uranium', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="cb_bau_mulut_uranium">Uranium + / -</label>
+                                <input class="form-check-input" type="radio" name="bau_mulut" value="uranium" id="uranium" <?= $ro_disabled ?> <?= ($existing_data['bau_mulut'] ?? '') === 'uranium' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="uranium">Uranium + / -</label>
                             </div>
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="amoniak" id="cb_bau_mulut_amoniak" <?= $ro_disabled ?> <?= in_array('amoniak', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="cb_bau_mulut_amoniak">Amoniak + / - </label>
+                                <input class="form-check-input" type="radio" name="bau_mulut" value="amoniak" id="amoniak" <?= $ro_disabled ?> <?= ($existing_data['bau_mulut'] ?? '') === 'amoniak' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="amoniak">Amoniak + / - </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="aceton" id="cb_bau_mulut_aceton" <?= $ro_disabled ?> <?= in_array('aceton', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="cb_bau_mulut_aceton">Aceton + / -</label>
+                                <input class="form-check-input" type="radio" name="bau_mulut" value="aceton" id="aceton" <?= $ro_disabled ?> <?= ($existing_data['bau_mulut'] ?? '') === 'aceton' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="aceton">Aceton + / -</label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="busuk" id="cb_bau_mulut_busuk" <?= $ro_disabled ?> <?= in_array('busuk', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="cb_bau_mulut_busuk">Busuk + / - </label>
+                                <input class="form-check-input" type="radio" name="bau_mulut" value="busuk" id="busuk" <?= $ro_disabled ?> <?= ($existing_data['bau_mulut'] ?? '') === 'busuk' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="busuk">Busuk + / - </label>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="bau_mulut[]" value="alkohol" id="cb_bau_mulut_alkohol" <?= $ro_disabled ?> <?= in_array('alkohol', (array)($existing_data['bau_mulut'] ?? [])) ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="cb_bau_mulut_alkohol">Alkohol + / -</label>
+                                <input class="form-check-input" type="radio" name="bau_mulut" value="alkohol" id="alkohol" <?= $ro_disabled ?> <?= ($existing_data['bau_mulut'] ?? '') === 'alkohol' ? 'checked' : '' ?>>
+                                <label class="form-check-label" for="alkohol">Alkohol + / -</label>
                             </div>
                         </div>
                     </div>
@@ -1317,7 +1414,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
 
                     <div>
-                        <label class="col-sm-12 text-primary"><strong>h. Leher</strong></label>
+                        <label class="col-sm-12 text-primary"><strong>7. Leher</strong></label>
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-2"><strong>Bentuk Simetris</strong>
@@ -1356,23 +1453,27 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                         </div>
                     </div>
                     <div class="row mb-2">
-                        <div class="col-sm-2"><strong>Peninggian JVP</strong>
-                        </div>
+    <div class="col-sm-2"><strong>Peninggian JVP</strong></div>
 
-                        <div class="col-sm-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="jvp" value="ada" id="jvp_ada" <?= $ro_disabled ?> <?= ($existing_data['jvp'] ?? '') === 'ada' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="jvp_ada">Ada</label>
-                            </div>
-                        </div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="jvp" value="ada" id="jvp_ada" <?= $ro_disabled ?> <?= ($existing_data['jvp'] ?? '') === 'ada' ? 'checked' : '' ?>>
+            <label class="form-check-label" for="jvp_ada">Ada</label>
+        </div>
+    </div>
 
-                        <div class="col-sm-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="jvp" value="tidak" id="jvp_tidak" <?= $ro_disabled ?> <?= ($existing_data['jvp'] ?? '') === 'tidak' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="jvp_tidak">Tidak</label>
-                            </div>
-                        </div>
-                    </div>
+    <div class="col-sm-2">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="jvp" value="tidak" id="jvp_tidak" <?= $ro_disabled ?> <?= ($existing_data['jvp'] ?? '') === 'tidak' ? 'checked' : '' ?>>
+            <label class="form-check-label" for="jvp_tidak">Tidak</label>
+        </div>
+    </div>
+
+    <!-- Kolom input teks tambahan -->
+    <div class="col-sm-4">
+        <input type="text" class="form-control" name="jvp_keterangan" id="jvp_keterangan"  <?= $ro_disabled ?> value="<?= $existing_data['jvp_keterangan'] ?? '' ?>">
+    </div>
+</div>
                     <div class="row mb-2">
                         <div class="col-sm-2"><strong>Refleks Menelan</strong>
                         </div>
@@ -1401,6 +1502,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                             <input type="text" class="form-control" name="kelainan_leher" value="<?= htmlspecialchars($existing_data['kelainan_leher'] ?? '') ?>" <?= $ro ?>>
                         </div>
                     </div>
+                    
                     <!-- TOMBOL SIMPAN -->
                     <?php if (!$is_dosen): ?>
                     <div class="row mb-3">
@@ -1412,7 +1514,9 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
                 </form>
             </div>
+            </div>
         </div>
+        
 
                <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 

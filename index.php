@@ -277,37 +277,37 @@ if (isset($_SESSION['id_user'])) {
 
                 break;
 
-            // =====================
+             // =====================
             // Keluarga
             // =====================
-            case 'keluarga':
+            case 'keluarga/format_keluarga':
 
                 $tab = $tab ?: 'pengkajian';
 
                 switch ($tab) {
 
                     case 'pengkajian':
-                        include "keluarga/halm_tambah_pengkajian.php";
+                        include "keluarga/format_keluarga/halm_tambah_pengkajian.php";
                         break;
 
-                    case 'diagnosa_keperawatan':
-                        include "keluarga/halm_tambah_diagnosa.php";
+                    case 'pengkajianlanjutan2':
+                        include "keluarga/format_keluarga/halm_tambah_pengkajianlanjutan2.php";
                         break;
 
-                    case 'rencana_keperawatan':
-                        include "keluarga/halm_tambah_rencana.php";
+                    case 'pengkajianlanjutan3':
+                        include "keluarga/format_keluarga/halm_tambah_pengkajianlanjutan3.php";
                         break;
 
-                    case 'implementasi_keperawatan':
-                        include "keluarga/halm_tambah_implementasi.php";
+                    case 'klasifikasi':
+                        include "keluarga/format_keluarga/halm_tambah_klasifikasi.php";
                         break;
 
-                    case 'evaluasi_keperawatan':
-                        include "keluarga/halm_tambah_evaluasi.php";
+                    case 'lainnya':
+                        include "keluarga/format_keluarga/halm_tambah_lainnya.php";
                         break;
 
                     default:
-                        include "keluarga/halm_tambah_pengkajian.php";
+                        include "keluarga/format_keluarga/halm_tambah_pengkajian.php";
                 }
 
                 break;
@@ -329,20 +329,20 @@ if (isset($_SESSION['id_user'])) {
                         include "gadar/icu/halm_tambah_pengkajian.php";
                         break;
 
-                    case 'diagnosa_keperawatan':
-                        include "gadar/icu/halm_tambah_diagnosa.php";
+                    case 'pemeriksaan_fisik':
+                        include "gadar/icu/halm_tambah_pemeriksaan_fisik.php";
                         break;
 
-                    case 'rencana_keperawatan':
-                        include "gadar/icu/halm_tambah_rencana.php";
+                    case 'lainnya':
+                        include "gadar/icu/halm_tambah_lainnya.php";
                         break;
 
-                    case 'implementasi_keperawatan':
-                        include "gadar/icu/halm_tambah_implementasi.php";
+                    case 'pemeriksaan_penunjang':
+                        include "gadar/icu/halm_tambah_pemeriksaan_penunjang.php";
                         break;
 
-                    case 'evaluasi_keperawatan':
-                        include "gadar/icu/halm_tambah_evaluasi.php";
+                    case 'analisa_data':
+                        include "gadar/icu/halm_tambah_analisa.php";
                         break;
 
                     default:
@@ -367,21 +367,19 @@ if (isset($_SESSION['id_user'])) {
                     case 'pengkajian':
                         include "gadar/igd/halm_tambah_pengkajian.php";
                         break;
-
-                    case 'diagnosa_keperawatan':
-                        include "gadar/igd/halm_tambah_diagnosa.php";
+                    case 'pengkajian2':
+                        include "gadar/igd/halm_tambah_pengkajian2.php";
+                        break;
+                     case 'lainnya':
+                        include "gadar/igd/halm_tambah_lainnya.php";
                         break;
 
-                    case 'rencana_keperawatan':
-                        include "gadar/igd/halm_tambah_rencana.php";
+                    case 'pemeriksaan_penunjang':
+                        include "gadar/igd/halm_tambah_pemeriksaan_penunjang.php";
                         break;
 
-                    case 'implementasi_keperawatan':
-                        include "gadar/igd/halm_tambah_implementasi.php";
-                        break;
-
-                    case 'evaluasi_keperawatan':
-                        include "gadar/igd/halm_tambah_evaluasi.php";
+                    case 'analisa_data':
+                        include "gadar/igd/halm_tambah_analisa.php";
                         break;
 
                     default:
@@ -394,62 +392,62 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             // GERONTIK
             // =====================
-            case 'gerontik':
+            case 'gerontik/gerontik':
 
                 $tab = $tab ?: 'identitas';
 
                 switch ($tab) {
 
                     case 'identitas':
-                        include "gerontik/halm_tambah_identitas.php";
+                        include "gerontik/gerontik/halm_tambah_identitas.php";
                         break;
 
                     case 'pengkajian-lanjutan':
-                        include "gerontik/halm_tambah_pengkajian_lanjutan.php";
+                        include "gerontik/gerontik/halm_tambah_pengkajian_lanjutan.php";
                         break;
 
                     case 'pengkajian-riwayat':
-                        include "gerontik/halm_tambah_pengkajian_riwayat.php";
+                        include "gerontik/gerontik/halm_tambah_pengkajian_riwayat.php";
                         break;
 
                     case 'pengkajian-fisik':
-                        include "gerontik/halm_tambah_pengkajian_fisik.php";
+                        include "gerontik/gerontik/halm_tambah_pengkajian_fisik.php";
                         break;
 
                     case 'pengkajian-kebiasaan':
-                        include "gerontik/halm_tambah_pengkajian_kebiasaan.php";
+                        include "gerontik/gerontik/halm_tambah_pengkajian_kebiasaan.php";
                         break;
 
                     case 'pengkajian-psikis':
-                        include "gerontik/halm_tambah_pengkajian_psikis.php";
+                        include "gerontik/gerontik/halm_tambah_pengkajian_psikis.php";
                         break;
 
                     case 'pengkajian-depresi':
-                        include "gerontik/halm_tambah_pengkajian_depresi.php";
+                        include "gerontik/gerontik/halm_tambah_pengkajian_depresi.php";
                         break;
 
                     case 'diagnosa_keperawatan':
-                        include "gerontik/halm_tambah_diagnosa.php";
+                        include "gerontik/gerontik/halm_tambah_diagnosa.php";
                         break;
 
                     case 'rencana':
-                        include "gerontik/halm_tambah_rencana.php";
+                        include "gerontik/gerontik/halm_tambah_rencana.php";
                         break;
 
                     case 'implementasi_keperawatan':
-                        include "gerontik/halm_tambah_implementasi.php";
+                        include "gerontik/gerontik/halm_tambah_implementasi.php";
                         break;
 
                     case 'evaluasi_keperawatan':
-                        include "gerontik/halm_tambah_evaluasi.php";
+                        include "gerontik/gerontik/halm_tambah_evaluasi.php";
                         break;
 
                     case 'sap':
-                        include "gerontik/halm_tambah_sap.php";
+                        include "gerontik/gerontik/halm_tambah_sap.php";
                         break;
 
                     default:
-                        include "gerontik/halm_tambah_identitas.php";
+                        include "gerontik/gerontik/halm_tambah_identitas.php";
                 }
 
                 break;
@@ -835,9 +833,12 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             case 'kmb/format_poli_tb':
 
-                $tab = $tab ?: 'resume';
+                $tab = $tab ?: 'laporan_pendahuluan';
 
                 switch ($tab) {
+                    case 'laporan_pendahuluan':
+                        include "kmb/format_poli_tb/halm_laporan_pendahuluan.php";
+                        break;
 
                     case 'resume':
                         include "kmb/format_poli_tb/halm_tambah_resume.php";
@@ -852,7 +853,7 @@ if (isset($_SESSION['id_user'])) {
                         break;
 
                     default:
-                        include "kmb/format_poli_tb/halm_tambah_resume.php";
+                        include "kmb/format_poli_tb/halm_laporan_pendahuluan.php";
                 }
 
                 break;
@@ -1032,6 +1033,334 @@ if (isset($_SESSION['id_user'])) {
 
                     default:
                         include "anak/format_resume/halm_tambah_format_resume_keperawatan.php";
+                }
+
+                break;
+                // =====================
+            // resume poli RSAL
+            // =====================
+            case 'askep/resume_poli_rsal':
+
+                $tab = $tab ?: 'format_resume_keperawatan';
+
+                switch ($tab) {
+
+                    case 'resume_keperawatan':
+                        include "askep/resume_poli_rsal/halm_tambah_format_resume_keperawatan.php";
+                        break;
+
+                    case 'analisa_resume':
+                        include "askep/resume_poli_rsal/halm_tambah_analisa_resume.php";
+                        break;
+
+                    case 'lainnya_resume':
+                        include "askep/resume_poli_rsal/halm_tambah_lainnya_resume.php";
+                        break;
+                     default:
+                        include "askep/resume_poli_rsal/halm_tambah_format_resume_keperawatan.php";
+                }
+                 break;
+                 // =====================
+            // resume poli RSUKT
+            // =====================
+            case 'askep/resume_poli_rsukt':
+
+                $tab = $tab ?: 'format_resume_keperawatan';
+
+                switch ($tab) {
+
+                    case 'resume_keperawatan':
+                        include "askep/resume_poli_rsukt/halm_tambah_format_resume_keperawatan.php";
+                        break;
+
+                    case 'analisa_resume':
+                        include "askep/resume_poli_rsukt/halm_tambah_analisa_resume.php";
+                        break;
+
+                    case 'lainnya_resume':
+                        include "askep/resume_poli_rsukt/halm_tambah_lainnya_resume.php";
+                        break;
+                     default:
+                        include "askep/resume_poli_rsukt/halm_tambah_format_resume_keperawatan.php";
+                }
+                 break;
+                 
+                  // =====================
+            // resume poli RSUD
+            // =====================
+            case 'askep/resume_poli_rsud':
+
+                $tab = $tab ?: 'format_resume_keperawatan';
+
+                switch ($tab) {
+
+                    case 'resume_keperawatan':
+                        include "askep/resume_poli_rsud/halm_tambah_format_resume_keperawatan.php";
+                        break;
+
+                    case 'analisa_resume':
+                        include "askep/resume_poli_rsud/halm_tambah_analisa_resume.php";
+                        break;
+
+                    case 'lainnya_resume':
+                        include "askep/resume_poli_rsud/halm_tambah_lainnya_resume.php";
+                        break;
+                     default:
+                        include "askep/resume_poli_rsud/halm_tambah_format_resume_keperawatan.php";
+                }
+                 break;
+            // =====================
+            // askep ruang damar
+            // =====================
+                        case 'askep/askep_ruang_damar':
+
+                $tab = $tab ?: 'pengkajian';
+
+                switch ($tab) {
+
+                  
+
+                    case 'pengkajian':
+                        include "askep/askep_ruang_damar/halm_tambah_pengkajian.php";
+                        break;
+
+                    case 'data_biologis_1':
+                        include "askep/askep_ruang_damar/halm_data_biologis_1.php";
+                        break;
+
+                    case 'data_biologis_2':
+                        include "askep/askep_ruang_damar/halm_data_biologis_2.php";
+                        break;
+                    case 'klasifikasi_analisa_data':
+                        include "askep/askep_ruang_damar/halm_klasifikasi_analisa_data.php";
+                        break;
+
+                    case 'lainnya':
+                        include "askep/askep_ruang_damar/halm_tambah_lainnya.php";
+                        break;
+
+                    default:
+                        include "askep/askep_ruang_damar/halm_tambah_pengkajian.php";
+                }
+
+                break;
+                // =====================
+            // askep ruang damar
+            // =====================
+                        case 'askep/askep_ruang_damar':
+
+                $tab = $tab ?: 'pengkajian';
+
+                switch ($tab) {
+
+                  
+
+                    case 'pengkajian':
+                        include "askep/askep_ruang_damar/halm_tambah_pengkajian.php";
+                        break;
+
+                    case 'data_biologis_1':
+                        include "askep/askep_ruang_damar/halm_data_biologis_1.php";
+                        break;
+
+                    case 'data_biologis_2':
+                        include "askep/askep_ruang_damar/halm_data_biologis_2.php";
+                        break;
+                    case 'klasifikasi_analisa_data':
+                        include "askep/askep_ruang_damar/halm_klasifikasi_analisa_data.php";
+                        break;
+
+                    case 'lainnya':
+                        include "askep/askep_ruang_damar/halm_tambah_lainnya.php";
+                        break;
+
+                    default:
+                        include "askep/askep_ruang_damar/halm_tambah_pengkajian.php";
+                }
+
+                break;
+                // =====================
+            // askep ruang Angsana
+            // =====================
+                        case 'askep/askep_ruang_angsana':
+
+                $tab = $tab ?: 'pengkajian';
+
+                switch ($tab) {
+
+                  
+
+                    case 'pengkajian':
+                        include "askep/askep_ruang_angsana/halm_tambah_pengkajian.php";
+                        break;
+
+                    case 'data_biologis_1':
+                        include "askep/askep_ruang_angsana/halm_data_biologis_1.php";
+                        break;
+
+                    case 'data_biologis_2':
+                        include "askep/askep_ruang_angsana/halm_data_biologis_2.php";
+                        break;
+                    case 'klasifikasi_analisa_data':
+                        include "askep/askep_ruang_angsana/halm_klasifikasi_analisa_data.php";
+                        break;
+
+                    case 'lainnya':
+                        include "askep/askep_ruang_angsana/halm_tambah_lainnya.php";
+                        break;
+
+                    default:
+                        include "askep/askep_ruang_angsana/halm_tambah_pengkajian.php";
+                }
+
+                break;
+                // =====================
+            // askep ruang Dahlia
+            // =====================
+                        case 'askep/askep_ruang_dahlia':
+
+                $tab = $tab ?: 'pengkajian';
+
+                switch ($tab) {
+
+                  
+
+                    case 'pengkajian':
+                        include "askep/askep_ruang_dahlia/halm_tambah_pengkajian.php";
+                        break;
+
+                    case 'data_biologis_1':
+                        include "askep/askep_ruang_dahlia/halm_data_biologis_1.php";
+                        break;
+
+                    case 'data_biologis_2':
+                        include "askep/askep_ruang_dahlia/halm_data_biologis_2.php";
+                        break;
+                    case 'klasifikasi_analisa_data':
+                        include "askep/askep_ruang_dahlia/halm_klasifikasi_analisa_data.php";
+                        break;
+
+                    case 'lainnya':
+                        include "askep/askep_ruang_dahlia/halm_tambah_lainnya.php";
+                        break;
+
+                    default:
+                        include "askep/askep_ruang_dahlia/halm_tambah_pengkajian.php";
+                }
+
+                break;
+                // =====================
+            // askep ruang Flamboyan
+            // =====================
+                        case 'askep/askep_ruang_flamboyan':
+
+                $tab = $tab ?: 'pengkajian';
+
+                switch ($tab) {
+
+                  
+
+                    case 'pengkajian':
+                        include "askep/askep_ruang_flamboyan/halm_tambah_pengkajian.php";
+                        break;
+
+                    case 'data_biologis_1':
+                        include "askep/askep_ruang_flamboyan/halm_data_biologis_1.php";
+                        break;
+
+                    case 'data_biologis_2':
+                        include "askep/askep_ruang_flamboyan/halm_data_biologis_2.php";
+                        break;
+                    case 'klasifikasi_analisa_data':
+                        include "askep/askep_ruang_flamboyan/halm_klasifikasi_analisa_data.php";
+                        break;
+
+                    case 'lainnya':
+                        include "askep/askep_ruang_flamboyan/halm_tambah_lainnya.php";
+                        break;
+
+                    default:
+                        include "askep/askep_ruang_flamboyan/halm_tambah_pengkajian.php";
+                }
+
+                break;
+                // =====================
+            // askep ruang Perawatan
+            // =====================
+                        case 'askep/askep_ruang_perawatan':
+
+                $tab = $tab ?: 'pengkajian';
+
+                switch ($tab) {
+
+                  
+
+                    case 'pengkajian':
+                        include "askep/askep_ruang_perawatan/halm_tambah_pengkajian.php";
+                        break;
+
+                    case 'data_biologis_1':
+                        include "askep/askep_ruang_perawatan/halm_data_biologis_1.php";
+                        break;
+
+                    case 'data_biologis_2':
+                        include "askep/askep_ruang_perawatan/halm_data_biologis_2.php";
+                        break;
+                    case 'klasifikasi_analisa_data':
+                        include "askep/askep_ruang_perawatan/halm_klasifikasi_analisa_data.php";
+                        break;
+
+                    case 'lainnya':
+                        include "askep/askep_ruang_perawatan/halm_tambah_lainnya.php";
+                        break;
+
+                    default:
+                        include "askep/askep_ruang_perawatan/halm_tambah_pengkajian.php";
+                }
+
+                break;
+                 // =====================
+            // Anak Format Resume
+            // =====================
+            case 'keperawatan/dasar':
+
+                $tab = $tab ?: 'format_resume_keperawatan';
+
+                switch ($tab) {
+
+                    case 'resume_keperawatan':
+                        include "keperawatan/dasar/halm_tambah_format_resume_keperawatan.php";
+                        break;
+
+                    case 'analisa_resume':
+                        include "keperawatan/dasar/halm_tambah_analisa_resume.php";
+                        break;
+
+                    case 'lainnya_resume':
+                        include "keperawatan/dasar/halm_tambah_lainnya_resume.php";
+                        break;
+
+                    case 'pengkajian':
+                        include "keperawatan/dasar/halm_tambah_pengkajian.php";
+                        break;
+
+                    case 'data_biologis_1':
+                        include "keperawatan/dasar/halm_data_biologis_1.php";
+                        break;
+
+                    case 'data_biologis_2':
+                        include "keperawatan/dasar/halm_data_biologis_2.php";
+                        break;
+                    case 'klasifikasi_analisa_data':
+                        include "keperawatan/dasar/halm_klasifikasi_analisa_data.php";
+                        break;
+
+                    case 'lainnya':
+                        include "keperawatan/dasar/halm_tambah_lainnya.php";
+                        break;
+
+                    default:
+                        include "keperawatan/dasar/halm_tambah_format_resume_keperawatan.php";
                 }
 
                 break;
