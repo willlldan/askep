@@ -1,14 +1,28 @@
-<?php include_once "header.php"; ?>
-
 <?php
+include_once "header.php";
+include_once "utils.php";
+
+// ambil parameter URL dengan aman
+$page = $_GET['page'] ?? '';
+$tab  = $_GET['tab'] ?? '';
 
 if (isset($_SESSION['id_user'])) {
 
-    include_once "navbar.php";
+    if ($page === 'notification_read' || $page === 'notification_read_all') {
+        $redirect = $_GET['redirect'] ?? 'index.php?page=dashboard';
+        if ($page === 'notification_read') {
+            $notification_id = (int) ($_GET['id'] ?? 0);
+            if ($notification_id > 0) {
+                markNotificationRead($notification_id, (int) $_SESSION['id_user'], $mysqli);
+            }
+        } else {
+            markAllNotificationsRead((int) $_SESSION['id_user'], $mysqli);
+        }
+        echo '<script>window.location.href = ' . json_encode($redirect) . ';</script>';
+        exit;
+    }
 
-    // ambil parameter URL dengan aman
-    $page = $_GET['page'] ?? '';
-    $tab  = $_GET['tab'] ?? '';
+    include_once "navbar.php";
 
     // =====================
     // Mahasiswa & Dosen
