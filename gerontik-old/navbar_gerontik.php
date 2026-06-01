@@ -133,25 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
      }
  </style>
 
-<?php if ($currentTab !== 'identitas'): ?>
-<div class="card">
-        <div class="card-body">
-                <!-- Dropdown Identitas Pasien -->
-                <div class="row mb-3 mt-3">
-                        <label class="col-sm-2 col-form-label"><strong>Identitas Pasien</strong></label>
-                        <div class="col-sm-9">
-                                <select id="identitasDropdown" name="identitas_id" class="form-control" required>
-                                        <option value="">Pilih Satu</option>
-                                        <?php while ($row = $identitas_result->fetch_assoc()): ?>
-                                                <option value="<?= htmlspecialchars($row['id']) ?>" <?= ($selected_id == $row['id']) ? 'selected' : '' ?>>
-                                                        <?= htmlspecialchars($row['nama']) ?> (<?= htmlspecialchars($row['tempat_lahir']) ?> - <?= date('d-m-Y', strtotime($row['tgl_lahir'])) ?>)
-                                                </option>
-                                        <?php endwhile; ?>
-                                </select>
-                        </div>
-                </div>
-        </div>
-</div>
+
 <!-- <style>
     #dashboard-overlay {
         position: fixed;
@@ -191,4 +173,3 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script> -->
-<?php endif; ?>

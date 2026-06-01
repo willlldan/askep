@@ -1,175 +1,151 @@
 <?php
-require_once "koneksi.php";
-require_once "utils.php";
-// Inisialisasi variabel form agar tidak undefined/null
-$nama = $nama ?? '';
-$tempat_lahir = $tempat_lahir ?? '';
-$tgl_lahir = $tgl_lahir ?? '';
-$jenis_kelamin = $jenis_kelamin ?? '';
-$status_perkawinan = $status_perkawinan ?? '';
-$agama = $agama ?? '';
-$pendidikan = $pendidikan ?? '';
-$pekerjaan_sekarang = $pekerjaan_sekarang ?? '';
-$pekerjaan_sebelumnya = $pekerjaan_sebelumnya ?? '';
-$tgl_pengkajian = $tgl_pengkajian ?? '';
-$alamat = $alamat ?? '';
+$form_id       = 18;
+$section_name  = 'identitas';
+$section_label = 'Identitas';
+include dirname(__DIR__) . '/partials/init_section.php';
 
-// Handle form submission
-$alert = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect form data
-    $nama = $_POST['nama'] ?? '';
-    $tempat_lahir = $_POST['tempat_lahir'] ?? '';
-    $tgl_lahir = $_POST['tgl_lahir'] ?? '';
-    $jenis_kelamin = $_POST['jenis_kelamin'] ?? '';
-    $status_perkawinan = $_POST['status_perkawinan'] ?? '';
-    $agama = $_POST['agama'] ?? '';
-    $pendidikan = $_POST['pendidikan'] ?? '';
-    $pekerjaan_sekarang = $_POST['pekerjaan_sekarang'] ?? '';
-    $pekerjaan_sebelumnya = $_POST['pekerjaan_sebelumnya'] ?? '';
-    $tgl_pengkajian = $_POST['tgl_pengkajian'] ?? '';
-    $alamat = $_POST['alamat'] ?? '';
+$tgl_pengkajian = $submission['tanggal_pengkajian'] ?? '';
+$ruangan        = $submission['rs_ruangan'] ?? '';
 
-    // Audit fields
-    $created_at = date('Y-m-d H:i:s');
-    $updated_at = $created_at;
-    // You may want to get this from session or auth system
-    $created_by = isset($_SESSION['username']) ? $_SESSION['username'] : 'system';
-    $updated_by = $created_by;
-
-    // Insert into database
-    $sql = "INSERT INTO tbl_gerontik_identitas (nama, tempat_lahir, tgl_lahir, jenis_kelamin, status_perkawinan, agama, pendidikan, pekerjaan_sekarang, pekerjaan_sebelumnya, tgl_pengkajian, alamat, created_at, created_by, updated_at, updated_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $mysqli->prepare($sql);
-    if ($stmt) {
-        $stmt->bind_param('sssssssssssssss', $nama, $tempat_lahir, $tgl_lahir, $jenis_kelamin, $status_perkawinan, $agama, $pendidikan, $pekerjaan_sekarang, $pekerjaan_sebelumnya, $tgl_pengkajian, $alamat, $created_at, $created_by, $updated_at, $updated_by);
-        if ($stmt->execute()) {
-            $new_id = $stmt->insert_id ? $stmt->insert_id : $mysqli->insert_id;
-            echo "<script>window.location.href = 'index.php?page=gerontik&tab=pengkajian-riwayat&idpasien=" . urlencode($new_id) . "';</script>";
-            exit;
-        } else {
-            $alert = '<div class="alert alert-danger">Gagal menyimpan data: ' . htmlspecialchars($stmt->error) . '</div>';
-        }
-        $stmt->close();
-    } else {
-        $alert = '<div class="alert alert-danger">Gagal menyiapkan statement: ' . htmlspecialchars($mysqli->error) . '</div>';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
+    if (isLocked($submission)) {
+        redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
-} ?>
+
+    $tgl_pengkajian = $_POST['tgl_pengkajian'] ?? '';
+    $ruangan        = $_POST['ruangan'] ?? '';
+
+    $data = [
+        'nama'               => $_POST['nama']               ?? '',
+        'tempat_lahir'       => $_POST['tempat_lahir']       ?? '',
+        'tgl_lahir'          => $_POST['tgl_lahir']          ?? '',
+        'jenis_kelamin'      => $_POST['jenis_kelamin']      ?? '',
+        'status_perkawinan'  => $_POST['status_perkawinan']  ?? '',
+        'agama'              => $_POST['agama']              ?? '',
+        'pendidikan'         => $_POST['pendidikan']         ?? '',
+        'pekerjaan'          => $_POST['pekerjaan']          ?? '',
+        'alamat'             => $_POST['alamat']             ?? '',
+    ];
+
+    if (!$submission) {
+        $submission_id = createSubmission($user_id, $form_id, $tgl_pengkajian, $ruangan, $mysqli);
+    } else {
+        $submission_id = $submission['id'];
+        updateSubmissionHeader($submission_id, $tgl_pengkajian, $ruangan, $mysqli);
+    }
+
+    saveSection($submission_id, $section_name, $section_label, $data, $mysqli);
+    updateSubmissionStatus($submission_id, $form_id, $mysqli);
+    redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
+}
+?>
 
 <main id="main" class="main">
-    <?php include "navbar_gerontik.php"; ?>
-    </style>
+    <?php include "tab.php"; ?>
 
     <section class="section dashboard">
-        <div class="card">
+        <?php include dirname(__DIR__) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__) . '/partials/status_section.php'; ?>
 
-            <div class="card-body">
-                <h5 class="card-title">Tambah Identitas Lansia</h5>
-                <?php if (!empty($alert)) echo $alert; ?>
+        <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-3 mt-3">
+                        <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" name="tgl_pengkajian" value="<?= htmlspecialchars($tgl_pengkajian) ?>" <?= $ro ?> required>
+                        </div>
+                    </div>
 
-                <!-- General Form Elements -->
-                <form class="needs-validation" novalidate action="" method="POST" autocomplete="off">
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Ruangan</strong></label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" name="ruangan" value="<?= htmlspecialchars($ruangan) ?>" <?= $ro ?> required>
+                        </div>
+                    </div>
 
-                    <!-- Bagian Nama -->
+                    <h5 class="card-title"><strong>1. Identitas</strong></h5>
+
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Nama</strong></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="nama" value="<?= htmlspecialchars($nama) ?>">
+                            <input type="text" class="form-control" name="nama" value="<?= htmlspecialchars(val('nama', $existing_data)) ?>" <?= $ro ?>>
                         </div>
                     </div>
 
-                    <!-- Bagian Tempat Lahir -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Tempat Lahir</strong></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="tempat_lahir" value="<?= htmlspecialchars($tempat_lahir) ?>">
+                            <input type="text" class="form-control" name="tempat_lahir" value="<?= htmlspecialchars(val('tempat_lahir', $existing_data)) ?>" <?= $ro ?>>
                         </div>
                     </div>
 
-                    <!-- Bagian Tanggal Lahir -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Tanggal Lahir</strong></label>
                         <div class="col-sm-9">
-                            <input type="date" class="form-control" name="tgl_lahir" required value="<?= htmlspecialchars($tgl_lahir) ?>">
+                            <input type="date" class="form-control" name="tgl_lahir" value="<?= htmlspecialchars(val('tgl_lahir', $existing_data)) ?>" <?= $ro ?>>
                         </div>
                     </div>
 
-                    <!-- Bagian Jenis Kelamin -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Jenis Kelamin</strong></label>
                         <div class="col-sm-9">
-                            <select class="form-control" name="jenis_kelamin" required>
-                                <option value="">Pilih</option>
-                                <option value="Laki-laki" <?= ($jenis_kelamin == 'Laki-laki') ? 'selected' : '' ?>>Laki-laki</option>
-                                <option value="Perempuan" <?= ($jenis_kelamin == 'Perempuan') ? 'selected' : '' ?>>Perempuan</option>
+                            <select class="form-select" name="jenis_kelamin" <?= $ro_select ?>>
+                                <option value="">-- Pilih --</option>
+                                <option value="Laki-laki" <?= val('jenis_kelamin', $existing_data) === 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
+                                <option value="Perempuan" <?= val('jenis_kelamin', $existing_data) === 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
                             </select>
                         </div>
                     </div>
 
-
-                    <!-- Bagian Status Perkawinan -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="status_perkawinan" required value="<?= htmlspecialchars($status_perkawinan) ?>">
+                            <input type="text" class="form-control" name="status_perkawinan" value="<?= htmlspecialchars(val('status_perkawinan', $existing_data)) ?>" <?= $ro ?>>
                         </div>
                     </div>
 
-                    <!-- Bagian Agama -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Agama</strong></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="agama" required value="<?= htmlspecialchars($agama) ?>">
+                            <input type="text" class="form-control" name="agama" value="<?= htmlspecialchars(val('agama', $existing_data)) ?>" <?= $ro ?>>
                         </div>
                     </div>
 
-                    <!-- Bagian Pendidikan -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pendidikan</strong></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="pendidikan" required value="<?= htmlspecialchars($pendidikan) ?>">
+                            <input type="text" class="form-control" name="pendidikan" value="<?= htmlspecialchars(val('pendidikan', $existing_data)) ?>" <?= $ro ?>>
                         </div>
                     </div>
 
-                    <!-- Bagian Pekerjaan Saat Ini -->
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Pekerjaan Saat Ini</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="pekerjaan_sekarang" value="<?= htmlspecialchars($pekerjaan_sekarang) ?>">
+                            <input type="text" class="form-control" name="pekerjaan" value="<?= htmlspecialchars(val('pekerjaan', $existing_data)) ?>" <?= $ro ?>>
                         </div>
                     </div>
 
-                    <!-- Bagian Pekerjaan Sebelumnya -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Pekerjaan Sebelumnya</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="pekerjaan_sebelumnya" value="<?= htmlspecialchars($pekerjaan_sebelumnya) ?>">
-                        </div>
-                    </div>
-
-                    <!-- Bagian Tanggal Pengkajian -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
-                        <div class="col-sm-9">
-                            <input type="date" class="form-control" name="tgl_pengkajian" required value="<?= htmlspecialchars($tgl_pengkajian) ?>">
-                        </div>
-                    </div>
-
-                    <!-- Bagian Alamat -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" name="alamat" required value="<?= htmlspecialchars($alamat) ?>">
+                            <textarea class="form-control" name="alamat" rows="3" <?= $ro ?>><?= val('alamat', $existing_data) ?></textarea>
                         </div>
                     </div>
 
-                    <!-- Tombol Submit -->
-                    <div class="row mb-3">
-                        <div class="col-sm-9 offset-sm-2 text-end">
-                            <button type="submit" class="btn btn-primary">Lanjutkan</button>
+                    <?php if (!$is_dosen): ?>
+                        <div class="row mb-3">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="submit" class="btn btn-primary">Simpan Data</button>
+                            </div>
                         </div>
-                    </div>
-                </form><!-- End General Form Elements -->
+                    <?php endif; ?>
+                </div>
             </div>
+        </form>
+
+        <?php include dirname(__DIR__) . '/partials/footer_form.php'; ?>
+        </div>
         </div>
     </section>
 </main>

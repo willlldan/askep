@@ -2,10 +2,10 @@
 $submission_id = $_GET['submission_id'] ?? null;
 $page = $_GET['page'] ?? '';
 $parts = explode('/', $page);
-$section_page = $parts[1] ?? 'gerontik-new';
+$section_page = $parts[1] ?? 'gerontik';
 
 $titles = [
-    'gerontik-new' => 'Asuhan Keperawatan Gerontik',
+    'gerontik' => 'Asuhan Keperawatan Gerontik',
     'askep_gerontik' => 'Asuhan Keperawatan Gerontik',
 ];
 
@@ -47,7 +47,7 @@ $can_submit = true;
         <?php
         $isActive = ($currentTab === $tab) ? 'active' : '';
         $label = $tabLabels[$tab] ?? ucfirst(str_replace('_', ' ', $tab));
-        $url = "index.php?page=" . urlencode($page ?: 'gerontik-new') . "&tab={$tab}";
+        $url = "index.php?page=" . urlencode($page ?: 'gerontik') . "&tab={$tab}";
         if ($submission_id) $url .= "&submission_id={$submission_id}";
         ?>
         <li class="nav-item">

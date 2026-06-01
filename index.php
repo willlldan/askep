@@ -446,50 +446,50 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             // GERONTIK NEW
             // =====================
-            case 'gerontik/gerontik-new':
+            case 'gerontik/gerontik':
 
                 var_dump($tab);
 
                 switch ($tab) {
 
                     case 'identitas':
-                        include "gerontik-new/halm_tambah_identitas.php";
+                        include "gerontik/halm_tambah_identitas.php";
                         break;
 
                     case 'riwayat_kesehatan':
-                        include "gerontik-new/halm_tambah_riwayat_kesehatan.php";
+                        include "gerontik/halm_tambah_riwayat_kesehatan.php";
                         break;
 
                     case 'pemeriksaan_fisik':
-                        include "gerontik-new/halm_tambah_pemeriksaan_fisik.php";
+                        include "gerontik/halm_tambah_pemeriksaan_fisik.php";
                         break;
 
                     case 'kebiasaan_harian':
-                        include "gerontik-new/halm_tambah_kebiasaan_harian.php";
+                        include "gerontik/halm_tambah_kebiasaan_harian.php";
                         break;
 
                     case 'psikososial_spiritual':
-                        include "gerontik-new/halm_tambah_psikososial_spiritual.php";
+                        include "gerontik/halm_tambah_psikososial_spiritual.php";
                         break;
 
                     case 'status_fungsional':
-                        include "gerontik-new/halm_tambah_status_fungsional.php";
+                        include "gerontik/halm_tambah_status_fungsional.php";
                         break;
 
                     case 'skala_depresi':
-                        include "gerontik-new/halm_tambah_skala_depresi.php";
+                        include "gerontik/halm_tambah_skala_depresi.php";
                         break;
 
                     case 'apgar_spmsq_risiko_jatuh':
-                        include "gerontik-new/halm_tambah_apgar_spmsq_risiko_jatuh.php";
+                        include "gerontik/halm_tambah_apgar_spmsq_risiko_jatuh.php";
                         break;
 
                     case 'catatan_keperawatan':
-                        include "gerontik-new/halm_tambah_catatan_keperawatan.php";
+                        include "gerontik/halm_tambah_catatan_keperawatan.php";
                         break;
 
                     default:
-                        include "gerontik-new/halm_tambah_identitas.php";
+                        include "gerontik/halm_tambah_identitas.php";
                 }
 
                 break;
