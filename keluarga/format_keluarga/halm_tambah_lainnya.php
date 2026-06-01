@@ -208,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             <!-- ===================== IMPLEMENTASI ===================== -->
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"><strong>D. Implementasi</strong></h5>
+                    <h5 class="card-title"><strong>D. Implementasi Keperawatan</strong></h5>
 
                     <table class="table table-bordered" id="tabel-implementasi">
                         <thead>
@@ -240,7 +240,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             <!-- ===================== EVALUASI ===================== -->
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"><strong>E. Evaluasi</strong></h5>
+                    <h5 class="card-title"><strong>E. Evaluasi Keperawatan</strong></h5>
 
                     <table class="table table-bordered" id="tabel-evaluasi">
                         <thead>

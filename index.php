@@ -281,7 +281,6 @@ if (isset($_SESSION['id_user'])) {
             // Keluarga
             // =====================
             case 'keluarga/format_keluarga':
-
                 $tab = $tab ?: 'pengkajian';
 
                 switch ($tab) {
