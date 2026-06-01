@@ -384,6 +384,110 @@ function createSubmission($user_id, $form_id, $tanggal_pengkajian, $rs_ruangan, 
 }
 
 /**
+ * Ambil submission lengkap berdasarkan id.
+ */
+function getSubmissionById($submission_id, $mysqli)
+{
+    $stmt = $mysqli->prepare("
+        SELECT s.*, u.nama as mahasiswa_name, u.npm as mahasiswa_npm, f.slug, f.department, f.form_name
+        FROM submissions s
+        JOIN tbl_user u ON s.user_id = u.id_user
+        JOIN forms f ON s.form_id = f.id
+        WHERE s.id = ?
+    ");
+    $stmt->bind_param("i", $submission_id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+/**
+ * Ubah department/slug form menjadi route page yang dipakai index.php.
+ */
+function buildFormPageRoute($department, $slug)
+{
+    if (strtolower($department) === 'gerontik') {
+        return 'askep_gerontik';
+    }
+
+    return strtolower($department) . '/' . $slug;
+}
+
+/**
+ * Buat notification baru untuk user tertentu.
+ */
+function createNotification($recipient_id, $actor_id, $submission_id, $type, $message, $target_url, $mysqli)
+{
+    $stmt = $mysqli->prepare("
+        INSERT INTO user_notifications
+            (recipient_id, actor_id, submission_id, type, message, target_url, is_read, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, 0, NOW())
+    ");
+    $stmt->bind_param("iiisss", $recipient_id, $actor_id, $submission_id, $type, $message, $target_url);
+    $stmt->execute();
+}
+
+/**
+ * Ambil notifikasi terbaru untuk navbar.
+ */
+function getUserNotifications($recipient_id, $mysqli, $limit = 5)
+{
+    $limit = (int) $limit;
+    $stmt = $mysqli->prepare("
+        SELECT id, type, message, target_url, created_at, is_read
+        FROM user_notifications
+        WHERE recipient_id = ?
+        ORDER BY is_read ASC, created_at DESC, id DESC
+        LIMIT ?
+    ");
+    $stmt->bind_param("ii", $recipient_id, $limit);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+/**
+ * Hitung notifikasi belum dibaca.
+ */
+function countUnreadNotifications($recipient_id, $mysqli)
+{
+    $stmt = $mysqli->prepare("
+        SELECT COUNT(*) as total
+        FROM user_notifications
+        WHERE recipient_id = ? AND is_read = 0
+    ");
+    $stmt->bind_param("i", $recipient_id);
+    $stmt->execute();
+    return (int) ($stmt->get_result()->fetch_assoc()['total'] ?? 0);
+}
+
+/**
+ * Tandai satu notifikasi sebagai sudah dibaca.
+ */
+function markNotificationRead($notification_id, $recipient_id, $mysqli)
+{
+    $stmt = $mysqli->prepare("
+        UPDATE user_notifications
+        SET is_read = 1, read_at = NOW()
+        WHERE id = ? AND recipient_id = ?
+    ");
+    $stmt->bind_param("ii", $notification_id, $recipient_id);
+    $stmt->execute();
+}
+
+/**
+ * Tandai semua notifikasi user sebagai sudah dibaca.
+ */
+function markAllNotificationsRead($recipient_id, $mysqli)
+{
+    $stmt = $mysqli->prepare("
+        UPDATE user_notifications
+        SET is_read = 1, read_at = NOW()
+        WHERE recipient_id = ? AND is_read = 0
+    ");
+    $stmt->bind_param("i", $recipient_id);
+    $stmt->execute();
+}
+
+/**
  * Update tanggal_pengkajian & rs_ruangan di submissions
  * Dipanggil saat mahasiswa update section 1
  */
@@ -449,6 +553,8 @@ function updateSubmissionStatus($submission_id, $form_id, $mysqli) {
 }
 
 function submitSubmission($submission_id, $mysqli) {
+    $submission = getSubmissionById($submission_id, $mysqli);
+
     // Cek apakah ada section yang statusnya revision
     $stmt = $mysqli->prepare("
         SELECT COUNT(*) as revision 
@@ -473,6 +579,12 @@ function submitSubmission($submission_id, $mysqli) {
     ");
     $stmt->bind_param("i", $submission_id);
     $stmt->execute();
+
+    if ($submission && !empty($submission['reviewed_by'])) {
+        $target_url = 'index.php?page=dashboard/detail_mahasiswa&id=' . (int) $submission['user_id'];
+        $message = 'Submission ' . $submission['mahasiswa_name'] . ' disubmit ulang oleh mahasiswa.';
+        createNotification((int) $submission['reviewed_by'], (int) $submission['user_id'], $submission_id, 'resubmitted', $message, $target_url, $mysqli);
+    }
 
     return ['success' => true];
 }
@@ -607,6 +719,9 @@ function updateReviewer($submission_id, $dosen_id, $mysqli)
  */
 function updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli)
 {
+    $submission = getSubmissionById($submission_id, $mysqli);
+    $previous_status = $submission['status'] ?? null;
+
     $stmt = $mysqli->prepare("
         SELECT 
             COUNT(*) as total,
@@ -636,6 +751,14 @@ function updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli)
     $stmt3 = $mysqli->prepare("UPDATE submissions SET status = ? WHERE id = ?");
     $stmt3->bind_param("si", $new_status, $submission_id);
     $stmt3->execute();
+
+    if ($submission && !empty($submission['reviewed_by']) && in_array($new_status, ['revision', 'approved'], true) && $previous_status !== $new_status) {
+        $route = buildFormPageRoute($submission['department'], $submission['slug']);
+        $target_url = 'index.php?page=' . $route . '&submission_id=' . (int) $submission_id;
+        $statusLabel = $new_status === 'approved' ? 'disetujui' : 'direvisi';
+        $message = $submission['form_name'] . ' milik Anda telah ' . $statusLabel . ' oleh dosen.';
+        createNotification((int) $submission['user_id'], (int) ($submission['reviewed_by'] ?? 0), $submission_id, $new_status, $message, $target_url, $mysqli);
+    }
 }
 
 /**

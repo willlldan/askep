@@ -251,7 +251,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endif; ?>
 
                     <!-- ===================== TABEL PERENCANAAN ===================== -->
-                    <p class="fw-bold mb-2">13. Perencanaan </p>
+                    <p class="fw-bold mb-2">13. Intervensi Keperawatan </p>
 
                     <table class="table table-bordered" id="tabel-intervensi">
                         <thead>

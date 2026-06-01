@@ -1,6 +1,16 @@
 <?php
   require_once "koneksi.php";
   require_once "utils.php";
+
+  $currentUserId = (int) ($_SESSION['id_user'] ?? 0);
+  $currentLevel = $_SESSION['level'] ?? '';
+  $notifications = [];
+  $notificationCount = 0;
+
+  if (in_array($currentLevel, ['Dosen', 'Mahasiswa'], true) && $currentUserId > 0) {
+    $notifications = getUserNotifications($currentUserId, $mysqli, 10);
+    $notificationCount = countUnreadNotifications($currentUserId, $mysqli);
+  }
 ?>
 
 <header id="header" class="header fixed-top d-flex align-items-center">
@@ -14,33 +24,50 @@
 
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
-    <li class="nav-item dropdown">
+    <?php if (in_array($currentLevel, ['Dosen', 'Mahasiswa'], true)): ?>
+      <li class="nav-item dropdown">
+        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+          <i class="bi bi-bell"></i>
+          <?php if ($notificationCount > 0): ?>
+            <span class="badge bg-primary badge-number"><?= $notificationCount > 9 ? '9+' : $notificationCount ?></span>
+          <?php endif; ?>
+        </a>
 
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number"> 1 </span>
-          </a><!-- End Notification Icon -->
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+          <li class="dropdown-header d-flex justify-content-between align-items-center">
+            <span><?= $notificationCount > 0 ? $notificationCount . ' notifikasi baru' : 'Tidak ada notifikasi baru' ?></span>
+            <?php if ($notificationCount > 0): ?>
+              <a href="<?= htmlspecialchars('index.php?page=notification_read_all&redirect=' . urlencode($_SERVER['REQUEST_URI'])) ?>">
+                <span class="badge rounded-pill bg-primary p-2 ms-2">Tandai semua dibaca</span>
+              </a>
+            <?php endif; ?>
+          </li>
+          <li><hr class="dropdown-divider"></li>
 
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-            <li class="dropdown-header">
-              You have 5 new notifications
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-              <hr class="dropdown-divider">
-            </li>
-            <?php //endfor ?>
+          <?php if (!empty($notifications)): ?>
+            <?php foreach ($notifications as $notif): ?>
+              <li>
+                <a class="dropdown-item d-flex align-items-start gap-2" href="<?= htmlspecialchars('index.php?page=notification_read&id=' . (int) $notif['id'] . '&redirect=' . urlencode($notif['target_url'])) ?>">
+                  <i class="bi <?= ((int)($notif['is_read'] ?? 0) === 1) ? 'bi-bell' : 'bi-bell-fill text-primary' ?> mt-1"></i>
+                  <div>
+                    <div class="small fw-semibold<?= ((int)($notif['is_read'] ?? 0) === 1) ? ' text-muted' : '' ?>"><?= htmlspecialchars($notif['message']) ?></div>
+                    <div class="text-muted small"><?= date('d/m/Y H:i', strtotime($notif['created_at'])) ?></div>
+                  </div>
+                </a>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <li class="px-3 py-2 text-muted small">Belum ada notifikasi.</li>
+            <li><hr class="dropdown-divider"></li>
+          <?php endif; ?>
 
-            
-            <li class="dropdown-footer">
-              <a href="#">Show all notifications</a>
-            </li>
-
-          </ul><!-- End Notification Dropdown Items -->
-
-        </li><!-- End Notification Nav -->
+          <li class="dropdown-footer">
+            <a href="<?= htmlspecialchars('index.php?page=dashboard') ?>">Lihat dashboard</a>
+          </li>
+        </ul>
+      </li>
+    <?php endif; ?>
 
 
       <li class="nav-item dropdown pe-3">
