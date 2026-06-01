@@ -16,7 +16,7 @@ if (!isset($form_id, $section_name, $section_label, $mysqli, $_SESSION['level'],
 $level   = $_SESSION['level'];
 $user_id = $_SESSION['id_user'];
 
-if ($level === 'Dosen') {
+if (in_array($level, ['Dosen', 'Preceptor'], true)) {
     $submission_id_param = $_GET['submission_id'] ?? null;
     if (!$submission_id_param) {
         echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
@@ -43,7 +43,7 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
 
 // Inisialisasi role & readonly
 
-$is_dosen    = $level === 'Dosen';
+$is_dosen    = in_array($level, ['Dosen', 'Preceptor'], true);
 $is_readonly = $is_dosen || isLocked($submission);
 $ro          = $is_readonly ? 'readonly' : '';
 $ro_select   = $is_readonly ? 'disabled' : '';
@@ -53,7 +53,7 @@ $ro_check    = $is_readonly ? 'disabled' : '';
 // =============================================
 // HANDLE POST - DOSEN (DRY, otomatis di semua section)
 // =============================================
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($level, ['Dosen', 'Preceptor'], true)) {
     $submission_id = $submission['id'];
     $dosen_id      = $user_id;
     $action        = $_POST['action'] ?? '';
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
     
 
     if (function_exists('handle_dosen_action')) {
-        $err = handle_dosen_action($submission_id, $section_name, $action, $comment, $dosen_id, $mysqli);
+        $err = handle_dosen_action($submission_id, $section_name, $action, $comment, $dosen_id, $level, $mysqli);
         if (isset($err['error'])) {
             redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $err['error']);
         }
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
             updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
             saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
         }
-        updateReviewer($submission_id, $dosen_id, $mysqli);
+        updateReviewer($submission_id, $dosen_id, $mysqli, $level);
     }
     updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
     redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');

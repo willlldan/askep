@@ -80,12 +80,20 @@ CREATE TABLE IF NOT EXISTS `submissions` (
   `rs_ruangan` varchar(255) DEFAULT NULL,
   `reviewed_by` int DEFAULT NULL,
   `reviewed_at` timestamp NULL DEFAULT NULL,
+  `dosen_reviewed_by` int DEFAULT NULL,
+  `dosen_reviewed_at` timestamp NULL DEFAULT NULL,
+  `preceptor_reviewed_by` int DEFAULT NULL,
+  `preceptor_reviewed_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_submission` (`user_id`,`form_id`),
   KEY `form_id` (`form_id`),
   KEY `FK_submissions_tbl_user_2` (`reviewed_by`),
+  KEY `FK_submissions_tbl_user_3` (`dosen_reviewed_by`),
+  KEY `FK_submissions_tbl_user_4` (`preceptor_reviewed_by`),
   CONSTRAINT `FK_submissions_tbl_user` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id_user`) ON DELETE CASCADE,
   CONSTRAINT `FK_submissions_tbl_user_2` FOREIGN KEY (`reviewed_by`) REFERENCES `tbl_user` (`id_user`) ON DELETE SET NULL,
+  CONSTRAINT `FK_submissions_tbl_user_3` FOREIGN KEY (`dosen_reviewed_by`) REFERENCES `tbl_user` (`id_user`) ON DELETE SET NULL,
+  CONSTRAINT `FK_submissions_tbl_user_4` FOREIGN KEY (`preceptor_reviewed_by`) REFERENCES `tbl_user` (`id_user`) ON DELETE SET NULL,
   CONSTRAINT `submissions_ibfk_2` FOREIGN KEY (`form_id`) REFERENCES `forms` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 

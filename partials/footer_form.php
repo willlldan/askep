@@ -43,7 +43,7 @@ function buildTabUrl($tab, $submission_id)
             <p class="text-muted">Belum ada komentar.</p>
         <?php endif; ?>
 
-        <!-- Form komentar + action (khusus dosen) -->
+        <!-- Form komentar + action (khusus reviewer) -->
         <!-- $is_dosen dan $section_status didefinisikan di file sebelumnya -->
         <?php if ($is_dosen && $section_status !== 'approved'): ?>
             <form action="" method="POST">

@@ -580,10 +580,22 @@ function submitSubmission($submission_id, $mysqli) {
     $stmt->bind_param("i", $submission_id);
     $stmt->execute();
 
-    if ($submission && !empty($submission['reviewed_by'])) {
-        $target_url = 'index.php?page=dashboard/detail_mahasiswa&id=' . (int) $submission['user_id'];
-        $message = 'Submission ' . $submission['mahasiswa_name'] . ' disubmit ulang oleh mahasiswa.';
-        createNotification((int) $submission['reviewed_by'], (int) $submission['user_id'], $submission_id, 'resubmitted', $message, $target_url, $mysqli);
+    if ($submission) {
+        $reviewerIds = [];
+        foreach (['reviewed_by', 'dosen_reviewed_by', 'preceptor_reviewed_by'] as $field) {
+            if (!empty($submission[$field])) {
+                $reviewerIds[] = (int) $submission[$field];
+            }
+        }
+        $reviewerIds = array_values(array_unique($reviewerIds));
+
+        if (!empty($reviewerIds)) {
+            $target_url = 'index.php?page=dashboard/detail_mahasiswa&id=' . (int) $submission['user_id'];
+            $message = 'Submission ' . $submission['mahasiswa_name'] . ' disubmit ulang oleh mahasiswa.';
+            foreach ($reviewerIds as $reviewerId) {
+                createNotification($reviewerId, (int) $submission['user_id'], $submission_id, 'resubmitted', $message, $target_url, $mysqli);
+            }
+        }
     }
 
     return ['success' => true];
@@ -697,16 +709,26 @@ function updateSectionStatus($submission_id, $section_name, $status, $mysqli)
 }
 
 /**
- * Update reviewed_by dan reviewed_at di submissions
+ * Update reviewer pada submissions.
+ * reviewed_by / reviewed_at tetap dipakai sebagai reviewer terakhir.
  */
-function updateReviewer($submission_id, $dosen_id, $mysqli)
+function updateReviewer($submission_id, $reviewer_id, $mysqli, $reviewer_role = 'Dosen')
 {
-    $stmt = $mysqli->prepare("
-        UPDATE submissions 
-        SET reviewed_by = ?, reviewed_at = NOW()
-        WHERE id = ?
-    ");
-    $stmt->bind_param("ii", $dosen_id, $submission_id);
+    if ($reviewer_role === 'Preceptor') {
+        $stmt = $mysqli->prepare("
+            UPDATE submissions 
+            SET reviewed_by = ?, reviewed_at = NOW(), preceptor_reviewed_by = ?, preceptor_reviewed_at = NOW()
+            WHERE id = ?
+        ");
+        $stmt->bind_param("iii", $reviewer_id, $reviewer_id, $submission_id);
+    } else {
+        $stmt = $mysqli->prepare("
+            UPDATE submissions 
+            SET reviewed_by = ?, reviewed_at = NOW(), dosen_reviewed_by = ?, dosen_reviewed_at = NOW()
+            WHERE id = ?
+        ");
+        $stmt->bind_param("iii", $reviewer_id, $reviewer_id, $submission_id);
+    }
     $stmt->execute();
 }
 
@@ -756,7 +778,13 @@ function updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli)
         $route = buildFormPageRoute($submission['department'], $submission['slug']);
         $target_url = 'index.php?page=' . $route . '&submission_id=' . (int) $submission_id;
         $statusLabel = $new_status === 'approved' ? 'disetujui' : 'direvisi';
-        $message = $submission['form_name'] . ' milik Anda telah ' . $statusLabel . ' oleh dosen.';
+        $reviewerLabel = 'dosen';
+        if (!empty($submission['preceptor_reviewed_by']) && (int) $submission['reviewed_by'] === (int) $submission['preceptor_reviewed_by']) {
+            $reviewerLabel = 'preceptor';
+        } elseif (!empty($submission['dosen_reviewed_by']) && (int) $submission['reviewed_by'] === (int) $submission['dosen_reviewed_by']) {
+            $reviewerLabel = 'dosen';
+        }
+        $message = $submission['form_name'] . ' milik Anda telah ' . $statusLabel . ' oleh ' . $reviewerLabel . '.';
         createNotification((int) $submission['user_id'], (int) ($submission['reviewed_by'] ?? 0), $submission_id, $new_status, $message, $target_url, $mysqli);
     }
 }
