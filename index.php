@@ -22,12 +22,11 @@ if (isset($_SESSION['id_user'])) {
         exit;
     }
 
+    include_once "navbar.php";
+
     // ambil parameter URL dengan aman
     $page = $_GET['page'] ?? '';
     $tab  = $_GET['tab'] ?? '';
-    $tab = $tab ?: 'identitas';
-    echo "ini tab: " . htmlspecialchars($tab) . "<br>";
-    echo "ini page: " . htmlspecialchars($page) . "<br>";
 
     // =====================
     // Mahasiswa & Dosen
@@ -393,68 +392,68 @@ if (isset($_SESSION['id_user'])) {
                 break;
 
 
-            // // =====================
-            // // GERONTIK
-            // // =====================
-            // case 'gerontik/gerontik':
+            // =====================
+            // GERONTIK
+            // =====================
+            // case 'gerontik':
 
             //     $tab = $tab ?: 'identitas';
 
             //     switch ($tab) {
 
             //         case 'identitas':
-            //             include "gerontik/gerontik/halm_tambah_identitas.php";
+            //             include "gerontik/halm_tambah_identitas.php";
             //             break;
 
             //         case 'pengkajian-lanjutan':
-            //             include "gerontik/gerontik/halm_tambah_pengkajian_lanjutan.php";
+            //             include "gerontik/halm_tambah_pengkajian_lanjutan.php";
             //             break;
 
             //         case 'pengkajian-riwayat':
-            //             include "gerontik/gerontik/halm_tambah_pengkajian_riwayat.php";
+            //             include "gerontik/halm_tambah_pengkajian_riwayat.php";
             //             break;
 
             //         case 'pengkajian-fisik':
-            //             include "gerontik/gerontik/halm_tambah_pengkajian_fisik.php";
+            //             include "gerontik/halm_tambah_pengkajian_fisik.php";
             //             break;
 
             //         case 'pengkajian-kebiasaan':
-            //             include "gerontik/gerontik/halm_tambah_pengkajian_kebiasaan.php";
+            //             include "gerontik/halm_tambah_pengkajian_kebiasaan.php";
             //             break;
 
             //         case 'pengkajian-psikis':
-            //             include "gerontik/gerontik/halm_tambah_pengkajian_psikis.php";
+            //             include "gerontik/halm_tambah_pengkajian_psikis.php";
             //             break;
 
             //         case 'pengkajian-depresi':
-            //             include "gerontik/gerontik/halm_tambah_pengkajian_depresi.php";
+            //             include "gerontik/halm_tambah_pengkajian_depresi.php";
             //             break;
 
             //         case 'diagnosa_keperawatan':
-            //             include "gerontik/gerontik/halm_tambah_diagnosa.php";
+            //             include "gerontik/halm_tambah_diagnosa.php";
             //             break;
 
             //         case 'rencana':
-            //             include "gerontik/gerontik/halm_tambah_rencana.php";
+            //             include "gerontik/halm_tambah_rencana.php";
             //             break;
 
             //         case 'implementasi_keperawatan':
-            //             include "gerontik/gerontik/halm_tambah_implementasi.php";
+            //             include "gerontik/halm_tambah_implementasi.php";
             //             break;
 
             //         case 'evaluasi_keperawatan':
-            //             include "gerontik/gerontik/halm_tambah_evaluasi.php";
+            //             include "gerontik/halm_tambah_evaluasi.php";
             //             break;
 
             //         case 'sap':
-            //             include "gerontik/gerontik/halm_tambah_sap.php";
+            //             include "gerontik/halm_tambah_sap.php";
             //             break;
 
             //         default:
-            //             include "gerontik/gerontik/halm_tambah_identitas.php";
+            //             include "gerontik/halm_tambah_identitas.php";
             //     }
 
-                break;
+            //     break;
 
             // =====================
             // GERONTIK NEW
