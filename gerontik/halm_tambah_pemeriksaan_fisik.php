@@ -74,7 +74,7 @@ $physical_sections = [
         'title' => '8. Kardiovaskuler',
         'rows' => [
             ['nyeri_dada' => 'Nyeri Dada', 'palpitasi' => 'Palpitasi'],
-            ['dispneu_nocturnal' => 'Dispneu Nocturnal', 'ortopneu' => 'Ortopneu'],
+            ['dispneu_noctural' => 'Dispneu Noctural', 'ortopneu' => 'Ortopneu'],
             ['murmur' => 'Murmur', 'edema' => 'Edema'],
             ['parestesia' => 'Parestesia', 'riwayat_infark' => 'Riwayat Infark'],
         ],

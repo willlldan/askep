@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 </div>
 
                 <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Riwayat Gerontik</strong></label>
+                    <label class="col-sm-2 col-form-label"><strong>Riwayat Kesehatan Keluarga</strong></label>
                     <div class="col-sm-9"><textarea name="riwayat_gerontik" class="form-control" rows="3" <?= $ro ?>><?= val('riwayat_gerontik', $existing_data) ?></textarea></div>
                 </div>
 
