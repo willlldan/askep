@@ -111,6 +111,36 @@ switch ($form_name) {
     case 'format_poli_tb':
         include 'template_pdf_poli_tb.php';
         break;
+    case 'dasar':
+        include 'template_pdf_keperawatan_dasar.php';
+        break;
+    case 'askep_ruang_angsana':
+        include 'template_pdf_askep_ruang_angsana.php';
+        break;
+    case 'askep_ruang_damar':
+        include 'template_pdf_askep_ruang_damar.php';
+        break;
+    case 'askep_ruang_dahlia':
+        include 'template_pdf_askep_ruang_dahlia.php';
+        break;
+    case 'askep_ruang_flamboyan':
+        include 'template_pdf_askep_ruang_flamboyan.php';
+        break;
+    case 'askep_ruang_perawatan':
+        include 'template_pdf_askep_ruang_perawatan.php';
+        break;
+    case 'resume_poli_rsal':
+        include 'template_pdf_resume_poli_rsal.php';
+        break;
+    case 'icu':
+        include 'template_pdf_icu.php';
+        break;
+    case 'igd':
+        include 'template_pdf_igd.php';
+        break;
+    case 'format_keluarga':
+        include 'template_pdf_format_keluarga.php';
+        break; 
     default:
         include 'template_pdf_format_resume.php';
         break;
