@@ -206,7 +206,7 @@ include 'template_pdf.php';
             <div class="field-value"><?= p($pengkajian['keluhansakit']) ?></div>
         </div>
         <div class="field-row">
-            <div class="field-label">Anggota Keluarga yang Menderita Penyakit Kronik Membutuhnkan Penanganan/Perawatan</div>
+            <div class="field-label">Anggota Keluarga yang Menderita Penyakit Kronik Membutuhkan Penanganan/Perawatan</div>
             <div class="field-sep">:</div>
             <div class="field-value"><?= p($pengkajian['penyakitkronik']) ?></div>
         </div>
@@ -239,6 +239,7 @@ include 'template_pdf.php';
             <div class="field-value"><?= p($pengkajianlanjutan2['gambardenahrumah']) ?></div>
         </div>
 
+        <h5>Penjelasan Karakteristik Rumah</h5>
         <table class="header-table" style="border:1px solid #000;">
             <tr>
                 <td width="25%"><strong>Jenis Bangunan</strong></td>

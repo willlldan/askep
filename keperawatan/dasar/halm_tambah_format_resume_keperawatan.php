@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             if (!empty($path_ekg) && file_exists($path_ekg)) {
                 unlink($path_ekg);
             }
-            $path_ekg= $upload['path'];
+            $path_ekg = $upload['path'];
         } else {
             redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $upload['error']);
             exit;
@@ -375,19 +375,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <th class="text-center">Hasil</th>
                                 <th class="text-center">Nilai Normal</th>
                                 <?php if (!$is_readonly): ?>
-                                <th class="text-center" style="width:60px">Aksi</th>
+                                    <th class="text-center" style="width:60px">Aksi</th>
                                 <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody id="tbody-lab"></tbody>
                     </table>
                     <?php if (!$is_readonly): ?>
-                    <div class="row mb-4">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-lab"
-                                onclick="tambahRowLab()">+ Tambah Pemeriksaan</button>
+                        <div class="row mb-4">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-lab"
+                                    onclick="tambahRowLab()">+ Tambah Pemeriksaan</button>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <!-- b. Radiologi -->
@@ -402,8 +402,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     </div>
 
                     <!-- c. EKG -->
-                   <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>c.	EKG</strong></label>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>c. EKG</strong></label>
                         <div class="col-sm-9">
                             <?php if (!empty($existing_ekg)): ?>
                                 <img src="<?= htmlspecialchars($existing_ekg) ?>"
@@ -471,15 +471,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
 <script>
     let rowLabCount = 1;
-    const existingLab  = <?= json_encode($existing_lab) ?>;
-    const isReadonly   = <?= json_encode($is_readonly) ?>;
+    const existingLab = <?= json_encode($existing_lab) ?>;
+    const isReadonly = <?= json_encode($is_readonly) ?>;
 
     function tambahRowLab(data = null) {
         const tbody = document.getElementById('tbody-lab');
         const index = rowLabCount;
-        const ro    = isReadonly ? 'readonly' : '';
-        const dis   = isReadonly ? 'disabled' : '';
-        const row   = document.createElement('tr');
+        const ro = isReadonly ? 'readonly' : '';
+        const dis = isReadonly ? 'disabled' : '';
+        const row = document.createElement('tr');
         row.innerHTML = `
             <td class="text-center align-middle">${index}</td>
             <td><input type="text" class="form-control form-control-sm" name="lab[${index}][pemeriksaan]" value="${data?.pemeriksaan ?? ''}" ${ro}></td>
@@ -495,7 +495,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         btn.closest('tr').remove();
     }
 
-    window.addEventListener('load', function () {
+    window.addEventListener('load', function() {
         if (existingLab && existingLab.length > 0) {
             existingLab.forEach(row => tambahRowLab(row));
         } else {

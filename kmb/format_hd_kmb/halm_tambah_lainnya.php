@@ -109,162 +109,144 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
 
     <section class="section dashboard">
+        <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
 
+        <h5 class="card-title"><strong>Catatan KEPERAWATAN</strong></h5>
 
+        <form class="needs-validation" novalidate action="" method="POST">
 
-        <div class="card">
-            <div class="card-body">
-                <!-- Info status section (untuk dosen) -->
-                <?php if ($section_status): ?>
-                    <?php
-                    $badge = [
-                        'draft'     => 'secondary',
-                        'submitted' => 'primary',
-                        'revision'  => 'warning',
-                        'approved'  => 'success',
-                    ];
-                    ?>
-                    <div class="alert alert-<?= $badge[$section_status] ?>">
-                        Status: <strong><?= ucfirst($section_status) ?></strong>
-                        | Reviewed by: <strong><?php echo $submission['dosen_name'] ? htmlspecialchars($submission['dosen_name']) : '-'; ?></strong>
+            <!-- ===================== TABEL DIAGNOSA ===================== -->
+            <p class="text-primary fw-bold mb-2">Diagnosa Keperawatan</p>
+
+            <table class="table table-bordered" id="tabel-diagnosa">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:40px">No</th>
+                        <th class="text-center">Diagnosa</th>
+                        <th class="text-center" style="width:180px">Tanggal Ditemukan</th>
+                        <th class="text-center" style="width:180px">Tanggal Teratasi</th>
+                        <th class="text-center" style="width:60px">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-diagnosa">
+                    <!-- Dynamic rows masuk sini -->
+                </tbody>
+            </table>
+
+            <?php if (!$is_readonly): ?>
+                <div class="row mb-4">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowDiagnosa()">+ Tambah Diagnosa</button>
                     </div>
-                <?php endif; ?>
+                </div>
+            <?php endif; ?>
 
-                <h5 class="card-title"><strong>Catatan KEPERAWATAN</strong></h5>
+            <!-- ===================== TABEL INTERVENSI ===================== -->
+            <p class="text-primary fw-bold mb-2">Intervensi Keperawatan</p>
 
-                <form class="needs-validation" novalidate action="" method="POST">
+            <table class="table table-bordered" id="tabel-intervensi">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:40px">No</th>
+                        <th class="text-center">Diagnosa</th>
+                        <th class="text-center">Tujuan dan Kriteria Hasil</th>
+                        <th class="text-center">Intervensi</th>
+                        <th class="text-center" style="width:60px">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-intervensi">
+                    <!-- Dynamic rows masuk sini -->
+                </tbody>
+            </table>
 
-                    <!-- ===================== TABEL DIAGNOSA ===================== -->
-                    <p class="text-primary fw-bold mb-2">Diagnosa Keperawatan</p>
+            <?php if (!$is_readonly): ?>
+                <div class="row mb-4">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowIntervensi()">+ Tambah Intervensi</button>
+                    </div>
+                </div>
+            <?php endif; ?>
 
-                    <table class="table table-bordered" id="tabel-diagnosa">
-                        <thead>
-                            <tr>
-                                <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Diagnosa</th>
-                                <th class="text-center" style="width:180px">Tanggal Ditemukan</th>
-                                <th class="text-center" style="width:180px">Tanggal Teratasi</th>
-                                <th class="text-center" style="width:60px">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-diagnosa">
-                            <!-- Dynamic rows masuk sini -->
-                        </tbody>
-                    </table>
+            <!-- ===================== TABEL IMPLEMENTASI ===================== -->
+            <p class="text-primary fw-bold mb-2">Implementasi Keperawatan</p>
 
-                    <?php if (!$is_readonly): ?>
-                        <div class="row mb-4">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowDiagnosa()">+ Tambah Diagnosa</button>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+            <table class="table table-bordered" id="tabel-implementasi">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:70px">No. Dx</th>
+                        <th class="text-center" style="width:150px">Hari/Tanggal</th>
+                        <th class="text-center" style="width:110px">Jam</th>
+                        <th class="text-center">Implementasi</th>
+                        <th class="text-center" style="width:60px">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-implementasi">
+                    <!-- Dynamic rows masuk sini -->
+                </tbody>
+            </table>
 
-                    <!-- ===================== TABEL INTERVENSI ===================== -->
-                    <p class="text-primary fw-bold mb-2">Intervensi Keperawatan</p>
+            <?php if (!$is_readonly): ?>
+                <div class="row mb-4">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowImplementasi()">+ Tambah Implementasi</button>
+                    </div>
+                </div>
+            <?php endif; ?>
 
-                    <table class="table table-bordered" id="tabel-intervensi">
-                        <thead>
-                            <tr>
-                                <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Diagnosa</th>
-                                <th class="text-center">Tujuan dan Kriteria Hasil</th>
-                                <th class="text-center">Intervensi</th>
-                                <th class="text-center" style="width:60px">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-intervensi">
-                            <!-- Dynamic rows masuk sini -->
-                        </tbody>
-                    </table>
+            <!-- ===================== TABEL EVALUASI ===================== -->
+            <p class="text-primary fw-bold mb-2">Evaluasi Keperawatan</p>
 
-                    <?php if (!$is_readonly): ?>
-                        <div class="row mb-4">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowIntervensi()">+ Tambah Intervensi</button>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+            <table class="table table-bordered" id="tabel-evaluasi">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:70px">No. Dx</th>
+                        <th class="text-center" style="width:150px">Hari/Tanggal</th>
+                        <th class="text-center" style="width:110px">Jam</th>
+                        <th class="text-center">Evaluasi (SOAP)</th>
+                        <th class="text-center" style="width:60px">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-evaluasi">
+                    <!-- Dynamic rows masuk sini -->
+                </tbody>
+            </table>
 
-                    <!-- ===================== TABEL IMPLEMENTASI ===================== -->
-                    <p class="text-primary fw-bold mb-2">Implementasi Keperawatan</p>
+            <?php if (!$is_readonly): ?>
+                <div class="row mb-4">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowEvaluasi()">+ Tambah Evaluasi</button>
+                    </div>
+                </div>
+            <?php endif; ?>
 
-                    <table class="table table-bordered" id="tabel-implementasi">
-                        <thead>
-                            <tr>
-                                <th class="text-center" style="width:70px">No. Dx</th>
-                                <th class="text-center" style="width:150px">Hari/Tanggal</th>
-                                <th class="text-center" style="width:110px">Jam</th>
-                                <th class="text-center">Implementasi</th>
-                                <th class="text-center" style="width:60px">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-implementasi">
-                            <!-- Dynamic rows masuk sini -->
-                        </tbody>
-                    </table>
+            <!-- TOMBOL SIMPAN (hanya mahasiswa) -->
+            <?php if (!$is_dosen): ?>
+                <div class="row mb-3">
+                    <div class="col-sm-12 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Simpan Data</button>
+                    </div>
+                </div>
+            <?php endif; ?>
 
-                    <?php if (!$is_readonly): ?>
-                        <div class="row mb-4">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowImplementasi()">+ Tambah Implementasi</button>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+            <script>
+                let rowDiagnosaCount = 1;
+                let rowIntervensiCount = 1;
+                let rowImplementasiCount = 1;
+                let rowEvaluasiCount = 1;
 
-                    <!-- ===================== TABEL EVALUASI ===================== -->
-                    <p class="text-primary fw-bold mb-2">Evaluasi Keperawatan</p>
+                const existingDiagnosa = <?= json_encode($existing_diagnosa) ?>;
+                const existingIntervensi = <?= json_encode($existing_intervensi) ?>;
+                const existingImplementasi = <?= json_encode($existing_implementasi) ?>;
+                const existingEvaluasi = <?= json_encode($existing_evaluasi) ?>;
 
-                    <table class="table table-bordered" id="tabel-evaluasi">
-                        <thead>
-                            <tr>
-                                <th class="text-center" style="width:70px">No. Dx</th>
-                                <th class="text-center" style="width:150px">Hari/Tanggal</th>
-                                <th class="text-center" style="width:110px">Jam</th>
-                                <th class="text-center">Evaluasi (SOAP)</th>
-                                <th class="text-center" style="width:60px">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-evaluasi">
-                            <!-- Dynamic rows masuk sini -->
-                        </tbody>
-                    </table>
-
-                    <?php if (!$is_readonly): ?>
-                        <div class="row mb-4">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowEvaluasi()">+ Tambah Evaluasi</button>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-
-                    <!-- TOMBOL SIMPAN (hanya mahasiswa) -->
-                    <?php if (!$is_dosen): ?>
-                        <div class="row mb-3">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">Simpan Data</button>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-
-                    <script>
-                        let rowDiagnosaCount = 1;
-                        let rowIntervensiCount = 1;
-                        let rowImplementasiCount = 1;
-                        let rowEvaluasiCount = 1;
-
-                        const existingDiagnosa = <?= json_encode($existing_diagnosa) ?>;
-                        const existingIntervensi = <?= json_encode($existing_intervensi) ?>;
-                        const existingImplementasi = <?= json_encode($existing_implementasi) ?>;
-                        const existingEvaluasi = <?= json_encode($existing_evaluasi) ?>;
-
-                        // ---- DIAGNOSA ----
-                        function tambahRowDiagnosa(data = null) {
-                            const tbody = document.getElementById('tbody-diagnosa');
-                            const index = rowDiagnosaCount;
-                            const row = document.createElement('tr');
-                            const isReadonly = <?= json_encode($is_readonly) ?>;
-                            row.innerHTML = `
+                // ---- DIAGNOSA ----
+                function tambahRowDiagnosa(data = null) {
+                    const tbody = document.getElementById('tbody-diagnosa');
+                    const index = rowDiagnosaCount;
+                    const row = document.createElement('tr');
+                    const isReadonly = <?= json_encode($is_readonly) ?>;
+                    row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
                                 <td>
                                     <textarea
@@ -298,17 +280,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                     ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
                                 </td>
                             `;
-                            tbody.appendChild(row);
-                            rowDiagnosaCount++;
-                        }
+                    tbody.appendChild(row);
+                    rowDiagnosaCount++;
+                }
 
-                        // ---- INTERVENSI ----
-                        function tambahRowIntervensi(data = null) {
-                            const tbody = document.getElementById('tbody-intervensi');
-                            const index = rowIntervensiCount;
-                            const row = document.createElement('tr');
-                            const isReadonly = <?= json_encode($is_readonly) ?>;
-                            row.innerHTML = `
+                // ---- INTERVENSI ----
+                function tambahRowIntervensi(data = null) {
+                    const tbody = document.getElementById('tbody-intervensi');
+                    const index = rowIntervensiCount;
+                    const row = document.createElement('tr');
+                    const isReadonly = <?= json_encode($is_readonly) ?>;
+                    row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
                                 <td>
                                     <textarea
@@ -344,17 +326,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                     ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
                                 </td>
                             `;
-                            tbody.appendChild(row);
-                            rowIntervensiCount++;
-                        }
+                    tbody.appendChild(row);
+                    rowIntervensiCount++;
+                }
 
-                        // ---- IMPLEMENTASI ----
-                        function tambahRowImplementasi(data = null) {
-                            const tbody = document.getElementById('tbody-implementasi');
-                            const index = rowImplementasiCount;
-                            const row = document.createElement('tr');
-                            const isReadonly = <?= json_encode($is_readonly) ?>;
-                            row.innerHTML = `
+                // ---- IMPLEMENTASI ----
+                function tambahRowImplementasi(data = null) {
+                    const tbody = document.getElementById('tbody-implementasi');
+                    const index = rowImplementasiCount;
+                    const row = document.createElement('tr');
+                    const isReadonly = <?= json_encode($is_readonly) ?>;
+                    row.innerHTML = `
                                 <td>
                                     <input
                                         type="text"
@@ -396,17 +378,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                     ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
                                 </td>
                             `;
-                            tbody.appendChild(row);
-                            rowImplementasiCount++;
-                        }
+                    tbody.appendChild(row);
+                    rowImplementasiCount++;
+                }
 
-                        // ---- EVALUASI ----
-                        function tambahRowEvaluasi(data = null) {
-                            const tbody = document.getElementById('tbody-evaluasi');
-                            const index = rowEvaluasiCount;
-                            const row = document.createElement('tr');
-                            const isReadonly = <?= json_encode($is_readonly) ?>;
-                            row.innerHTML = `
+                // ---- EVALUASI ----
+                function tambahRowEvaluasi(data = null) {
+                    const tbody = document.getElementById('tbody-evaluasi');
+                    const index = rowEvaluasiCount;
+                    const row = document.createElement('tr');
+                    const isReadonly = <?= json_encode($is_readonly) ?>;
+                    row.innerHTML = `
                                 <td>
                                     <input
                                         type="text"
@@ -487,44 +469,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                     ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
                                 </td>
                             `;
-                            tbody.appendChild(row);
-                            rowEvaluasiCount++;
-                        }
+                    tbody.appendChild(row);
+                    rowEvaluasiCount++;
+                }
 
-                        function hapusRow(btn) {
-                            btn.closest('tr').remove();
-                        }
+                function hapusRow(btn) {
+                    btn.closest('tr').remove();
+                }
 
-                        // Load existing rows on page load
-                        window.addEventListener('load', function() {
-                            if (existingDiagnosa && existingDiagnosa.length > 0) {
-                                existingDiagnosa.forEach(row => tambahRowDiagnosa(row));
-                            } else {
-                                tambahRowDiagnosa();
-                            }
+                // Load existing rows on page load
+                window.addEventListener('load', function() {
+                    if (existingDiagnosa && existingDiagnosa.length > 0) {
+                        existingDiagnosa.forEach(row => tambahRowDiagnosa(row));
+                    } else {
+                        tambahRowDiagnosa();
+                    }
 
-                            if (existingIntervensi && existingIntervensi.length > 0) {
-                                existingIntervensi.forEach(row => tambahRowIntervensi(row));
-                            } else {
-                                tambahRowIntervensi();
-                            }
+                    if (existingIntervensi && existingIntervensi.length > 0) {
+                        existingIntervensi.forEach(row => tambahRowIntervensi(row));
+                    } else {
+                        tambahRowIntervensi();
+                    }
 
-                            if (existingImplementasi && existingImplementasi.length > 0) {
-                                existingImplementasi.forEach(row => tambahRowImplementasi(row));
-                            } else {
-                                tambahRowImplementasi();
-                            }
+                    if (existingImplementasi && existingImplementasi.length > 0) {
+                        existingImplementasi.forEach(row => tambahRowImplementasi(row));
+                    } else {
+                        tambahRowImplementasi();
+                    }
 
-                            if (existingEvaluasi && existingEvaluasi.length > 0) {
-                                existingEvaluasi.forEach(row => tambahRowEvaluasi(row));
-                            } else {
-                                tambahRowEvaluasi();
-                            }
-                        });
-                    </script>
-                </form>
+                    if (existingEvaluasi && existingEvaluasi.length > 0) {
+                        existingEvaluasi.forEach(row => tambahRowEvaluasi(row));
+                    } else {
+                        tambahRowEvaluasi();
+                    }
+                });
+            </script>
+        </form>
 
-            </div>
+        </div>
         </div>
         <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 

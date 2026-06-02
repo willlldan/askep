@@ -1,4 +1,3 @@
-
 <?php
 $form_id       = 26;
 $section_name  = 'data_biologis_2';
@@ -42,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             exit;
         }
     }
-  $obat = [];
+    $obat = [];
     if (!empty($_POST['obat'])) {
         foreach ($_POST['obat'] as $index => $row) {
             if (empty($row['jenis_obat']) && empty($row['dosis']) && empty($row['kegunaan'])) {
@@ -70,46 +69,120 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     }
 
     $text_fields = [
-        'bentuk_dada', 'pengembangan_dada', 'perbandingan_dada',
-        'suara_nafas_uraian', 'abnormal', 'frekuensi_nafas',
-        'perkusi_paru', 'taktil_fremitus', 'kelainan_paru',
-        's1_jantung', 'terdapat_pada_s1', 's2_jantung', 'terdapat_pada_s2',
-        'pulsasi_jantung', 'kelainan_jantung',
-        'bising_usus_kali', 'benjolan_letak', 'nyeri_letak', 'kelainan_abdomen',
-        'kelainan_genetalia', 'otot_tangan_kanan', 'otot_tangan_kiri',
-        'kelainan_ekstremitas_atas', 'kelainan_ekstremitas_bawah',
-        'otot_kaki_kanan', 'otot_kaki_kiri',
-        'warna_kulit', 'pada_daerah', 'pada_daerah_luka',
-        'karakteristik_luka', 'kelainan_kulit', 'kelainan_kuku',
-        'nervus1_penciuman', 'nervus2_penglihatan', 'konstriksi_pupil',
-        'gerakan_kelopak', 'gerakan_bola_mata', 'gerakan_mata_bawah',
-        'refleks_dagu', 'refleks_cornea', 'pengecapan_depan',
-        'fungsi_pendengaran', 'refleks_menelan', 'refleks_muntah',
-        'pengecapan_belakang', 'suara_pasien', 'gerakan_kepala',
-        'angkat_bahu', 'deviasi_lidah', 'kaku_kuduk', 'kernig_sign', 'refleks_brudzinski',
-        'radiologi', 'usg', 'ct', 'terapi',
+        'bentuk_dada',
+        'pengembangan_dada',
+        'perbandingan_dada',
+        'suara_nafas_uraian',
+        'abnormal',
+        'frekuensi_nafas',
+        'perkusi_paru',
+        'taktil_fremitus',
+        'kelainan_paru',
+        's1_jantung',
+        'terdapat_pada_s1',
+        's2_jantung',
+        'terdapat_pada_s2',
+        'pulsasi_jantung',
+        'kelainan_jantung',
+        'bising_usus_kali',
+        'benjolan_letak',
+        'nyeri_letak',
+        'kelainan_abdomen',
+        'kelainan_genetalia',
+        'otot_tangan_kanan',
+        'otot_tangan_kiri',
+        'kelainan_ekstremitas_atas',
+        'kelainan_ekstremitas_bawah',
+        'otot_kaki_kanan',
+        'otot_kaki_kiri',
+        'warna_kulit',
+        'pada_daerah',
+        'pada_daerah_luka',
+        'karakteristik_luka',
+        'kelainan_kulit',
+        'kelainan_kuku',
+        'nervus1_penciuman',
+        'nervus2_penglihatan',
+        'konstriksi_pupil',
+        'gerakan_kelopak',
+        'gerakan_bola_mata',
+        'gerakan_mata_bawah',
+        'refleks_dagu',
+        'refleks_cornea',
+        'pengecapan_depan',
+        'fungsi_pendengaran',
+        'refleks_menelan',
+        'refleks_muntah',
+        'pengecapan_belakang',
+        'suara_pasien',
+        'gerakan_kepala',
+        'angkat_bahu',
+        'deviasi_lidah',
+        'kaku_kuduk',
+        'kernig_sign',
+        'refleks_brudzinski',
+        'radiologi',
+        'usg',
+        'ct',
+        'terapi',
     ];
 
     $radio_fields = [
-        'otot_pernafasan', 'bunyi_abnormal', 'teratur_nafas', 'irama_nafas',
-        'sesak_nafas', 'bunyi_jantung', 'bunyi_tambahan_jantung', 'irama_jantung',
-        'bentuk_abdomen', 'bising_usus', 'benjolan_abdomen', 'nyeri_abdomen',
+        'otot_pernafasan',
+        'bunyi_abnormal',
+        'teratur_nafas',
+        'irama_nafas',
+        'sesak_nafas',
+        'bunyi_jantung',
+        'bunyi_tambahan_jantung',
+        'irama_jantung',
+        'bentuk_abdomen',
+        'bising_usus',
+        'benjolan_abdomen',
+        'nyeri_abdomen',
         'perkusi_abdomen',
-        'bentuk_genetalia', 'radang_genetalia', 'sekret_genetalia',
-        'skrotum_bengkak', 'rektum_benjolan', 'terdapat_lesi',
-        'atas_simetris', 'sensasi_halus', 'sensasi_tajam', 'sensasi_panas',
-        'sensasi_dingin', 'rom_atas', 'refleks_bisep', 'refleks_trisep',
-        'pembengkakan_atas', 'kelembaban_atas', 'temperatur_atas',
-        'bawah_simetris', 'bawah_sensasi_halus', 'bawah_sensasi_tajam',
-        'bawah_sensasi_panas', 'bawah_sensasi_dingin', 'rom_bawah',
-        'refleks_babinski', 'varises_bawah', 'pembengkakan_bawah',
-        'kelembaban_bawah', 'temperatur_bawah',
-        'turgor_kulit', 'kelembaban_kulit', 'edema_kulit', 'luka_kulit',
-        'tekstur_kulit', 'clubbing_finger', 'crt',
+        'bentuk_genetalia',
+        'radang_genetalia',
+        'sekret_genetalia',
+        'skrotum_bengkak',
+        'rektum_benjolan',
+        'terdapat_lesi',
+        'atas_simetris',
+        'sensasi_halus',
+        'sensasi_tajam',
+        'sensasi_panas',
+        'sensasi_dingin',
+        'rom_atas',
+        'refleks_bisep',
+        'refleks_trisep',
+        'pembengkakan_atas',
+        'kelembaban_atas',
+        'temperatur_atas',
+        'bawah_simetris',
+        'bawah_sensasi_halus',
+        'bawah_sensasi_tajam',
+        'bawah_sensasi_panas',
+        'bawah_sensasi_dingin',
+        'rom_bawah',
+        'refleks_babinski',
+        'varises_bawah',
+        'pembengkakan_bawah',
+        'kelembaban_bawah',
+        'temperatur_bawah',
+        'turgor_kulit',
+        'kelembaban_kulit',
+        'edema_kulit',
+        'luka_kulit',
+        'tekstur_kulit',
+        'clubbing_finger',
+        'crt',
     ];
 
     $data = [
-                'obat' => $obat,'lab' => $lab, 'ekg' => $path_ekg];
+        'obat' => $obat,
+        'lab' => $lab,
+        'ekg' => $path_ekg
+    ];
 
     foreach ($text_fields as $f) {
         $data[$f] = $_POST[$f] ?? '';
@@ -612,19 +685,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         'terdapat_lesi'     => ['label' => 'Terdapat Lesi',           'opts' => ['ada' => 'Ada', 'tidak' => 'Tidak']],
                     ];
                     foreach ($genetalia_radio as $name => $cfg): ?>
-                    <div class="row mb-2">
-                        <div class="col-sm-2"><strong><?= $cfg['label'] ?></strong></div>
-                        <?php foreach ($cfg['opts'] as $val => $lbl): ?>
-                        <div class="col-sm-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="<?= $name ?>" value="<?= $val ?>"
-                                    id="<?= $name ?>_<?= $val ?>" <?= $ro_disabled ?>
-                                    <?= ($existing_data[$name] ?? '') === $val ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="<?= $name ?>_<?= $val ?>"><?= $lbl ?></label>
-                            </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-2"><strong><?= $cfg['label'] ?></strong></div>
+                            <?php foreach ($cfg['opts'] as $val => $lbl): ?>
+                                <div class="col-sm-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="<?= $name ?>" value="<?= $val ?>"
+                                            id="<?= $name ?>_<?= $val ?>" <?= $ro_disabled ?>
+                                            <?= ($existing_data[$name] ?? '') === $val ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="<?= $name ?>_<?= $val ?>"><?= $lbl ?></label>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
-                    </div>
                     <?php endforeach; ?>
 
                     <div class="row mb-3">
@@ -655,19 +728,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         'temperatur_atas'   => ['label' => 'Temperatur',       'opts' => ['panas' => 'Panas', 'dingin' => 'Dingin']],
                     ];
                     foreach ($ekst_atas_radio as $name => $cfg): ?>
-                    <div class="row mb-2">
-                        <div class="col-sm-2"><strong><?= $cfg['label'] ?></strong></div>
-                        <?php foreach ($cfg['opts'] as $val => $lbl): ?>
-                        <div class="col-sm-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="<?= $name ?>" value="<?= $val ?>"
-                                    id="<?= $name ?>_<?= $val ?>" <?= $ro_disabled ?>
-                                    <?= ($existing_data[$name] ?? '') === $val ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="<?= $name ?>_<?= $val ?>"><?= $lbl ?></label>
-                            </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-2"><strong><?= $cfg['label'] ?></strong></div>
+                            <?php foreach ($cfg['opts'] as $val => $lbl): ?>
+                                <div class="col-sm-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="<?= $name ?>" value="<?= $val ?>"
+                                            id="<?= $name ?>_<?= $val ?>" <?= $ro_disabled ?>
+                                            <?= ($existing_data[$name] ?? '') === $val ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="<?= $name ?>_<?= $val ?>"><?= $lbl ?></label>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
-                    </div>
                     <?php endforeach; ?>
 
                     <div class="row mb-3">
@@ -709,26 +782,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         'bawah_sensasi_panas'   => ['label' => 'Sensasi Panas',    'opts' => ['ada' => 'Ada', 'tidak' => 'Tidak']],
                         'bawah_sensasi_dingin'  => ['label' => 'Sensasi Dingin',   'opts' => ['ada' => 'Ada', 'tidak' => 'Tidak']],
                         'rom_bawah'             => ['label' => 'Gerakan ROM',      'opts' => ['dapat' => 'Dapat', 'tidak' => 'Tidak']],
-                        'refleks_babinski'      => ['label' => 'Refleks Lipat Paha','opts' => ['ada' => 'Ada', 'tidak' => 'Tidak']],
+                        'refleks_babinski'      => ['label' => 'Refleks Lipat Paha', 'opts' => ['ada' => 'Ada', 'tidak' => 'Tidak']],
                         'varises_bawah'         => ['label' => 'Varises',          'opts' => ['ada' => 'Ada', 'tidak' => 'Tidak']],
                         'pembengkakan_bawah'    => ['label' => 'Pembengkakan',     'opts' => ['ya' => 'Ya', 'tidak' => 'Tidak']],
                         'kelembaban_bawah'      => ['label' => 'Kelembaban',       'opts' => ['lembab' => 'Lembab', 'kering' => 'Kering']],
                         'temperatur_bawah'      => ['label' => 'Temperatur',       'opts' => ['panas' => 'Panas', 'dingin' => 'Dingin']],
                     ];
                     foreach ($ekst_bawah_radio as $name => $cfg): ?>
-                    <div class="row mb-2">
-                        <div class="col-sm-2"><strong><?= $cfg['label'] ?></strong></div>
-                        <?php foreach ($cfg['opts'] as $val => $lbl): ?>
-                        <div class="col-sm-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="<?= $name ?>" value="<?= $val ?>"
-                                    id="<?= $name ?>_<?= $val ?>" <?= $ro_disabled ?>
-                                    <?= ($existing_data[$name] ?? '') === $val ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="<?= $name ?>_<?= $val ?>"><?= $lbl ?></label>
-                            </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-2"><strong><?= $cfg['label'] ?></strong></div>
+                            <?php foreach ($cfg['opts'] as $val => $lbl): ?>
+                                <div class="col-sm-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="<?= $name ?>" value="<?= $val ?>"
+                                            id="<?= $name ?>_<?= $val ?>" <?= $ro_disabled ?>
+                                            <?= ($existing_data[$name] ?? '') === $val ? 'checked' : '' ?>>
+                                        <label class="form-check-label" for="<?= $name ?>_<?= $val ?>"><?= $lbl ?></label>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
-                    </div>
                     <?php endforeach; ?>
 
                     <div class="row mb-3">
@@ -968,19 +1041,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <th class="text-center">Hasil</th>
                                 <th class="text-center">Nilai Normal</th>
                                 <?php if (!$is_readonly): ?>
-                                <th class="text-center" style="width:60px">Aksi</th>
+                                    <th class="text-center" style="width:60px">Aksi</th>
                                 <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody id="tbody-lab"></tbody>
                     </table>
                     <?php if (!$is_readonly): ?>
-                    <div class="row mb-4">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-lab"
-                                onclick="tambahRowLab()">+ Tambah Pemeriksaan</button>
+                        <div class="row mb-4">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary btn-sm" id="btn-tambah-lab"
+                                    onclick="tambahRowLab()">+ Tambah Pemeriksaan</button>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <!-- b. Radiologi -->
@@ -1032,7 +1105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         </div>
                     </div>
 
-                      <!-- ========================= -->
+                    <!-- ========================= -->
                     <!-- TERAPI / OBAT -->
                     <!-- ========================= -->
                     <p class="text-primary fw-bold mb-2">
@@ -1091,13 +1164,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     let rowLabCount = 1;
     const existingLab = <?= json_encode($existing_lab) ?>;
     const existingObat = <?= json_encode($existing_obat) ?>;
-    const isReadonly  = <?= json_encode($is_readonly) ?>;
+    const isReadonly = <?= json_encode($is_readonly) ?>;
 
     function tambahRowLab(data = null) {
         const tbody = document.getElementById('tbody-lab');
         const index = rowLabCount;
-        const ro    = isReadonly ? 'readonly' : '';
-        const row   = document.createElement('tr');
+        const ro = isReadonly ? 'readonly' : '';
+        const row = document.createElement('tr');
         row.innerHTML = `
             <td class="text-center align-middle">${index}</td>
             <td><input type="text" class="form-control form-control-sm" name="lab[${index}][pemeriksaan]" value="${data?.pemeriksaan ?? ''}" ${ro}></td>
@@ -1108,12 +1181,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         tbody.appendChild(row);
         rowLabCount++;
     }
+
     function tambahRowObat(data = null) {
         const tbody = document.getElementById('tbody-obat');
         const index = rowObatCount;
-        const ro    = isReadonly ? 'readonly' : '';
-        const row   = document.createElement('tr');
-        
+        const ro = isReadonly ? 'readonly' : '';
+        const row = document.createElement('tr');
+
         row.innerHTML = `
             <td class="text-center align-middle">${index}</td>
             <td><input type="text" class="form-control form-control-sm" name="obat[${index}][jenis_obat]" value="${data?.jenis_obat ?? ''}" ${ro}></td>
@@ -1131,7 +1205,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         btn.closest('tr').remove();
     }
 
-    window.addEventListener('load', function () {
+    window.addEventListener('load', function() {
         if (existingLab && existingLab.length > 0) {
             existingLab.forEach(row => tambahRowLab(row));
         } else {
