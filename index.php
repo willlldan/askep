@@ -24,6 +24,10 @@ if (isset($_SESSION['id_user'])) {
 
     include_once "navbar.php";
 
+    // ambil parameter URL dengan aman
+    $page = $_GET['page'] ?? '';
+    $tab  = $_GET['tab'] ?? '';
+
     // =====================
     // Mahasiswa & Dosen
     // =====================
@@ -210,7 +214,7 @@ if (isset($_SESSION['id_user'])) {
                     case 'laporan_pendahuluan_kb':
                         include "maternitas/resume_antenatal_care/halm_laporan_pendahuluan_kb.php";
                         break;
-                    
+
                     case 'identitas':
                         include "maternitas/resume_antenatal_care/halm_tambah_identitas.php";
                         break;
@@ -391,66 +395,121 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             // GERONTIK
             // =====================
+            // case 'gerontik':
+
+            //     $tab = $tab ?: 'identitas';
+
+            //     switch ($tab) {
+
+            //         case 'identitas':
+            //             include "gerontik/halm_tambah_identitas.php";
+            //             break;
+
+            //         case 'pengkajian-lanjutan':
+            //             include "gerontik/halm_tambah_pengkajian_lanjutan.php";
+            //             break;
+
+            //         case 'pengkajian-riwayat':
+            //             include "gerontik/halm_tambah_pengkajian_riwayat.php";
+            //             break;
+
+            //         case 'pengkajian-fisik':
+            //             include "gerontik/halm_tambah_pengkajian_fisik.php";
+            //             break;
+
+            //         case 'pengkajian-kebiasaan':
+            //             include "gerontik/halm_tambah_pengkajian_kebiasaan.php";
+            //             break;
+
+            //         case 'pengkajian-psikis':
+            //             include "gerontik/halm_tambah_pengkajian_psikis.php";
+            //             break;
+
+            //         case 'pengkajian-depresi':
+            //             include "gerontik/halm_tambah_pengkajian_depresi.php";
+            //             break;
+
+            //         case 'diagnosa_keperawatan':
+            //             include "gerontik/halm_tambah_diagnosa.php";
+            //             break;
+
+            //         case 'rencana':
+            //             include "gerontik/halm_tambah_rencana.php";
+            //             break;
+
+            //         case 'implementasi_keperawatan':
+            //             include "gerontik/halm_tambah_implementasi.php";
+            //             break;
+
+            //         case 'evaluasi_keperawatan':
+            //             include "gerontik/halm_tambah_evaluasi.php";
+            //             break;
+
+            //         case 'sap':
+            //             include "gerontik/halm_tambah_sap.php";
+            //             break;
+
+            //         default:
+            //             include "gerontik/halm_tambah_identitas.php";
+            //     }
+
+            //     break;
+
+            // =====================
+            // GERONTIK NEW
+            // =====================
             case 'gerontik/gerontik':
 
-                $tab = $tab ?: 'identitas';
+                var_dump($tab);
 
                 switch ($tab) {
 
                     case 'identitas':
-                        include "gerontik/gerontik/halm_tambah_identitas.php";
+                        include "gerontik/halm_tambah_identitas.php";
                         break;
 
-                    case 'pengkajian-lanjutan':
-                        include "gerontik/gerontik/halm_tambah_pengkajian_lanjutan.php";
+                    case 'riwayat_kesehatan':
+                        include "gerontik/halm_tambah_riwayat_kesehatan.php";
                         break;
 
-                    case 'pengkajian-riwayat':
-                        include "gerontik/gerontik/halm_tambah_pengkajian_riwayat.php";
+                    case 'pemeriksaan_fisik':
+                        include "gerontik/halm_tambah_pemeriksaan_fisik.php";
                         break;
 
-                    case 'pengkajian-fisik':
-                        include "gerontik/gerontik/halm_tambah_pengkajian_fisik.php";
+                    case 'kebiasaan_harian':
+                        include "gerontik/halm_tambah_kebiasaan_harian.php";
                         break;
 
-                    case 'pengkajian-kebiasaan':
-                        include "gerontik/gerontik/halm_tambah_pengkajian_kebiasaan.php";
+                    case 'psikososial_spiritual':
+                        include "gerontik/halm_tambah_psikososial_spiritual.php";
                         break;
 
-                    case 'pengkajian-psikis':
-                        include "gerontik/gerontik/halm_tambah_pengkajian_psikis.php";
+                    case 'status_fungsional':
+                        include "gerontik/halm_tambah_status_fungsional.php";
                         break;
 
-                    case 'pengkajian-depresi':
-                        include "gerontik/gerontik/halm_tambah_pengkajian_depresi.php";
+                    case 'skala_depresi':
+                        include "gerontik/halm_tambah_skala_depresi.php";
                         break;
 
-                    case 'diagnosa_keperawatan':
-                        include "gerontik/gerontik/halm_tambah_diagnosa.php";
+                    case 'apgar_spmsq_risiko_jatuh':
+                        include "gerontik/halm_tambah_apgar_spmsq_risiko_jatuh.php";
                         break;
 
-                    case 'rencana':
-                        include "gerontik/gerontik/halm_tambah_rencana.php";
+                    case 'analisa_data':
+                        include "gerontik/halm_analisa_data.php";
                         break;
 
-                    case 'implementasi_keperawatan':
-                        include "gerontik/gerontik/halm_tambah_implementasi.php";
-                        break;
-
-                    case 'evaluasi_keperawatan':
-                        include "gerontik/gerontik/halm_tambah_evaluasi.php";
-                        break;
-
-                    case 'sap':
-                        include "gerontik/gerontik/halm_tambah_sap.php";
+                    case 'catatan_keperawatan':
+                        include "gerontik/halm_tambah_catatan_keperawatan.php";
                         break;
 
                     default:
-                        include "gerontik/gerontik/halm_tambah_identitas.php";
+                        include "gerontik/halm_tambah_riwayat_kesehatan.php";
                 }
 
                 break;
-                 // =====================
+            // =====================
             // KMB Format KMB RUANG DAMAR
             // =====================
             case 'kmb/format_kmb_r_damar':
@@ -594,8 +653,8 @@ if (isset($_SESSION['id_user'])) {
                         include "kmb/format_kmb_r_angsana/halm_konsep_keperawatan.php";
                 }
 
-                break; 
-                
+                break;
+
             // =====================
             // KMB Format KMB RUANG DAHLIA
             // =====================
@@ -667,7 +726,7 @@ if (isset($_SESSION['id_user'])) {
                         include "kmb/format_kmb_r_dahlia/halm_konsep_keperawatan.php";
                 }
 
-                break;    
+                break;
 
 
             // =====================
@@ -827,7 +886,7 @@ if (isset($_SESSION['id_user'])) {
                 }
 
                 break;
-  // =====================
+            // =====================
             // KMB Pengkajian Ruang OK
             // =====================
             case 'kmb/format_poli_tb':

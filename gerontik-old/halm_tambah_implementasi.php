@@ -269,7 +269,7 @@ if (isset($_POST['submit'])) {
                         </table>
 
 
-                        <?php include "tab_navigasi.php"; ?>
+                        <?php include "footer_gerontik.php"; ?>
 
     </section>
 </main>
