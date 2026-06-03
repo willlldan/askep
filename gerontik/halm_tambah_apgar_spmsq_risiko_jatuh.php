@@ -300,6 +300,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     }
     foreach (range(1, 10) as $i) {
         $data['q' . $i] = $_POST['q' . $i] ?? '';
+        $data['jawaban_spmsq_' . $i] = $_POST['jawaban_spmsq_' . $i] ?? '';
     }
     foreach (['riwayat_jatuh_1', 'riwayat_jatuh_2', 'status_mental_1', 'status_mental_2', 'status_mental_3', 'penglihatan_1', 'penglihatan_2', 'penglihatan_3', 'berkemih', 'transfer', 'mobilitas'] as $field) {
         $data[$field] = $_POST[$field] ?? '';
@@ -328,6 +329,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 [$spmsq_correct, $spmsq_errors, $spmsq_conclusion] = evaluateSpmsq($existing_data);
 [$fall_total, $fall_conclusion, $fall_scores] = evaluateFall($existing_data);
 ?>
+
+<style>
+    .risiko-jatuh-table {
+        border-width: 2px !important;
+        border-color: #000 !important;
+    }
+
+    .risiko-jatuh-table th,
+    .risiko-jatuh-table td {
+        border-width: 2px !important;
+        border-color: #000 !important;
+    }
+</style>
 
 <main id="main" class="main">
     <?php include "tab.php"; ?>
@@ -389,6 +403,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <tr>
                                     <th class="text-center" style="width: 60px;">No</th>
                                     <th>Pertanyaan</th>
+                                    <th class="text-center" style="width: 220px;">Jawaban</th>
                                     <th class="text-center" style="width: 100px;">B</th>
                                     <th class="text-center" style="width: 100px;">S</th>
                                 </tr>
@@ -398,6 +413,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                     <tr>
                                         <td class="text-center"><?= $i + 1 ?></td>
                                         <td><?= htmlspecialchars($question) ?></td>
+                                        <td>
+                                            <input type="text" class="form-control" name="jawaban_spmsq_<?= $i + 1 ?>" value="<?= val('jawaban_spmsq_' . ($i + 1), $existing_data) ?>" <?= $ro ?> >
+                                        </td>
                                         <td class="text-center"><?= renderCenteredRadio('q' . ($i + 1), 'B', $existing_data, $ro_disabled) ?></td>
                                         <td class="text-center"><?= renderCenteredRadio('q' . ($i + 1), 'S', $existing_data, $ro_disabled) ?></td>
                                     </tr>
@@ -430,7 +448,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <p>Skala jatuh menilai faktor risiko berdasarkan riwayat jatuh, status mental, penglihatan, kebiasaan berkemih, serta gabungan transfer dan mobilitas. Skor total 0-5 = risiko rendah, 6-16 = risiko sedang, 17-30 = risiko tinggi.</p>
 
                     <div class="table-responsive">
-                        <table class="table table-bordered align-middle">
+                        <table class="table table-bordered align-middle risiko-jatuh-table">
                             <thead>
                                 <tr>
                                     <th class="text-center" style="width: 60px;">No</th>
@@ -476,112 +494,112 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 </main>
 
 <script>
-(function () {
-    function getCheckedValue(name) {
-        const node = document.querySelector(`input[name="${name}"]:checked`);
-        return node ? node.value : '';
-    }
-
-    function setValue(id, value) {
-        const el = document.getElementById(id);
-        if (el) el.value = value;
-    }
-
-    function updateApgar() {
-        const fields = ['A', 'P', 'G', 'A2', 'R'];
-        let score = 0;
-        let answered = 0;
-
-        fields.forEach(function (field) {
-            const value = getCheckedValue(field);
-            if (value !== '') {
-                answered++;
-                score += parseInt(value, 10) || 0;
-            }
-        });
-
-        if (!answered) {
-            setValue('skor-apgar', '');
-            setValue('kesimpulan-apgar', '');
-            return;
+    (function() {
+        function getCheckedValue(name) {
+            const node = document.querySelector(`input[name="${name}"]:checked`);
+            return node ? node.value : '';
         }
 
-        const label = score <= 2 ? 'Disfungsi Gerontik Sangat Tinggi' : (score <= 6 ? 'Disfungsi Gerontik Sedang' : (score <= 8 ? 'Disfungsi Gerontik Ringan' : 'Normal'));
-        setValue('skor-apgar', score);
-        setValue('kesimpulan-apgar', `${score} - ${label}`);
-    }
-
-    function updateSpmsq() {
-        let benar = 0;
-        let salah = 0;
-        let answered = 0;
-
-        for (let i = 1; i <= 10; i++) {
-            const value = getCheckedValue(`q${i}`);
-            if (value !== '') {
-                answered++;
-                if (value === 'B') benar++;
-                if (value === 'S') salah++;
-            }
+        function setValue(id, value) {
+            const el = document.getElementById(id);
+            if (el) el.value = value;
         }
 
-        if (!answered) {
-            setValue('jumlah-benar-spmsq', '');
-            setValue('jumlah-salah-spmsq', '');
-            setValue('kesimpulan-spmsq', '');
-            return;
-        }
+        function updateApgar() {
+            const fields = ['A', 'P', 'G', 'A2', 'R'];
+            let score = 0;
+            let answered = 0;
 
-        const label = salah <= 2 ? 'fungsi intelektual utuh' : (salah <= 4 ? 'gangguan intelektual ringan' : (salah <= 7 ? 'gangguan intelektual sedang' : 'gangguan intelektual berat'));
-        setValue('jumlah-benar-spmsq', benar);
-        setValue('jumlah-salah-spmsq', salah);
-        setValue('kesimpulan-spmsq', `${salah} - ${label}`);
-    }
-
-    function updateFall() {
-        const anyAnswered = [
-            'riwayat_jatuh_1', 'riwayat_jatuh_2', 'status_mental_1', 'status_mental_2', 'status_mental_3',
-            'penglihatan_1', 'penglihatan_2', 'penglihatan_3', 'berkemih', 'transfer', 'mobilitas'
-        ].some(function (field) {
-            return getCheckedValue(field) !== '';
-        });
-
-        if (!anyAnswered) {
-            ['skor_riwayat_jatuh', 'skor_status_mental', 'skor_penglihatan', 'skor_berkemih', 'skor_transfer_mobilitas', 'skor-risiko-jatuh', 'kesimpulan-penilaian'].forEach(function (id) {
-                setValue(id, '');
+            fields.forEach(function(field) {
+                const value = getCheckedValue(field);
+                if (value !== '') {
+                    answered++;
+                    score += parseInt(value, 10) || 0;
+                }
             });
-            return;
+
+            if (!answered) {
+                setValue('skor-apgar', '');
+                setValue('kesimpulan-apgar', '');
+                return;
+            }
+
+            const label = score <= 2 ? 'Disfungsi Gerontik Sangat Tinggi' : (score <= 6 ? 'Disfungsi Gerontik Sedang' : (score <= 8 ? 'Disfungsi Gerontik Ringan' : 'Normal'));
+            setValue('skor-apgar', score);
+            setValue('kesimpulan-apgar', `${score} - ${label}`);
         }
 
-        const riwayat = (getCheckedValue('riwayat_jatuh_1') === 'Y' || getCheckedValue('riwayat_jatuh_2') === 'Y') ? 6 : 0;
-        const status = (getCheckedValue('status_mental_1') === 'Y' || getCheckedValue('status_mental_2') === 'Y' || getCheckedValue('status_mental_3') === 'Y') ? 14 : 0;
-        const penglihatan = (getCheckedValue('penglihatan_1') === 'Y' || getCheckedValue('penglihatan_2') === 'Y' || getCheckedValue('penglihatan_3') === 'Y') ? 1 : 0;
-        const berkemih = getCheckedValue('berkemih') === 'Y' ? 2 : 0;
-        const transferRaw = parseInt(getCheckedValue('transfer') || '0', 10) || 0;
-        const mobilitasRaw = parseInt(getCheckedValue('mobilitas') || '0', 10) || 0;
-        const transferMobilitas = (transferRaw + mobilitasRaw) <= 3 ? 0 : 7;
-        const total = riwayat + status + penglihatan + berkemih + transferMobilitas;
-        const label = total <= 5 ? 'Risiko Rendah' : (total <= 16 ? 'Risiko Sedang' : 'Risiko Tinggi');
+        function updateSpmsq() {
+            let benar = 0;
+            let salah = 0;
+            let answered = 0;
 
-        setValue('skor_riwayat_jatuh', riwayat);
-        setValue('skor_status_mental', status);
-        setValue('skor_penglihatan', penglihatan);
-        setValue('skor_berkemih', berkemih);
-        setValue('skor_transfer_mobilitas', transferMobilitas);
-        setValue('skor-risiko-jatuh', total);
-        setValue('kesimpulan-penilaian', `${total} - ${label}`);
-    }
+            for (let i = 1; i <= 10; i++) {
+                const value = getCheckedValue(`q${i}`);
+                if (value !== '') {
+                    answered++;
+                    if (value === 'B') benar++;
+                    if (value === 'S') salah++;
+                }
+            }
 
-    function updateAll() {
-        updateApgar();
-        updateSpmsq();
-        updateFall();
-    }
+            if (!answered) {
+                setValue('jumlah-benar-spmsq', '');
+                setValue('jumlah-salah-spmsq', '');
+                setValue('kesimpulan-spmsq', '');
+                return;
+            }
 
-    document.querySelectorAll('input[type="radio"]').forEach(function (input) {
-        input.addEventListener('change', updateAll);
-    });
+            const label = salah <= 2 ? 'fungsi intelektual utuh' : (salah <= 4 ? 'gangguan intelektual ringan' : (salah <= 7 ? 'gangguan intelektual sedang' : 'gangguan intelektual berat'));
+            setValue('jumlah-benar-spmsq', benar);
+            setValue('jumlah-salah-spmsq', salah);
+            setValue('kesimpulan-spmsq', `${salah} - ${label}`);
+        }
 
-    updateAll();
-})();
+        function updateFall() {
+            const anyAnswered = [
+                'riwayat_jatuh_1', 'riwayat_jatuh_2', 'status_mental_1', 'status_mental_2', 'status_mental_3',
+                'penglihatan_1', 'penglihatan_2', 'penglihatan_3', 'berkemih', 'transfer', 'mobilitas'
+            ].some(function(field) {
+                return getCheckedValue(field) !== '';
+            });
+
+            if (!anyAnswered) {
+                ['skor_riwayat_jatuh', 'skor_status_mental', 'skor_penglihatan', 'skor_berkemih', 'skor_transfer_mobilitas', 'skor-risiko-jatuh', 'kesimpulan-penilaian'].forEach(function(id) {
+                    setValue(id, '');
+                });
+                return;
+            }
+
+            const riwayat = (getCheckedValue('riwayat_jatuh_1') === 'Y' || getCheckedValue('riwayat_jatuh_2') === 'Y') ? 6 : 0;
+            const status = (getCheckedValue('status_mental_1') === 'Y' || getCheckedValue('status_mental_2') === 'Y' || getCheckedValue('status_mental_3') === 'Y') ? 14 : 0;
+            const penglihatan = (getCheckedValue('penglihatan_1') === 'Y' || getCheckedValue('penglihatan_2') === 'Y' || getCheckedValue('penglihatan_3') === 'Y') ? 1 : 0;
+            const berkemih = getCheckedValue('berkemih') === 'Y' ? 2 : 0;
+            const transferRaw = parseInt(getCheckedValue('transfer') || '0', 10) || 0;
+            const mobilitasRaw = parseInt(getCheckedValue('mobilitas') || '0', 10) || 0;
+            const transferMobilitas = (transferRaw + mobilitasRaw) <= 3 ? 0 : 7;
+            const total = riwayat + status + penglihatan + berkemih + transferMobilitas;
+            const label = total <= 5 ? 'Risiko Rendah' : (total <= 16 ? 'Risiko Sedang' : 'Risiko Tinggi');
+
+            setValue('skor_riwayat_jatuh', riwayat);
+            setValue('skor_status_mental', status);
+            setValue('skor_penglihatan', penglihatan);
+            setValue('skor_berkemih', berkemih);
+            setValue('skor_transfer_mobilitas', transferMobilitas);
+            setValue('skor-risiko-jatuh', total);
+            setValue('kesimpulan-penilaian', `${total} - ${label}`);
+        }
+
+        function updateAll() {
+            updateApgar();
+            updateSpmsq();
+            updateFall();
+        }
+
+        document.querySelectorAll('input[type="radio"]').forEach(function(input) {
+            input.addEventListener('change', updateAll);
+        });
+
+        updateAll();
+    })();
 </script>

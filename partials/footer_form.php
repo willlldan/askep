@@ -119,6 +119,42 @@ function buildTabUrl($tab, $submission_id)
     function autoResizeAllTextareas(scope = document) {
         scope.querySelectorAll('textarea').forEach(autoResizeTextarea);
     }
+
+    function observeTextareaResizing() {
+        if (!window.MutationObserver || !document.body) return;
+
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                mutation.addedNodes.forEach(function(node) {
+                    if (node.nodeType !== 1) return;
+
+                    if (node.matches && node.matches('textarea')) {
+                        autoResizeTextarea(node);
+                    }
+
+                    if (node.querySelectorAll) {
+                        node.querySelectorAll('textarea').forEach(autoResizeTextarea);
+                    }
+                });
+            });
+        });
+
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    function initFooterTextareaResize() {
+        autoResizeAllTextareas();
+        observeTextareaResizing();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initFooterTextareaResize);
+    } else {
+        initFooterTextareaResize();
+    }
+
+    window.addEventListener('load', autoResizeAllTextareas);
+
     document.addEventListener('DOMContentLoaded', function() {
         var mainForm = document.querySelector('form.needs-validation[action=""]');
         var isDirty = false;
@@ -224,6 +260,5 @@ function buildTabUrl($tab, $submission_id)
             });
         }
 
-        autoResizeAllTextareas();
     });
 </script>

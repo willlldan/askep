@@ -12,7 +12,7 @@ $text_fields = [
     'kebiasaan_sebelum_makan' => 'Kebiasaan / Ritual Sebelum Makan',
     'berat_tinggi_badan' => 'Berat Badan / Tinggi Badan',
     'jenis_minuman' => 'Jenis Minuman',
-    'jumlah_cairan' => 'Jumlah Cairan yang Dikonsumsi',
+    'jumlah_cairan' => 'Jumlah Cairan yang Dikonsumsi Perhari',
     'warna_bak' => 'Warna',
     'keluhan_bak' => 'Keluhan yang Berhubungan dengan BAK',
     'frekuensi_bab' => 'Frekuensi',
@@ -25,14 +25,14 @@ $text_fields = [
     'frekuensi_hygiene_oral' => 'Frekuensi',
     'frekuensi_cuci_rambut' => 'Frekuensi',
     'frekuensi_gunting_kuku' => 'Frekuensi',
-    'lama_tidur' => 'Lama Tidur (Jam/Hari)',
+    'lama_tidur' => 'Lama Tidur (Jumlah Jam/Hari)',
     'jenis_frekuensi_olahraga' => 'Jenis dan Frekuensi',
     'kegiatan_waktu_luang' => 'Kegiatan Waktu Luang',
 ];
 
 $radio_fields = [
     'kesulitan_makan_minum' => 'Kesulitan Makan dan Minum',
-    'makan_minum_bantu' => 'Untuk Makan dan Minum',
+    'makan_minum_bantu' => 'Bantuan Untuk Makan dan Minum',
     'dibantu_bak' => 'Dibantu',
     'mandiri_bak' => 'Mandiri',
     'dibantu_bab' => 'Dibantu',
@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     ?>
 
                     <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-primary"><strong>3. Hygiene Personal</strong></label>
+                        <label class="col-sm-12 col-form-label text-primary"><strong>3. Personal Hygiene </strong></label>
                     </div>
 
                     <div class="row mb-2">
@@ -178,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     ?>
 
                     <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-info"><strong>b. Hygiene Oral</strong></label>
+                        <label class="col-sm-12 col-form-label text-info"><strong>b. Oral Hygiene</strong></label>
                     </div>
 
                     <?php

@@ -496,12 +496,16 @@ if (isset($_SESSION['id_user'])) {
                         include "gerontik/halm_tambah_apgar_spmsq_risiko_jatuh.php";
                         break;
 
+                    case 'analisa_data':
+                        include "gerontik/halm_analisa_data.php";
+                        break;
+
                     case 'catatan_keperawatan':
                         include "gerontik/halm_tambah_catatan_keperawatan.php";
                         break;
 
                     default:
-                        include "gerontik/halm_tambah_identitas.php";
+                        include "gerontik/halm_tambah_riwayat_kesehatan.php";
                 }
 
                 break;

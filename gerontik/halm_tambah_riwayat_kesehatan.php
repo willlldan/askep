@@ -32,8 +32,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'produktif'                => $_POST['produktif']                ?? '',
         'sakit_perawatan'          => $_POST['sakit_perawatan']          ?? '',
         'sakit_tanpa_perawatan'    => $_POST['sakit_tanpa_perawatan']    ?? '',
-        'riwayat_kesehatan_masa_lalu' => $_POST['riwayat_kesehatan_masa_lalu'] ?? '',
-        'riwayat_gerontik'         => $_POST['riwayat_gerontik']         ?? '',
+        'imunisasi'                => $_POST['imunisasi']                ?? '',
+        'alergi_obat'              => $_POST['alergi_obat']              ?? '',
+        'kecelakaan'               => $_POST['kecelakaan']               ?? '',
+        'merokok'                  => $_POST['merokok']                  ?? '',
+        'dirawat_rs'               => $_POST['dirawat_rs']               ?? '',
+        'penyakit_1_tahun'         => $_POST['penyakit_1_tahun']         ?? '',
+        'obat_2_minggu'            => $_POST['obat_2_minggu']            ?? '',
+        'teratur_konsumsi'         => $_POST['teratur_konsumsi']         ?? '',
+        'resep_dokter'             => $_POST['resep_dokter']             ?? '',
         'genogram'                 => $genogram,
         'G1'                       => $_POST['G1']                       ?? '',
         'G2'                       => $_POST['G2']                       ?? '',
@@ -56,69 +63,108 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         <?php include dirname(__DIR__) . '/partials/status_section.php'; ?>
 
         <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-            <div class="card"><div class="card-body">
-                <h5 class="card-title"><strong>2. Riwayat Kesehatan</strong></h5>
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Keluhan Utama</strong></label>
-                    <div class="col-sm-9"><textarea name="keluhan_utama" class="form-control" rows="3" <?= $ro ?>><?= val('keluhan_utama', $existing_data) ?></textarea></div>
-                </div>
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Riwayat Kesehatan Saat Ini</strong></label>
-                    <div class="col-sm-9"><textarea name="riwayat_kesehatan_saat_ini" class="form-control" rows="3" <?= $ro ?>><?= val('riwayat_kesehatan_saat_ini', $existing_data) ?></textarea></div>
-                </div>
-
-                <?php
-                $ynFields = [
-                    'berkualitas' => 'Berkualitas',
-                    'sehat' => 'Sehat',
-                    'aktif' => 'Aktif',
-                    'produktif' => 'Produktif',
-                    'sakit_perawatan' => 'Sakit dengan perawatan',
-                    'sakit_tanpa_perawatan' => 'Sakit tanpa perawatan',
-                ];
-                ?>
-                <div class="row mb-2"><label class="col-sm-12 text-primary"><strong>Status Lanjut Usia</strong></label></div>
-                <?php foreach ($ynFields as $field => $label): ?>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>2. Riwayat Kesehatan</strong></h5>
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong><?= $label ?></strong></label>
-                        <div class="col-sm-9">
-                            <select class="form-select" name="<?= $field ?>" <?= $ro_select ?> >
+                        <label class="col-sm-2 col-form-label"><strong>Keluhan Utama</strong></label>
+                        <div class="col-sm-9"><textarea name="keluhan_utama" class="form-control" rows="3" <?= $ro ?>><?= val('keluhan_utama', $existing_data) ?></textarea></div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Riwayat Kesehatan Saat Ini</strong></label>
+                        <div class="col-sm-9"><textarea name="riwayat_kesehatan_saat_ini" class="form-control" rows="3" <?= $ro ?>><?= val('riwayat_kesehatan_saat_ini', $existing_data) ?></textarea></div>
+                    </div>
+
+                    <?php
+                    $ynFields = [
+                        'berkualitas' => 'Berkualitas',
+                        'sehat' => 'Sehat',
+                        'aktif' => 'Aktif',
+                        'produktif' => 'Produktif',
+                        'sakit_perawatan' => 'Sakit dengan perawatan',
+                        'sakit_tanpa_perawatan' => 'Sakit tanpa perawatan',
+                    ];
+                    ?>
+                    <div class="row mb-2"><label class="col-sm-12 text-primary"><strong>Status Lanjut Usia</strong></label></div>
+                    <?php foreach ($ynFields as $field => $label): ?>
+                        <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label"><strong><?= $label ?></strong></label>
+                            <div class="col-sm-9">
+                                <select class="form-select" name="<?= $field ?>" <?= $ro_select ?>>
+                                    <option value="">-- Pilih --</option>
+                                    <option value="Y" <?= val($field, $existing_data) === 'Y' ? 'selected' : '' ?>>Ya</option>
+                                    <option value="T" <?= val($field, $existing_data) === 'T' ? 'selected' : '' ?>>Tidak</option>
+                                </select>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+
+                    <div class="row mb-2"><label class="col-sm-12 text-primary"><strong>IV. Riwayat Kesehatan Masa Lalu</strong></label></div>
+                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Imunisasi</strong></label>
+                        <div class="col-sm-9"><input type="text" class="form-control" name="imunisasi" value="<?= val('imunisasi', $existing_data) ?>" <?= $ro ?>></div>
+                    </div>
+                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Alergi Obat</strong></label>
+                        <div class="col-sm-9"><input type="text" class="form-control" name="alergi_obat" value="<?= val('alergi_obat', $existing_data) ?>" <?= $ro ?>></div>
+                    </div>
+                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Kecelakaan</strong></label>
+                        <div class="col-sm-9"><input type="text" class="form-control" name="kecelakaan" value="<?= val('kecelakaan', $existing_data) ?>" <?= $ro ?>></div>
+                    </div>
+                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Kebiasaan Merokok</strong></label>
+                        <div class="col-sm-9"><input type="text" class="form-control" name="merokok" value="<?= val('merokok', $existing_data) ?>" <?= $ro ?>></div>
+                    </div>
+                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Dirawat di Rumah Sakit</strong></label>
+                        <div class="col-sm-9"><input type="text" class="form-control" name="dirawat_rs" value="<?= val('dirawat_rs', $existing_data) ?>" <?= $ro ?>></div>
+                    </div>
+                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Penyakit 1 Tahun Terakhir</strong></label>
+                        <div class="col-sm-9"><input type="text" class="form-control" name="penyakit_1_tahun" value="<?= val('penyakit_1_tahun', $existing_data) ?>" <?= $ro ?>></div>
+                    </div>
+                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Nama Obat (2 Minggu Terakhir)</strong></label>
+                        <div class="col-sm-9"><input type="text" class="form-control" name="obat_2_minggu" value="<?= val('obat_2_minggu', $existing_data) ?>" <?= $ro ?>></div>
+                    </div>
+                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Teratur Dikonsumsi</strong></label>
+                        <div class="col-sm-9"><select class="form-select" name="teratur_konsumsi" <?= $ro_select ?>>
                                 <option value="">-- Pilih --</option>
-                                <option value="Y" <?= val($field, $existing_data) === 'Y' ? 'selected' : '' ?>>Ya</option>
-                                <option value="T" <?= val($field, $existing_data) === 'T' ? 'selected' : '' ?>>Tidak</option>
-                            </select>
+                                <option value="Y" <?= val('teratur_konsumsi', $existing_data) === 'Y' ? 'selected' : '' ?>>Ya</option>
+                                <option value="T" <?= val('teratur_konsumsi', $existing_data) === 'T' ? 'selected' : '' ?>>Tidak</option>
+                            </select></div>
+                    </div>
+                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Obat Diresepkan Dokter</strong></label>
+                        <div class="col-sm-9"><select class="form-select" name="resep_dokter" <?= $ro_select ?>>
+                                <option value="">-- Pilih --</option>
+                                <option value="Y" <?= val('resep_dokter', $existing_data) === 'Y' ? 'selected' : '' ?>>Ya</option>
+                                <option value="T" <?= val('resep_dokter', $existing_data) === 'T' ? 'selected' : '' ?>>Tidak</option>
+                            </select></div>
+                    </div>
+
+                    <div class="row mb-2"><label class="col-sm-12 text-primary"><strong>V. Riwayat Gerontik</strong></label></div>
+                    <div class="row mb-3">
+                        <label class="col-sm-2 col-form-label"><strong>Genogram</strong></label>
+                        <div class="col-sm-9">
+                            <?php if (!empty($existing_genogram)): ?><img src="<?= htmlspecialchars($existing_genogram) ?>" class="img-fluid rounded border mb-2" style="max-height:260px;"><?php endif; ?>
+                            <?php if (!$is_readonly): ?><input type="file" name="genogram" class="form-control" accept="image/jpeg,image/png,image/webp"><?php endif; ?>
                         </div>
                     </div>
-                <?php endforeach; ?>
 
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Riwayat Kesehatan Masa Lalu</strong></label>
-                    <div class="col-sm-9"><textarea name="riwayat_kesehatan_masa_lalu" class="form-control" rows="3" <?= $ro ?>><?= val('riwayat_kesehatan_masa_lalu', $existing_data) ?></textarea></div>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Riwayat Gerontik</strong></label>
-                    <div class="col-sm-9"><textarea name="riwayat_gerontik" class="form-control" rows="3" <?= $ro ?>><?= val('riwayat_gerontik', $existing_data) ?></textarea></div>
-                </div>
-
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Genogram</strong></label>
-                    <div class="col-sm-9">
-                        <?php if (!empty($existing_genogram)): ?><img src="<?= htmlspecialchars($existing_genogram) ?>" class="img-fluid rounded border mb-2" style="max-height:260px;"><?php endif; ?>
-                        <?php if (!$is_readonly): ?><input type="file" name="genogram" class="form-control" accept="image/jpeg,image/png,image/webp"><?php endif; ?>
+                    <div class="row mb-3"><label class="col-sm-12 text-primary"><strong>Keterangan</strong></label></div>
+                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>G1</strong></label>
+                        <div class="col-sm-9"><textarea name="G1" class="form-control" rows="3" <?= $ro ?>><?= val('G1', $existing_data) ?></textarea></div>
                     </div>
+                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>G2</strong></label>
+                        <div class="col-sm-9"><textarea name="G2" class="form-control" rows="3" <?= $ro ?>><?= val('G2', $existing_data) ?></textarea></div>
+                    </div>
+                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>G3</strong></label>
+                        <div class="col-sm-9"><textarea name="G3" class="form-control" rows="3" <?= $ro ?>><?= val('G3', $existing_data) ?></textarea></div>
+                    </div>
+
+                    <?php if (!$is_dosen): ?><div class="row mb-3">
+                            <div class="col-sm-12 d-flex justify-content-end"><button type="submit" class="btn btn-primary">Simpan Data</button></div>
+                        </div><?php endif; ?>
                 </div>
-
-                <div class="row mb-3"><label class="col-sm-12 text-primary"><strong>Keterangan</strong></label></div>
-                <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>G1</strong></label><div class="col-sm-9"><textarea name="G1" class="form-control" rows="3" <?= $ro ?>><?= val('G1', $existing_data) ?></textarea></div></div>
-                <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>G2</strong></label><div class="col-sm-9"><textarea name="G2" class="form-control" rows="3" <?= $ro ?>><?= val('G2', $existing_data) ?></textarea></div></div>
-                <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>G3</strong></label><div class="col-sm-9"><textarea name="G3" class="form-control" rows="3" <?= $ro ?>><?= val('G3', $existing_data) ?></textarea></div></div>
-
-                <?php if (!$is_dosen): ?><div class="row mb-3"><div class="col-sm-12 d-flex justify-content-end"><button type="submit" class="btn btn-primary">Simpan Data</button></div></div><?php endif; ?>
-            </div></div>
+            </div>
         </form>
 
         <?php include dirname(__DIR__) . '/partials/footer_form.php'; ?>
-        </div></div>
+        </div>
+        </div>
     </section>
 </main>

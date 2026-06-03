@@ -1,4 +1,4 @@
-<?php
+git<?php
 $form_id       = 18;
 $section_name  = 'identitas';
 $section_label = 'Identitas';
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     </div>
 
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Ruangan</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>Tempat Praktek</strong></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="ruangan" value="<?= htmlspecialchars($ruangan) ?>" <?= $ro ?> required>
                         </div>
