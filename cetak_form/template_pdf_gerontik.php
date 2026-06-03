@@ -21,6 +21,11 @@ function geroRow($label, $value)
     return '<div class="field-row"><div class="field-label">' . $label . '</div><div class="field-sep">:</div><div class="field-value">' . p($value) . '</div></div>';
 }
 
+function geroSpmsqMark($val, $expected)
+{
+    return (string)$val === (string)$expected ? $expected : '';
+}
+
 function geroTableRows($rows, $fields, $emptyLabel = '-')
 {
     if (empty($rows)) {
@@ -58,7 +63,7 @@ include 'template_pdf.php';
                 <td><strong>NIM</strong></td>
                 <td>:</td>
                 <td><?= p($submission['npm']) ?></td>
-                <td><strong>Ruangan</strong></td>
+                <td><strong>Tempat Praktek</strong></td>
                 <td>:</td>
                 <td><?= p($submission['rs_ruangan']) ?></td>
             </tr>
@@ -87,6 +92,15 @@ include 'template_pdf.php';
         <?= geroRow('Sakit dengan Perawatan', geroBool($riwayat_kesehatan['sakit_perawatan'] ?? '')) ?>
         <?= geroRow('Sakit tanpa Perawatan', geroBool($riwayat_kesehatan['sakit_tanpa_perawatan'] ?? '')) ?>
         <?= geroRow('Riwayat Kesehatan Masa Lalu', $riwayat_kesehatan['riwayat_kesehatan_masa_lalu'] ?? '') ?>
+        <?= geroRow('Imunisasi', $riwayat_kesehatan['imunisasi'] ?? '') ?>
+        <?= geroRow('Alergi Obat', $riwayat_kesehatan['alergi_obat'] ?? '') ?>
+        <?= geroRow('Kecelakaan', $riwayat_kesehatan['kecelakaan'] ?? '') ?>
+        <?= geroRow('Kebiasaan Merokok', $riwayat_kesehatan['merokok'] ?? '') ?>
+        <?= geroRow('Dirawat di Rumah Sakit', $riwayat_kesehatan['dirawat_rs'] ?? '') ?>
+        <?= geroRow('Penyakit 1 Tahun Terakhir', $riwayat_kesehatan['penyakit_1_tahun'] ?? '') ?>
+        <?= geroRow('Nama Obat (2 Minggu Terakhir)', $riwayat_kesehatan['obat_2_minggu'] ?? '') ?>
+        <?= geroRow('Teratur Dikonsumsi', geroBool($riwayat_kesehatan['teratur_konsumsi'] ?? '')) ?>
+        <?= geroRow('Obat Diresepkan Dokter', geroBool($riwayat_kesehatan['resep_dokter'] ?? '')) ?>
         <?= geroRow('Riwayat Gerontik', $riwayat_kesehatan['riwayat_gerontik'] ?? '') ?>
         <div class="field-row">
             <div class="field-label">Genogram</div>
@@ -188,9 +202,39 @@ include 'template_pdf.php';
             <?= geroRow($field === 'A2' ? 'A (afek)' : $field, $apgar[$field] ?? '') ?>
         <?php endforeach; ?>
         <?= geroRow('Kesimpulan APGAR', $apgar['kesimpulan_apgar'] ?? '') ?>
-        <?php for ($i = 1; $i <= 10; $i++): ?>
-            <?= geroRow('SPMSQ ' . $i, $apgar['q' . $i] ?? '') ?>
-        <?php endfor; ?>
+        <table class="data">
+            <thead>
+                <tr>
+                    <th style="width:8%">No</th>
+                    <th>Pertanyaan</th>
+                    <th style="width:26%">Jawaban</th>
+                    <th style="width:8%">B</th>
+                    <th style="width:8%">S</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ([
+                    'Tanggal berapa hari ini? (Hari / Tanggal / Tahun)',
+                    'Hari apa sekarang?',
+                    'Apa nama tempat / kelurahan ini?',
+                    'Di mana alamat lengkap Anda?',
+                    'Berapa umur Anda?',
+                    'Kapan Anda lahir?',
+                    'Presiden Indonesia sekarang?',
+                    'Siapa nama presiden sebelumnya?',
+                    'Siapa nama kecil ibu Anda?',
+                    'Perhitungan 20 - 3, kemudian hasilnya dikurangi 3 terus sampai mendapat angka 0.',
+                ] as $i => $question): ?>
+                    <tr>
+                        <td style="text-align:center"><?= $i + 1 ?></td>
+                        <td><?= p($question) ?></td>
+                        <td><?= p($apgar['jawaban_spmsq_' . ($i + 1)] ?? '') ?></td>
+                        <td style="text-align:center"><?= geroSpmsqMark($apgar['q' . ($i + 1)] ?? '', 'B') ?></td>
+                        <td style="text-align:center"><?= geroSpmsqMark($apgar['q' . ($i + 1)] ?? '', 'S') ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
         <?= geroRow('Kesimpulan SPMSQ', $apgar['kesimpulan_spmsq'] ?? '') ?>
         <?php foreach (['riwayat_jatuh'=>'Riwayat Jatuh','status_mental'=>'Status Mental','penglihatan'=>'Penglihatan','berkemih'=>'Berkemih','transfer'=>'Transfer','mobilitas'=>'Mobilitas'] as $field => $label): ?>
             <?= geroRow($label, geroBool($apgar[$field] ?? '')) ?>

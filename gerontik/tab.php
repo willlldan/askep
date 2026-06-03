@@ -18,6 +18,7 @@ $tabs = [
     'status_fungsional',
     'skala_depresi',
     'apgar_spmsq_risiko_jatuh',
+    'analisa_data',
     'catatan_keperawatan',
 ];
 
@@ -30,6 +31,7 @@ $tabLabels = [
     'status_fungsional' => 'Status Fungsional',
     'skala_depresi' => 'Skala Depresi',
     'apgar_spmsq_risiko_jatuh' => 'APGAR / SPMSQ / Jatuh',
+    'analisa_data' => 'Analisa Data',
     'catatan_keperawatan' => 'Catatan Keperawatan',
 ];
 

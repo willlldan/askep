@@ -1,4 +1,4 @@
-<?php
+git<?php
 $form_id       = 18;
 $section_name  = 'identitas';
 $section_label = 'Identitas';
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     </div>
 
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Ruangan</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>Tempat Praktek</strong></label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" name="ruangan" value="<?= htmlspecialchars($ruangan) ?>" <?= $ro ?> required>
                         </div>
@@ -98,76 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         </div>
                     </div>
 
-<<<<<<< HEAD
-
-                    <!-- Bagian Status Perkawinan -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="status_perkawinan" required value="<?= htmlspecialchars($status_perkawinan) ?>">
-                        </div>
-                    </div>
-
-                    <!-- Bagian Agama -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Agama</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="agama" required value="<?= htmlspecialchars($agama) ?>">
-                        </div>
-                    </div>
-
-                    <!-- Bagian Pendidikan -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Pendidikan</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="pendidikan" required value="<?= htmlspecialchars($pendidikan) ?>">
-                        </div>
-                    </div>
-
-                    <!-- Bagian Pekerjaan Saat Ini -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Pekerjaan Saat Ini</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="pekerjaan_sekarang" value="<?= htmlspecialchars($pekerjaan_sekarang) ?>">
-                        </div>
-                    </div>
-
-                    <!-- Bagian Pekerjaan Sebelumnya -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Pekerjaan Sebelumnya</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="pekerjaan_sebelumnya" value="<?= htmlspecialchars($pekerjaan_sebelumnya) ?>">
-                        </div>
-                    </div>
-
-                    <!-- Bagian Tanggal Pengkajian -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
-                        <div class="col-sm-9">
-                            <input type="date" class="form-control" name="tgl_pengkajian" required value="<?= htmlspecialchars($tgl_pengkajian) ?>">
-                        </div>
-                    </div>
-
-                    <!-- Bagian Alamat -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="alamat" required value="<?= htmlspecialchars($alamat) ?>">
-                        </div>
-                    </div>
-
-                    <!-- Tombol Submit -->
-                    <div class="row mb-3">
-                        <div class="col-sm-9 offset-sm-2 text-end">
-                            <button type="submit" class="btn btn-primary">Lanjutkan</button>
-                        </div>
-                    </div>
-                </form><!-- End General Form Elements -->
-            </div>
-        </div>
-    </section>
-</main>
-=======
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
                         <div class="col-sm-9">
@@ -219,4 +149,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         </div>
     </section>
 </main>
->>>>>>> master
