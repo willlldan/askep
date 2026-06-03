@@ -459,8 +459,7 @@ if (isset($_SESSION['id_user'])) {
             // GERONTIK NEW
             // =====================
             case 'gerontik/gerontik':
-
-                var_dump($tab);
+                $tab = $tab ?: 'identitas';
 
                 switch ($tab) {
 
@@ -505,7 +504,7 @@ if (isset($_SESSION['id_user'])) {
                         break;
 
                     default:
-                        include "gerontik/halm_tambah_riwayat_kesehatan.php";
+                        include "gerontik/halm_tambah_identitas.php";
                 }
 
                 break;
