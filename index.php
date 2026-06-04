@@ -1096,7 +1096,7 @@ if (isset($_SESSION['id_user'])) {
                 // =====================
             // resume poli RSAL
             // =====================
-            case 'askep/resume_poli_rsal':
+            case 'keperawatan-dasar/resume_poli_rsal':
 
                 $tab = $tab ?: 'format_resume_keperawatan';
 
@@ -1120,7 +1120,7 @@ if (isset($_SESSION['id_user'])) {
                  // =====================
             // resume poli RSUKT
             // =====================
-            case 'askep/resume_poli_rsukt':
+            case 'keperawatan-dasar/resume_poli_rsukt':
 
                 $tab = $tab ?: 'format_resume_keperawatan';
 
@@ -1145,7 +1145,7 @@ if (isset($_SESSION['id_user'])) {
                   // =====================
             // resume poli RSUD
             // =====================
-            case 'askep/resume_poli_rsud':
+            case 'keperawatan-dasar/resume_poli_rsud':
 
                 $tab = $tab ?: 'format_resume_keperawatan';
 
@@ -1169,7 +1169,7 @@ if (isset($_SESSION['id_user'])) {
             // =====================
             // askep ruang damar
             // =====================
-                        case 'askep/askep_ruang_damar':
+                        case 'keperawatan-dasar/askep_ruang_damar':
 
                 $tab = $tab ?: 'pengkajian';
 
@@ -1204,7 +1204,7 @@ if (isset($_SESSION['id_user'])) {
                 // =====================
             // askep ruang damar
             // =====================
-                        case 'askep/askep_ruang_damar':
+                        case 'keperawatan-dasar/askep_ruang_damar':
 
                 $tab = $tab ?: 'pengkajian';
 
@@ -1239,7 +1239,7 @@ if (isset($_SESSION['id_user'])) {
                 // =====================
             // askep ruang Angsana
             // =====================
-                        case 'askep/askep_ruang_angsana':
+                        case 'keperawatan-dasar/askep_ruang_angsana':
 
                 $tab = $tab ?: 'pengkajian';
 
@@ -1274,7 +1274,7 @@ if (isset($_SESSION['id_user'])) {
                 // =====================
             // askep ruang Dahlia
             // =====================
-                        case 'askep/askep_ruang_dahlia':
+                        case 'keperawatan-dasar/askep_ruang_dahlia':
 
                 $tab = $tab ?: 'pengkajian';
 
@@ -1309,7 +1309,7 @@ if (isset($_SESSION['id_user'])) {
                 // =====================
             // askep ruang Flamboyan
             // =====================
-                        case 'askep/askep_ruang_flamboyan':
+                        case 'keperawatan-dasar/askep_ruang_flamboyan':
 
                 $tab = $tab ?: 'pengkajian';
 
@@ -1344,7 +1344,7 @@ if (isset($_SESSION['id_user'])) {
                 // =====================
             // askep ruang Perawatan
             // =====================
-                        case 'askep/askep_ruang_perawatan':
+                        case 'keperawatan-dasar/askep_ruang_perawatan':
 
                 $tab = $tab ?: 'pengkajian';
 

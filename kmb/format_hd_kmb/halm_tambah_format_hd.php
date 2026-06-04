@@ -90,7 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'respon'                    => $_POST['respon'] ?? '',
         'kelainan'                  => $_POST['kelainan'] ?? '',
         'health_education'          => $_POST['health_education'] ?? '',
-        'hd'                        => $_POST['hd'] ?? '',
     ];
 
     if (!$submission) {
@@ -117,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     <section class="section dashboard">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title mb-1"><strong>Format Hemodalisa (HD)</strong></h5>
+                <h5 class="card-title mb-1"><strong>Laporan Hemodialisa (HD)</strong></h5>
                 <form class="needs-validation" novalidate action="" method="POST">
 
                     <!-- NAMA MAHASISWA -->
@@ -240,15 +239,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         </div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-sm-2 col-form-label">
-                            <strong>HD ke berapa</strong>
-                        </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="hd" value="<?= val('hd', $existing_data) ?>" <?= $ro ?>>
-
-                        </div>
-                    </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Waktu HD</strong></label>

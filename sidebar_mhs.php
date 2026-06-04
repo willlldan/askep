@@ -28,13 +28,14 @@ $user_id = $_SESSION['id_user'];
         ];
         $currentPage = isset($_GET['page']) ? $_GET['page'] : '';
         foreach ($grouped as $dept => $formList):
-            $navId = strtolower($dept) . '-nav';
+            $navId = str_replace(' ', '-', strtolower(trim($dept))) . '-nav';
             $icon = isset($deptIcons[$dept]) ? $deptIcons[$dept] : 'bi bi-folder';
 
             // Cek apakah salah satu child menu sedang aktif
             $isActiveParent = false;
             foreach ($formList as $form) {
-                $slugCheck = strtolower($form['department']) . "/{$form['slug']}";
+                $departmentSlug = str_replace(' ', '-', strtolower(trim($form['department'])));
+                $slugCheck = $departmentSlug . "/{$form['slug']}";
                 if (strpos($currentPage, $slugCheck) === 0) {
                     $isActiveParent = true;
                     break;
@@ -49,7 +50,8 @@ $user_id = $_SESSION['id_user'];
             </a>
             <ul id="<?= $navId ?>" class="nav-content collapse<?= $isActiveParent ? ' show' : '' ?>" data-bs-parent="#sidebar-nav">
                 <?php foreach ($formList as $form):
-                    $url = "index.php?page=" . strtolower($form['department']) . "/{$form['slug']}";
+                    $departmentSlug = str_replace(' ', '-', strtolower(trim($form['department'])));
+                    $url = "index.php?page=" . $departmentSlug . "/{$form['slug']}";
                 ?>
                 <li>
                     <a href="<?= htmlspecialchars($url) ?>">

@@ -207,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     </div>
 
                     <!-- Adaptasi Fisiologis -->
-                    <p class="text-primary fw-bold mb-2">Adaptasi Fisiologis pada Masa Kehamilan</p>
+                    <p class="text-primary fw-bold mb-2">Adaptasi Psikologis pada Masa Kehamilan</p>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label">Perubahan Psikologis Pada Trimester I
