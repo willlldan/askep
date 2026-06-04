@@ -71,7 +71,8 @@ while ($row = $result->fetch_assoc()) {
                                         </td>
                                         <td class="text-center">
                                             <?php
-                                            $url = "index.php?page=" . strtolower($form['department']) . "/{$form['slug']}";
+                                            $departmentSlug = str_replace(' ', '-', strtolower(trim($form['department'])));
+                                            $url = "index.php?page=" . $departmentSlug . "/{$form['slug']}";
                                             if ($form['submission_id']) {
                                                 $url .= "&submission_id={$form['submission_id']}";
                                             }
@@ -81,10 +82,10 @@ while ($row = $result->fetch_assoc()) {
                                                 <i class="<?= $isApproved ? 'ri-eye-line' : 'ri-edit-line' ?> me-1"></i>
                                                 <?= $isApproved ? 'Lihat' : 'Isi Form' ?>
                                             </a>
-                                            
+
                                             <a href="cetak_form/cetak.php?submission_id=<?= $form['submission_id'] ?>"
                                                 class="btn btn-sm btn-success ms-2"
-                                                target="_blank"                                                >
+                                                target="_blank">
                                                 <i class="ri-printer-line me-1"></i> Cetak
                                             </a>
                                         </td>

@@ -7,7 +7,7 @@ $jenismaternitas = $parts[1] ?? 'resume_antenatal_care';
 $titles = [
     'pengkajian_antenatal_care' => 'Pengkajian Asuhan Keperawatan Antenatal Care',
     'pengkajian_pascapartum' => 'Pengkajian Asuhan Keperawatan Pascapartum',
-    'resume_antenatal_care' => 'Resume Asuhan Keperawatan Antenatal Care',
+    'resume_antenatal_care' => 'Resume Antenatal Care',
     'pengkajian_inranatal_care' => 'Pengkajian Asuhan Keperawatan Inranatal Care',
     'pengkajian_ginekologi' => 'Pengkajian Asuhan Keperawatan Ginekologi'
 ];
@@ -38,7 +38,7 @@ $currentTab = $_GET['tab'] ?? $tabs[0];
 ?>
 
 <div class="pagetitle">
-    <h1><strong><?= $titles[$jenismaternitas] ?? 'Resume Asuhan Keperawatan Antenatal Care' ?></strong></h1>
+    <h1><strong><?= $titles[$jenismaternitas] ?? 'Resume Antenatal Care' ?></strong></h1>
 </div>
 <br>
 

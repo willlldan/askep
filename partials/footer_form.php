@@ -146,6 +146,7 @@ function buildTabUrl($tab, $submission_id)
         autoResizeAllTextareas();
         observeTextareaResizing();
     }
+    
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initFooterTextareaResize);
@@ -177,7 +178,7 @@ function buildTabUrl($tab, $submission_id)
                 isDirty = false;
             });
 
-            document.querySelectorAll('.js-nav-tab').forEach(function(link) {
+            document.querySelectorAll('.js-nav-tab, .custom-tabs .nav-link').forEach(function(link) {
                 link.addEventListener('click', function(e) {
                     if (!isDirty) return;
 
@@ -198,6 +199,7 @@ function buildTabUrl($tab, $submission_id)
                     });
                 });
             });
+            
         }
 
         // SweetAlert confirmation for Approve

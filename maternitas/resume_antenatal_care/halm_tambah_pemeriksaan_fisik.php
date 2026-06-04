@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <!-- Inspeksi Gigi -->
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Gigi Gigi</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>Gigi</strong></label>
 
                         <div class="col-sm-9">
                             <small class="form-text" style="color: red;">Amati jumlah, warna, kebersihan, karies. Hasil:</small>
