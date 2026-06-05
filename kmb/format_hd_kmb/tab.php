@@ -20,7 +20,7 @@ $tabs = [
 ];
 $tabLabels = [
     'lp_ruanghd' => 'Format Laporan Pendahuluan Ruang HD',
-    'format_hd' => 'Format Hemodalisa (HD)',
+    'format_hd' => 'Laporan Hemodialisa (HD)',
     'pengkajian' => 'Pengkajian',
     'pemeriksaan_fisik' => 'Pemeriksaan Fisik',
     'pengkajian_kebutuhan' => 'Pengkajian Kebutuhan',

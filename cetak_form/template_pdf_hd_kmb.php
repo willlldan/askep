@@ -301,11 +301,6 @@ include 'template_pdf.php';
     <div class="field-value"><?= p($format['tgl_pertama_hd'] ?? '') ?></div>
 </div>
 
-<div class="field-row mb-2">
-    <div class="field-label">HD ke-berapa</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($format['hd'] ?? '') ?></div>
-</div>
 
 <div class="field-row mb-2">
     <div class="field-label">Waktu HD</div>
@@ -599,29 +594,6 @@ include 'template_pdf.php';
     <div class="field-value"><?= p($pengkajian['suhu_prehd'] ?? '') ?> °C</div>
 </div>
 
-<div class="field-row mt-2">
-    <div class="field-label"><strong>Post HD</strong></div>
-</div>
-<div class="field-row">
-    <div class="field-label">Nadi</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($pengkajian['nadi'] ?? '') ?> /menit</div>
-</div>
-<div class="field-row">
-    <div class="field-label">Pernafasan</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($pengkajian['pernafasan'] ?? '') ?> x/menit</div>
-</div>
-<div class="field-row">
-    <div class="field-label">TD (Tekanan Darah)</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($pengkajian['td'] ?? '') ?> mmHg</div>
-</div>
-<div class="field-row">
-    <div class="field-label">Suhu</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($pengkajian['suhu'] ?? '') ?> °C</div>
-</div>
 
 <h4>b. Kesadaran</h4>
 <div class="field-row">
@@ -649,11 +621,6 @@ include 'template_pdf.php';
     <div class="field-label">BB Pre HD (sebelum HD)</div>
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($pengkajian['bb_prehd'] ?? '') ?> kg</div>
-</div>
-<div class="field-row">
-    <div class="field-label">BB Post HD (setelah HD)</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($pengkajian['bb_posthd'] ?? '') ?> kg</div>
 </div>
 <div class="field-row">
     <div class="field-label">BB Kering</div>

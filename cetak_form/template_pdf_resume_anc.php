@@ -92,7 +92,7 @@ include 'template_pdf.php';
             <div class="field-value"><?= p($laporan_pendahuluan_anc['perubahan_fisik_tm3']) ?></div>
         </div>
 
-        <div class="subsection-title">Adaptasi Fisiologis pada Masa Kehamilan</div>
+        <div class="subsection-title">Adaptasi Psikologis pada Masa Kehamilan</div>
         <div class="field-row">
             <div class="field-label">Perubahan Psikologis Pada Trimester I</div>
             <div class="field-sep">:</div>

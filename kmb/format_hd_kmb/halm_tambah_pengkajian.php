@@ -45,15 +45,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'pernafasan_prehd'                      => $_POST['pernafasan_prehd'] ?? '',
         'td_prehd'                              => $_POST['td_prehd'] ?? '',
         'suhu_prehd'                             => $_POST['suhu_prehd'] ?? '',
-        'nadi'                                  => $_POST['nadi'] ?? '',
-        'pernafasan'                            => $_POST['pernafasan'] ?? '',
-        'td'                                    => $_POST['td'] ?? '',
-        'suhu'                                  => $_POST['suhu'] ?? '',
         'm'                                     => $_POST['m'] ?? '',
         'v'                                     => $_POST['v'] ?? '',
         'e'                                     => $_POST['e'] ?? '',
         'bb_prehd'                              => $_POST['bb_prehd'] ?? '',
-        'bb_posthd'                            => $_POST['bb_posthd'] ?? '',
         'kenaikanbb'                            => $_POST['kenaikanbb'] ?? '',
         'alasan_masuk_rs'                       => $_POST['alasan_masuk_rs'] ?? '',
         'keluhan_utama'                         => $_POST['keluhan_utama'] ?? '',
@@ -363,65 +358,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label class="col-sm-12 "><strong>Post HD</strong></label>
-                </div>
-
-                <!-- Nadi -->
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
-
-                    <div class="col-sm-9">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="nadi" value="<?= val('nadi', $existing_data) ?>" <?= $ro ?>>
-                            <span class="input-group-text">/menit</span>
-                        </div>
-
-
-                    </div>
-                </div>
-
-                <!-- Pernafasan -->
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Pernafasan</strong></label>
-
-                    <div class="col-sm-9">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="pernafasan" value="<?= val('pernafasan', $existing_data) ?>" <?= $ro ?>>
-                            <span class="input-group-text">x/menit</span>
-                        </div>
-
-
-                    </div>
-                </div>
-
-                <!-- TD (Tekanan Darah) -->
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>TD (Tekanan Darah)</strong></label>
-
-                    <div class="col-sm-9">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="td" value="<?= val('td', $existing_data) ?>" <?= $ro ?>>
-                            <span class="input-group-text">mmHg</span>
-                        </div>
-
-
-                    </div>
-                </div>
-
-                <!-- Suhu -->
-                <div class="row mb-3">
-                    <label class="col-sm-2 col-form-label"><strong>Suhu</strong></label>
-
-                    <div class="col-sm-9">
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="suhu" value="<?= val('suhu', $existing_data) ?>" <?= $ro ?>>
-                            <span class="input-group-text">°C</span>
-                        </div>
-
-
-                    </div>
-                </div>
+    
 
                 <!-- B KESADARAN -->
                 <div class="row mb-2">
@@ -494,18 +431,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     </div>
                 </div>
-
-
-                <div class="row mb-3">
-                    <div class="col-sm-2 col-form-label">
-                        <strong>BB Post HD (setelah HD)</strong>
-                    </div>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" name="bb_posthd" value="<?= val('bb_posthd', $existing_data) ?>" <?= $ro ?>>
-
-                    </div>
-                </div>
-
 
                 <div class="row mb-3">
                     <div class="col-sm-2 col-form-label">

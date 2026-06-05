@@ -9,7 +9,7 @@ $jenismaternitas = $parts[1] ?? 'pengkajian_ginekologi';
 $titles = [
     'pengkajian_antenatal_care' => 'Pengkajian Asuhan Keperawatan Antenatal Care',
     'pengkajian_pascapartum' => 'Pengkajian Asuhan Keperawatan Pascapartum',
-    'resume_antenatal_care' => 'Resume Asuhan Keperawatan Antenatal Care',
+    'resume_antenatal_care' => 'Resume Antenatal Care',
     'pengkajian_inranatal_care' => 'Pengkajian Asuhan Keperawatan Inranatal Care',
     'pengkajian_ginekologi' => 'Pengkajian Asuhan Keperawatan Ginekologi'
 ];
