@@ -12,9 +12,13 @@ $sql = "
         f.department,
         f.slug,
         s.id AS submission_id,
-        s.status
+        s.status,
+        s.dosen_review_status,
+        s.preceptor_review_status,
+        r.level AS reviewer_level
     FROM forms f
     LEFT JOIN submissions s ON s.form_id = f.id AND s.user_id = $user_id
+    LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
     ORDER BY f.department ASC, f.form_name ASC
 ";
 $result = $mysqli->query($sql);
@@ -42,7 +46,8 @@ while ($row = $result->fetch_assoc()) {
                                     <th width="50">No</th>
                                     <th>Department</th>
                                     <th>Form</th>
-                                    <th width="130">Status</th>
+                                    <th width="100">App. Dosen</th>
+                                    <th width="100">App. Preceptor</th>
                                     <th class="text-center" width="250">Aksi</th>
                                 </tr>
                             </thead>
@@ -54,20 +59,23 @@ while ($row = $result->fetch_assoc()) {
                                         <td><?= htmlspecialchars($form['form_name']) ?></td>
                                         <td class="text-center">
                                             <?php
-                                            $statusMap = [
-                                                'draft'     => ['label' => 'Draft',     'class' => 'secondary'],
-                                                'submitted' => ['label' => 'Submitted', 'class' => 'primary'],
-                                                'revision'  => ['label' => 'Revision',  'class' => 'warning'],
-                                                'approved'  => ['label' => 'Approved',  'class' => 'success'],
-                                            ];
                                             $status = $form['status'] ?? null;
-                                            if ($status && isset($statusMap[$status])) {
-                                                $s = $statusMap[$status];
-                                                echo "<span class='badge bg-{$s['class']}'>{$s['label']}</span>";
-                                            } else {
-                                                echo "<span class='badge bg-light text-dark border'>Belum Diisi</span>";
+                                            $dosenStatus = $form['dosen_review_status'] ?? null;
+                                            $preceptorStatus = $form['preceptor_review_status'] ?? null;
+                                            $reviewerLevel = $form['reviewer_level'] ?? null;
+
+                                            if (!$dosenStatus && $reviewerLevel === 'Dosen' && !empty($status) && $status !== 'draft') {
+                                                $dosenStatus = $status;
+                                            }
+
+                                            if (!$preceptorStatus && $reviewerLevel === 'Preceptor' && !empty($status) && $status !== 'draft') {
+                                                $preceptorStatus = $status;
                                             }
                                             ?>
+                                            <?= renderStatusBadge($dosenStatus, 'Belum Diisi') ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?= renderStatusBadge($preceptorStatus, 'Belum Diisi') ?>
                                         </td>
                                         <td class="text-center">
                                             <?php
@@ -115,7 +123,7 @@ while ($row = $result->fetch_assoc()) {
             },
             columnDefs: [{
                 orderable: false,
-                targets: [3, 4]
+                targets: [3, 4, 5]
             }]
         });
     });

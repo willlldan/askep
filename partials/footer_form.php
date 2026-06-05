@@ -45,8 +45,12 @@ function buildTabUrl($tab, $submission_id)
 
         <!-- Form komentar + action (khusus reviewer) -->
         <!-- $is_dosen dan $section_status didefinisikan di file sebelumnya -->
-        <?php if ($is_dosen && $section_status !== 'approved'): ?>
+        <?php if ($is_dosen): ?>
+            <?php
+                $currentReviewerStatus = ($level === 'Preceptor') ? ($section_preceptor_status ?? null) : ($section_dosen_status ?? null);
+            ?>
             <form action="" method="POST">
+                <?php if ($currentReviewerStatus !== 'approved'): ?>
                 <div class="row mb-3">
                     <label class="col-sm-2 col-form-label"><strong>Komentar</strong></label>
                     <div class="col-sm-9">
@@ -68,12 +72,15 @@ function buildTabUrl($tab, $submission_id)
                         </div>
                     </div>
                 </div>
-            </form>
-        <?php elseif ($is_dosen && $section_status === 'approved'): ?>
-            <form action="" method="POST">
-                <button type="submit" name="action" value="cancel_approval" class="btn btn-warning" id="btn-cancel-approve">
-                    Cancel Approval
-                </button>
+                <?php elseif ($currentReviewerStatus === 'approved'): ?>
+                    <div class="row mb-3">
+                        <div class="col-sm-11 d-flex justify-content-end">
+                            <button type="submit" name="action" value="cancel_approval" class="btn btn-warning" id="btn-cancel-approve">
+                                Cancel Approval
+                            </button>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </form>
         <?php endif; ?>
     </div>

@@ -78,6 +78,7 @@ $success = $_GET['success'] ?? null;
                                                 'Admin'     => 'danger',
                                                 'Dosen'     => 'primary',
                                                 'Mahasiswa' => 'success',
+                                                'Preceptor' => 'info'
                                             ];
                                             $lvl = $row['level'];
                                             $cls = $levelClass[$lvl] ?? 'secondary';

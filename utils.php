@@ -303,9 +303,11 @@ function getSubmission($user_id, $form_id, $mysqli)
 {
     $stmt = $mysqli->prepare("
         SELECT s.*,
-               r.nama as dosen_name
+               rd.nama as dosen_name,
+               rp.nama as preceptor_name
         FROM submissions s
-        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
+        LEFT JOIN tbl_user rd ON s.dosen_reviewed_by = rd.id_user
+        LEFT JOIN tbl_user rp ON s.preceptor_reviewed_by = rp.id_user
         WHERE s.user_id = ? AND s.form_id = ?
     ");
     $stmt->bind_param("ii", $user_id, $form_id);
@@ -338,16 +340,58 @@ function getSectionData($submission_id, $section_name, $mysqli)
  */
 function getSectionStatus($submission_id, $section_name, $mysqli)
 {
+    $state = getSectionReviewState($submission_id, $section_name, $mysqli);
+    return $state ? $state['status'] : null;
+}
+
+/**
+ * Ambil status section lengkap termasuk status reviewer per role.
+ */
+function getSectionReviewState($submission_id, $section_name, $mysqli)
+{
     $stmt = $mysqli->prepare("
-        SELECT status 
-        FROM submission_sections 
+        SELECT status, dosen_review_status, preceptor_review_status
+        FROM submission_sections
         WHERE submission_id = ? AND section_name = ?
     ");
     $stmt->bind_param("is", $submission_id, $section_name);
     $stmt->execute();
     $result = $stmt->get_result();
     $section = $result->fetch_assoc();
-    return $section ? $section['status'] : null;
+
+    if (!$section) {
+        return null;
+    }
+
+    $section['status'] = getSectionAggregateStatus(
+        $section['dosen_review_status'] ?? null,
+        $section['preceptor_review_status'] ?? null,
+        $section['status']
+    );
+
+    return $section;
+}
+
+/**
+ * Gabungkan status reviewer per role menjadi status section overall.
+ */
+function getSectionAggregateStatus($dosen_status, $preceptor_status, $fallback = 'draft')
+{
+    $statuses = [$dosen_status, $preceptor_status];
+
+    if (in_array('revision', $statuses, true)) {
+        return 'revision';
+    }
+
+    if ($dosen_status === 'approved' && $preceptor_status === 'approved') {
+        return 'approved';
+    }
+
+    if (in_array('submitted', $statuses, true) || in_array('approved', $statuses, true)) {
+        return 'submitted';
+    }
+
+    return $fallback ?: 'draft';
 }
 
 /**
@@ -357,11 +401,13 @@ function saveSection($submission_id, $section_name, $section_label, $data, $mysq
 {
     $json_data = json_encode($data);
     $stmt = $mysqli->prepare("
-        INSERT INTO submission_sections (submission_id, section_name, section_label, data, status)
-        VALUES (?, ?, ?, ?, 'draft')
+        INSERT INTO submission_sections (submission_id, section_name, section_label, data, status, dosen_review_status, preceptor_review_status)
+        VALUES (?, ?, ?, ?, 'draft', 'draft', 'draft')
         ON DUPLICATE KEY UPDATE 
             data = VALUES(data), 
             status = 'draft',
+            dosen_review_status = 'draft',
+            preceptor_review_status = 'draft',
             updated_at = NOW()
     ");
     $stmt->bind_param("isss", $submission_id, $section_name, $section_label, $json_data);
@@ -389,10 +435,14 @@ function createSubmission($user_id, $form_id, $tanggal_pengkajian, $rs_ruangan, 
 function getSubmissionById($submission_id, $mysqli)
 {
     $stmt = $mysqli->prepare("
-        SELECT s.*, u.nama as mahasiswa_name, u.npm as mahasiswa_npm, f.slug, f.department, f.form_name
+        SELECT s.*, u.nama as mahasiswa_name, u.npm as mahasiswa_npm, f.slug, f.department, f.form_name,
+               rd.nama as dosen_name,
+               rp.nama as preceptor_name
         FROM submissions s
         JOIN tbl_user u ON s.user_id = u.id_user
         JOIN forms f ON s.form_id = f.id
+        LEFT JOIN tbl_user rd ON s.dosen_reviewed_by = rd.id_user
+        LEFT JOIN tbl_user rp ON s.preceptor_reviewed_by = rp.id_user
         WHERE s.id = ?
     ");
     $stmt->bind_param("i", $submission_id);
@@ -488,6 +538,26 @@ function markAllNotificationsRead($recipient_id, $mysqli)
 }
 
 /**
+ * Render badge status standar.
+ */
+function renderStatusBadge($status, $emptyLabel = 'Belum Diisi')
+{
+    $statusMap = [
+        'draft' => ['label' => 'Draft', 'class' => 'secondary'],
+        'submitted' => ['label' => 'Submitted', 'class' => 'primary'],
+        'revision' => ['label' => 'Revision', 'class' => 'warning'],
+        'approved' => ['label' => 'Approved', 'class' => 'success'],
+    ];
+
+    if ($status && isset($statusMap[$status])) {
+        $s = $statusMap[$status];
+        return "<span class='badge bg-{$s['class']}'>{$s['label']}</span>";
+    }
+
+    return "<span class='badge bg-light text-dark border'>" . htmlspecialchars($emptyLabel) . "</span>";
+}
+
+/**
  * Update tanggal_pengkajian & rs_ruangan di submissions
  * Dipanggil saat mahasiswa update section 1
  */
@@ -574,15 +644,23 @@ function submitSubmission($submission_id, $mysqli) {
 
     $stmt = $mysqli->prepare("
         UPDATE submissions 
-        SET status = 'submitted', submitted_at = NOW() 
+        SET status = 'submitted', submitted_at = NOW(), dosen_review_status = 'submitted', preceptor_review_status = 'submitted' 
         WHERE id = ?
     ");
     $stmt->bind_param("i", $submission_id);
     $stmt->execute();
 
+    $stmtSection = $mysqli->prepare("
+        UPDATE submission_sections
+        SET status = 'submitted', dosen_review_status = 'submitted', preceptor_review_status = 'submitted', updated_at = NOW()
+        WHERE submission_id = ?
+    ");
+    $stmtSection->bind_param("i", $submission_id);
+    $stmtSection->execute();
+
     if ($submission) {
         $reviewerIds = [];
-        foreach (['reviewed_by', 'dosen_reviewed_by', 'preceptor_reviewed_by'] as $field) {
+        foreach (['dosen_reviewed_by', 'preceptor_reviewed_by'] as $field) {
             if (!empty($submission[$field])) {
                 $reviewerIds[] = (int) $submission[$field];
             }
@@ -690,15 +768,48 @@ function saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli
 /**
  * Update status section oleh dosen
  */
-function updateSectionStatus($submission_id, $section_name, $status, $mysqli)
+function updateSectionStatus($submission_id, $section_name, $status, $mysqli, $reviewer_role = 'Dosen')
 {
-    $stmt = $mysqli->prepare("
-        UPDATE submission_sections 
-        SET status = ?
-        WHERE submission_id = ? AND section_name = ?
-    ");
+    $reviewer_role = in_array($reviewer_role, ['Dosen', 'Preceptor'], true) ? $reviewer_role : 'Dosen';
+
+    if ($reviewer_role === 'Preceptor') {
+        $stmt = $mysqli->prepare("
+            UPDATE submission_sections 
+            SET preceptor_review_status = ?, updated_at = NOW()
+            WHERE submission_id = ? AND section_name = ?
+        ");
+    } else {
+        $stmt = $mysqli->prepare("
+            UPDATE submission_sections 
+            SET dosen_review_status = ?, updated_at = NOW()
+            WHERE submission_id = ? AND section_name = ?
+        ");
+    }
     $stmt->bind_param("sis", $status, $submission_id, $section_name);
     $stmt->execute();
+
+    $stmtState = $mysqli->prepare("
+        SELECT dosen_review_status, preceptor_review_status
+        FROM submission_sections
+        WHERE submission_id = ? AND section_name = ?
+    ");
+    $stmtState->bind_param("is", $submission_id, $section_name);
+    $stmtState->execute();
+    $state = $stmtState->get_result()->fetch_assoc();
+
+    $aggregateStatus = getSectionAggregateStatus(
+        $state['dosen_review_status'] ?? null,
+        $state['preceptor_review_status'] ?? null,
+        'draft'
+    );
+
+    $stmtAgg = $mysqli->prepare("
+        UPDATE submission_sections 
+        SET status = ?, updated_at = NOW()
+        WHERE submission_id = ? AND section_name = ?
+    ");
+    $stmtAgg->bind_param("sis", $aggregateStatus, $submission_id, $section_name);
+    $stmtAgg->execute();
 
     // if($status === 'cancel_approval') {
     //     $new_status = 'draft';
@@ -712,81 +823,92 @@ function updateSectionStatus($submission_id, $section_name, $status, $mysqli)
  * Update reviewer pada submissions.
  * reviewed_by / reviewed_at tetap dipakai sebagai reviewer terakhir.
  */
-function updateReviewer($submission_id, $reviewer_id, $mysqli, $reviewer_role = 'Dosen')
+function updateReviewer($submission_id, $reviewer_id, $mysqli, $reviewer_role = 'Dosen', $review_action = null)
 {
+    if ($review_action === null) {
+        $review_action = $_POST['action'] ?? null;
+    }
+
+    $review_status = null;
+    if ($review_action === 'approve') {
+        $review_status = 'approved';
+    } elseif ($review_action === 'revision') {
+        $review_status = 'revision';
+    } elseif ($review_action === 'cancel_approval') {
+        $review_status = 'draft';
+    }
+
     if ($reviewer_role === 'Preceptor') {
-        $stmt = $mysqli->prepare("
-            UPDATE submissions 
-            SET reviewed_by = ?, reviewed_at = NOW(), preceptor_reviewed_by = ?, preceptor_reviewed_at = NOW()
-            WHERE id = ?
-        ");
-        $stmt->bind_param("iii", $reviewer_id, $reviewer_id, $submission_id);
+        if ($review_status !== null) {
+            $stmt = $mysqli->prepare("
+                UPDATE submissions 
+                SET reviewed_by = ?, reviewed_at = NOW(), preceptor_reviewed_by = ?, preceptor_reviewed_at = NOW(), preceptor_review_status = ?
+                WHERE id = ?
+            ");
+            $stmt->bind_param("iisi", $reviewer_id, $reviewer_id, $review_status, $submission_id);
+        } else {
+            $stmt = $mysqli->prepare("
+                UPDATE submissions 
+                SET reviewed_by = ?, reviewed_at = NOW(), preceptor_reviewed_by = ?, preceptor_reviewed_at = NOW()
+                WHERE id = ?
+            ");
+            $stmt->bind_param("iii", $reviewer_id, $reviewer_id, $submission_id);
+        }
     } else {
-        $stmt = $mysqli->prepare("
-            UPDATE submissions 
-            SET reviewed_by = ?, reviewed_at = NOW(), dosen_reviewed_by = ?, dosen_reviewed_at = NOW()
-            WHERE id = ?
-        ");
-        $stmt->bind_param("iii", $reviewer_id, $reviewer_id, $submission_id);
+        if ($review_status !== null) {
+            $stmt = $mysqli->prepare("
+                UPDATE submissions 
+                SET reviewed_by = ?, reviewed_at = NOW(), dosen_reviewed_by = ?, dosen_reviewed_at = NOW(), dosen_review_status = ?
+                WHERE id = ?
+            ");
+            $stmt->bind_param("iisi", $reviewer_id, $reviewer_id, $review_status, $submission_id);
+        } else {
+            $stmt = $mysqli->prepare("
+                UPDATE submissions 
+                SET reviewed_by = ?, reviewed_at = NOW(), dosen_reviewed_by = ?, dosen_reviewed_at = NOW()
+                WHERE id = ?
+            ");
+            $stmt->bind_param("iii", $reviewer_id, $reviewer_id, $submission_id);
+        }
     }
     $stmt->execute();
+
+    if (in_array($review_status, ['approved', 'revision'], true)) {
+        $submission = getSubmissionById($submission_id, $mysqli);
+        if ($submission) {
+            $route = buildFormPageRoute($submission['department'], $submission['slug']);
+            $target_url = 'index.php?page=' . $route . '&submission_id=' . (int) $submission_id;
+            $statusLabel = $review_status === 'approved' ? 'disetujui' : 'direvisi';
+            $message = $submission['form_name'] . ' milik Anda telah ' . $statusLabel . ' oleh ' . strtolower($reviewer_role) . '.';
+            createNotification((int) $submission['user_id'], (int) $reviewer_id, $submission_id, $review_status, $message, $target_url, $mysqli);
+        }
+    }
 }
 
 /**
- * Update status submission setelah dosen action
- * Cek semua section:
- * - Ada yang revision → submission = revision
- * - Semua approved → submission = approved
- * - Selainnya → submitted
+ * Update status submission setelah reviewer action.
+ * Status overall mengikuti gabungan status reviewer dosen & preceptor.
  */
 function updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli)
 {
     $submission = getSubmissionById($submission_id, $mysqli);
-    $previous_status = $submission['status'] ?? null;
 
-    $stmt = $mysqli->prepare("
-        SELECT 
-            COUNT(*) as total,
-            SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) as approved,
-            SUM(CASE WHEN status = 'revision' THEN 1 ELSE 0 END) as revision
-        FROM submission_sections
-        WHERE submission_id = ?
-    ");
-    $stmt->bind_param("i", $submission_id);
-    $stmt->execute();
-    $result = $stmt->get_result()->fetch_assoc();
+    $dosenStatus = $submission['dosen_review_status'] ?? null;
+    $preceptorStatus = $submission['preceptor_review_status'] ?? null;
 
-    // Ambil count_section
-    $stmt2 = $mysqli->prepare("SELECT count_section FROM forms WHERE id = ?");
-    $stmt2->bind_param("i", $form_id);
-    $stmt2->execute();
-    $count_section = $stmt2->get_result()->fetch_assoc()['count_section'];
-
-    if ($result['revision'] > 0) {
+    if (in_array('revision', [$dosenStatus, $preceptorStatus], true)) {
         $new_status = 'revision';
-    } elseif ($result['approved'] == $count_section) {
+    } elseif ($dosenStatus === 'approved' && $preceptorStatus === 'approved') {
         $new_status = 'approved';
-    } else {
+    } elseif (in_array('submitted', [$dosenStatus, $preceptorStatus], true) || in_array('approved', [$dosenStatus, $preceptorStatus], true)) {
         $new_status = 'submitted';
+    } else {
+        $new_status = 'draft';
     }
 
     $stmt3 = $mysqli->prepare("UPDATE submissions SET status = ? WHERE id = ?");
     $stmt3->bind_param("si", $new_status, $submission_id);
     $stmt3->execute();
-
-    if ($submission && !empty($submission['reviewed_by']) && in_array($new_status, ['revision', 'approved'], true) && $previous_status !== $new_status) {
-        $route = buildFormPageRoute($submission['department'], $submission['slug']);
-        $target_url = 'index.php?page=' . $route . '&submission_id=' . (int) $submission_id;
-        $statusLabel = $new_status === 'approved' ? 'disetujui' : 'direvisi';
-        $reviewerLabel = 'dosen';
-        if (!empty($submission['preceptor_reviewed_by']) && (int) $submission['reviewed_by'] === (int) $submission['preceptor_reviewed_by']) {
-            $reviewerLabel = 'preceptor';
-        } elseif (!empty($submission['dosen_reviewed_by']) && (int) $submission['reviewed_by'] === (int) $submission['dosen_reviewed_by']) {
-            $reviewerLabel = 'dosen';
-        }
-        $message = $submission['form_name'] . ' milik Anda telah ' . $statusLabel . ' oleh ' . $reviewerLabel . '.';
-        createNotification((int) $submission['user_id'], (int) ($submission['reviewed_by'] ?? 0), $submission_id, $new_status, $message, $target_url, $mysqli);
-    }
 }
 
 /**

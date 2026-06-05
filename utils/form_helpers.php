@@ -35,7 +35,7 @@ function parse_dynamic_rows($post_data, $fields)
 function handle_dosen_action($submission_id, $section_name, $action, $comment, $reviewer_id, $reviewer_role, $mysqli)
 {
     if ($action === 'approve') {
-        updateSectionStatus($submission_id, $section_name, 'approved', $mysqli);
+        updateSectionStatus($submission_id, $section_name, 'approved', $mysqli, $reviewer_role);
         if (!empty($comment)) {
             saveComment($submission_id, $section_name, $comment, $reviewer_id, $mysqli);
         }
@@ -43,12 +43,12 @@ function handle_dosen_action($submission_id, $section_name, $action, $comment, $
         if (empty($comment)) {
             return ['error' => 'Komentar wajib diisi saat meminta revisi.'];
         }
-        updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
+        updateSectionStatus($submission_id, $section_name, 'revision', $mysqli, $reviewer_role);
         saveComment($submission_id, $section_name, $comment, $reviewer_id, $mysqli);
     } elseif ($action === 'cancel_approval') {
-        updateSectionStatus($submission_id, $section_name, 'draft', $mysqli);
+        updateSectionStatus($submission_id, $section_name, 'draft', $mysqli, $reviewer_role);
     }
-    updateReviewer($submission_id, $reviewer_id, $mysqli, $reviewer_role);
+    updateReviewer($submission_id, $reviewer_id, $mysqli, $reviewer_role, $action);
     return [];
 }
 
