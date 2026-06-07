@@ -46,7 +46,7 @@ function handle_dosen_action($submission_id, $section_name, $action, $comment, $
         updateSectionStatus($submission_id, $section_name, 'revision', $mysqli, $reviewer_role);
         saveComment($submission_id, $section_name, $comment, $reviewer_id, $mysqli);
     } elseif ($action === 'cancel_approval') {
-        updateSectionStatus($submission_id, $section_name, 'draft', $mysqli, $reviewer_role);
+        updateSectionStatus($submission_id, $section_name, 'submitted', $mysqli, $reviewer_role);
     }
     updateReviewer($submission_id, $reviewer_id, $mysqli, $reviewer_role, $action);
     return [];

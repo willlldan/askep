@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `tbl_user` (
   `npm` varchar(50) DEFAULT NULL,
   `username` varchar(15) NOT NULL,
   `password` varchar(10) NOT NULL,
-  `level` enum('Admin','Dosen','Mahasiswa') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `level` enum('Admin','Dosen','Mahasiswa','Preceptor') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

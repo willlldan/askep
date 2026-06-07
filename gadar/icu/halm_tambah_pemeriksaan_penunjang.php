@@ -81,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
     } else {
         $submission_id = $submission['id'];
-        updateSubmissionHeader($submission_id, null, null, $mysqli);
     }
 
     saveSection($submission_id, $section_name, $section_label, $data, $mysqli);

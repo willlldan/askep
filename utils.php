@@ -405,9 +405,13 @@ function saveSection($submission_id, $section_name, $section_label, $data, $mysq
         VALUES (?, ?, ?, ?, 'draft', 'draft', 'draft')
         ON DUPLICATE KEY UPDATE 
             data = VALUES(data), 
-            status = 'draft',
-            dosen_review_status = 'draft',
-            preceptor_review_status = 'draft',
+            status = CASE
+                WHEN dosen_review_status = 'approved' AND preceptor_review_status = 'approved' THEN 'approved'
+                WHEN dosen_review_status = 'approved' OR preceptor_review_status = 'approved' THEN 'submitted'
+                ELSE 'draft'
+            END,
+            dosen_review_status = IF(dosen_review_status = 'approved', 'approved', 'draft'),
+            preceptor_review_status = IF(preceptor_review_status = 'approved', 'approved', 'draft'),
             updated_at = NOW()
     ");
     $stmt->bind_param("isss", $submission_id, $section_name, $section_label, $json_data);
@@ -891,16 +895,34 @@ function updateReviewer($submission_id, $reviewer_id, $mysqli, $reviewer_role = 
  */
 function updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli)
 {
-    $submission = getSubmissionById($submission_id, $mysqli);
+    $stmt = $mysqli->prepare("
+        SELECT
+            COUNT(*) AS total,
+            SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) AS approved,
+            SUM(CASE WHEN status = 'revision' THEN 1 ELSE 0 END) AS revision,
+            SUM(CASE WHEN status = 'submitted' THEN 1 ELSE 0 END) AS submitted
+        FROM submission_sections
+        WHERE submission_id = ?
+    ");
+    $stmt->bind_param("i", $submission_id);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
 
-    $dosenStatus = $submission['dosen_review_status'] ?? null;
-    $preceptorStatus = $submission['preceptor_review_status'] ?? null;
+    $stmt2 = $mysqli->prepare("SELECT count_section FROM forms WHERE id = ?");
+    $stmt2->bind_param("i", $form_id);
+    $stmt2->execute();
+    $count_section = (int) ($stmt2->get_result()->fetch_assoc()['count_section'] ?? 0);
 
-    if (in_array('revision', [$dosenStatus, $preceptorStatus], true)) {
+    $total = (int) ($result['total'] ?? 0);
+    $approved = (int) ($result['approved'] ?? 0);
+    $revision = (int) ($result['revision'] ?? 0);
+    $submitted = (int) ($result['submitted'] ?? 0);
+
+    if ($revision > 0) {
         $new_status = 'revision';
-    } elseif ($dosenStatus === 'approved' && $preceptorStatus === 'approved') {
+    } elseif ($approved === $count_section && $count_section > 0) {
         $new_status = 'approved';
-    } elseif (in_array('submitted', [$dosenStatus, $preceptorStatus], true) || in_array('approved', [$dosenStatus, $preceptorStatus], true)) {
+    } elseif ($submitted > 0 || $approved > 0 || $total > 0) {
         $new_status = 'submitted';
     } else {
         $new_status = 'draft';

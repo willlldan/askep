@@ -122,7 +122,7 @@ while ($row = $result->fetch_assoc()) {
                                             <?= renderStatusBadge($preceptorStatus, 'Belum Diisi') ?>
                                         </td>
                                         <td class="text-center">
-                                            <?php if (in_array($sub['status'], ['submitted', 'revision', 'approved'])): ?>
+                                            <?php if (in_array($dosenStatus, ['submitted', 'revision', 'approved']) || in_array($preceptorStatus, ['submitted', 'revision', 'approved'])): ?>
                                                 <a href="index.php?page=<?= $departmentSlug ?>/<?= $sub['slug'] ?>&submission_id=<?= $sub['submission_id'] ?>"
                                                     class="btn btn-sm btn-primary">
                                                     <i class="ri-edit-line me-1"></i> Review
