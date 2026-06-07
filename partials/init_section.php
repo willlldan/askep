@@ -16,16 +16,17 @@ if (!isset($form_id, $section_name, $section_label, $mysqli, $_SESSION['level'],
 $level   = $_SESSION['level'];
 $user_id = $_SESSION['id_user'];
 
-if ($level === 'Dosen') {
+if (in_array($level, ['Dosen', 'Preceptor'], true)) {
     $submission_id_param = $_GET['submission_id'] ?? null;
     if (!$submission_id_param) {
         echo "<div class='alert alert-danger'>Submission tidak ditemukan.</div>";
         exit;
     }
     $stmt = $mysqli->prepare("
-        SELECT s.*, r.nama as dosen_name
+        SELECT s.*, rd.nama as dosen_name, rp.nama as preceptor_name
         FROM submissions s
-        LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
+        LEFT JOIN tbl_user rd ON s.dosen_reviewed_by = rd.id_user
+        LEFT JOIN tbl_user rp ON s.preceptor_reviewed_by = rp.id_user
         WHERE s.id = ?
     ");
     $stmt->bind_param("i", $submission_id_param);
@@ -36,14 +37,17 @@ if ($level === 'Dosen') {
 }
 
 $existing_data  = $submission ? getSectionData($submission['id'], $section_name, $mysqli) : [];
-$section_status = $submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null;
+$section_review_state = $submission ? getSectionReviewState($submission['id'], $section_name, $mysqli) : null;
+$section_status = $section_review_state['status'] ?? ($submission ? getSectionStatus($submission['id'], $section_name, $mysqli) : null);
+$section_dosen_status = $section_review_state['dosen_review_status'] ?? null;
+$section_preceptor_status = $section_review_state['preceptor_review_status'] ?? null;
 
 // Komentar section
 $comments = $submission ? getSectionComments($submission['id'], $section_name, $mysqli) : [];
 
 // Inisialisasi role & readonly
 
-$is_dosen    = $level === 'Dosen';
+$is_dosen    = in_array($level, ['Dosen', 'Preceptor'], true);
 $is_readonly = $is_dosen || isLocked($submission);
 $ro          = $is_readonly ? 'readonly' : '';
 $ro_select   = $is_readonly ? 'disabled' : '';
@@ -53,7 +57,7 @@ $ro_check    = $is_readonly ? 'disabled' : '';
 // =============================================
 // HANDLE POST - DOSEN (DRY, otomatis di semua section)
 // =============================================
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && in_array($level, ['Dosen', 'Preceptor'], true)) {
     $submission_id = $submission['id'];
     $dosen_id      = $user_id;
     $action        = $_POST['action'] ?? '';
@@ -61,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
     
 
     if (function_exists('handle_dosen_action')) {
-        $err = handle_dosen_action($submission_id, $section_name, $action, $comment, $dosen_id, $mysqli);
+        $err = handle_dosen_action($submission_id, $section_name, $action, $comment, $dosen_id, $level, $mysqli);
         if (isset($err['error'])) {
             redirectWithMessage($_SERVER['REQUEST_URI'], 'error', $err['error']);
         }
@@ -75,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Dosen') {
             updateSectionStatus($submission_id, $section_name, 'revision', $mysqli);
             saveComment($submission_id, $section_name, $comment, $dosen_id, $mysqli);
         }
-        updateReviewer($submission_id, $dosen_id, $mysqli);
+        updateReviewer($submission_id, $dosen_id, $mysqli, $level, $action);
     }
     updateSubmissionStatusByDosen($submission_id, $form_id, $mysqli);
     redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Berhasil disimpan.');

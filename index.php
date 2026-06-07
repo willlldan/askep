@@ -29,11 +29,11 @@ if (isset($_SESSION['id_user'])) {
     $tab  = $_GET['tab'] ?? '';
 
     // =====================
-    // Mahasiswa & Dosen
+    // Mahasiswa & Dosen & Preceptor
     // =====================
-    if ($_SESSION['level'] == 'Mahasiswa' || $_SESSION['level'] == 'Dosen') {
+    if ($_SESSION['level'] == 'Mahasiswa' || $_SESSION['level'] == 'Dosen' || $_SESSION['level'] == 'Preceptor') {
 
-        if ($_SESSION['level'] == 'Dosen') {
+        if ($_SESSION['level'] == 'Dosen' || $_SESSION['level'] == 'Preceptor') {
             include_once "sidebar_dosen.php";
         } else {
             include_once "sidebar_mhs.php";
@@ -41,7 +41,7 @@ if (isset($_SESSION['id_user'])) {
 
         switch ($page) {
             case 'dashboard':
-                if ($_SESSION['level'] == 'Dosen') {
+                if ($_SESSION['level'] == 'Dosen' || $_SESSION['level'] == 'Preceptor') {
                     include "halaman_dashboard.php";
                 } else {
                     include "halaman_dashboard_mahasiswa.php";
@@ -49,7 +49,7 @@ if (isset($_SESSION['id_user'])) {
                 break;
 
             case 'dashboard/detail_mahasiswa':
-                if ($_SESSION['level'] == 'Dosen') {
+                if ($_SESSION['level'] == 'Dosen' || $_SESSION['level'] == 'Preceptor') {
                     include "halaman_detail_mahasiswa.php";
                 }
                 break;
@@ -1438,7 +1438,7 @@ if (isset($_SESSION['id_user'])) {
                 break;
 
             default:
-                if ($_SESSION['level'] == 'Dosen') {
+                if ($_SESSION['level'] == 'Dosen' || $_SESSION['level'] == 'Preceptor') {
                     include "halaman_dashboard.php";
                 } else {
                     include "halaman_dashboard_mahasiswa.php";

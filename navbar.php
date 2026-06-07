@@ -7,7 +7,7 @@
   $notifications = [];
   $notificationCount = 0;
 
-  if (in_array($currentLevel, ['Dosen', 'Mahasiswa'], true) && $currentUserId > 0) {
+  if (in_array($currentLevel, ['Dosen', 'Preceptor', 'Mahasiswa'], true) && $currentUserId > 0) {
     $notifications = getUserNotifications($currentUserId, $mysqli, 10);
     $notificationCount = countUnreadNotifications($currentUserId, $mysqli);
   }
@@ -24,7 +24,7 @@
 
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
-    <?php if (in_array($currentLevel, ['Dosen', 'Mahasiswa'], true)): ?>
+    <?php if (in_array($currentLevel, ['Dosen', 'Preceptor', 'Mahasiswa'], true)): ?>
       <li class="nav-item dropdown">
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-bell"></i>
