@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `tbl_user` (
   `npm` varchar(50) DEFAULT NULL,
   `username` varchar(15) NOT NULL,
   `password` varchar(10) NOT NULL,
-  `level` enum('Admin','Dosen','Mahasiswa') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `level` enum('Admin','Dosen','Mahasiswa','Preceptor') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -92,12 +92,22 @@ CREATE TABLE IF NOT EXISTS `submissions` (
   `rs_ruangan` varchar(255) DEFAULT NULL,
   `reviewed_by` int DEFAULT NULL,
   `reviewed_at` timestamp NULL DEFAULT NULL,
+  `dosen_reviewed_by` int DEFAULT NULL,
+  `dosen_reviewed_at` timestamp NULL DEFAULT NULL,
+  `dosen_review_status` enum('draft','submitted','revision','approved') DEFAULT NULL,
+  `preceptor_reviewed_by` int DEFAULT NULL,
+  `preceptor_reviewed_at` timestamp NULL DEFAULT NULL,
+  `preceptor_review_status` enum('draft','submitted','revision','approved') DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_submission` (`user_id`,`form_id`),
   KEY `form_id` (`form_id`),
   KEY `FK_submissions_tbl_user_2` (`reviewed_by`),
+  KEY `FK_submissions_tbl_user_3` (`dosen_reviewed_by`),
+  KEY `FK_submissions_tbl_user_4` (`preceptor_reviewed_by`),
   CONSTRAINT `FK_submissions_tbl_user` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id_user`) ON DELETE CASCADE,
   CONSTRAINT `FK_submissions_tbl_user_2` FOREIGN KEY (`reviewed_by`) REFERENCES `tbl_user` (`id_user`) ON DELETE SET NULL,
+  CONSTRAINT `FK_submissions_tbl_user_3` FOREIGN KEY (`dosen_reviewed_by`) REFERENCES `tbl_user` (`id_user`) ON DELETE SET NULL,
+  CONSTRAINT `FK_submissions_tbl_user_4` FOREIGN KEY (`preceptor_reviewed_by`) REFERENCES `tbl_user` (`id_user`) ON DELETE SET NULL,
   CONSTRAINT `submissions_ibfk_2` FOREIGN KEY (`form_id`) REFERENCES `forms` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
@@ -114,6 +124,8 @@ CREATE TABLE IF NOT EXISTS `submission_sections` (
   `section_label` varchar(255) NOT NULL,
   `data` longtext NOT NULL,
   `status` enum('draft','submitted','revision','approved') NOT NULL DEFAULT 'draft',
+  `dosen_review_status` enum('draft','submitted','revision','approved') NOT NULL DEFAULT 'draft',
+  `preceptor_review_status` enum('draft','submitted','revision','approved') NOT NULL DEFAULT 'draft',
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_section` (`submission_id`,`section_name`),

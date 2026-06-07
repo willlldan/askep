@@ -24,9 +24,13 @@ $sql = "
         f.department,
         f.slug,
         s.id AS submission_id,
-        s.status
+        s.status,
+        s.dosen_review_status,
+        s.preceptor_review_status,
+        r.level AS reviewer_level
     FROM forms f
     LEFT JOIN submissions s ON s.form_id = f.id AND s.user_id = $user_id
+    LEFT JOIN tbl_user r ON s.reviewed_by = r.id_user
     ORDER BY f.department ASC, f.form_name ASC
 ";
 $result = $mysqli->query($sql);
@@ -84,7 +88,8 @@ while ($row = $result->fetch_assoc()) {
                                     <th width="50">No</th>
                                     <th>Department</th>
                                     <th>Form</th>
-                                    <th class="text-center" width="150">Status</th>
+                                    <th class="text-center" width="100">App. Dosen</th>
+                                    <th class="text-center" width="100">App. Preceptor</th>
                                     <th class="text-center" width="200">Aksi</th>
                                 </tr>
                             </thead>
@@ -96,24 +101,28 @@ while ($row = $result->fetch_assoc()) {
                                         <td><?= htmlspecialchars($sub['form_name']) ?></td>
                                         <td class="text-center">
                                             <?php
-                                            $departmentSlug = urlencode(strtolower($sub['department'])); // slug dari departemen
-                                            $statusMap = [
-                                                'draft'     => ['label' => 'Draft',     'class' => 'secondary'],
-                                                'submitted' => ['label' => 'Submitted', 'class' => 'primary'],
-                                                'revision'  => ['label' => 'Revision',  'class' => 'warning'],
-                                                'approved'  => ['label' => 'Approved',  'class' => 'success'],
-                                            ];
                                             $status = $sub['status'] ?? null;
-                                            if ($status && isset($statusMap[$status])) {
-                                                $s = $statusMap[$status];
-                                                echo "<span class='badge bg-{$s['class']}'>{$s['label']}</span>";
-                                            } else {
-                                                echo "<span class='text-muted'>Belum Submit</span>";
+                                            $dosenStatus = $sub['dosen_review_status'] ?? null;
+                                            $preceptorStatus = $sub['preceptor_review_status'] ?? null;
+                                            $reviewerLevel = $sub['reviewer_level'] ?? null;
+
+                                            if (!$dosenStatus && $reviewerLevel === 'Dosen' && !empty($status) && $status !== 'draft') {
+                                                $dosenStatus = $status;
                                             }
+
+                                            if (!$preceptorStatus && $reviewerLevel === 'Preceptor' && !empty($status) && $status !== 'draft') {
+                                                $preceptorStatus = $status;
+                                            }
+
+                                            $departmentSlug = urlencode(strtolower($sub['department'])); // slug dari departemen
                                             ?>
+                                            <?= renderStatusBadge($dosenStatus, 'Belum Diisi') ?>
                                         </td>
                                         <td class="text-center">
-                                            <?php if (in_array($sub['status'], ['submitted', 'revision', 'approved'])): ?>
+                                            <?= renderStatusBadge($preceptorStatus, 'Belum Diisi') ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php if (in_array($dosenStatus, ['submitted', 'revision', 'approved']) || in_array($preceptorStatus, ['submitted', 'revision', 'approved'])): ?>
                                                 <a href="index.php?page=<?= $departmentSlug ?>/<?= $sub['slug'] ?>&submission_id=<?= $sub['submission_id'] ?>"
                                                     class="btn btn-sm btn-primary">
                                                     <i class="ri-edit-line me-1"></i> Review
@@ -158,7 +167,7 @@ while ($row = $result->fetch_assoc()) {
             },
             columnDefs: [{
                     orderable: false,
-                    targets: [3, 4]
+                    targets: [3, 4, 5]
                 } // Kolom Status & Aksi tidak bisa di-sort
             ]
         });

@@ -9,11 +9,6 @@ $existing_lab         = $existing_data['lab'] ?? [];
 $existing_klasifikasi = $existing_data['klasifikasi'] ?? [];
 $existing_analisa     = $existing_data['analisa'] ?? [];
 
-$is_dosen    = $level === 'Dosen';
-$is_readonly = $is_dosen || isLocked($submission);
-$ro          = $is_readonly ? 'readonly' : '';
-$ro_select   = $is_readonly ? 'disabled' : '';
-
 // ===================== POST HANDLER =====================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     if (isLocked($submission)) redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');

@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <label class="form-label">Level <span class="text-danger">*</span></label>
                                 <select name="level" id="inputLevel" class="form-select" required>
                                     <option value="">-- Pilih Level --</option>
-                                    <?php foreach (['Admin', 'Dosen', 'Mahasiswa'] as $lvl): ?>
+                                    <?php foreach (['Admin', 'Dosen', 'Mahasiswa', 'Preceptor'] as $lvl): ?>
                                         <option value="<?= $lvl ?>" <?= ($user['level'] === $lvl) ? 'selected' : '' ?>>
                                             <?= $lvl ?>
                                         </option>
