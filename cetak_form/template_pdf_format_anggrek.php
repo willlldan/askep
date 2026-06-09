@@ -5,7 +5,7 @@ $anak     = $sections['pengkajian_anak'] ?? [];
 $riwayat       = $sections['pengkajian_riwayat'] ?? [];
 $fisik      = $sections['pemeriksaan_fisik'] ?? [];
 $analisa     = $sections['analisa_data'] ?? [];
-$catatan     = $sections['catatan_keperawatan'] ?? [];
+$lainnya     = $sections['lainnya'] ?? [];
 
 
 
@@ -1547,8 +1547,8 @@ function safe_p($var) {
                 </tr>
             </thead>
             <tbody>
-                <?php if (!empty($catatan['diagnosa'])): ?>
-                    <?php foreach ($catatan['diagnosa'] as $dx): ?>
+                <?php if (!empty($lainnya['diagnosa'])): ?>
+                    <?php foreach ($lainnya['diagnosa'] as $dx): ?>
                         <tr>
                             <td><?= p($dx['diagnosa']) ?></td>
                             <td><?= p($dx['tgl_ditemukan']) ?></td>
@@ -1574,8 +1574,8 @@ function safe_p($var) {
                 </tr>
             </thead>
             <tbody>
-                <?php if (!empty($catatan['intervensi'])): ?>
-                    <?php foreach ($catatan['intervensi'] as $inv): ?>
+                <?php if (!empty($lainnya['intervensi'])): ?>
+                    <?php foreach ($lainnya['intervensi'] as $inv): ?>
                         <tr>
                             <td><?= p($inv['diagnosa']) ?></td>
                             <td><?= p($inv['tujuan_kriteria']) ?></td>
@@ -1602,8 +1602,8 @@ function safe_p($var) {
                 </tr>
             </thead>
             <tbody>
-                <?php if (!empty($catatan['implementasi'])): ?>
-                    <?php foreach ($catatan['implementasi'] as $impl): ?>
+                <?php if (!empty($lainnya['implementasi'])): ?>
+                    <?php foreach ($lainnya['implementasi'] as $impl): ?>
                         <tr>
                             <td><?= p($impl['no_dx']) ?></td>
                             <td><?= p($impl['hari_tgl']) ?></td>
@@ -1634,8 +1634,8 @@ function safe_p($var) {
                 </tr>
             </thead>
             <tbody>
-                <?php if (!empty($catatan['evaluasi'])): ?>
-                    <?php foreach ($catatan['evaluasi'] as $eval): ?>
+                <?php if (!empty($lainnya['evaluasi'])): ?>
+                    <?php foreach ($lainnya['evaluasi'] as $eval): ?>
                         <tr>
                             <td><?= p($eval['no_dx']) ?></td>
                             <td><?= p($eval['hari_tgl']) ?></td>
