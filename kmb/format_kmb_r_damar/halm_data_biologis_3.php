@@ -4,6 +4,8 @@ $section_name  = 'data_biologis_3';
 $section_label = 'Data Biologis 3';
 include dirname(__DIR__, 2) . '/partials/init_section.php';
 
+$existing_obat = $existing_data['obat'] ?? [];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     if (isLocked($submission)) {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
@@ -38,6 +40,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         }
     }
     $data['data_penunjang'] = json_encode($rows);
+
+    // Dynamic rows terapi/obat
+    $rows_obat = [];
+    foreach ($_POST['obat'] ?? [] as $row) {
+        if (!empty($row['jenis_obat']) || !empty($row['dosis']) || !empty($row['kegunaan']) || !empty($row['cara_pemberian'])) {
+            $rows_obat[] = [
+                'jenis_obat'     => $row['jenis_obat']     ?? '',
+                'dosis'          => $row['dosis']          ?? '',
+                'kegunaan'       => $row['kegunaan']       ?? '',
+                'cara_pemberian' => $row['cara_pemberian'] ?? '',
+            ];
+        }
+    }
+    $data['obat'] = $rows_obat;
+
     if (!$submission) {
         $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
     } else {
@@ -240,6 +257,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         </small>
                     <?php endif; ?>
 
+                    <div class="row mb-2 mt-4">
+                        <label class="col-sm-12 text-primary"><strong>d. Terapi/Obat</strong></label>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="tabel-obat">
+                            <thead>
+                                <tr>
+                                    <th style="width:40px">No</th>
+                                    <th>Jenis Obat</th>
+                                    <th style="width:120px">Dosis</th>
+                                    <th>Kegunaan</th>
+                                    <th style="width:160px">Cara Pemberian</th>
+                                    <?php if (!$is_dosen): ?>
+                                        <th style="width:50px"></th>
+                                    <?php endif; ?>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-obat">
+                                <?php
+                                $rows_obat = $existing_obat ?: [['jenis_obat' => '', 'dosis' => '', 'kegunaan' => '', 'cara_pemberian' => '']];
+                                foreach ($rows_obat as $i => $row):
+                                ?>
+                                    <tr>
+                                        <td class="text-center align-middle row-no-obat"><?= $i + 1 ?></td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm" name="obat[<?= $i ?>][jenis_obat]"
+                                                value="<?= htmlspecialchars($row['jenis_obat'] ?? '') ?>" <?= $ro ?>>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm" name="obat[<?= $i ?>][dosis]"
+                                                value="<?= htmlspecialchars($row['dosis'] ?? '') ?>" <?= $ro ?>>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm" name="obat[<?= $i ?>][kegunaan]"
+                                                value="<?= htmlspecialchars($row['kegunaan'] ?? '') ?>" <?= $ro ?>>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm" name="obat[<?= $i ?>][cara_pemberian]"
+                                                value="<?= htmlspecialchars($row['cara_pemberian'] ?? '') ?>" <?= $ro ?>>
+                                        </td>
+                                        <?php if (!$is_dosen): ?>
+                                            <td class="text-center align-middle">
+                                                <button type="button" class="btn btn-sm btn-danger btn-hapus-row-obat" <?= $ro_disabled ?>>
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        <?php endif; ?>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <?php if (!$is_dosen): ?>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <small class="text-muted">
+                                Isi terapi atau obat yang sedang dikonsumsi saat ini.
+                            </small>
+                            <button type="button" class="btn btn-sm btn-outline-primary" id="btn-tambah-obat" <?= $ro_disabled ?>>
+                                <i class="bi bi-plus-circle"></i> Tambah Baris
+                            </button>
+                        </div>
+                    <?php endif; ?>
+
 
                     <?php if (!$is_dosen): ?>
                         <div class="row mb-3">
@@ -260,10 +342,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 <?php if (!$is_dosen): ?>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const tbody = document.getElementById('tbody-penunjang');
+            const isReadonly = <?= json_encode($is_readonly) ?>;
+            const tbodyPenunjang = document.getElementById('tbody-penunjang');
+            const tbodyObat = document.getElementById('tbody-obat');
 
-            function reindexRows() {
-                tbody.querySelectorAll('tr').forEach((tr, i) => {
+            function reindexRowsPenunjang() {
+                tbodyPenunjang.querySelectorAll('tr').forEach((tr, i) => {
                     tr.querySelector('.row-no').textContent = i + 1;
                     tr.querySelectorAll('[name]').forEach(el => {
                         el.name = el.name.replace(/penunjang\[\d+\]/, `penunjang[${i}]`);
@@ -271,7 +355,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 });
             }
 
-            function makeRow(index) {
+            function makeRowPenunjang(index) {
                 const opts = ['Laboratorium', 'Radiologi', 'Lainnya']
                     .map(o => `<option value="${o}">${o}</option>`).join('');
                 return `<tr>
@@ -293,18 +377,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         </tr>`;
             }
 
-            document.getElementById('btn-tambah-penunjang').addEventListener('click', function() {
-                const count = tbody.querySelectorAll('tr').length;
-                tbody.insertAdjacentHTML('beforeend', makeRow(count));
+            function reindexRowsObat() {
+                tbodyObat.querySelectorAll('tr').forEach((tr, i) => {
+                    tr.querySelector('.row-no-obat').textContent = i + 1;
+                    tr.querySelectorAll('[name]').forEach(el => {
+                        el.name = el.name.replace(/obat\[\d+\]/, `obat[${i}]`);
+                    });
+                });
+            }
+
+            function makeRowObat(index) {
+                return `<tr>
+            <td class="text-center align-middle row-no-obat">${index + 1}</td>
+            <td><input type="text" class="form-control form-control-sm" name="obat[${index}][jenis_obat]"></td>
+            <td><input type="text" class="form-control form-control-sm" name="obat[${index}][dosis]"></td>
+            <td><input type="text" class="form-control form-control-sm" name="obat[${index}][kegunaan]"></td>
+            <td><input type="text" class="form-control form-control-sm" name="obat[${index}][cara_pemberian]"></td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-sm btn-danger btn-hapus-row-obat">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+        </tr>`;
+            }
+
+            const btnTambahPenunjang = document.getElementById('btn-tambah-penunjang');
+            if (btnTambahPenunjang) {
+                btnTambahPenunjang.addEventListener('click', function() {
+                    if (isReadonly) return;
+                    const count = tbodyPenunjang.querySelectorAll('tr').length;
+                    tbodyPenunjang.insertAdjacentHTML('beforeend', makeRowPenunjang(count));
+                });
+            }
+
+            tbodyPenunjang.addEventListener('click', function(e) {
+                const btn = e.target.closest('.btn-hapus-row');
+                if (!btn || isReadonly) return;
+                if (tbodyPenunjang.querySelectorAll('tr').length <= 1) return; // minimal 1 row
+                btn.closest('tr').remove();
+                reindexRowsPenunjang();
             });
 
-            tbody.addEventListener('click', function(e) {
-                const btn = e.target.closest('.btn-hapus-row');
-                if (!btn) return;
-                if (tbody.querySelectorAll('tr').length <= 1) return; // minimal 1 row
+            const btnTambahObat = document.getElementById('btn-tambah-obat');
+            if (btnTambahObat) {
+                btnTambahObat.addEventListener('click', function() {
+                    if (isReadonly) return;
+                    const count = tbodyObat.querySelectorAll('tr').length;
+                    tbodyObat.insertAdjacentHTML('beforeend', makeRowObat(count));
+                });
+            }
+
+            tbodyObat.addEventListener('click', function(e) {
+                const btn = e.target.closest('.btn-hapus-row-obat');
+                if (!btn || isReadonly) return;
+                if (tbodyObat.querySelectorAll('tr').length <= 1) return; // minimal 1 row
                 btn.closest('tr').remove();
-                reindexRows();
+                reindexRowsObat();
             });
+
+            if (isReadonly) {
+                if (btnTambahPenunjang) btnTambahPenunjang.setAttribute('disabled', 'disabled');
+                if (btnTambahObat) btnTambahObat.setAttribute('disabled', 'disabled');
+            }
         });
     </script>
 <?php endif; ?>

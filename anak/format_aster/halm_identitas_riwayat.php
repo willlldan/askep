@@ -42,6 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'pemeriksaan_kehamilan',
         // Riwayat Kehamilan
         'status_gpa',
+        'gpa_g',
+        'gpa_p',
+        'gpa_a',
         'obat_kehamilan',
         'imunisasi_tt',
         'komplikasi_kehamilan',

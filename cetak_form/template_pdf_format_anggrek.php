@@ -7,6 +7,19 @@ $fisik      = $sections['pemeriksaan_fisik'] ?? [];
 $analisa     = $sections['analisa_data'] ?? [];
 $lainnya     = $sections['lainnya'] ?? [];
 
+$fisik_terapi = json_decode($fisik['terapi'] ?? '[]', true);
+if (!is_array($fisik_terapi)) {
+    $fisik_terapi = [];
+}
+if (empty($fisik_terapi) && !empty(trim((string)($fisik['terapi'] ?? '')))) {
+    $fisik_terapi = [[
+        'jenis_obat'     => $fisik['terapi'],
+        'dosis'          => '',
+        'kegunaan'       => '',
+        'cara_pemberian' => '',
+    ]];
+}
+
 
 
 include 'template_pdf.php';
@@ -1462,12 +1475,35 @@ function safe_p($var) {
     <div class="field-value"><?= p($fisik['penunjang']) ?></div>
 </div>
 
-<h4>Terapi Saat Ini</h4>
-<div class="field-row">
-    <div class="field-label">Terapi Saat Ini</div>
-    <div class="field-sep">:</div>
-    <div class="field-value"><?= p($fisik['terapi']) ?></div>
-</div>
+<h4>Terapi/Obat</h4>
+<table class="data">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th width="30%">Jenis Obat</th>
+            <th width="20%">Dosis</th>
+            <th width="25%">Kegunaan</th>
+            <th width="25%">Cara Pemberian</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($fisik_terapi)): ?>
+            <?php foreach ($fisik_terapi as $index => $terapi): ?>
+                <tr>
+                    <td><?= $index + 1 ?></td>
+                    <td><?= safe_p($terapi['jenis_obat']) ?></td>
+                    <td><?= safe_p($terapi['dosis']) ?></td>
+                    <td><?= safe_p($terapi['kegunaan']) ?></td>
+                    <td><?= safe_p($terapi['cara_pemberian']) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="5" style="text-align:center">-</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
 
         <div class="page-break"></div>
 

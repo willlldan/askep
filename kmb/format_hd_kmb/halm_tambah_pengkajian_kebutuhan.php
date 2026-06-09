@@ -7,7 +7,8 @@ $section_name  = 'pengkajian_kebutuhan';
 $section_label = 'Pengkajian Kebutuhan';
 include dirname(__DIR__, 2) . '/partials/init_section.php';
 
-$existing_diagnosa     = $existing_data['diagnosa']     ?? [];
+$existing_diagnosa = $existing_data['diagnosa'] ?? [];
+$existing_obat     = $existing_data['obat'] ?? [];
 
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
@@ -34,8 +35,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             ];
         }
     }
+
+    // Proses dynamic rows terapi/obat
+    $obat = [];
+    if (!empty($_POST['obat'])) {
+        foreach ($_POST['obat'] as $index => $row) {
+            if (empty($row['jenis_obat']) && empty($row['dosis']) && empty($row['kegunaan']) && empty($row['cara_pemberian'])) {
+                continue;
+            }
+            $obat[] = [
+                'jenis_obat'     => $row['jenis_obat']     ?? '',
+                'dosis'          => $row['dosis']          ?? '',
+                'kegunaan'       => $row['kegunaan']       ?? '',
+                'cara_pemberian' => $row['cara_pemberian'] ?? '',
+            ];
+        }
+    }
     $data = [
         'diagnosa'     => $diagnosa,
+        'obat'         => $obat,
         'mandi'                     => $_POST['mandi'] ?? '',
         'berpakaian'                => $_POST['berpakaian'] ?? '',
         'mobilisasi'                => $_POST['mobilisasi'] ?? '',
@@ -295,6 +313,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                         </div>
                     </div>
+
+                    <p class="text-primary fw-bold mb-2">4) Terapi/Obat</p>
+
+                    <table class="table table-bordered" id="tabel-obat">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width:40px">No</th>
+                                <th class="text-center">Jenis Obat</th>
+                                <th class="text-center">Dosis</th>
+                                <th class="text-center">Kegunaan</th>
+                                <th class="text-center">Cara Pemberian</th>
+                                <th class="text-center" style="width:60px">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-obat">
+                            <!-- Dynamic rows masuk sini -->
+                        </tbody>
+                    </table>
+
+                    <?php if (!$is_readonly): ?>
+                        <div class="row mb-4">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowObat()">+ Tambah Terapi/Obat</button>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
 
         </div>
@@ -318,9 +362,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
     <script>
         let rowDiagnosaCount = 1;
+        let rowObatCount = 1;
 
 
         const existingDiagnosa = <?= json_encode($existing_diagnosa) ?>;
+        const existingObat = <?= json_encode($existing_obat) ?>;
+        const isReadonly = <?= json_encode($is_readonly) ?>;
 
 
         // ---- DIAGNOSA ----
@@ -328,7 +375,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             const tbody = document.getElementById('tbody-diagnosa');
             const index = rowDiagnosaCount;
             const row = document.createElement('tr');
-            const isReadonly = <?= json_encode($is_readonly) ?>;
             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
                                 <td>
@@ -376,6 +422,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             rowDiagnosaCount++;
         }
 
+        // ---- TERAPI / OBAT ----
+        function tambahRowObat(data = null) {
+            const tbody = document.getElementById('tbody-obat');
+            const index = rowObatCount;
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                                <td class="text-center align-middle">${index}</td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-sm"
+                                        name="obat[${index}][jenis_obat]"
+                                        value="${data?.jenis_obat ?? ''}"
+                                        ${isReadonly ? 'readonly' : ''}
+                                    >
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-sm"
+                                        name="obat[${index}][dosis]"
+                                        value="${data?.dosis ?? ''}"
+                                        ${isReadonly ? 'readonly' : ''}
+                                    >
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-sm"
+                                        name="obat[${index}][kegunaan]"
+                                        value="${data?.kegunaan ?? ''}"
+                                        ${isReadonly ? 'readonly' : ''}
+                                    >
+                                </td>
+                                <td>
+                                    <input
+                                        type="text"
+                                        class="form-control form-control-sm"
+                                        name="obat[${index}][cara_pemberian]"
+                                        value="${data?.cara_pemberian ?? ''}"
+                                        ${isReadonly ? 'readonly' : ''}
+                                    >
+                                </td>
+                                <td class="text-center align-middle">
+                                    ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
+                                </td>
+                            `;
+            tbody.appendChild(row);
+            rowObatCount++;
+        }
+
 
 
         function hapusRow(btn) {
@@ -388,6 +485,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 existingDiagnosa.forEach(row => tambahRowDiagnosa(row));
             } else {
                 tambahRowDiagnosa();
+            }
+
+            if (existingObat && existingObat.length > 0) {
+                existingObat.forEach(row => tambahRowObat(row));
+            } else {
+                tambahRowObat();
             }
         });
     </script>

@@ -8,6 +8,7 @@ $fisik     = $sections['pemeriksaan_fisik'] ?? [];
 $kebutuhan     = $sections['pengkajian_kebutuhan'] ?? [];
 $analisa     = $sections['analisa_data'] ?? [];
 $catatan= $sections['catatan_keperawatan'] ?? [];
+$kebutuhan_obat = arr($kebutuhan['obat'] ?? []);
 
 
 
@@ -647,7 +648,7 @@ include 'template_pdf.php';
 </div>
 
 <div class="field-row">
-    <div class="field-label"><strong>c. Riwayat Keluhan Utama</strong></div>
+    <div class="field-label"><strong>c. Riwayat Kesehatan Sekarang</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($pengkajian['riwayat_keluhan_utama'] ?? '') ?></div>
 </div>
@@ -1289,6 +1290,36 @@ include 'template_pdf.php';
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($kebutuhan['data_penunjang_lain'] ?? '') ?></div>
 </div>
+
+<p class="text-primary fw-bold mb-2">4) Terapi/Obat</p>
+<table class="data">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th width="30%">Jenis Obat</th>
+            <th width="20%">Dosis</th>
+            <th width="25%">Kegunaan</th>
+            <th width="25%">Cara Pemberian</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (!empty($kebutuhan_obat)): ?>
+            <?php foreach ($kebutuhan_obat as $index => $obat): ?>
+                <tr>
+                    <td><?= $index + 1 ?></td>
+                    <td><?= p($obat['jenis_obat']) ?></td>
+                    <td><?= p($obat['dosis']) ?></td>
+                    <td><?= p($obat['kegunaan']) ?></td>
+                    <td><?= p($obat['cara_pemberian']) ?></td>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="5" style="text-align:center">-</td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
 
 
  <div class="page-break"></div>

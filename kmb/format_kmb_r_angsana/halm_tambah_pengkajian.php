@@ -467,7 +467,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     </div>
 
                     <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>c. Riwayat Keluhan Utama</strong></label>
+                        <label class="col-sm-2 col-form-label"><strong>c. Riwayat Kesehatan Sekarang</strong></label>
                         <div class="col-sm-9">
                             <textarea class="form-control" rows="4" name="riwayat_keluhan_utama"
                                 style="overflow:hidden; resize:none;"
