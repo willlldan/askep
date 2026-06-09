@@ -386,7 +386,7 @@ include 'template_pdf.php';
             <div class="field-value"><?= p($pkj['keluhan_utama']) ?></div>
         </div>
         <div class="field-row">
-            <div class="field-label">Riwayat Keluhan Utama</div>
+            <div class="field-label">Riwayat Kesehatan Sekarang</div>
             <div class="field-sep">:</div>
             <div class="field-value"><?= p($pkj['riwayat_keluhan_utama']) ?></div>
         </div>
@@ -893,6 +893,35 @@ include 'template_pdf.php';
                     <td><?= p($gordon['gigi_cara_sebelum']) ?></td>
                     <td><?= p($gordon['gigi_cara_sekarang']) ?></td>
                 </tr>
+            </tbody>
+        </table>
+
+        <h3>9. Terapi/Obat</h3>
+        <?php $obat = arr($bio3['obat']); ?>
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>Jenis Obat</th>
+                    <th>Dosis</th>
+                    <th>Kegunaan</th>
+                    <th>Cara Pemberian</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($obat)): ?>
+                    <?php foreach ($obat as $row): ?>
+                        <tr>
+                            <td><?= p($row['jenis_obat']) ?></td>
+                            <td><?= p($row['dosis']) ?></td>
+                            <td><?= p($row['kegunaan']) ?></td>
+                            <td><?= p($row['cara_pemberian']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="4" style="text-align:center">-</td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
 

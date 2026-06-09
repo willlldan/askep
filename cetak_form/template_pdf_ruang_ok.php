@@ -6,6 +6,33 @@ $resume        = $sections['resume'] ?? [];
 $analisa       = $sections['analisa'] ?? [];
 $lainnya       = $sections['lainnya'] ?? [];
 
+$resume_penunjang = json_decode($resume['pemeriksaan_penunjang'] ?? '[]', true);
+if (!is_array($resume_penunjang)) {
+    $resume_penunjang = [];
+}
+if (empty($resume_penunjang) && !empty(trim((string)($resume['pemeriksaan_penunjang'] ?? '')))) {
+    $resume_penunjang = [[
+        'tipe'          => '',
+        'tanggal'       => '',
+        'hasil'         => $resume['pemeriksaan_penunjang'],
+        'satuan'        => '',
+        'nilai_rujukan' => '',
+    ]];
+}
+
+$resume_terapi = json_decode($resume['terapi_saat_ini'] ?? '[]', true);
+if (!is_array($resume_terapi)) {
+    $resume_terapi = [];
+}
+if (empty($resume_terapi) && !empty(trim((string)($resume['terapi_saat_ini'] ?? '')))) {
+    $resume_terapi = [[
+        'jenis_obat'     => $resume['terapi_saat_ini'],
+        'dosis'          => '',
+        'kegunaan'       => '',
+        'cara_pemberian' => '',
+    ]];
+}
+
 include 'template_pdf.php';
 ?>
 
@@ -305,18 +332,66 @@ include 'template_pdf.php';
         </div>
 
         <h4>5. Pemeriksaan Penunjang</h4>
-         <div class="field-row">
-            <div class="field-label">Pemeriksaan Penunjang</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($resume['pemeriksaan_penunjang']) ?></div>
-        </div>
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tipe Pemeriksaan</th>
+                    <th>Tanggal Pemeriksaan</th>
+                    <th>Hasil</th>
+                    <th>Satuan</th>
+                    <th>Nilai Rujukan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($resume_penunjang)): ?>
+                    <?php foreach ($resume_penunjang as $i => $row): ?>
+                        <tr>
+                            <td><?= $i + 1 ?></td>
+                            <td><?= p($row['tipe']) ?></td>
+                            <td><?= p($row['tanggal']) ?></td>
+                            <td><?= p($row['hasil']) ?></td>
+                            <td><?= p($row['satuan']) ?></td>
+                            <td><?= p($row['nilai_rujukan']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="6" style="text-align:center">-</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
 
         <h4>6. Terapi Saat Ini</h4>
-         <div class="field-row">
-            <div class="field-label">Terapi Saat Ini</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($resume['terapi_saat_ini']) ?></div>
-        </div>
+        <table class="data">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Jenis Obat</th>
+                    <th>Dosis</th>
+                    <th>Kegunaan</th>
+                    <th>Cara Pemberian</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (!empty($resume_terapi)): ?>
+                    <?php foreach ($resume_terapi as $i => $row): ?>
+                        <tr>
+                            <td><?= $i + 1 ?></td>
+                            <td><?= p($row['jenis_obat']) ?></td>
+                            <td><?= p($row['dosis']) ?></td>
+                            <td><?= p($row['kegunaan']) ?></td>
+                            <td><?= p($row['cara_pemberian']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="5" style="text-align:center">-</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
 
         <br>
 

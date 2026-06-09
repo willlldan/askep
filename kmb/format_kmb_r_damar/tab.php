@@ -23,7 +23,7 @@ $tabs = [
     'lainnya',
 ];
 $tabLabels = [
-    'konsep_keperawatan' => 'Konsep Keperawatan',
+    'konsep_keperawatan' => 'Laporan Pendahuluan',
     'pengkajian' => 'Pengkajian',
     'pengkajian_gordon' => 'Pengkajian FX Gordon',
     'data_biologis_1' => 'Data Biologis 1',

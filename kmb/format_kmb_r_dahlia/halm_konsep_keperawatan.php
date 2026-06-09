@@ -1,7 +1,7 @@
 <?php
 $form_id       = 15;
 $section_name  = 'konsep_keperawatan';
-$section_label = 'Konsep Keperawatan';
+$section_label = 'Laporan Pendahuluan';
 include dirname(__DIR__, 2) . '/partials/init_section.php';
 
 $tgl_pengkajian  = $submission['tanggal_pengkajian'] ?? '';

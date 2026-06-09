@@ -8,6 +8,16 @@ $pemfis2    = $sections['pemfis_2'] ?? [];
 $analisa    = $sections['analisa_data'] ?? [];
 $lainnya    = $sections['lainnya'] ?? [];
 
+$pemfis2_terapi = decodeArr($pemfis2['terapi'] ?? []);
+if (empty($pemfis2_terapi) && !empty(trim((string)($pemfis2['terapi'] ?? '')))) {
+    $pemfis2_terapi = [[
+        'jenis_obat'     => $pemfis2['terapi'],
+        'dosis'          => '',
+        'kegunaan'       => '',
+        'cara_pemberian' => '',
+    ]];
+}
+
 function decodeArr($val) {
     if (is_array($val)) return $val;
     if (is_string($val)) {
@@ -222,7 +232,18 @@ include 'template_pdf.php';
     <div class="field-row">
         <div class="field-label">Status GPA</div>
         <div class="field-sep">:</div>
-        <div class="field-value"><?= p($identitas['status_gpa']) ?></div>
+        <div class="field-value-wrap">
+            <table class="header-table" style="margin-bottom:0;">
+                <tr>
+                    <td width="8%" style="background:#d9d9d9;  text-align:center;"><strong>G</strong></td>
+                    <td width="25%" ><?= p($identitas['gpa_g']) ?: '-' ?></td>
+                    <td width="8%" style="background:#d9d9d9;  text-align:center;"><strong>P</strong></td>
+                    <td width="25%" ><?= p($identitas['gpa_p']) ?: '-' ?></td>
+                    <td width="8%" style="background:#d9d9d9;  text-align:center;"><strong>A</strong></td>
+                    <td width="26%" ><?= p($identitas['gpa_a']) ?: '-' ?></td>
+                </tr>
+            </table>
+        </div>
     </div>
     <div class="field-row">
         <div class="field-label">Obat-obatan selama Kehamilan</div>
@@ -1249,11 +1270,35 @@ include 'template_pdf.php';
                  style="height:250px;" />
         </div>
     <?php endif; ?>
-    <div class="field-row">
-        <div class="field-label">Terapi Saat Ini</div>
-        <div class="field-sep">:</div>
-        <div class="field-value"><?= p($pemfis2['terapi']) ?></div>
-    </div>
+    <h4>Terapi/Obat</h4>
+    <table class="data">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th width="30%">Jenis Obat</th>
+                <th width="20%">Dosis</th>
+                <th width="25%">Kegunaan</th>
+                <th width="25%">Cara Pemberian</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($pemfis2_terapi)): ?>
+                <?php foreach ($pemfis2_terapi as $index => $terapi): ?>
+                    <tr>
+                        <td><?= $index + 1 ?></td>
+                        <td><?= p($terapi['jenis_obat']) ?></td>
+                        <td><?= p($terapi['dosis']) ?></td>
+                        <td><?= p($terapi['kegunaan']) ?></td>
+                        <td><?= p($terapi['cara_pemberian']) ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="5" style="text-align:center">-</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
 
     <div class="page-break"></div>
 
