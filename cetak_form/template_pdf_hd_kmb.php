@@ -63,27 +63,21 @@ include 'template_pdf.php';
     <div >
 
         <!-- HEADER -->
-        <h1>Format Laporan Pendahuluan</h1>
-        <h2>Ruang HD</h2>
+        <h1>Format Laporan Pendahuluan <br> Ruang HD</h1>
+
         <table class="header-table">
             <tr>
                 <td width="25%"><strong>Nama Mahasiswa</strong></td>
                 <td width="2%">:</td>
                 <td width="23%"><?= p($submission['mahasiswa_name']) ?></td>
-                <td width="25%"><strong>Tanggal Pengkajian</strong></td>
-                <td width="2%">:</td>
-                <td><?= p($submission['tanggal_pengkajian']) ?></td>
             </tr>
             <tr>
                 <td><strong>NIM</strong></td>
                 <td>:</td>
                 <td><?= p($submission['npm']) ?></td>
-                <td><strong>RS/Ruangan</strong></td>
-                <td>:</td>
-                <td><?= p($submission['rs_ruangan']) ?></td>
             </tr> 
         </table>
-    <h3 class="card-title"><strong>A. Konsep Dasar Penyakit (CKD)</strong></h3>
+    <h3 class="card-title"><strong>A. Konsep Dasar Penyakit (Chronic Kidney Disease (CKD))</strong></h3>
 
         <div class="field-row mb-2">
             <div class="field-label"> 1. Definisi CKD</div>
@@ -107,7 +101,7 @@ include 'template_pdf.php';
         <div class="field-row mb-2">
             <div class="field-label">4. Manifestasi Klinik CKD</div>
             <div class="field-sep">:</div>
-            <div class="field-value"><?= p($lp['manifestasi_klinik'] ?? '') ?></div>
+            <div class="field-value"><?= p($lp['manifestasiklinik'] ?? '') ?></div>
         </div>
 
         <div class="field-row mb-2">
@@ -141,7 +135,7 @@ include 'template_pdf.php';
             <div class="field-value"><?= p($lp['diagnosa'] ?? '') ?></div>
         </div>
 
- <div class="field">3. Intervensi Keperawatan</div>
+    <div class="field-label">3. Intervensi Keperawatan</div>
 
         <table class="data">
             <thead>
@@ -205,25 +199,25 @@ include 'template_pdf.php';
         <div class="field-row mb-2">
             <div class="field-label">Alasan Hemodialisa</div>
             <div class="field-sep">:</div>
-            <div class="field-value"><?= p($lp['alasan_hemodialisa'] ?? '') ?></div>
+            <div class="field-value"><?= p($lp['alasanhemodialisa'] ?? '') ?></div>
         </div>
 
         <div class="field-row mb-2">
             <div class="field-label">Indikasi Hemodialisa</div>
             <div class="field-sep">:</div>
-            <div class="field-value"><?= p($lp['indikasi_hemodialisa'] ?? '') ?></div>
+            <div class="field-value"><?= p($lp['indikasihemodialisa'] ?? '') ?></div>
         </div>
 
         <div class="field-row mb-2">
             <div class="field-label">Kontraindikasi Hemodialisa</div>
             <div class="field-sep">:</div>
-            <div class="field-value"><?= p($lp['kontraindikasi_hemodialisa'] ?? '') ?></div>
+            <div class="field-value"><?= p($lp['kontraindikasihemodialisa'] ?? '') ?></div>
         </div>
 
         <div class="field-row mb-2">
             <div class="field-label">Frekuensi Hemodialisa</div>
             <div class="field-sep">:</div>
-            <div class="field-value"><?= p($lp['frekuensi_hemodialisa'] ?? '') ?></div>
+            <div class="field-value"><?= p($lp['frekuensihemodialisa'] ?? '') ?></div>
         </div>
 
         <div class="field-row mb-2">
@@ -302,7 +296,6 @@ include 'template_pdf.php';
     <div class="field-value"><?= p($format['tgl_pertama_hd'] ?? '') ?></div>
 </div>
 
-
 <div class="field-row mb-2">
     <div class="field-label">Waktu HD</div>
     <div class="field-sep">:</div>
@@ -343,6 +336,7 @@ include 'template_pdf.php';
                     <td><?= p($lab['hasil']) ?></td>
                     <td><?= p($lab['satuan']) ?></td>
                     <td><?= p($lab['nilai_rujukkan']) ?></td>
+            </tr>
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
@@ -402,7 +396,7 @@ include 'template_pdf.php';
 <div class="field-row mb-2">
     <div class="field-label">3. Observasi</div>
     <div class="field-sep">:</div>
-    <div class="field-value"><?= p($format['observasi'] ?? '') ?></textarea>
+    <div class="field-value"><?= p($format['observasi'] ?? '') ?>
     </div>
 </div>
 
@@ -466,8 +460,7 @@ include 'template_pdf.php';
 <!-- SECTION E: ANALISA DATA -->
 <!-- ================================ -->
 
-<h1>Format Resume Keperawatan</h1>
-<h2>Ruang Perawatan HD</h2>
+<h1>Format Resume Keperawatan <br> Ruang Perawatan</h1>
 
 <h3>A. PENGKAJIAN</h3>
 
@@ -595,7 +588,6 @@ include 'template_pdf.php';
     <div class="field-value"><?= p($pengkajian['suhu_prehd'] ?? '') ?> °C</div>
 </div>
 
-
 <h4>b. Kesadaran</h4>
 <div class="field-row">
     <div class="field-label">Glasgow Coma Scale (GCS)</div>
@@ -648,7 +640,7 @@ include 'template_pdf.php';
 </div>
 
 <div class="field-row">
-    <div class="field-label"><strong>c. Riwayat Kesehatan Sekarang</strong></div>
+    <div class="field-label"><strong>c. Riwayat Keluhan Utama</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($pengkajian['riwayat_keluhan_utama'] ?? '') ?></div>
 </div>
@@ -1074,7 +1066,7 @@ include 'template_pdf.php';
     <div class="field-label"><strong>Kekuatan Otot Kaki</strong></div>
     <div class="field-sep">:</div>
     <div class="field-value">
-        Kanan: <?= p($fisik['kanan'] ?? '') ?>, Kiri: <?= p($fisik['kiri'] ?? '') ?>
+        Kanan: <?= p($fisik['kanan1'] ?? '') ?>, Kiri: <?= p($fisik['kiri1'] ?? '') ?>
     </div>
 </div>
 
@@ -1272,6 +1264,7 @@ include 'template_pdf.php';
                     <td><?= p($diagnosa['hasil']) ?></td>
                     <td><?= p($diagnosa['satuan']) ?></td>
                     <td><?= p($diagnosa['nilai']) ?></td>
+            </tr>
             <?php endforeach; ?>
         <?php else: ?>
             <tr>
@@ -1290,36 +1283,6 @@ include 'template_pdf.php';
     <div class="field-sep">:</div>
     <div class="field-value"><?= p($kebutuhan['data_penunjang_lain'] ?? '') ?></div>
 </div>
-
-<p class="text-primary fw-bold mb-2">4) Terapi/Obat</p>
-<table class="data">
-    <thead>
-        <tr>
-            <th>No</th>
-            <th width="30%">Jenis Obat</th>
-            <th width="20%">Dosis</th>
-            <th width="25%">Kegunaan</th>
-            <th width="25%">Cara Pemberian</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php if (!empty($kebutuhan_obat)): ?>
-            <?php foreach ($kebutuhan_obat as $index => $obat): ?>
-                <tr>
-                    <td><?= $index + 1 ?></td>
-                    <td><?= p($obat['jenis_obat']) ?></td>
-                    <td><?= p($obat['dosis']) ?></td>
-                    <td><?= p($obat['kegunaan']) ?></td>
-                    <td><?= p($obat['cara_pemberian']) ?></td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="5" style="text-align:center">-</td>
-            </tr>
-        <?php endif; ?>
-    </tbody>
-</table>
 
 
  <div class="page-break"></div>

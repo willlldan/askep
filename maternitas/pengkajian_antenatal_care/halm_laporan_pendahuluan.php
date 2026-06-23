@@ -10,6 +10,7 @@ $rs_ruangan      = $submission['rs_ruangan']         ?? '';
 
 // Load existing dynamic rows
 $existing_daftar_pustaka = $existing_data['daftar_pustaka'] ?? [];
+$existing_perencanaan    = $existing_data['perencanaan']      ?? [];
 
 // =============================================
 // HANDLE POST - MAHASISWA SIMPAN DATA
@@ -31,8 +32,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             $daftar_pustaka[] = trim($item);
         }
     }
+    // Proses dynamic rows perencanaan
+    $perencanaan = [];
+    if (!empty($_POST['perencanaan'])) {
+        foreach ($_POST['perencanaan'] as $index => $row) {
+            if (empty($row['diagnosa']) && empty($row['tujuan_kriteria']) && empty($row['intervensi'])) {
+                continue;
+            }
+            $perencanaan[] = [
+                'diagnosa'        => $row['diagnosa']        ?? '',
+                'tujuan_kriteria' => $row['tujuan_kriteria'] ?? '',
+                'intervensi'      => $row['intervensi']      ?? '',
+            ];
+        }
+    }
+
 
     $data = [
+        'perencanaan'            => $perencanaan,
         // A. Konsep Dasar Medis
         'pengertian_anc'         => $_POST['pengertian_anc']         ?? '',
         'etiologi_anc'           => $_POST['etiologi_anc']           ?? '',
@@ -53,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'penatalaksanaan_medis'  => $_POST['penatalaksanaan_medis']  ?? '',
         // B. Konsep Dasar Keperawatan
         'pengkajian_keperawatan' => $_POST['pengkajian_keperawatan'] ?? '',
+        'diagnosa_keperawatan'         => $_POST['diagnosa_keperawatan']         ?? '',
         // C. Daftar Pustaka
         'daftar_pustaka'         => $daftar_pustaka,
     ];
@@ -290,9 +308,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <?= $ro ?>><?= val('pengkajian_keperawatan', $existing_data) ?></textarea>
                         </div>
                     </div>
+                       <div class="row mb-3">
+            <label class="col-sm-2 col-form-label"><strong>Diagnosa Keperawatan</strong></label>
+            <div class="col-sm-9">
+                <input type="text" name="diagnosa_keperawatan" class="form-control" 
+                    value="<?= val('diagnosa_keperawatan', $existing_data) ?>" <?= $ro ?>>
+            </div>
+        </div>
+
+        
+                    <!-- TABEL PERENCANAAN -->
+                    <p class="text-primary fw-bold mb-2">Intervensi</p>
+
+                    <table class="table table-bordered" id="tabel-perencanaan">
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="width:40px">No</th>
+                                <th class="text-center">Diagnosa</th>
+                                <th class="text-center">Tujuan dan Kriteria Hasil</th>
+                                <th class="text-center">Intervensi</th>
+                                <?php if (!$is_readonly): ?>
+                                    <th class="text-center" style="width:60px">Aksi</th>
+                                <?php endif; ?>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-perencanaan"></tbody>
+                    </table>
+
+                    <?php if (!$is_readonly): ?>
+                        <div class="row mb-4">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowPerencanaan()">+ Tambah Intervensi</button>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                 </div>
             </div>
+                </div>
+            </div>
+<style>
+    /* Memastikan tabel menggunakan lebar penuh */
+    #tabel-perencanaan {
+        width: 100%;
+        table-layout: fixed; /* Membuat kolom proporsional */
+    }
 
+    /* Membuat textarea memenuhi seluruh sel tabel dan terlihat luas */
+    #tabel-perencanaan textarea {
+        min-height: 80px; /* Tinggi minimum agar terlihat luas */
+        width: 100%;
+        resize: vertical; /* Pengguna bisa menarik manual jika perlu */
+    }
+</style>
             <!-- ===================== C. DAFTAR PUSTAKA ===================== -->
             <div class="card">
                 <div class="card-body">
@@ -321,50 +389,105 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 </div>
             </div>
 
-            <script>
-                let pustakCount = 0;
-                const isReadonly = <?= $is_readonly ? 'true' : 'false' ?>;
-                const existingDaftarPustaka = <?= json_encode($existing_daftar_pustaka) ?>;
+           <script>
+    let rowPerencanaanCount = 1;
+    let pustakCount = 0;
+    
+    // Konfigurasi dari PHP
+    const isReadonly = <?= $is_readonly ? 'true' : 'false' ?>;
+    const existingPerencanaan = <?= json_encode($existing_perencanaan ?? []) ?>;
+    const existingDaftarPustaka = <?= json_encode($existing_daftar_pustaka ?? []) ?>;
+    const existingData = <?= json_encode($existing_data ?? []) ?>;
 
-                function tambahPustaka(value = '') {
-                    const container = document.getElementById('list-pustaka');
-                    const index = pustakCount;
-                    const div = document.createElement('div');
+    // ---- PERENCANAAN ----
+    function tambahRowPerencanaan(data = null) {
+        const tbody = document.getElementById('tbody-perencanaan');
+        const index = rowPerencanaanCount;
+        const row = document.createElement('tr');
+        
+        const aksiCol = isReadonly ? '' : `
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>
+            </td>`;
 
-                    div.className = 'row mb-2 pustaka-item';
-                    div.innerHTML = isReadonly ?
-                        `<div class="col-sm-11 d-flex align-items-center gap-2">
-                            <span class="text-muted fw-bold" style="min-width:24px;">${index + 1}.</span>
-                            <input type="text" class="form-control" value="${value}" readonly>
-                        </div>` :
-                        `<div class="col-sm-11 d-flex align-items-center gap-2">
-                            <span class="text-muted fw-bold" style="min-width:24px;">${index + 1}.</span>
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="daftar_pustaka[]"
-                                    value="${value}" placeholder="Masukkan referensi pustaka...">
-                                <button type="button" class="btn btn-danger" onclick="hapusPustaka(this)">x</button>
-                            </div>
-                        </div>`;
+        row.innerHTML = `
+            <td class="text-center align-middle">${index}</td>
+            <td>
+                <textarea class="form-control form-control-sm" name="perencanaan[${index}][diagnosa]" rows="2" 
+                    style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                    ${isReadonly ? 'readonly' : ''}>${data?.diagnosa ?? ''}</textarea>
+            </td>
+            <td>
+                <textarea class="form-control form-control-sm" name="perencanaan[${index}][tujuan_kriteria]" rows="2" 
+                    style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                    ${isReadonly ? 'readonly' : ''}>${data?.tujuan_kriteria ?? ''}</textarea>
+            </td>
+            <td>
+                <textarea class="form-control form-control-sm" name="perencanaan[${index}][intervensi]" rows="2" 
+                    style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                    ${isReadonly ? 'readonly' : ''}>${data?.intervensi ?? ''}</textarea>
+            </td>
+            ${aksiCol}
+        `;
 
-                    container.appendChild(div);
-                    pustakCount++;
-                }
+        tbody.appendChild(row);
+        rowPerencanaanCount++;
+    }
 
-                function hapusPustaka(btn) {
-                    btn.closest('.pustaka-item').remove();
-                    document.querySelectorAll('.pustaka-item').forEach((item, i) => {
-                        item.querySelector('span.text-muted').textContent = (i + 1) + '.';
-                    });
-                }
+    function hapusRow(btn) {
+        btn.closest('tr').remove();
+    }
 
-                window.addEventListener('load', function () {
-                    if (existingDaftarPustaka && existingDaftarPustaka.length > 0) {
-                        existingDaftarPustaka.forEach(v => tambahPustaka(v));
-                    } else if (!isReadonly) {
-                        tambahPustaka();
-                    }
-                });
-            </script>
+    // ---- DAFTAR PUSTAKA ----
+    function tambahPustaka(value = '') {
+        const container = document.getElementById('list-pustaka');
+        const index = pustakCount;
+        const div = document.createElement('div');
+
+        div.className = 'row mb-2 pustaka-item';
+        div.innerHTML = isReadonly ?
+            `<div class="col-sm-11 d-flex align-items-center gap-2">
+                <span class="text-muted fw-bold" style="min-width:24px;">${index + 1}.</span>
+                <input type="text" class="form-control" value="${value}" readonly>
+            </div>` :
+            `<div class="col-sm-11 d-flex align-items-center gap-2">
+                <span class="text-muted fw-bold" style="min-width:24px;">${index + 1}.</span>
+                <div class="input-group">
+                    <input type="text" class="form-control" name="daftar_pustaka[]" value="${value}" placeholder="Masukkan referensi pustaka...">
+                    <button type="button" class="btn btn-danger" onclick="hapusPustaka(this)">x</button>
+                </div>
+            </div>`;
+
+        container.appendChild(div);
+        pustakCount++;
+    }
+
+    function hapusPustaka(btn) {
+        btn.closest('.pustaka-item').remove();
+        // Update penomoran ulang setelah ada yang dihapus
+        document.querySelectorAll('.pustaka-item').forEach((item, i) => {
+            item.querySelector('span.text-muted').textContent = (i + 1) + '.';
+        });
+        pustakCount = document.querySelectorAll('.pustaka-item').length;
+    }
+
+    // ---- LOAD DATA ----
+    window.addEventListener('load', function() {
+        // Load Perencanaan
+        if (existingPerencanaan && existingPerencanaan.length > 0) {
+            existingPerencanaan.forEach(row => tambahRowPerencanaan(row));
+        } else if (!isReadonly) {
+            tambahRowPerencanaan();
+        }
+
+        // Load Daftar Pustaka
+        if (existingDaftarPustaka && existingDaftarPustaka.length > 0) {
+            existingDaftarPustaka.forEach(v => tambahPustaka(v));
+        } else if (!isReadonly) {
+            tambahPustaka();
+        }
+    });
+</script>
 
         </form>
 

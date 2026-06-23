@@ -36,6 +36,20 @@
             }
         });
     }
+    function resizeInput(el) {
+    // Buat elemen pengukur sementara
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    const style = window.getComputedStyle(el);
+    context.font = style.font;
+    
+    // Hitung lebar teks
+    const textWidth = context.measureText(el.value || el.placeholder).width;
+    
+    // Set lebar input (tambah sedikit ruang/padding)
+    // Gunakan Math.max agar tidak terlalu kecil
+    el.style.width = Math.max(100, textWidth + 30) + 'px';
+}
 </script>
 
 <script>

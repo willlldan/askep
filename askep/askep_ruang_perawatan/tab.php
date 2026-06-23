@@ -6,9 +6,9 @@ $jeniskeperawatan = $parts[1] ?? 'askep_ruang_perawatan';
 $titles = [
     'askep_ruang_damar' => 'Askep Keperawatan Dasar Ruang Damar',
     'askep_ruang_angsana' => 'Askep Keperawatan Dasar Ruang Angsana',
-    'askep_ruang_dahlia' => 'Askep Keperawatan Dasar Ruang dahlia',
-    'askep_ruang_flamboyan' => 'Askep Keperawatan Dasar Ruang flamboyan',
-    'askep_ruang_perawatan' => 'Askep Keperawatan Dasar Ruang perawatan',
+    'askep_ruang_dahlia' => 'Askep Keperawatan Dasar Ruang Dahlia',
+    'askep_ruang_flamboyan' => 'Askep Keperawatan Dasar Ruang Flamboyan',
+    'askep_ruang_perawatan' => 'Askep Keperawatan Dasar Ruang Perawatan RSAL',
     
     
 ];
