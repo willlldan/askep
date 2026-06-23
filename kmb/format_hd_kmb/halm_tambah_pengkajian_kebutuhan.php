@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             ];
         }
     }
+
     $data = [
         'diagnosa'     => $diagnosa,
         'obat'         => $obat,
@@ -79,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         $submission_id = createSubmission($user_id, $form_id, null, null, $mysqli);
     } else {
         $submission_id = $submission['id'];
+        updateSubmissionHeader($submission_id, null, null, $mysqli);
     }
 
 
@@ -150,12 +152,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <div class="col-sm-2 col-form-label">
                                     <strong>Pola Kognitif dan Perceptual</strong>
                                 </div>
-                                <div class="col-sm-9">
-                                    <textarea name="kognitif" class="form-control" rows="1" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        <?= $ro ?>><?= val('kognitif', $existing_data) ?></textarea>
-
-
-                                </div>
+                                <div class="col-sm-10">
+                                    <textarea name="kognitif" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('kognitif',$existing_data) ?></textarea>
+                                    </div>
                         </div>
 
                     <div class="row mb-2">
@@ -165,12 +166,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <div class="col-sm-2 col-form-label">
                                     <strong>Pola Nutrisi</strong>
                                 </div>
-                                <div class="col-sm-9">
-                                    <textarea name="pola_nutrisi" class="form-control" rows="1" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        <?= $ro ?>><?= val('pola_nutrisi', $existing_data) ?></textarea>
-
-
-                                </div>
+                                <div class="col-sm-10">
+                                    <textarea name="pola_nutrisi" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('pola_nutrisi',$existing_data) ?></textarea>
+                                    </div>
                         </div>
 
                     <div class="row mb-2">
@@ -180,12 +180,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <div class="col-sm-2 col-form-label">
                                     <strong>Cairan</strong>
                                 </div>
-                                <div class="col-sm-9">
-                                    <textarea name="cairan" class="form-control" rows="1" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        <?= $ro ?>><?= val('cairan', $existing_data) ?></textarea>
-
-
-                                </div>
+                                <div class="col-sm-10">
+                                    <textarea name="cairan" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('cairan',$existing_data) ?></textarea>
+                                   </div>
                         </div>
 
 
@@ -196,12 +195,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <div class="col-sm-2 col-form-label">
                                     <strong>Pola Eliminasi BAB</strong>
                                 </div>
-                                <div class="col-sm-9">
-                                    <textarea name="bab" class="form-control" rows="1" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        <?= $ro ?>><?= val('bab', $existing_data) ?></textarea>
-
-
-                                </div>
+                                <div class="col-sm-10">
+                                    <textarea name="bab" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('bab',$existing_data) ?></textarea>
+                                    </div>
                         </div>
 
 
@@ -212,12 +210,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <div class="col-sm-2 col-form-label">
                                     <strong>Pola Eliminasi BAK</strong>
                                 </div>
-                                <div class="col-sm-9">
-                                    <textarea name="bak" class="form-control" rows="1" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        <?= $ro ?>><?= val('bak', $existing_data) ?></textarea>
-
-
-                                </div>
+                                <div class="col-sm-10">
+                                    <textarea name="bak" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('bak',$existing_data) ?></textarea>
+                                    </div>
                         </div>
 
 
@@ -228,12 +225,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <div class="col-sm-2 col-form-label">
                                     <strong>Pola Tidur</strong>
                                 </div>
-                                <div class="col-sm-9">
-                                    <textarea name="tidur" class="form-control" rows="1" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        <?= $ro ?>><?= val('tidur', $existing_data) ?></textarea>
-
-
-                                </div>
+                                <div class="col-sm-10">
+                                    <textarea name="tidur" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('tidur',$existing_data) ?></textarea>
+                                    </div>
                         </div>
 
 
@@ -245,12 +241,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <div class="col-sm-2 col-form-label">
                                     <strong>Pola Personal Hygiene</strong>
                                 </div>
-                                <div class="col-sm-9">
-                                    <textarea name="hygiene" class="form-control" rows="1" cols="30" style="display:block; overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        <?= $ro ?>><?= val('hygiene', $existing_data) ?></textarea>
-
-
-                                </div>
+                                <div class="col-sm-10">
+                                    <textarea name="hygiene" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('hygiene',$existing_data) ?></textarea>
+                                    </div>
                         </div>
                  
 
@@ -262,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <div class="col-sm-2 col-form-label">
                             <strong>Tanggal Pemeriksaan</strong>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="date" class="form-control" name="tanggal_pemeriksaan" value="<?= val('tanggal_pemeriksaan', $existing_data) ?>" <?= $ro ?>>
 
                         </div>
@@ -298,20 +293,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <div class="col-sm-2 col-form-label">
                             <strong>2) Radiologi (Tgl Pemeriksaan & Hasil)</strong>
                         </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="radiologi" value="<?= val('radiologi', $existing_data) ?>" <?= $ro ?>>
-
-                        </div>
+                        <div class="col-sm-10">
+                            <textarea name="radiologi" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('radiologi',$existing_data) ?></textarea>
+                            </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-sm-2 col-form-label">
                             <strong>3) Lainnya (USG, CT Scan, dll)</strong>
                         </div>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="data_penunjang_lain" value="<?= val('data_penunjang_lain', $existing_data) ?>" <?= $ro ?>>
-
-                        </div>
+                        <div class="col-sm-10">
+                            <textarea name="data_penunjang_lain" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('data_penunjang_lain',$existing_data) ?></textarea>
+                             </div>
                     </div>
 
                     <p class="text-primary fw-bold mb-2">4) Terapi/Obat</p>
@@ -332,20 +329,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         </tbody>
                     </table>
 
-                    <?php if (!$is_readonly): ?>
+           <?php if (!$is_readonly): ?>
                         <div class="row mb-4">
                             <div class="col-sm-12 d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary btn-sm" onclick="tambahRowObat()">+ Tambah Terapi/Obat</button>
                             </div>
                         </div>
                     <?php endif; ?>
-                </div>
+            
 
-        </div>
+
         <!-- TOMBOL SUBMIT -->
         <?php if (!$is_dosen): ?>
             <div class="row mb-3">
-                <div class="col-sm-11 d-flex justify-content-end">
+                <div class="col-sm-12 d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </div>
@@ -371,58 +368,89 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
 
         // ---- DIAGNOSA ----
+
+        function autoResizeTextarea(el) {
+        el.style.height = 'auto';
+        el.style.height = el.scrollHeight + 'px';
+        }
+
         function tambahRowDiagnosa(data = null) {
             const tbody = document.getElementById('tbody-diagnosa');
             const index = rowDiagnosaCount;
             const row = document.createElement('tr');
+            const isReadonly = <?= json_encode($is_readonly) ?>;
             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
                                 <td>
-                                    <textarea
-                                        class="form-control form-control-sm"
+                                    ${
+                                        isReadonly
+                                        ? `<div class="readonly-text">${data?.pemeriksaan ?? ''}</div>`
+                                        : `<textarea
+                                        class="form-control form-control-sm auto-resize"
                                         name="diagnosa[${index}][pemeriksaan]"
                                         rows="2"
                                         style="resize:none; overflow:hidden;"
-                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >${data?.pemeriksaan ?? ''}</textarea>
+                                        oninput="autoResizeTextarea(this)"
+                                        >${data?.pemeriksaan ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td>
-                                    <input
-                                        type="text"
-                                        class="form-control form-control-sm"
+                                    ${
+                                        isReadonly
+                                        ? `<div class="readonly-text">${data?.hasil ?? ''}</div>`
+                                        : `<textarea
+                                        class="form-control form-control-sm auto-resize"
                                         name="diagnosa[${index}][hasil]"
-                                        value="${data?.hasil ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
+                                        rows="2"
+                                        style="resize:none; overflow:hidden;"
+                                        oninput="autoResizeTextarea(this)"
+                                        >${data?.hasil ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td>
-                                    <input
-                                        type="text"
-                                        class="form-control form-control-sm"
+                                    ${
+                                        isReadonly
+                                        ? `<div class="readonly-text">${data?.satuan ?? ''}</div>`
+                                        : `<textarea
+                                        class="form-control form-control-sm auto-resize"
                                         name="diagnosa[${index}][satuan]"
-                                        value="${data?.satuan ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
+                                        rows="2"
+                                        style="resize:none; overflow:hidden;"
+                                        oninput="autoResizeTextarea(this)"
+                                        >${data?.satuan ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td>
-                                    <input
-                                        type="text"
-                                        class="form-control form-control-sm"
+                                    ${
+                                        isReadonly
+                                        ? `<div class="readonly-text">${data?.nilai ?? ''}</div>`
+                                        : `<textarea
+                                        class="form-control form-control-sm auto-resize"
                                         name="diagnosa[${index}][nilai]"
-                                        value="${data?.nilai ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
+                                        rows="2"
+                                        style="resize:none; overflow:hidden;"
+                                        oninput="autoResizeTextarea(this)"
+                                        >${data?.nilai ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td class="text-center align-middle">
                                     ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
                                 </td>
                             `;
             tbody.appendChild(row);
+
+            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+
             rowDiagnosaCount++;
         }
 
-        // ---- TERAPI / OBAT ----
+         // ---- TERAPI / OBAT ----
+
+        function autoResizeTextarea(el) {
+        el.style.height = 'auto';
+        el.style.height = el.scrollHeight + 'px';
+        }
+
         function tambahRowObat(data = null) {
             const tbody = document.getElementById('tbody-obat');
             const index = rowObatCount;
@@ -430,46 +458,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
                                 <td>
-                                    <input
-                                        type="text"
-                                        class="form-control form-control-sm"
+                                    ${
+                                        isReadonly
+                                        ? `<div class="readonly-text">${data?.jenis_obat ?? ''}</div>`
+                                        : `<textarea
+                                        class="form-control form-control-sm auto-resize"
                                         name="obat[${index}][jenis_obat]"
-                                        value="${data?.jenis_obat ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
+                                        rows="2"
+                                        style="resize:none; overflow:hidden;"
+                                        oninput="autoResizeTextarea(this)"
+                                        >${data?.jenis_obat ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td>
-                                    <input
-                                        type="text"
-                                        class="form-control form-control-sm"
+                                    ${
+                                        isReadonly
+                                        ? `<div class="readonly-text">${data?.dosis ?? ''}</div>`
+                                        : `<textarea
+                                        class="form-control form-control-sm auto-resize"
                                         name="obat[${index}][dosis]"
-                                        value="${data?.dosis ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
+                                        rows="2"
+                                        style="resize:none; overflow:hidden;"
+                                        oninput="autoResizeTextarea(this)"
+                                        >${data?.dosis ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td>
-                                    <input
-                                        type="text"
-                                        class="form-control form-control-sm"
+                                    ${
+                                        isReadonly
+                                        ? `<div class="readonly-text">${data?.kegunaan ?? ''}</div>`
+                                        : `<textarea
+                                        class="form-control form-control-sm auto-resize"
                                         name="obat[${index}][kegunaan]"
-                                        value="${data?.kegunaan ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
+                                        rows="2"
+                                        style="resize:none; overflow:hidden;"
+                                        oninput="autoResizeTextarea(this)"
+                                        >${data?.kegunaan ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td>
-                                    <input
-                                        type="text"
-                                        class="form-control form-control-sm"
+                                    ${
+                                        isReadonly
+                                        ? `<div class="readonly-text">${data?.cara_pemberian ?? ''}</div>`
+                                        : `<textarea
+                                        class="form-control form-control-sm auto-resize"
                                         name="obat[${index}][cara_pemberian]"
-                                        value="${data?.cara_pemberian ?? ''}"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >
+                                        rows="2"
+                                        style="resize:none; overflow:hidden;"
+                                        oninput="autoResizeTextarea(this)"
+                                        >${data?.cara_pemberian ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td class="text-center align-middle">
                                     ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
                                 </td>
                             `;
             tbody.appendChild(row);
+
+            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+            
             rowObatCount++;
         }
 
