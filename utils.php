@@ -485,19 +485,30 @@ function createNotification($recipient_id, $actor_id, $submission_id, $type, $me
  */
 function getUserNotifications($recipient_id, $mysqli, $limit = 5)
 {
+    // Pastikan limit adalah integer murni
     $limit = (int) $limit;
-    $stmt = $mysqli->prepare("
-        SELECT id, type, message, target_url, created_at, is_read
-        FROM user_notifications
-        WHERE recipient_id = ?
-        ORDER BY is_read ASC, created_at DESC, id DESC
-        LIMIT ?
-    ");
-    $stmt->bind_param("ii", $recipient_id, $limit);
-    $stmt->execute();
-    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-}
 
+    // Gunakan prepare dengan parameter yang diizinkan saja
+    // LIMIT dikonversi langsung ke string karena sudah di-cast ke int
+    $query = "SELECT id, type, message, target_url, created_at, is_read
+              FROM user_notifications
+              WHERE recipient_id = ?
+              ORDER BY is_read ASC, created_at DESC, id DESC
+              LIMIT " . $limit;
+
+    $stmt = $mysqli->prepare($query);
+
+    if (!$stmt) {
+        // Jika masih error, ini akan menampilkan penyebab pastinya
+        die("Query Error: " . $mysqli->error);
+    }
+
+    $stmt->bind_param("i", $recipient_id);
+    $stmt->execute();
+    
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+}
 /**
  * Hitung notifikasi belum dibaca.
  */
