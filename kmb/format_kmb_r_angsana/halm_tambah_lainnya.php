@@ -246,6 +246,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         const existingEvaluasi = <?= json_encode($existing_evaluasi) ?>;
 
                         // ---- DIAGNOSA ----
+
+                         function autoResizeTextarea(el) {
+                            el.style.height = 'auto';
+                            el.style.height = el.scrollHeight + 'px';
+                            }
+
                         function tambahRowDiagnosa(data = null) {
                             const tbody = document.getElementById('tbody-diagnosa');
                             const index = rowDiagnosaCount;
@@ -253,15 +259,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             const isReadonly = <?= json_encode($is_readonly) ?>;
                             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
-                                <td>
-                                    <textarea
-                                        class="form-control form-control-sm"
-                                        name="diagnosa[${index}][diagnosa]"
-                                        rows="2"
-                                        style="resize:none; overflow:hidden;"
-                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >${data?.diagnosa ?? ''}</textarea>
+                                 <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.diagnosa ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="diagnosa[${index}][diagnosa]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.diagnosa ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td>
                                     <input
@@ -286,6 +295,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 </td>
                             `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+
                             rowDiagnosaCount++;
                         }
 
@@ -297,41 +309,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             const isReadonly = <?= json_encode($is_readonly) ?>;
                             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
-                                <td>
-                                    <textarea
-                                        class="form-control form-control-sm"
-                                        name="rencana[${index}][diagnosa]"
-                                        rows="2"
-                                        style="resize:none; overflow:hidden;"
-                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >${data?.diagnosa ?? ''}</textarea>
+                                 <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.diagnosa ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="rencana[${index}][diagnosa]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.diagnosa ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td>
-                                    <textarea
-                                        class="form-control form-control-sm"
-                                        name="rencana[${index}][tujuan_kriteria]"
-                                        rows="2"
-                                        style="resize:none; overflow:hidden;"
-                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >${data?.tujuan_kriteria ?? ''}</textarea>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.tujuan_kriteria ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="rencana[${index}][tujuan_kriteria]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.tujuan_kriteria ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td>
-                                    <textarea
-                                        class="form-control form-control-sm"
-                                        name="rencana[${index}][rencana]"
-                                        rows="2"
-                                        style="resize:none; overflow:hidden;"
-                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >${data?.rencana ?? ''}</textarea>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.rencana ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="rencana[${index}][rencana]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.rencana ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td class="text-center align-middle">
                                     ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
                                 </td>
                             `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+
                             rowRencanaCount++;
                         }
 
@@ -370,20 +394,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                     >
                                 </td>
                                 <td>
-                                    <textarea
-                                        class="form-control form-control-sm"
-                                        name="implementasi[${index}][implementasi]"
-                                        rows="2"
-                                        style="resize:none; overflow:hidden;"
-                                        oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                        ${isReadonly ? 'readonly' : ''}
-                                    >${data?.implementasi ?? ''}</textarea>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.implementasi ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="implementasi[${index}][implementasi]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.implementasi ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td class="text-center align-middle">
                                     ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
                                 </td>
                             `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+                            
                             rowImplementasiCount++;
                         }
 
@@ -422,59 +452,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                     >
                                 </td>
                                 <td>
-                                <div class="mb-1 d-flex align-items-start gap-2">
-                                    <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">S</label>
-                                    <textarea
-                                    class="form-control form-control-sm"
-                                    name="evaluasi[${index}][evaluasi_s]"
-                                    rows="2"
-                                    style="resize:none; overflow:hidden;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                    ${isReadonly ? 'readonly' : ''}
-                                    >${data?.evaluasi_s ?? ''}</textarea>
-                                </div>
+                                    ${
+                                        isReadonly
+                                        ? `
+                                        <div class="mb-1 d-flex align-items-start gap-2">
+                                            <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">S</label>
+                                            <div class="readonly-text">${data?.evaluasi_s ?? ''}</div>
+                                        </div>
 
-                                <div class="mb-1 d-flex align-items-start gap-2">
-                                    <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">O</label>
-                                    <textarea
-                                    class="form-control form-control-sm"
-                                    name="evaluasi[${index}][evaluasi_o]"
-                                    rows="2"
-                                    style="resize:none; overflow:hidden;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                    ${isReadonly ? 'readonly' : ''}
-                                    >${data?.evaluasi_o ?? ''}</textarea>
-                                </div>
+                                        <div class="mb-1 d-flex align-items-start gap-2">
+                                            <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">O</label>
+                                            <div class="readonly-text">${data?.evaluasi_o ?? ''}</div>
+                                        </div>
 
-                                <div class="mb-1 d-flex align-items-start gap-2">
-                                    <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">A</label>
-                                    <textarea
-                                    class="form-control form-control-sm"
-                                    name="evaluasi[${index}][evaluasi_a]"
-                                    rows="2"
-                                    style="resize:none; overflow:hidden;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                    ${isReadonly ? 'readonly' : ''}
-                                    >${data?.evaluasi_a ?? ''}</textarea>
-                                </div>
+                                        <div class="mb-1 d-flex align-items-start gap-2">
+                                            <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">A</label>
+                                            <div class="readonly-text">${data?.evaluasi_a ?? ''}</div>
+                                        </div>
 
-                                <div class="d-flex align-items-start gap-2">
-                                    <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">P</label>
-                                    <textarea
-                                    class="form-control form-control-sm"
-                                    name="evaluasi[${index}][evaluasi_p]"
-                                    rows="2"
-                                    style="resize:none; overflow:hidden;"
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                    ${isReadonly ? 'readonly' : ''}
-                                    >${data?.evaluasi_p ?? ''}</textarea>
-                                </div>
+                                        <div class="d-flex align-items-start gap-2">
+                                            <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">P</label>
+                                            <div class="readonly-text">${data?.evaluasi_p ?? ''}</div>
+                                        </div>
+                                        `
+                                        : `
+                                        <div class="mb-1 d-flex align-items-start gap-2">
+                                            <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">S</label>
+                                            <textarea
+                                                class="form-control form-control-sm auto-resize"
+                                                name="evaluasi[${index}][evaluasi_s]"
+                                                rows="2"
+                                                style="resize:none; overflow:hidden;"
+                                                oninput="autoResizeTextarea(this)"
+                                            >${data?.evaluasi_s ?? ''}</textarea>
+                                        </div>
+
+                                        <div class="mb-1 d-flex align-items-start gap-2">
+                                            <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">O</label>
+                                            <textarea
+                                                class="form-control form-control-sm auto-resize"
+                                                name="evaluasi[${index}][evaluasi_o]"
+                                                rows="2"
+                                                style="resize:none; overflow:hidden;"
+                                                oninput="autoResizeTextarea(this)"
+                                            >${data?.evaluasi_o ?? ''}</textarea>
+                                        </div>
+
+                                        <div class="mb-1 d-flex align-items-start gap-2">
+                                            <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">A</label>
+                                            <textarea
+                                                class="form-control form-control-sm auto-resize"
+                                                name="evaluasi[${index}][evaluasi_a]"
+                                                rows="2"
+                                                style="resize:none; overflow:hidden;"
+                                                oninput="autoResizeTextarea(this)"
+                                            >${data?.evaluasi_a ?? ''}</textarea>
+                                        </div>
+
+                                        <div class="d-flex align-items-start gap-2">
+                                            <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">P</label>
+                                            <textarea
+                                                class="form-control form-control-sm auto-resize"
+                                                name="evaluasi[${index}][evaluasi_p]"
+                                                rows="2"
+                                                style="resize:none; overflow:hidden;"
+                                                oninput="autoResizeTextarea(this)"
+                                            >${data?.evaluasi_p ?? ''}</textarea>
+                                        </div>
+                                        `
+                                    }
                                 </td>
                                 <td class="text-center align-middle">
                                     ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
                                 </td>
                             `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+                            
                             rowEvaluasiCount++;
                         }
 

@@ -95,7 +95,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
         <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
-
+  <div class="card">
+                <div class="card-body">
                 <h5 class="card-title"><strong>Catatan KEPERAWATAN</strong></h5>
 
                 <form class="needs-validation" novalidate action="" method="POST">

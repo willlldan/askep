@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Nama (Inisial)</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="nama_klien"
                                 value="<?= htmlspecialchars($existing_data['nama_klien'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Tempat/Tgl Lahir/Umur</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="ttl_umur"
                                 value="<?= htmlspecialchars($existing_data['ttl_umur'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -131,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Jenis Kelamin</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <select class="form-control" name="jenis_kelamin" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Laki-laki" <?= ($existing_data['jenis_kelamin'] ?? '') === 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="status_perkawinan"
                                 value="<?= htmlspecialchars($existing_data['status_perkawinan'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -150,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Agama</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="agama"
                                 value="<?= htmlspecialchars($existing_data['agama'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pendidikan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pendidikan"
                                 value="<?= htmlspecialchars($existing_data['pendidikan'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -166,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pekerjaan"
                                 value="<?= htmlspecialchars($existing_data['pekerjaan'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -174,15 +174,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="alamat"
-                                value="<?= htmlspecialchars($existing_data['alamat'] ?? '') ?>" <?= $ro ?>>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="alamat" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('alamat',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Tanggal Masuk RS</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="date" class="form-control" name="tgl_masuk_rs"
                                 value="<?= htmlspecialchars($existing_data['tgl_masuk_rs'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -190,15 +191,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Diagnosa Medik</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="diagnosa_medik"
-                                value="<?= htmlspecialchars($existing_data['diagnosa_medik'] ?? '') ?>" <?= $ro ?>>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="diagnosa_medik" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('diagnosa_medik',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Golongan Darah</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="golongan_darah"
                                 value="<?= htmlspecialchars($existing_data['golongan_darah'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -206,7 +208,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>No Registrasi</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="no_registrasi"
                                 value="<?= htmlspecialchars($existing_data['no_registrasi'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -214,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Ruangan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="ruangan"
                                 value="<?= htmlspecialchars($existing_data['ruangan'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -226,7 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Nama (Inisial)</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pj_nama"
                                 value="<?= htmlspecialchars($existing_data['pj_nama'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -234,7 +236,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Tempat/Tgl Lahir/Umur</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pj_ttl_umur"
                                 value="<?= htmlspecialchars($existing_data['pj_ttl_umur'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -242,7 +244,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Jenis Kelamin</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <select class="form-control" name="pj_jenis_kelamin" <?= $ro_select ?>>
                                 <option value="">Pilih</option>
                                 <option value="Laki-laki" <?= ($existing_data['pj_jenis_kelamin'] ?? '') === 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
@@ -253,7 +255,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Hubungan dengan Klien</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pj_hubungan_klien"
                                 value="<?= htmlspecialchars($existing_data['pj_hubungan_klien'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -261,7 +263,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Agama</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pj_agama"
                                 value="<?= htmlspecialchars($existing_data['pj_agama'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -269,7 +271,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pendidikan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pj_pendidikan"
                                 value="<?= htmlspecialchars($existing_data['pj_pendidikan'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -277,7 +279,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pj_pekerjaan"
                                 value="<?= htmlspecialchars($existing_data['pj_pekerjaan'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -285,12 +287,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" rows="3" name="pj_alamat"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                <?= $ro ?>><?= htmlspecialchars($existing_data['pj_alamat'] ?? '') ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="pj_alamat" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('pj_alamat',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                 </div>
@@ -307,7 +308,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="nadi"
                                     value="<?= htmlspecialchars($existing_data['nadi'] ?? '') ?>" <?= $ro ?>>
@@ -318,7 +319,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pernafasan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="pernafasan"
                                     value="<?= htmlspecialchars($existing_data['pernafasan'] ?? '') ?>" <?= $ro ?>>
@@ -329,7 +330,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>TD (Tekanan Darah)</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="td"
                                     value="<?= htmlspecialchars($existing_data['td'] ?? '') ?>" <?= $ro ?>>
@@ -340,7 +341,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Suhu</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="suhu"
                                     value="<?= htmlspecialchars($existing_data['suhu'] ?? '') ?>" <?= $ro ?>>
@@ -355,7 +356,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Glasgow Coma Scale (GCS)</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-md-4 d-flex align-items-center">
                                     <label class="me-2"><strong>M</strong></label>
@@ -400,7 +401,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>BB Sebelum Sakit</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="bb_sebelum"
                                 value="<?= htmlspecialchars($existing_data['bb_sebelum'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -408,7 +409,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>BB Saat Sakit</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="bb_saat_sakit"
                                 value="<?= htmlspecialchars($existing_data['bb_saat_sakit'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -416,7 +417,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Lingkar Lengan Atas</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="lingkar_lengan"
                                 value="<?= htmlspecialchars($existing_data['lingkar_lengan'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -424,7 +425,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Tinggi Badan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="tinggi_badan"
                                 value="<?= htmlspecialchars($existing_data['tinggi_badan'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -432,7 +433,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Indeks Massa Tubuh (IMT)</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="imt"
                                 value="<?= htmlspecialchars($existing_data['imt'] ?? '') ?>" <?= $ro ?>>
                         </div>
@@ -448,58 +449,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>a. Alasan Masuk Rumah Sakit</strong></label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" rows="3" name="alasan_masuk_rs"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                <?= $ro ?>><?= htmlspecialchars($existing_data['alasan_masuk_rs'] ?? '') ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="alasan_masuk_rs" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('alasan_masuk_rs',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>b. Keluhan Utama</strong></label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" rows="3" name="keluhan_utama"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                <?= $ro ?>><?= htmlspecialchars($existing_data['keluhan_utama'] ?? '') ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="keluhan_utama" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('keluhan_utama',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>c. Riwayat Kesehatan Sekarang</strong></label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" rows="4" name="riwayat_keluhan_utama"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                <?= $ro ?>><?= htmlspecialchars($existing_data['riwayat_keluhan_utama'] ?? '') ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="riwayat_keluhan_utama" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('riwayat_keluhan_utama',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>d. Riwayat Kesehatan yang Lalu</strong></label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" rows="4" name="riwayat_kesehatan_lalu"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                <?= $ro ?>><?= htmlspecialchars($existing_data['riwayat_kesehatan_lalu'] ?? '') ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="riwayat_kesehatan_lalu" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('riwayat_kesehatan_lalu',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>e. Riwayat Kesehatan Keluarga</strong></label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" rows="4" name="riwayat_kesehatan_keluarga"
-                                style="overflow:hidden; resize:none;"
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                <?= $ro ?>><?= htmlspecialchars($existing_data['riwayat_kesehatan_keluarga'] ?? '') ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="riwayat_kesehatan_keluarga" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('riwayat_kesehatan_keluarga',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <!-- f. Genogram -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>f. Genogram</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <?php if (!empty($existing_genogram)): ?>
                                 <img src="<?= htmlspecialchars($existing_genogram) ?>"
                                     class="img-fluid rounded border mb-2"

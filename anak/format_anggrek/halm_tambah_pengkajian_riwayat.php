@@ -151,12 +151,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                 <!-- General Form Elements -->
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
-
-
-
-
-
-
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead class="text-center">
@@ -168,151 +162,143 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="text-center">1</td>
-                                    <td>BCG</td>
-                                    <td><input type="text" class="form-control" name="bcg_frekuensi" value="<?= val('bcg_frekuensi', $existing_data) ?>" <?= $ro ?>></td>
-                                    <td><input type="text" class="form-control" name="bcg_reaksi" value="<?= val('bcg_reaksi', $existing_data) ?>" <?= $ro ?>></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">2</td>
-                                    <td>DPT Hb Hib (I, II, III)</td>
-                                    <td><input type="text" class="form-control" name="dpt_frekuensi" value="<?= val('dpt_frekuensi', $existing_data) ?>" <?= $ro ?>></td>
-                                    <td><input type="text" class="form-control" name="dpt_reaksi" value="<?= val('dpt_reaksi', $existing_data) ?>" <?= $ro ?>></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">3</td>
-                                    <td>Polio (I, II, III, IV)</td>
-                                    <td><input type="text" class="form-control" name="polio_frekuensi" value="<?= val('polio_frekuensi', $existing_data) ?>" <?= $ro ?>></td>
-                                    <td><input type="text" class="form-control" name="polio_reaksi" value="<?= val('polio_reaksi', $existing_data) ?>" <?= $ro ?>></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">4</td>
-                                    <td>Campak</td>
-                                    <td><input type="text" class="form-control" name="campak_frekuensi" value="<?= val('campak_frekuensi', $existing_data) ?>" <?= $ro ?>></td>
-                                    <td><input type="text" class="form-control" name="campak_reaksi" value="<?= val('campak_reaksi', $existing_data) ?>" <?= $ro ?>></td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">5</td>
-                                    <td>Hepatitis</td>
-                                    <td><input type="text" class="form-control" name="hepatitis_frekuensi" value="<?= val('hepatitis_frekuensi', $existing_data) ?>" <?= $ro ?>></td>
-                                    <td><input type="text" class="form-control" name="hepatitis_reaksi" value="<?= val('hepatitis_reaksi', $existing_data) ?>" <?= $ro ?>></td>
-                                </tr>
+                               <tr>
+    <td class="text-center align-middle">1</td>
+    <td>BCG</td>
+    <td><textarea class="form-control form-control-sm" name="bcg_frekuensi" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('bcg_frekuensi', $existing_data) ?></textarea></td>
+    <td><textarea class="form-control form-control-sm" name="bcg_reaksi" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('bcg_reaksi', $existing_data) ?></textarea></td>
+</tr>
+<tr>
+    <td class="text-center align-middle">2</td>
+    <td>DPT Hb Hib (I, II, III)</td>
+    <td><textarea class="form-control form-control-sm" name="dpt_frekuensi" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('dpt_frekuensi', $existing_data) ?></textarea></td>
+    <td><textarea class="form-control form-control-sm" name="dpt_reaksi" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('dpt_reaksi', $existing_data) ?></textarea></td>
+</tr>
+<tr>
+    <td class="text-center align-middle">3</td>
+    <td>Polio (I, II, III, IV)</td>
+    <td><textarea class="form-control form-control-sm" name="polio_frekuensi" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('polio_frekuensi', $existing_data) ?></textarea></td>
+    <td><textarea class="form-control form-control-sm" name="polio_reaksi" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('polio_reaksi', $existing_data) ?></textarea></td>
+</tr>
+<tr>
+    <td class="text-center align-middle">4</td>
+    <td>Campak</td>
+    <td><textarea class="form-control form-control-sm" name="campak_frekuensi" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('campak_frekuensi', $existing_data) ?></textarea></td>
+    <td><textarea class="form-control form-control-sm" name="campak_reaksi" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('campak_reaksi', $existing_data) ?></textarea></td>
+</tr>
+<tr>
+    <td class="text-center align-middle">5</td>
+    <td>Hepatitis</td>
+    <td><textarea class="form-control form-control-sm" name="hepatitis_frekuensi" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('hepatitis_frekuensi', $existing_data) ?></textarea></td>
+    <td><textarea class="form-control form-control-sm" name="hepatitis_reaksi" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('hepatitis_reaksi', $existing_data) ?></textarea></td>
+</tr>
                             </tbody>
                         </table>
                     </div>
-                    <!-- 8. RIWAYAT TUMBUH KEMBANG -->
-                    <div class="row mb-3">
-                        <label class="col-sm-12 col-form-label text-primary">
-                            <strong>8. Riwayat Tumbuh Kembang</strong>
-                        </label>
-                    </div>
-                    <div class="row mb-2">
-                        <label class="col-sm-12"><strong>Pertumbuhan Fisik</strong></label>
-                    </div>
+                   <!-- 8. RIWAYAT TUMBUH KEMBANG -->
+<div class="row mb-3">
+    <label class="col-sm-12 col-form-label text-primary"><strong>8. Riwayat Tumbuh Kembang</strong></label>
+</div>
+<div class="row mb-2"><label class="col-sm-12"><strong>Pertumbuhan Fisik</strong></label></div>
 
-                    <!-- Berat Badan -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Berat Badan (kg)</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="bb" value="<?= val('bb', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-                    </div>
+<!-- Berat Badan -->
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Berat Badan (kg)</strong></label>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="bb" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('bb', $existing_data) ?></textarea>
+    </div>
+</div>
 
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Tinggi Badan (cm)</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="tb" value="<?= val('tb', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-                    </div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Tinggi Badan (cm)</strong></label>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="tb" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('tb', $existing_data) ?></textarea>
+    </div>
+</div>
 
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Waktu Tumbuh Gigi</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="gigi" value="<?= val('gigi', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Gigi Tanggal</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="gigi_tanggal" value="<?= val('gigi_tanggal', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-                    </div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Waktu Tumbuh Gigi</strong></label>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="gigi" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('gigi', $existing_data) ?></textarea>
+    </div>
+</div>
 
-                    <div class="row mb-3 ">
-                        <label class="col-sm-2 col-form-label"><strong>Gigi Jumlah</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="gigi_jumlah" value="<?= val('gigi_jumlah', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-                        <!-- 9. RIWAYAT NUTRISI -->
-                        <div class="row mb-3">
-                            <label class="col-sm-12 col-form-label text-primary">
-                                <strong>9. Riwayat Nutrisi</strong>
-                            </label>
-                        </div>
-                        <!-- ASI -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Pemberian ASI sampai usia </strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="asi" value="<?= val('asi', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Gigi Tanggal</strong></label>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="gigi_tanggal" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('gigi_tanggal', $existing_data) ?></textarea>
+    </div>
+</div>
 
-                        <!-- Susu Formula -->
-                        <div class="row mb-2">
-                            <label class="col-sm-12"><strong>Pemberian Susu Formula</strong></label>
-                        </div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Gigi Jumlah</strong></label>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="gigi_jumlah" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('gigi_jumlah', $existing_data) ?></textarea>
+    </div>
+</div>
 
-                        <!-- Alasan -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Alasan pemberian</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="alasan_susu" value="<?= val('alasan_susu', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
+<!-- 9. RIWAYAT NUTRISI -->
+<div class="row mb-3">
+    <label class="col-sm-12 col-form-label text-primary"><strong>9. Riwayat Nutrisi</strong></label>
+</div>
+<!-- ASI -->
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Pemberian ASI sampai usia </strong></label>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="asi" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('asi', $existing_data) ?></textarea>
+    </div>
+</div>
 
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Jumlah pemberian sehari</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="jumlah_susu" value="<?= val('jumlah_susu', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
+<!-- Susu Formula -->
+<div class="row mb-2"><label class="col-sm-12"><strong>Pemberian Susu Formula</strong></label></div>
 
-                    </div>
-                    <!-- 10. RIWAYAT PSIKOSOSIAL -->
-                    <div class="row mb-3">
-                        <label class="col-sm-12 col-form-label text-primary">
-                            <strong>10. Riwayat Psikososial</strong>
-                        </label>
-                    </div>
+<!-- Alasan -->
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Alasan pemberian</strong></label>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="alasan_susu" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('alasan_susu', $existing_data) ?></textarea>
+    </div>
+</div>
 
-                    <!-- Anak tinggal -->
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Anak tinggal bersama</strong></label>
-                        <div class="col-sm-9 d-flex gap-2">
-                            <input type="text" class="form-control" name="tinggal_bersama" value="<?= val('tinggal_bersama', $existing_data) ?>" <?= $ro ?>>
-                            <span>di</span>
-                            <input type="text" class="form-control" name="tinggal_di" value="<?= val('tinggal_di', $existing_data) ?>" <?= $ro ?> style="min-width:150px;">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Rumah Dekat Dengan</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="rumah_dekat" value="<?= val('rumah_dekat', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Tempat Anak Bermain</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="tempat_bermain" value="<?= val('tempat_bermain', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-2 col-form-label"><strong>Kamar klien</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="kamar_klien" value="<?= val('kamar_klien', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-                    </div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Jumlah pemberian sehari</strong></label>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="jumlah_susu" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('jumlah_susu', $existing_data) ?></textarea>
+    </div>
+</div>
+
+<!-- 10. RIWAYAT PSIKOSOSIAL -->
+<div class="row mb-3">
+    <label class="col-sm-12 col-form-label text-primary"><strong>10. Riwayat Psikososial</strong></label>
+</div>
+
+<!-- Anak tinggal -->
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Anak tinggal bersama</strong></label>
+    <div class="col-sm-9 d-flex gap-2">
+        <textarea class="form-control" name="tinggal_bersama" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('tinggal_bersama', $existing_data) ?></textarea>
+        <span class="align-self-center">di</span>
+        <textarea class="form-control" name="tinggal_di" rows="1" style="overflow:hidden; resize:none; min-width:150px;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('tinggal_di', $existing_data) ?></textarea>
+    </div>
+</div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Rumah Dekat Dengan</strong></label>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="rumah_dekat" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('rumah_dekat', $existing_data) ?></textarea>
+    </div>
+</div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Tempat Anak Bermain</strong></label>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="tempat_bermain" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('tempat_bermain', $existing_data) ?></textarea>
+    </div>
+</div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Kamar klien</strong></label>
+    <div class="col-sm-9">
+        <textarea class="form-control" name="kamar_klien" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('kamar_klien', $existing_data) ?></textarea>
+    </div>
+</div>
 
 
                     <!-- 11. REAKSI HOSPITALISASI -->
@@ -376,313 +362,207 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             <strong>13. Aktivitas sehari-hari</strong>
                         </label>
                     </div>
-                    <div class="row mb-2">
-                        <label class="col-sm-12 text-primary">
-                            <strong>Nutrisi</strong>
-                        </label>
-                    </div>
+                <div class="row mb-2"><label class="col-sm-12 text-primary"><strong>Nutrisi</strong></label></div>
+<div class="row mb-4">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-bordered mb-0">
+                <thead class="table-light text-center">
+                    <tr>
+                        <th style="width:40%">Kondisi</th>
+                        <th style="width:30%">Sebelum Sakit</th>
+                        <th style="width:30%">Saat Sakit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $fields = [
+                        'Selera Makan' => ['selera_sebelum', 'selera_saat'],
+                        'Porsi Makan'  => ['porsi_sebelum', 'porsi_saat'],
+                        'Menu Makanan' => ['menu_sebelum', 'menu_saat']
+                    ];
+                    foreach ($fields as $label => $n) : ?>
+                    <tr>
+                        <td><strong><?= $label ?></strong></td>
+                        <td><textarea class="form-control" name="<?= $n[0] ?>" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($n[0], $existing_data) ?></textarea></td>
+                        <td><textarea class="form-control" name="<?= $n[1] ?>" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($n[1], $existing_data) ?></textarea></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-                    <div class="row mb-4">
-                        <div class="col-sm-12">
+<div class="row mb-2"><label class="col-sm-12 text-primary"><strong>Cairan</strong></label></div>
+<div class="row mb-4">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-bordered mb-0">
+                <thead class="table-light text-center">
+                    <tr>
+                        <th style="width:40%">Kondisi</th>
+                        <th style="width:30%">Sebelum Sakit</th>
+                        <th style="width:30%">Saat Sakit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $fields = [
+                        'Jenis Minuman'    => ['jenis_minum_sebelum', 'jenis_minum_saat'],
+                        'Frekuensi Minum'  => ['frekuensi_minum_sebelum', 'frekuensi_minum_saat'],
+                        'Kebutuhan Cairan' => ['kebutuhan_cairan_sebelum', 'kebutuhan_cairan_saat'],
+                        'Cara Pemenuhan'   => ['cara_cairan_sebelum', 'cara_cairan_saat']
+                    ];
+                    foreach ($fields as $label => $n) : ?>
+                    <tr>
+                        <td><strong><?= $label ?></strong></td>
+                        <td><textarea class="form-control" name="<?= $n[0] ?>" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($n[0], $existing_data) ?></textarea></td>
+                        <td><textarea class="form-control" name="<?= $n[1] ?>" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($n[1], $existing_data) ?></textarea></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-                            <div class="table-responsive">
-                                <table class="table table-bordered mb-0">
-                                    <thead class="table-light text-center">
-                                        <tr>
-                                            <th style="width:40%">Kondisi</th>
-                                            <th style="width:30%">Sebelum Sakit</th>
-                                            <th style="width:30%">Saat Sakit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>1. Selera Makan</strong></td>
-                                            <td><input type="text" class="form-control" name="selera_sebelum" value="<?= val('selera_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="selera_saat" value="<?= val('selera_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
+<div class="row mb-2"><label class="col-sm-12 text-primary"><strong>Eliminasi (BAK)</strong></label></div>
+<div class="row mb-4">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-bordered mb-0">
+                <thead class="table-light text-center">
+                    <tr>
+                        <th style="width:40%">Kondisi</th>
+                        <th style="width:30%">Sebelum Sakit</th>
+                        <th style="width:30%">Saat Sakit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $fields = [
+                        'Tempat'      => ['bak_tempat_sebelum', 'bak_tempat_saat'],
+                        'Frekuensi (Waktu)'   => ['bak_frekuensi_sebelum', 'bak_frekuensi_saat'],
+                        'Karakter'    => ['bak_karakteristik_sebelum', 'bak_karakteristik_saat'],
+                        
+                    ];
+                    foreach ($fields as $label => $n) : ?>
+                    <tr>
+                        <td><strong><?= $label ?></strong></td>
+                        <td><textarea class="form-control" name="<?= $n[0] ?>" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($n[0], $existing_data) ?></textarea></td>
+                        <td><textarea class="form-control" name="<?= $n[1] ?>" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($n[1], $existing_data) ?></textarea></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-                                        <tr>
-                                            <td><strong>2. Porsi Makan</strong></td>
-                                            <td><input type="text" class="form-control" name="porsi_sebelum" value="<?= val('porsi_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="porsi_saat" value="<?= val('porsi_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
+<div class="row mb-2"><label class="col-sm-12 text-primary"><strong>Eliminasi (BAB)</strong></label></div>
+<div class="row mb-4">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-bordered mb-0">
+                <thead class="table-light text-center">
+                    <tr>
+                        <th style="width:40%">Kondisi</th>
+                        <th style="width:30%">Sebelum Sakit</th>
+                        <th style="width:30%">Saat Sakit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $fields = [
 
-                                        <tr>
-                                            <td><strong>3. Menu Makanan</strong></td>
-                                            <td><input type="text" class="form-control" name="menu_sebelum" value="<?= val('menu_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="menu_saat" value="<?= val('menu_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        'Tempat'      => ['bab_tempat_sebelum', 'bab_tempat_saat'],
+                        'Frekuensi (Waktu)'   => ['bab_frekuensi_sebelum', 'bab_frekuensi_saat'],
+                        'Karakter'    => ['bab_karakteristik_sebelum', 'bab_karakteristik_saat']
+                    ];
+                    foreach ($fields as $label => $n) : ?>
+                    <tr>
+                        <td><strong><?= $label ?></strong></td>
+                        <td><textarea class="form-control" name="<?= $n[0] ?>" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($n[0], $existing_data) ?></textarea></td>
+                        <td><textarea class="form-control" name="<?= $n[1] ?>" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($n[1], $existing_data) ?></textarea></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <label class="col-sm-12 text-primary">
-                            <strong>Cairan</strong>
-                        </label>
-                    </div>
+<div class="row mb-2"><label class="col-sm-12 text-primary"><strong>Istirahat Tidur</strong></label></div>
+<div class="row mb-4">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Kondisi</th>
+                        <th>Sebelum Sakit</th>
+                        <th>Saat Ini</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    
 
-                    <div class="row mb-4">
-                        <div class="col-sm-12">
+                    rowHygiene(['1', 2], 'Jam Tidur - Siang', 'tidur_siang_sebelum', 'tidur_siang_sekarang', $existing_data, $ro);
+                    rowHygiene(null, 'Jam Tidur - Malam', 'tidur_malam_sebelum', 'tidur_malam_sekarang', $existing_data, $ro);
+                    rowHygiene(2, 'Kesulitan Tidur', 'kesulitan_tidur_sebelum', 'kesulitan_tidur_sekarang', $existing_data, $ro);
+                    rowHygiene(3, 'Kebiasaan Sebelum Tidur', 'kebiasaan_tidur_sebelum', 'kebiasaan_tidur_sekarang', $existing_data, $ro);
+                    rowHygiene(4, 'Pola Tidur', 'pola_tidur_sebelum', 'pola_tidur_sekarang', $existing_data, $ro);
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-                            <div class="table-responsive">
-                                <table class="table table-bordered mb-0">
-                                    <thead class="table-light text-center">
-                                        <tr>
-                                            <th style="width:40%">Kondisi</th>
-                                            <th style="width:30%">Sebelum Sakit</th>
-                                            <th style="width:30%">Saat Sakit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+<div class="row mb-2"><label class="col-sm-12 text-primary"><strong>Personal Hygiene</strong></label></div>
+<div class="row mb-4">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>No</th>
+                        <th>Kondisi</th>
+                        <th>Sebelum Sakit</th>
+                        <th>Saat Ini</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    function renderTextarea($name, $existing_data, $ro) {
+                        return "<textarea class='form-control' name='$name' rows='1' style='overflow:hidden; resize:none;' oninput='this.style.height=\"auto\"; this.style.height=this.scrollHeight+\"px\";' $ro>".val($name, $existing_data)."</textarea>";
+                    }
 
-                                        <tr>
-                                            <td><strong>1. Jenis Minuman</strong></td>
-                                            <td><input type="text" class="form-control" name="jenis_minum_sebelum" value="<?= val('jenis_minum_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="jenis_minum_saat" value="<?= val('jenis_minum_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
+                    function rowHygiene($no, $label, $n1, $n2, $existing_data, $ro) {
+                        $span = is_array($no) ? "rowspan='{$no[1]}'" : "";
+                        $num = is_array($no) ? $no[0] : $no;
+                        $displayNo = ($num !== null) ? "<td class='align-middle text-center' $span>$num</td>" : "";
+                        echo "<tr>$displayNo<td class='align-middle'><strong>$label</strong></td><td>".renderTextarea($n1, $existing_data, $ro)."</td><td>".renderTextarea($n2, $existing_data, $ro)."</td></tr>";
+                    }
+          
+                    rowHygiene(['1', 3], 'Mandi - Frekuensi', 'mandi_frekuensi_sebelum', 'mandi_frekuensi_sekarang', $existing_data, $ro);
+                    rowHygiene(null, 'Mandi - Cara', 'mandi_cara_sebelum', 'mandi_cara_sekarang', $existing_data, $ro);
+                    rowHygiene(null, 'Mandi - Alat Mandi', 'mandi_tempat_sebelum', 'mandi_tempat_sekarang', $existing_data, $ro);
+                    rowHygiene(['2', 2], 'Cuci Rambut - Frekuensi', 'rambut_frekuensi_sebelum', 'rambut_frekuensi_sekarang', $existing_data, $ro);
+                    rowHygiene(null, 'Cuci Rambut - Cara', 'rambut_cara_sebelum', 'rambut_cara_sekarang', $existing_data, $ro);
+                    rowHygiene(['3', 2], 'Gunting Kuku - Frekuensi', 'kuku_frekuensi_sebelum', 'kuku_frekuensi_sekarang', $existing_data, $ro);
+                    rowHygiene(null, 'Gunting Kuku - Cara', 'kuku_cara_sebelum', 'kuku_cara_sekarang', $existing_data, $ro);
+                    rowHygiene(['4', 2], 'Gosok Gigi - Frekuensi', 'gigi_frekuensi_sebelum', 'gigi_frekuensi_sekarang', $existing_data, $ro);
+                    rowHygiene(null, 'Gosok Gigi - Cara', 'gigi_cara_sebelum', 'gigi_cara_sekarang', $existing_data, $ro);
+                    ?>
+                </tbody>
+            </table>
+        </div>
+   
 
-                                        <tr>
-                                            <td><strong>2. Frekuensi Minum</strong></td>
-                                            <td><input type="text" class="form-control" name="frekuensi_minum_sebelum" value="<?= val('frekuensi_minum_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="frekuensi_minum_saat" value="<?= val('frekuensi_minum_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td><strong>3. Kebutuhan Cairan</strong></td>
-                                            <td><input type="text" class="form-control" name="kebutuhan_cairan_sebelum" value="<?= val('kebutuhan_cairan_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="kebutuhan_cairan_saat" value="<?= val('kebutuhan_cairan_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td><strong>4. Cara Pemenuhan</strong></td>
-                                            <td><input type="text" class="form-control" name="cara_cairan_sebelum" value="<?= val('cara_cairan_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="cara_cairan_saat" value="<?= val('cara_cairan_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <label class="col-sm-12 text-primary">
-                            <strong>Eliminasi (BAK)</strong>
-                        </label>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class="col-sm-12">
-
-                            <div class="table-responsive">
-                                <table class="table table-bordered mb-0">
-                                    <thead class="table-light text-center">
-                                        <tr>
-                                            <th style="width:40%">Kondisi</th>
-                                            <th style="width:30%">Sebelum Sakit</th>
-                                            <th style="width:30%">Saat Sakit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <tr>
-                                            <td><strong>1. Tempat Pembuangan</strong></td>
-                                            <td><input type="text" class="form-control" name="bak_tempat_sebelum" value="<?= val('bak_tempat_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="bak_tempat_saat" value="<?= val('bak_tempat_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td><strong>2. Frekuensi (Waktu)</strong></td>
-                                            <td><input type="text" class="form-control" name="bak_frekuensi_sebelum" value="<?= val('bak_frekuensi_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="bak_frekuensi_saat" value="<?= val('bak_frekuensi_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td><strong>3. Karakteristik</strong></td>
-                                            <td><input type="text" class="form-control" name="bak_karakteristik_sebelum" value="<?= val('bak_karakteristik_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="bak_karakteristik_saat" value="<?= val('bak_karakteristik_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="row mb-2">
-                        <label class="col-sm-12 text-primary">
-                            <strong>Eliminasi (BAB)</strong>
-                        </label>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class="col-sm-12">
-
-                            <div class="table-responsive">
-                                <table class="table table-bordered mb-0">
-                                    <thead class="table-light text-center">
-                                        <tr>
-                                            <th style="width:40%">Kondisi</th>
-                                            <th style="width:30%">Sebelum Sakit</th>
-                                            <th style="width:30%">Saat Sakit</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <tr>
-                                            <td><strong>1. Tempat Pembuangan</strong></td>
-                                            <td><input type="text" class="form-control" name="bab_tempat_sebelum" value="<?= val('bab_tempat_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="bab_tempat_saat" value="<?= val('bab_tempat_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td><strong>2. Frekuensi (Waktu)</strong></td>
-                                            <td><input type="text" class="form-control" name="bab_frekuensi_sebelum" value="<?= val('bab_frekuensi_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="bab_frekuensi_saat" value="<?= val('bab_frekuensi_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td><strong>3. Karakteristik</strong></td>
-                                            <td><input type="text" class="form-control" name="bab_karakteristik_sebelum" value="<?= val('bab_karakteristik_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="bab_karakteristik_saat" value="<?= val('bab_karakteristik_saat', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>Istirahat Tidur</strong></label>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class="col-sm-12">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover mb-0">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th><strong>No</strong></th>
-                                            <th><strong>Kondisi</strong></th>
-                                            <th><strong>Sebelum Sakit</strong></th>
-                                            <th><strong>Saat Ini</strong></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td rowspan="2">1</td>
-                                            <td><strong>Jam Tidur - Siang</strong></td>
-                                            <td><input type="text" class="form-control" name="tidur_siang_sebelum" value="<?= val('tidur_siang_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="tidur_siang_sekarang" value="<?= val('tidur_siang_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Jam Tidur - Malam</strong></td>
-                                            <td><input type="text" class="form-control" name="tidur_malam_sebelum" value="<?= val('tidur_malam_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="tidur_malam_sekarang" value="<?= val('tidur_malam_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>2</td>
-                                            <td><strong>Kesulitan Tidur</strong></td>
-                                            <td><input type="text" class="form-control" name="kesulitan_tidur_sebelum" value="<?= val('kesulitan_tidur_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="kesulitan_tidur_sekarang" value="<?= val('kesulitan_tidur_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>3</td>
-                                            <td><strong>Kebiasaan Sebelum Tidur</strong></td>
-                                            <td><input type="text" class="form-control" name="kebiasaan_tidur_sebelum" value="<?= val('kebiasaan_tidur_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="kebiasaan_tidur_sekarang" value="<?= val('kebiasaan_tidur_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>4</td>
-                                            <td><strong>Pola Tidur</strong></td>
-                                            <td><input type="text" class="form-control" name="pola_tidur_sebelum" value="<?= val('pola_tidur_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="pola_tidur_sekarang" value="<?= val('pola_tidur_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <label class="col-sm-12 text-primary"><strong>Pola Personal Hygiene</strong></label>
-                    </div>
-                    <div class="row mb-4">
-                        <div class="col-sm-12">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-hover mb-0">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th><strong>No</strong></th>
-                                            <th><strong>Kondisi</strong></th>
-                                            <th><strong>Sebelum Sakit</strong></th>
-                                            <th><strong>Saat Ini</strong></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td rowspan="3">1</td>
-                                            <td><strong>Mandi - Frekuensi</strong></td>
-                                            <td><input type="text" class="form-control" name="mandi_frekuensi_sebelum" value="<?= val('mandi_frekuensi_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="mandi_frekuensi_sekarang" value="<?= val('mandi_frekuensi_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Mandi - Cara</strong></td>
-                                            <td><input type="text" class="form-control" name="mandi_cara_sebelum" value="<?= val('mandi_cara_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="mandi_cara_sekarang" value="<?= val('mandi_cara_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Mandi - Alat Mandi</strong></td>
-                                            <td><input type="text" class="form-control" name="mandi_tempat_sebelum" value="<?= val('mandi_tempat_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="mandi_tempat_sekarang" value="<?= val('mandi_tempat_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="2">2</td>
-                                            <td><strong>Cuci Rambut - Frekuensi</strong></td>
-                                            <td><input type="text" class="form-control" name="rambut_frekuensi_sebelum" value="<?= val('rambut_frekuensi_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="rambut_frekuensi_sekarang" value="<?= val('rambut_frekuensi_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Cuci Rambut - Cara</strong></td>
-                                            <td><input type="text" class="form-control" name="rambut_cara_sebelum" value="<?= val('rambut_cara_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="rambut_cara_sekarang" value="<?= val('rambut_cara_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="2">3</td>
-                                            <td><strong>Gunting Kuku - Frekuensi</strong></td>
-                                            <td><input type="text" class="form-control" name="kuku_frekuensi_sebelum" value="<?= val('kuku_frekuensi_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="kuku_frekuensi_sekarang" value="<?= val('kuku_frekuensi_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Gunting Kuku - Cara</strong></td>
-                                            <td><input type="text" class="form-control" name="kuku_cara_sebelum" value="<?= val('kuku_cara_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="kuku_cara_sekarang" value="<?= val('kuku_cara_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td rowspan="2">4</td>
-                                            <td><strong>Gosok Gigi - Frekuensi</strong></td>
-                                            <td><input type="text" class="form-control" name="gigi_frekuensi_sebelum" value="<?= val('gigi_frekuensi_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="gigi_frekuensi_sekarang" value="<?= val('gigi_frekuensi_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Gosok Gigi - Cara</strong></td>
-                                            <td><input type="text" class="form-control" name="gigi_cara_sebelum" value="<?= val('gigi_cara_sebelum', $existing_data) ?>" <?= $ro ?>></td>
-                                            <td><input type="text" class="form-control" name="gigi_cara_sekarang" value="<?= val('gigi_cara_sekarang', $existing_data) ?>" <?= $ro ?>></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
 
                         </div>
                     </div>

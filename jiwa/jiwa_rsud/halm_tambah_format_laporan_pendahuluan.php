@@ -77,8 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
         <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
 
-        <div class="card">
-            <div class="card-body mt-3">
+        
 
                 <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
@@ -246,73 +245,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
 
                     <script>
-                        let rowEvaluasiCount = 1;
+    let rowEvaluasiCount = 1;
+    const existingEvaluasi = <?= json_encode($existing_evaluasi) ?>;
+    const isReadonly = <?= json_encode($is_readonly) ?>;
 
-                        const existingEvaluasi = <?= json_encode($existing_evaluasi) ?>;
+    // Helper untuk auto-resize textarea
+    function autoResize(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
 
-                        // ---- EVALUASI ----
-                        function tambahRowEvaluasi(data = null) {
-                            const tbody = document.getElementById('tbody-evaluasi');
-                            const index = rowEvaluasiCount;
-                            const row = document.createElement('tr');
-                            const isReadonly = <?= json_encode($is_readonly) ?>;
+    // ---- EVALUASI ----
+    function tambahRowEvaluasi(data = null) {
+        const tbody = document.getElementById('tbody-evaluasi');
+        const index = rowEvaluasiCount;
+        const row = document.createElement('tr');
 
-                            row.innerHTML = `
+        row.innerHTML = `
             <td class="col-6">
-                <input type="text" class="form-control form-control-sm" name="evaluasi[${index}][masalah]" value="${data?.masalah ?? ''}" ${isReadonly ? 'readonly' : ''}>
+                <textarea class="form-control form-control-sm" name="evaluasi[${index}][masalah]" rows="1" style="overflow:hidden; resize:none;" oninput="autoResize(this)" ${isReadonly ? 'readonly' : ''}>${data?.masalah ?? ''}</textarea>
             </td>
-
             <td class="col-6">
                 <div class="d-flex flex-column">
-                    <!-- Evaluasi Subjektif -->
                     <div class="mb-1 d-flex align-items-start gap-2">
                         <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">S</label>
-                        <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            name="evaluasi[${index}][data_dikaji_subjektif]"
-                            value="${data?.data_dikaji_subjektif ?? ''}"
-                            ${isReadonly ? 'readonly' : ''}
-                        >
+                        <textarea class="form-control form-control-sm" name="evaluasi[${index}][data_dikaji_subjektif]" rows="1" style="overflow:hidden; resize:none;" oninput="autoResize(this)" ${isReadonly ? 'readonly' : ''}>${data?.data_dikaji_subjektif ?? ''}</textarea>
                     </div>
-
-                    <!-- Evaluasi Objektif -->
                     <div class="mb-1 d-flex align-items-start gap-2">
                         <label class="form-label form-label-sm fw-bold mb-0" style="width:20px;">O</label>
-                        <input
-                            type="text"
-                            class="form-control form-control-sm"
-                            name="evaluasi[${index}][data_dikaji_objektif]"
-                            value="${data?.data_dikaji_objektif ?? ''}"
-                            ${isReadonly ? 'readonly' : ''}
-                        >
+                        <textarea class="form-control form-control-sm" name="evaluasi[${index}][data_dikaji_objektif]" rows="1" style="overflow:hidden; resize:none;" oninput="autoResize(this)" ${isReadonly ? 'readonly' : ''}>${data?.data_dikaji_objektif ?? ''}</textarea>
                     </div>
                 </div>
             </td>
-
             <td class="text-center align-middle">
                 ${!isReadonly ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}
             </td>
         `;
-                            tbody.appendChild(row);
-                            rowEvaluasiCount++;
-                        }
+        tbody.appendChild(row);
+        
+        // Panggil autoResize untuk textarea yang baru dibuat jika ada nilai awal
+        const textareas = row.querySelectorAll('textarea');
+        textareas.forEach(ta => autoResize(ta));
+        
+        rowEvaluasiCount++;
+    }
 
-                        function hapusRow(btn) {
-                            btn.closest('tr').remove();
-                        }
+    function hapusRow(btn) {
+        btn.closest('tr').remove();
+    }
 
-                        // Load existing rows on page load
-                        window.addEventListener('load', function() {
-                            if (existingEvaluasi && existingEvaluasi.length > 0) {
-                                existingEvaluasi.forEach(row => tambahRowEvaluasi(row));
-                            } else {
-                                tambahRowEvaluasi();
-                            }
-                        });
+    // Load existing rows on page load
+    window.addEventListener('load', function() {
+        if (existingEvaluasi && existingEvaluasi.length > 0) {
+            existingEvaluasi.forEach(row => tambahRowEvaluasi(row));
+        } else {
+            tambahRowEvaluasi();
+        }
+    });
 
-                        const existingData = <?= json_encode($existing_data) ?>;
-                    </script>
+    const existingData = <?= json_encode($existing_data) ?>;
+</script>
                     </div>
         </div>
         

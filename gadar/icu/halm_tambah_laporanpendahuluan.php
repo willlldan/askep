@@ -261,21 +261,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         </div>
 
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label"><strong>Penyimpangan KDM</strong></label>
-            <div class="col-sm-9">
-                <input type="text" name="link_penyimpangan" class="form-control" 
-                    placeholder="Tempel link file Google Drive di sini"
-                    value="<?= val('link_penyimpangan', $existing_data) ?>" <?= $ro ?>>
-            </div>
-        </div>
-        <div class="row mb-3">
-            <label class="col-sm-2 col-form-label"><strong>Diagnosa Keperawatan</strong></label>
-            <div class="col-sm-9">
-                <input type="text" name="diagnosa_keperawatan" class="form-control" 
-                    value="<?= val('diagnosa_keperawatan', $existing_data) ?>" <?= $ro ?>>
-            </div>
-        </div>
+    <label class="col-sm-2 col-form-label"><strong>Penyimpangan KDM</strong></label>
+    <div class="col-sm-9">
+        <textarea name="link_penyimpangan" class="form-control" rows="3" 
+            placeholder="Tempel link file Google Drive di sini" 
+            style="overflow:hidden; resize:none;" 
+            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+            <?= $ro ?>><?= val('link_penyimpangan', $existing_data) ?></textarea>
+    </div>
+</div>
 
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Diagnosa Keperawatan</strong></label>
+    <div class="col-sm-9">
+        <textarea name="diagnosa_keperawatan" class="form-control" rows="3" 
+            style="overflow:hidden; resize:none;" 
+            oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+            <?= $ro ?>><?= val('diagnosa_keperawatan', $existing_data) ?></textarea>
+    </div>
+</div>
         
                     <!-- TABEL PERENCANAAN -->
                     <p class="text-primary fw-bold mb-2">Intervensi</p>

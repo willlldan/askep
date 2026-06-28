@@ -385,9 +385,12 @@ $data = [
                 <span class="d-block text-danger" style="font-size: 0.75rem;">
                     *Apabila ada, sebutkan:
                 </span>
-                <input type="text" class="form-control form-control-sm" name="detail_jalannafas" 
-                    placeholder="Sebutkan..." value="<?= val('detail_jalannafas', $existing_data) ?>" <?= $ro ?>>
-            </div>
+               <textarea name="detail_jalannafas" class="form-control form-control-sm" rows="3" 
+    placeholder="Sebutkan..." 
+    style="overflow:hidden; resize:none;" 
+    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+    <?= $ro ?>><?= val('detail_jalannafas', $existing_data) ?></textarea>
+</div>
         </div>
 
         <div class="form-check form-check-inline">
@@ -400,11 +403,12 @@ $data = [
 <div class="row mb-3">
     <label class="col-sm-2 col-form-label"><strong>ETT/Trakeostomi</strong></label>
     <div class="col-sm-10">
-        <input type="text" 
-               class="form-control" 
-               name="ett" 
-               value="<?= htmlspecialchars(val('ett', $existing_data)) ?>" 
-               <?= $ro ?>>
+        <textarea name="ett" 
+                  class="form-control" 
+                  rows="1" 
+                  style="overflow:hidden; resize:none;" 
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                  <?= $ro ?>><?= htmlspecialchars(val('ett', $existing_data)) ?></textarea>
     </div>
 </div>
 

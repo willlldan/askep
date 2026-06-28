@@ -91,44 +91,57 @@ $comments = $submission ? getSectionComments($submission['id'], $section_name, $
                         <label class="col-sm-12 text-primary"><strong>Resusitasi</strong></label>
                     </div>
 
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong>Resusitasi</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="resusitasi"
-                                value="<?= ed('resusitasi', $existing_data) ?>"
-                                placeholder="Jenis resusitasi yang dilakukan" <?= $ro ?>>
-                        </div>
-                    </div>
-
-                    <div class="row mb-2 mt-3">
-                        <label class="col-sm-12 text-primary"><strong>Obat-obatan</strong></label>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong>Vitamin K</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="vitamin_k"
-                                value="<?= ed('vitamin_k', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong>Salep Mata</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="salep_mata"
-                                value="<?= ed('salep_mata', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong>Pemberian O2</strong></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" name="o2"
-                                value="<?= ed('o2', $existing_data) ?>" <?= $ro ?>>
-                        </div>
-                    </div>
-                </div>
+              
+        <!-- Resusitasi -->
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label"><strong>Resusitasi</strong></label>
+            <div class="col-sm-9">
+                <textarea class="form-control" name="resusitasi" rows="1" 
+                    placeholder="Jenis resusitasi yang dilakukan"
+                    style="overflow:hidden; resize:none;" 
+                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                    <?= $ro ?>><?= ed('resusitasi', $existing_data) ?></textarea>
             </div>
+        </div>
+
+        <div class="row mb-2 mt-3">
+            <label class="col-sm-12 text-primary"><strong>Obat-obatan</strong></label>
+        </div>
+
+        <!-- Vitamin K -->
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label"><strong>Vitamin K</strong></label>
+            <div class="col-sm-9">
+                <textarea class="form-control" name="vitamin_k" rows="1" 
+                    style="overflow:hidden; resize:none;" 
+                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                    <?= $ro ?>><?= ed('vitamin_k', $existing_data) ?></textarea>
+            </div>
+        </div>
+
+        <!-- Salep Mata -->
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label"><strong>Salep Mata</strong></label>
+            <div class="col-sm-9">
+                <textarea class="form-control" name="salep_mata" rows="1" 
+                    style="overflow:hidden; resize:none;" 
+                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                    <?= $ro ?>><?= ed('salep_mata', $existing_data) ?></textarea>
+            </div>
+        </div>
+
+        <!-- Pemberian O2 -->
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label"><strong>Pemberian O2</strong></label>
+            <div class="col-sm-9">
+                <textarea class="form-control" name="o2" rows="1" 
+                    style="overflow:hidden; resize:none;" 
+                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                    <?= $ro ?>><?= ed('o2', $existing_data) ?></textarea>
+            </div>
+        </div>
+    </div>
+</div>
 
             <!-- ===================== PERNAPASAN ===================== -->
             <div class="card">

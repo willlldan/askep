@@ -469,7 +469,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <label class="col-sm-3 col-form-label"><strong>5. Hasil yang diperoleh</strong></label>
 
                         <!-- ===================== TABEL Pemeriksaan===================== -->
-                        <p class="text-primary fw-bold mb-2"></p>
                         <table class="table table-bordered" id="tabel-Pemeriksaan">
                             <thead>
                                 <tr>
