@@ -132,6 +132,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         const existingAnalisa     = <?= json_encode($existing_analisa) ?>;
                         const isReadonly = <?= json_encode($is_readonly) ?>;
                         // ---- KLASIFIKASI DATA ----
+
+                         function autoResizeTextarea(el) {
+                        el.style.height = 'auto';
+                        el.style.height = el.scrollHeight + 'px';
+                        }
+
                         function tambahRowKlasifikasi(data = null) {
                             const tbody = document.getElementById('tbody-klasifikasi');
                             const index = rowKlasifikasiCount;
@@ -139,39 +145,101 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
                                 <td>
-                                    <textarea class="form-control form-control-sm" name="klasifikasi[${index}][ds]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.ds ?? ''}</textarea>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.ds ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="klasifikasi[${index}][ds]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.ds ?? ''}</textarea>`
+                                    }
                                 </td>
-                                <td>
-                                    <textarea class="form-control form-control-sm" name="klasifikasi[${index}][do]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.do ?? ''}</textarea>
+                                 <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.do ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="klasifikasi[${index}][do]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.do ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td class="text-center align-middle">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
                                 </td>
                             `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+
                             rowKlasifikasiCount++;
                         }
                         // ---- ANALISA DATA ----
+
+                         function autoResizeTextarea(el) {
+                        el.style.height = 'auto';
+                        el.style.height = el.scrollHeight + 'px';
+                        }
+
                         function tambahRowAnalisa(data = null) {
                             const tbody = document.getElementById('tbody-analisa');
                             const index = rowAnalisaCount;
                             const row   = document.createElement('tr');
                             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
-                                <td>
-                                    <textarea class="form-control form-control-sm" name="analisa[${index}][ds_do]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.ds_do ?? ''}</textarea>
+                                 <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.ds_do ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="analisa[${index}][ds_do]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.ds_do ?? ''}</textarea>`
+                                    }
                                 </td>
-                                <td>
-                                    <textarea class="form-control form-control-sm" name="analisa[${index}][etiologi]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.etiologi ?? ''}</textarea>
+                                 <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.etiologi ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="analisa[${index}][etiologi]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.etiologi ?? ''}</textarea>`
+                                    }
                                 </td>
-                                <td>
-                                    <textarea class="form-control form-control-sm" name="analisa[${index}][masalah]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.masalah ?? ''}</textarea>
+                                 <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.masalah ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="analisa[${index}][masalah]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.masalah ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td class="text-center align-middle">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
                                 </td>
                             `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+                            
                             rowAnalisaCount++;
                         }
                         function hapusRow(btn) {

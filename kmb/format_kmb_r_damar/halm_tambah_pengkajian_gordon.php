@@ -170,46 +170,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- 1 -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>1. Merokok / Alkohol?</strong></label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" rows="3" name="merokok" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['merokok'] ?? '') ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="merokok" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('merokok',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <!-- 2 -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>2. Pemeriksaan kesehatan rutin?</strong></label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" rows="3" name="pemeriksaan_rutin" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['pemeriksaan_rutin'] ?? '') ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="pemeriksaan_rutin" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('pemeriksaan_rutin',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <!-- 3 -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>3. Pendapat pasien tentang keadaan kesehatannya saat ini</strong></label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" rows="4" name="pendapat_kesehatan" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['pendapat_kesehatan'] ?? '') ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="pendapat_kesehatan" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('pendapat_kesehatan',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <!-- 4 -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>4. Persepsi pasien tentang berat ringannya penyakit</strong></label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" rows="4" name="persepsi_penyakit" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['persepsi_penyakit'] ?? '') ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="persepsi_penyakit" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('persepsi_penyakit',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <!-- 5 -->
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>5. Persepsi tentang tingkat kesembuhan</strong></label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" rows="3" name="tingkat_kesembuhan" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data['tingkat_kesembuhan'] ?? '') ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="tingkat_kesembuhan" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('tingkat_kesembuhan',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <!-- B POLA AKTIVITAS -->
@@ -219,26 +224,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>1. Rutinitas mandi</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <small class="form-text" style="color:red;">kapan, bagaimana, dimana, sabun yang digunakan</small>
-                            <input class="form-control" name="rutinitas_mandi" <?= $ro ?> value="<?= htmlspecialchars($existing_data['rutinitas_mandi'] ?? '') ?>">
-                        </div>
+                            <textarea name="rutinitas_mandi" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('rutinitas_mandi',$existing_data) ?></textarea>
+                            </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>2. Kebersihan sehari-hari</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <small class="form-text" style="color:red;">pakaian dll</small>
-                            <input class="form-control" name="kebersihan" <?= $ro ?> value="<?= htmlspecialchars($existing_data['kebersihan'] ?? '') ?>">
-                        </div>
+                            <textarea name="kebersihan" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('kebersihan',$existing_data) ?></textarea>
+                            </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>3. Aktivitas sehari-hari</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <small class="form-text" style="color:red;">jenis pekerjaan, lamanya, dll</small>
-                            <input class="form-control" name="aktivitas" <?= $ro ?> value="<?= htmlspecialchars($existing_data['aktivitas'] ?? '') ?>">
-                        </div>
+                            <textarea name="aktivitas" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('aktivitas',$existing_data) ?></textarea>
+                            </div>
                     </div>
 
                     <!-- TABEL KEMAMPUAN PERAWATAN DIRI -->
@@ -292,11 +303,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             <label class="col-sm-2 col-form-label">
                                 <strong>1. Nyeri (kualitas, intensitas, durasi, skala nyeri, cara mengurangi nyeri)</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="4" cols="30" name="nyeri" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["nyeri"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                            <textarea name="nyeri" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('nyeri',$existing_data) ?></textarea>    
+                                </div>
                         </div>
 
 
@@ -304,33 +315,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             <label class="col-sm-2 col-form-label">
                                 <strong>2. Fungsi panca indra (penglihatan, pendengaran, pengecapan, penghidu, perasa) menggunakan alat bantu?</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="7" cols="30" name="panca_indra" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["panca_indra"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="panca_indra" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('panca_indra',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>3. Kemampuan berbicara</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="2" cols="30" name="berbicara" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["berbicara"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                            <textarea name="berbicara" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('berbicara',$existing_data) ?></textarea>    
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>4. Kemampuan membaca</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="2" cols="30" name="membaca" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["membaca"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="membaca" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('membaca',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
 
@@ -341,47 +352,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             <label class="col-sm-2 col-form-label">
                                 <strong>1. Bagaimana klien memandang dirinya</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="3" cols="30" name="konsep_diri" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["konsep_diri"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="konsep_diri" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('konsep_diri',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>2. Hal-hal yang disukai klien mengenai dirinya</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="3" cols="30" name="hal_disukai" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["hal_disukai"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="hal_disukai" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('hal_disukai',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>3. Apakah klien dapat mengidentifikasi kekuatan dan kelemahan dirinya</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="6" cols="30" name="kekuatan_kelemahan" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["kekuatan_kelemahan"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="kekuatan_kelemahan" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('kekuatan_kelemahan',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>4. Hal-hal yang dapat dilakukan klien secara baik</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="3" cols="30" name="kemampuan_baik" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["kemampuan_baik"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="kemampuan_baik" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('kemampuan_baik',$existing_data) ?></textarea>
+                                </div>
                         </div>
-
-
 
                         <div class="row mb-2">
                             <label class="col-sm-12 text-primary"><strong>e. Pola Koping</strong></label>
@@ -390,54 +399,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             <label class="col-sm-2 col-form-label">
                                 <strong>1. Masalah utama selama masuk RS (keuangan, dll)</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="3" cols="30" name="masalah_rs" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["masalah_rs"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="masalah_rs" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('masalah_rs',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>2. Kehilangan atau perubahan yang terjadi sebelumnya</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="4" cols="30" name="kehilangan" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["kehilangan"] ?? "") ?></textarea>
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="kehilangan" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('kehilangan',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>3. Takut terhadap kekerasan</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="2" cols="30" name="takut_kekerasan" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["takut_kekerasan"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="takut_kekerasan" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('takut_kekerasan',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>4. Pandangan terhadap masa depan</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="3" cols="30" name="masa_depan" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["masa_depan"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="masa_depan" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('masa_depan',$existing_data) ?></textarea>
+                               </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>5. Mekanisme koping saat menghadapi masalah</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="4" cols="30" name="mekanisme_koping" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["mekanisme_koping"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="mekanisme_koping" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('mekanisme_koping',$existing_data) ?></textarea>
+                                </div>
                         </div>
                         <div class="row mb-2">
                             <label class="col-sm-12 text-primary"><strong>f. Pola Seksual - Reproduksi</strong></label>
@@ -447,55 +457,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             <label class="col-sm-2 col-form-label">
                                 <strong>1. Masalah menstruasi</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="2" cols="30" name="masalah_menstruasi" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["masalah_menstruasi"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="masalah_menstruasi" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('masalah_menstruasi',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>2. Papsmear terakhir</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="2" cols="30" name="papsmear" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["papsmear"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="papsmear" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('papsmear',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>3. Perawatan payudara setiap bulan</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="3" cols="30" name="perawatan_payudara" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["perawatan_payudara"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="perawatan_payudara" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('perawatan_payudara',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>4. Apakah ada kesukaran dalam berhubungan seksual</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="4" cols="30" name="kesulitan_seksual" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["kesulitan_seksual"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="kesulitan_seksual" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('kesulitan_seksual',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>5. Apakah penyakit sekarang mengganggu fungsi seksual</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="5" cols="30" name="gangguan_seksual" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["gangguan_seksual"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="gangguan_seksual" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('gangguan_seksual',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-2">
@@ -506,43 +516,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             <label class="col-sm-2 col-form-label">
                                 <strong>1. Peran pasien dalam keluarga dan masyarakat</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="3" cols="30" name="peran_pasien" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["peran_pasien"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="peran_pasien" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('peran_pasien',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>2. Apakah klien punya teman dekat</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="3" cols="30" name="teman_dekat" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["teman_dekat"] ?? "") ?></textarea>
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="teman_dekat" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('teman_dekat',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>3. Siapa yang dipercaya membantu klien saat kesulitan</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="4" cols="30" name="orang_terpercaya" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["orang_terpercaya"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="orang_terpercaya" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('orang_terpercaya',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>4. Apakah klien ikut kegiatan masyarakat? Bagaimana keterlibatannya</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="5" cols="30" name="kegiatan_masyarakat" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["kegiatan_masyarakat"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="kegiatan_masyarakat" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('kegiatan_masyarakat',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-2">
@@ -553,33 +564,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             <label class="col-sm-2 col-form-label">
                                 <strong>1. Apakah klien menganut suatu agama?</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="3" cols="30" name="agama_klien" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["agama_klien"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="agama_klien" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('agama_klien',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>2. Menurut agama klien bagaimana hubungan manusia dengan pencipta-Nya?</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="5" cols="30" name="hubungan_tuhan" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["hubungan_tuhan"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="hubungan_tuhan" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('hubungan_tuhan',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-3">
                             <label class="col-sm-2 col-form-label">
                                 <strong>3. Dalam keadaan sakit apakah klien mengalami hambatan dalam ibadah?</strong>
                             </label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="5" cols="30" name="hambatan_ibadah" style="display:block; overflow:hidden; resize: none;" <?= $ro ?>
-                                    oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"><?= htmlspecialchars($existing_data["hambatan_ibadah"] ?? "") ?></textarea>
-
-                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="hambatan_ibadah" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('hambatan_ibadah',$existing_data) ?></textarea>
+                                </div>
                         </div>
 
                         <div class="row mb-2">
@@ -587,7 +598,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         </div>
 
                         <div class="row mb-4">
-                            <div class="col-sm-11">
+                            <div class="col-sm-12">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover mb-0">
                                         <thead class="table-light">
@@ -602,33 +613,138 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                             <tr>
                                                 <td>1</td>
                                                 <td><strong>Frekuensi Makan</strong></td>
-                                                <td><input type="text" class="form-control" name="frekuensi_makan_sebelum" value="<?= htmlspecialchars($existing_data["frekuensi_makan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="frekuensi_makan_sekarang" value="<?= htmlspecialchars($existing_data["frekuensi_makan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+
+                                                <td>
+                                                    <?php if ($ro): ?>
+                                                        <div class="readonly-text">
+                                                            <?= nl2br(htmlspecialchars($existing_data["frekuensi_makan_sebelum"] ?? "")) ?>
+                                                        </div>
+                                                    <?php else: ?>
+                                                        <textarea
+                                                            class="form-control auto-resize"
+                                                            name="frekuensi_makan_sebelum"
+                                                            rows="2"
+                                                            style="resize:none; overflow:hidden;"
+                                                            oninput="autoResizeTextarea(this)"
+                                                        ><?= htmlspecialchars($existing_data["frekuensi_makan_sebelum"] ?? "") ?></textarea>
+                                                    <?php endif; ?>
+                                                </td>
+
+                                                <td>
+                                                    <?php if ($ro): ?>
+                                                        <div class="readonly-text">
+                                                            <?= nl2br(htmlspecialchars($existing_data["frekuensi_makan_sekarang"] ?? "")) ?>
+                                                        </div>
+                                                    <?php else: ?>
+                                                        <textarea
+                                                            class="form-control auto-resize"
+                                                            name="frekuensi_makan_sekarang"
+                                                            rows="2"
+                                                            style="resize:none; overflow:hidden;"
+                                                            oninput="autoResizeTextarea(this)"
+                                                        ><?= htmlspecialchars($existing_data["frekuensi_makan_sekarang"] ?? "") ?></textarea>
+                                                    <?php endif; ?>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>2</td>
-                                                <td><strong>Selera Makan</strong></td>
-                                                <td><input type="text" class="form-control" name="selera_makan_sebelum" value="<?= htmlspecialchars($existing_data["selera_makan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="selera_makan_sekarang" value="<?= htmlspecialchars($existing_data["selera_makan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td><strong>Menu Makanan</strong></td>
-                                                <td><input type="text" class="form-control" name="menu_makan_sebelum" value="<?= htmlspecialchars($existing_data["menu_makan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="menu_makan_sekarang" value="<?= htmlspecialchars($existing_data["menu_makan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td><strong>Ritual Saat Makan</strong></td>
-                                                <td><input type="text" class="form-control" name="ritual_makan_sebelum" value="<?= htmlspecialchars($existing_data["ritual_makan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="ritual_makan_sekarang" value="<?= htmlspecialchars($existing_data["ritual_makan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>5</td>
-                                                <td><strong>Bantuan Makan Parenteral</strong></td>
-                                                <td><input type="text" class="form-control" name="bantuan_makan_sebelum" value="<?= htmlspecialchars($existing_data["bantuan_makan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bantuan_makan_sekarang" value="<?= htmlspecialchars($existing_data["bantuan_makan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
+                                            <td>2</td>
+                                            <td><strong>Selera Makan</strong></td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="selera_makan_sebelum"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["selera_makan_sebelum"] ?? "") ?></textarea>
+                                            </td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="selera_makan_sekarang"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["selera_makan_sekarang"] ?? "") ?></textarea>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>3</td>
+                                            <td><strong>Menu Makanan</strong></td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="menu_makan_sebelum"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["menu_makan_sebelum"] ?? "") ?></textarea>
+                                            </td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="menu_makan_sekarang"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["menu_makan_sekarang"] ?? "") ?></textarea>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>4</td>
+                                            <td><strong>Ritual Saat Makan</strong></td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="ritual_makan_sebelum"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["ritual_makan_sebelum"] ?? "") ?></textarea>
+                                            </td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="ritual_makan_sekarang"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["ritual_makan_sekarang"] ?? "") ?></textarea>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>5</td>
+                                            <td><strong>Bantuan Makan Parenteral</strong></td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="bantuan_makan_sebelum"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["bantuan_makan_sebelum"] ?? "") ?></textarea>
+                                            </td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="bantuan_makan_sekarang"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["bantuan_makan_sekarang"] ?? "") ?></textarea>
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -642,7 +758,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         </div>
 
                         <div class="row mb-4">
-                            <div class="col-sm-11">
+                            <div class="col-sm-12">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover mb-0">
                                         <thead class="table-light">
@@ -655,23 +771,79 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>1</td>
-                                                <td><strong>Jenis Minuman</strong></td>
-                                                <td><input type="text" class="form-control" name="jenis_minum_sebelum" value="<?= htmlspecialchars($existing_data["jenis_minum_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="jenis_minum_sekarang" value="<?= htmlspecialchars($existing_data["jenis_minum_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td><strong>Jumlah Cairan</strong></td>
-                                                <td><input type="text" class="form-control" name="jumlah_cairan_sebelum" value="<?= htmlspecialchars($existing_data["jumlah_cairan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="jumlah_cairan_sekarang" value="<?= htmlspecialchars($existing_data["jumlah_cairan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td><strong>Bantuan Cairan Parenteral</strong></td>
-                                                <td><input type="text" class="form-control" name="bantuan_cairan_sebelum" value="<?= htmlspecialchars($existing_data["bantuan_cairan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bantuan_cairan_sekarang" value="<?= htmlspecialchars($existing_data["bantuan_cairan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
+                                            <td>1</td>
+                                            <td><strong>Jenis Minuman</strong></td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="jenis_minum_sebelum"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["jenis_minum_sebelum"] ?? "") ?></textarea>
+                                            </td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="jenis_minum_sekarang"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["jenis_minum_sekarang"] ?? "") ?></textarea>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>2</td>
+                                            <td><strong>Jumlah Cairan</strong></td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="jumlah_cairan_sebelum"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["jumlah_cairan_sebelum"] ?? "") ?></textarea>
+                                            </td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="jumlah_cairan_sekarang"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["jumlah_cairan_sekarang"] ?? "") ?></textarea>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>3</td>
+                                            <td><strong>Bantuan Cairan Parenteral</strong></td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="bantuan_cairan_sebelum"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["bantuan_cairan_sebelum"] ?? "") ?></textarea>
+                                            </td>
+                                            <td>
+                                                <textarea
+                                                    class="form-control auto-resize"
+                                                    name="bantuan_cairan_sekarang"
+                                                    rows="2"
+                                                    style="resize:none; overflow:hidden;"
+                                                    oninput="autoResizeTextarea(this)"
+                                                    <?= $ro ?>
+                                                ><?= htmlspecialchars($existing_data["bantuan_cairan_sekarang"] ?? "") ?></textarea>
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -682,7 +854,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             <label class="col-sm-12 text-primary"><strong>k. Pola Eliminasi BAB</strong></label>
                         </div>
                         <div class="row mb-4">
-                            <div class="col-sm-11">
+                            <div class="col-sm-12">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover mb-0">
                                         <thead class="table-light">
@@ -695,41 +867,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>1</td>
-                                                <td><strong>Frekuensi (Waktu)</strong></td>
-                                                <td><input type="text" class="form-control" name="bab_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["bab_frekuensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bab_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["bab_frekuensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td><strong>Konsistensi</strong></td>
-                                                <td><input type="text" class="form-control" name="bab_konsistensi_sebelum" value="<?= htmlspecialchars($existing_data["bab_konsistensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bab_konsistensi_sekarang" value="<?= htmlspecialchars($existing_data["bab_konsistensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td><strong>Warna</strong></td>
-                                                <td><input type="text" class="form-control" name="bab_warna_sebelum" value="<?= htmlspecialchars($existing_data["bab_warna_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bab_warna_sekarang" value="<?= htmlspecialchars($existing_data["bab_warna_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td><strong>Bau</strong></td>
-                                                <td><input type="text" class="form-control" name="bab_bau_sebelum" value="<?= htmlspecialchars($existing_data["bab_bau_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bab_bau_sekarang" value="<?= htmlspecialchars($existing_data["bab_bau_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>5</td>
-                                                <td><strong>Kesulitan saat BAB</strong></td>
-                                                <td><input type="text" class="form-control" name="bab_kesulitan_sebelum" value="<?= htmlspecialchars($existing_data["bab_kesulitan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bab_kesulitan_sekarang" value="<?= htmlspecialchars($existing_data["bab_kesulitan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>6</td>
-                                                <td><strong>Penggunaan Obat Pencahar</strong></td>
-                                                <td><input type="text" class="form-control" name="bab_obat_sebelum" value="<?= htmlspecialchars($existing_data["bab_obat_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bab_obat_sekarang" value="<?= htmlspecialchars($existing_data["bab_obat_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
+                                            <td>1</td>
+                                            <td><strong>Frekuensi (Waktu)</strong></td>
+                                            <td><textarea class="form-control auto-resize" name="bab_frekuensi_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bab_frekuensi_sebelum"] ?? "") ?></textarea></td>
+                                            <td><textarea class="form-control auto-resize" name="bab_frekuensi_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bab_frekuensi_sekarang"] ?? "") ?></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>2</td>
+                                            <td><strong>Konsistensi</strong></td>
+                                            <td><textarea class="form-control auto-resize" name="bab_konsistensi_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bab_konsistensi_sebelum"] ?? "") ?></textarea></td>
+                                            <td><textarea class="form-control auto-resize" name="bab_konsistensi_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bab_konsistensi_sekarang"] ?? "") ?></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>3</td>
+                                            <td><strong>Warna</strong></td>
+                                            <td><textarea class="form-control auto-resize" name="bab_warna_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bab_warna_sebelum"] ?? "") ?></textarea></td>
+                                            <td><textarea class="form-control auto-resize" name="bab_warna_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bab_warna_sekarang"] ?? "") ?></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>4</td>
+                                            <td><strong>Bau</strong></td>
+                                            <td><textarea class="form-control auto-resize" name="bab_bau_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bab_bau_sebelum"] ?? "") ?></textarea></td>
+                                            <td><textarea class="form-control auto-resize" name="bab_bau_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bab_bau_sekarang"] ?? "") ?></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>5</td>
+                                            <td><strong>Kesulitan saat BAB</strong></td>
+                                            <td><textarea class="form-control auto-resize" name="bab_kesulitan_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bab_kesulitan_sebelum"] ?? "") ?></textarea></td>
+                                            <td><textarea class="form-control auto-resize" name="bab_kesulitan_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bab_kesulitan_sekarang"] ?? "") ?></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>6</td>
+                                            <td><strong>Penggunaan Obat Pencahar</strong></td>
+                                            <td><textarea class="form-control auto-resize" name="bab_obat_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bab_obat_sebelum"] ?? "") ?></textarea></td>
+                                            <td><textarea class="form-control auto-resize" name="bab_obat_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bab_obat_sekarang"] ?? "") ?></textarea></td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -743,7 +920,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             <label class="col-sm-12 text-primary"><strong>l. Pola Eliminasi BAK</strong></label>
                         </div>
                         <div class="row mb-4">
-                            <div class="col-sm-11">
+                            <div class="col-sm-12">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover mb-0">
                                         <thead class="table-light">
@@ -756,35 +933,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>1</td>
-                                                <td><strong>Frekuensi (Waktu)</strong></td>
-                                                <td><input type="text" class="form-control" name="bak_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["bak_frekuensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bak_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["bak_frekuensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td><strong>Warna</strong></td>
-                                                <td><input type="text" class="form-control" name="bak_warna_sebelum" value="<?= htmlspecialchars($existing_data["bak_warna_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bak_warna_sekarang" value="<?= htmlspecialchars($existing_data["bak_warna_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td><strong>Bau</strong></td>
-                                                <td><input type="text" class="form-control" name="bak_bau_sebelum" value="<?= htmlspecialchars($existing_data["bak_bau_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bak_bau_sekarang" value="<?= htmlspecialchars($existing_data["bak_bau_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>4</td>
-                                                <td><strong>Kesulitan saat BAK</strong></td>
-                                                <td><input type="text" class="form-control" name="bak_kesulitan_sebelum" value="<?= htmlspecialchars($existing_data["bak_kesulitan_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bak_kesulitan_sekarang" value="<?= htmlspecialchars($existing_data["bak_kesulitan_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
-                                            <tr>
-                                                <td>5</td>
-                                                <td><strong>Penggunaan Obat Diuretik</strong></td>
-                                                <td><input type="text" class="form-control" name="bak_obat_sebelum" value="<?= htmlspecialchars($existing_data["bak_obat_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="bak_obat_sekarang" value="<?= htmlspecialchars($existing_data["bak_obat_sekarang"] ?? "") ?>" <?= $ro ?>></td>
-                                            </tr>
+                                            <td>1</td>
+                                            <td><strong>Frekuensi (Waktu)</strong></td>
+                                            <td><textarea class="form-control auto-resize" name="bak_frekuensi_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bak_frekuensi_sebelum"] ?? "") ?></textarea></td>
+                                            <td><textarea class="form-control auto-resize" name="bak_frekuensi_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bak_frekuensi_sekarang"] ?? "") ?></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>2</td>
+                                            <td><strong>Warna</strong></td>
+                                            <td><textarea class="form-control auto-resize" name="bak_warna_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bak_warna_sebelum"] ?? "") ?></textarea></td>
+                                            <td><textarea class="form-control auto-resize" name="bak_warna_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bak_warna_sekarang"] ?? "") ?></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>3</td>
+                                            <td><strong>Bau</strong></td>
+                                            <td><textarea class="form-control auto-resize" name="bak_bau_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bak_bau_sebelum"] ?? "") ?></textarea></td>
+                                            <td><textarea class="form-control auto-resize" name="bak_bau_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bak_bau_sekarang"] ?? "") ?></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>4</td>
+                                            <td><strong>Kesulitan saat BAK</strong></td>
+                                            <td><textarea class="form-control auto-resize" name="bak_kesulitan_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bak_kesulitan_sebelum"] ?? "") ?></textarea></td>
+                                            <td><textarea class="form-control auto-resize" name="bak_kesulitan_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bak_kesulitan_sekarang"] ?? "") ?></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>5</td>
+                                            <td><strong>Penggunaan Obat Diuretik</strong></td>
+                                            <td><textarea class="form-control auto-resize" name="bak_obat_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bak_obat_sebelum"] ?? "") ?></textarea></td>
+                                            <td><textarea class="form-control auto-resize" name="bak_obat_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["bak_obat_sekarang"] ?? "") ?></textarea></td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -792,13 +973,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             </div>
                         </div>
 
-
-
                         <div class="row mb-2">
                             <label class="col-sm-12 text-primary"><strong>m. Pola Tidur</strong></label>
                         </div>
                         <div class="row mb-4">
-                            <div class="col-sm-11">
+                            <div class="col-sm-12">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover mb-0">
                                         <thead class="table-light">
@@ -813,25 +992,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                             <tr>
                                                 <td rowspan="2">1</td>
                                                 <td><strong>Jam Tidur - Siang</strong></td>
-                                                <td><input type="text" class="form-control" name="tidur_siang_sebelum" value="<?= htmlspecialchars($existing_data["tidur_siang_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="tidur_siang_sekarang" value="<?= htmlspecialchars($existing_data["tidur_siang_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="tidur_siang_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["tidur_siang_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="tidur_siang_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["tidur_siang_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
+
                                             <tr>
                                                 <td><strong>Jam Tidur - Malam</strong></td>
-                                                <td><input type="text" class="form-control" name="tidur_malam_sebelum" value="<?= htmlspecialchars($existing_data["tidur_malam_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="tidur_malam_sekarang" value="<?= htmlspecialchars($existing_data["tidur_malam_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="tidur_malam_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["tidur_malam_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="tidur_malam_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["tidur_malam_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
+
                                             <tr>
                                                 <td>2</td>
                                                 <td><strong>Kesulitan Tidur</strong></td>
-                                                <td><input type="text" class="form-control" name="kesulitan_tidur_sebelum" value="<?= htmlspecialchars($existing_data["kesulitan_tidur_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="kesulitan_tidur_sekarang" value="<?= htmlspecialchars($existing_data["kesulitan_tidur_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="kesulitan_tidur_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["kesulitan_tidur_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="kesulitan_tidur_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["kesulitan_tidur_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
+
                                             <tr>
                                                 <td>3</td>
                                                 <td><strong>Kebiasaan Sebelum Tidur</strong></td>
-                                                <td><input type="text" class="form-control" name="kebiasaan_tidur_sebelum" value="<?= htmlspecialchars($existing_data["kebiasaan_tidur_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="kebiasaan_tidur_sekarang" value="<?= htmlspecialchars($existing_data["kebiasaan_tidur_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="kebiasaan_tidur_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["kebiasaan_tidur_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="kebiasaan_tidur_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["kebiasaan_tidur_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -846,7 +1028,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             <label class="col-sm-12 text-primary"><strong>n. Pola Personal Hygiene</strong></label>
                         </div>
                         <div class="row mb-4">
-                            <div class="col-sm-11">
+                            <div class="col-sm-12">
                                 <div class="table">
                                     <table class="table table-bordered table-hover mb-1">
                                         <thead class="table-light">
@@ -861,59 +1043,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                             <tr>
                                                 <td rowspan="3">1</td>
                                                 <td><strong>Mandi - Frekuensi</strong></td>
-                                                <td><input type="text" class="form-control" name="mandi_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["mandi_frekuensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="mandi_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["mandi_frekuensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="mandi_frekuensi_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["mandi_frekuensi_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="mandi_frekuensi_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["mandi_frekuensi_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
+
                                             <tr>
                                                 <td><strong>Mandi - Cara</strong></td>
-                                                <td><input type="text" class="form-control" name="mandi_cara_sebelum" value="<?= htmlspecialchars($existing_data["mandi_cara_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="mandi_cara_sekarang" value="<?= htmlspecialchars($existing_data["mandi_cara_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="mandi_cara_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["mandi_cara_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="mandi_cara_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["mandi_cara_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
+
                                             <tr>
                                                 <td><strong>Mandi - Tempat</strong></td>
-                                                <td><input type="text" class="form-control" name="mandi_tempat_sebelum" value="<?= htmlspecialchars($existing_data["mandi_tempat_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="mandi_tempat_sekarang" value="<?= htmlspecialchars($existing_data["mandi_tempat_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="mandi_tempat_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["mandi_tempat_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="mandi_tempat_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["mandi_tempat_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
+
                                             <tr>
                                                 <td rowspan="2">2</td>
                                                 <td><strong>Cuci Rambut - Frekuensi</strong></td>
-                                                <td><input type="text" class="form-control" name="rambut_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["rambut_frekuensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="rambut_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["rambut_frekuensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="rambut_frekuensi_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["rambut_frekuensi_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="rambut_frekuensi_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["rambut_frekuensi_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
+
                                             <tr>
                                                 <td><strong>Cuci Rambut - Cara</strong></td>
-                                                <td><input type="text" class="form-control" name="rambut_cara_sebelum" value="<?= htmlspecialchars($existing_data["rambut_cara_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="rambut_cara_sekarang" value="<?= htmlspecialchars($existing_data["rambut_cara_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="rambut_cara_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["rambut_cara_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="rambut_cara_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["rambut_cara_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
+
                                             <tr>
                                                 <td rowspan="2">3</td>
                                                 <td><strong>Gunting Kuku - Frekuensi</strong></td>
-                                                <td><input type="text" class="form-control" name="kuku_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["kuku_frekuensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="kuku_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["kuku_frekuensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="kuku_frekuensi_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["kuku_frekuensi_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="kuku_frekuensi_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["kuku_frekuensi_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
+
                                             <tr>
                                                 <td><strong>Gunting Kuku - Cara</strong></td>
-                                                <td><input type="text" class="form-control" name="kuku_cara_sebelum" value="<?= htmlspecialchars($existing_data["kuku_cara_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="kuku_cara_sekarang" value="<?= htmlspecialchars($existing_data["kuku_cara_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="kuku_cara_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["kuku_cara_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="kuku_cara_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["kuku_cara_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
+
                                             <tr>
                                                 <td rowspan="2">4</td>
                                                 <td><strong>Gosok Gigi - Frekuensi</strong></td>
-                                                <td><input type="text" class="form-control" name="gigi_frekuensi_sebelum" value="<?= htmlspecialchars($existing_data["gigi_frekuensi_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="gigi_frekuensi_sekarang" value="<?= htmlspecialchars($existing_data["gigi_frekuensi_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="gigi_frekuensi_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["gigi_frekuensi_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="gigi_frekuensi_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["gigi_frekuensi_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
+
                                             <tr>
                                                 <td><strong>Gosok Gigi - Cara</strong></td>
-                                                <td><input type="text" class="form-control" name="gigi_cara_sebelum" value="<?= htmlspecialchars($existing_data["gigi_cara_sebelum"] ?? "") ?>" <?= $ro ?>></td>
-                                                <td><input type="text" class="form-control" name="gigi_cara_sekarang" value="<?= htmlspecialchars($existing_data["gigi_cara_sekarang"] ?? "") ?>" <?= $ro ?>></td>
+                                                <td><textarea class="form-control auto-resize" name="gigi_cara_sebelum" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["gigi_cara_sebelum"] ?? "") ?></textarea></td>
+                                                <td><textarea class="form-control auto-resize" name="gigi_cara_sekarang" rows="2" style="resize:none; overflow:hidden;" oninput="autoResizeTextarea(this)" <?= $ro ?>><?= htmlspecialchars($existing_data["gigi_cara_sekarang"] ?? "") ?></textarea></td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-
-
 
                         <!-- TOMBOL SIMPAN (hanya mahasiswa) -->
                         <?php if (!$is_dosen): ?>
@@ -924,7 +1112,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             </div>
                         <?php endif; ?>
 
+                <script>
+                function autoResizeTextarea(el) {
+                    el.style.height = "auto";
+                    el.style.height = el.scrollHeight + "px";
+                }
 
+                document.addEventListener("DOMContentLoaded", function () {
+                    document.querySelectorAll(".auto-resize").forEach(function(el) {
+                        autoResizeTextarea(el);
+                    });
+                });
+                </script>
 
                 </form>
 

@@ -96,7 +96,7 @@
 
                        <?php if (!$is_dosen): ?>
                            <div class="row mb-3">
-                               <div class="col-sm-11 d-flex justify-content-end">
+                               <div class="col-sm-12 d-flex justify-content-end">
                                    <button type="button" class="btn btn-primary" onclick="tambahRow()">Tambah Data</button>
                                </div>
                            </div>
@@ -105,7 +105,7 @@
                        <!-- Pengalaman Menyusui -->
                        <div class="row mb-3">
                            <label for="pengalaman_menyusui" class="col-sm-2 col-form-label"><strong>Pengalaman Menyusui</strong></label>
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <select class="form-select" name="pengalaman_menyusui" <?= $ro_select ?>>
                                    <option value="">Pilih</option>
                                    <option value="Ya">Ya</option>
@@ -117,7 +117,7 @@
                        <!-- Berapa Lama -->
                        <div class="row mb-3">
                            <label for="berapa_lama" class="col-sm-2 col-form-label"><strong>Berapa Lama</strong></label>
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <input type="text" class="form-control" name="berapa_lama" <?= $ro ?>>
                            </div>
                        </div>
@@ -125,7 +125,7 @@
                        <!-- Bagian Riwayat Ginekologi-->
                        <div class="row mb-3">
                            <label for="riwayat_ginekologi" class="col-sm-2 col-form-label"><strong>Riwayat Ginekologi</strong></label>
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <select class="form-select" name="riwayat_ginekologi" required <?= $ro_select ?>>
                                    <option value="">Pilih</option>
                                    <option value="Ada Masalah">Ada Masalah</option>
@@ -137,17 +137,21 @@
                        <!-- Bagian Hasil -->
                        <div class="row mb-3">
                            <label for="hasil_ginekologi" class="col-sm-2 col-form-label"><strong>Hasil Ginekologi</strong></label>
-                           <div class="col-sm-9">
-                               <textarea id="hasil_ginekologi" name="hasil_ginekologi" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('hasil_ginekologi', $existing_data) ?></textarea>
-                           </div>
+                           <div class="col-sm-10">
+                           <textarea name="hasil_ginekologi" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('hasil_ginekologi',$existing_data) ?></textarea> 
+                               </div>
                        </div>
 
                        <!-- Bagian Riwayat KB -->
                        <div class="row mb-3">
                            <label for="riwayat_kb" class="col-sm-2 col-form-label"><strong>Riwayat KB</strong></label>
-                           <div class="col-sm-9">
-                               <textarea id="riwayat_kb" name="riwayat_kb" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('riwayat_kb', $existing_data) ?></textarea>
-                           </div>
+                           <div class="col-sm-10">
+                           <textarea name="riwayat_kb" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('riwayat_kb',$existing_data) ?></textarea> 
+                               </div>
                        </div>
 
                        <h5 class="card-title"><strong>RIWAYAT KEHAMILAN SAAT INI</strong></h5>
@@ -157,7 +161,7 @@
                        <div class="row mb-3">
 
                            <label class="col-sm-2 col-form-label"><strong>Status Obstetrik</strong></label>
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <div class="row">
 
                                    <!-- G -->
@@ -185,7 +189,7 @@
                        <!-- Bagian HPHT -->
                        <div class="row mb-3">
                            <label for="hpht" class="col-sm-2 col-form-label"><strong>HPHT</strong></label>
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <input type="text" class="form-control" name="hpht" value="<?= val('hpht', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
@@ -193,7 +197,7 @@
                        <!-- Bagian Usia Kehamilan -->
                        <div class="row mb-3">
                            <label for="usia_kehamilan" class="col-sm-2 col-form-label"><strong>Usia Kehamilan</strong></label>
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <input id="usia_kehamilan" type="text" class="form-control" name="usia_kehamilan" value="<?= val('usia_kehamilan', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
@@ -201,7 +205,7 @@
                        <!-- Bagian BB Sebelum Hamil -->
                        <div class="row mb-3">
                            <label for="bb_sebelum_hamil" class="col-sm-2 col-form-label"><strong>BB Sebelum Hamil</strong></label>
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <input id="bb_sebelum_hamil" type="text" class="form-control" name="bb_sebelum_hamil" value="<?= val('bb_sebelum_hamil', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
@@ -209,7 +213,7 @@
                        <!-- Bagian Keadaan Umum -->
                        <div class="row mb-3">
                            <label for="keadaan_umum" class="col-sm-2 col-form-label"><strong>Keadaan Umum</strong></label>
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <input id="keadaan_umum" type="text" class="form-control" name="keadaan_umum" value="<?= val('keadaan_umum', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
@@ -217,7 +221,7 @@
                        <!-- Bagian BB/TB -->
                        <div class="row mb-3">
                            <label for="bbtb" class="col-sm-2 col-form-label"><strong>BB/TB</strong></label>
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <div class="input-group">
                                    <input type="text" class="form-control" name="bbtb" value="<?= val('bbtb', $existing_data) ?>" <?= $ro ?>>
                                    <span class="input-group-text">kg/cm</span>
@@ -228,7 +232,7 @@
                        <!-- Bagian Lengan Atas -->
                        <div class="row mb-3">
                            <label for="lengan_atas" class="col-sm-2 col-form-label"><strong>Lengan Atas</strong></label>
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <div class="input-group">
                                    <input id="lengan_atas" type="text" class="form-control" name="lengan_atas" value="<?= val('lengan_atas', $existing_data) ?>" <?= $ro ?>>
                                    <span class="input-group-text">cm</span>
@@ -247,7 +251,7 @@
                        <div class="row mb-3">
                            <label for="tekanan_darah" class="col-sm-2 col-form-label"><strong>Tekanan Darah</strong></label>
 
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <input id="tekanan_darah" type="text" class="form-control" name="tekanan_darah" value="<?= val('tekanan_darah', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
@@ -256,7 +260,7 @@
                        <div class="row mb-3">
                            <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
 
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <input type="text" class="form-control" name="nadi" value="<?= val('nadi', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
@@ -265,7 +269,7 @@
                        <div class="row mb-3">
                            <label class="col-sm-2 col-form-label"><strong>Suhu</strong></label>
 
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <input type="text" class="form-control" name="suhu" value="<?= val('suhu', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
@@ -274,15 +278,15 @@
                        <div class="row mb-3">
                            <label class="col-sm-2 col-form-label"><strong>Pernapasan</strong></label>
 
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <input type="text" class="form-control" name="pernapasan" value="<?= val('pernapasan', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
-               </div>
+               
 
                <?php if (!$is_dosen): ?>
                    <div class="row mb-3">
-                       <div class="col-sm-11 d-flex justify-content-end">
+                       <div class="col-sm-12 d-flex justify-content-end">
                            <button type="submit" class="btn btn-primary">Simpan Data</button>
                        </div>
                    </div>
@@ -295,6 +299,11 @@
                let rowCount = 1;
                // Load existing data persalinan dari PHP
                const existingPersalinan = <?= json_encode($existing_persalinan) ?>;
+
+               function autoResizeTextarea(el) {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+}
 
                function tambahRow(data = null) {
                    const tbody = document.getElementById('tbody-persalinan');
@@ -312,11 +321,23 @@
                             <option value="Laki-laki" ${data?.jenis_kelamin === 'Laki-laki' ? 'selected' : ''}>Laki-laki</option>
                         </select>
                     </td>
-                    <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][masalah]" value="${data?.masalah ?? ''}" <?= $ro ?>></td>
+                    <td>
+                        <textarea
+                            class="form-control form-control-sm auto-resize"
+                            name="persalinan[${index}][masalah]"
+                            rows="1"
+                            style="resize:none; overflow:hidden;"
+                            oninput="autoResizeTextarea(this)"
+                            <?= $ro ?>
+                        >${data?.masalah ?? ''}</textarea>
+                    </td>
                     <td>${!<?= json_encode($is_dosen) ?> && !<?= json_encode($is_readonly) ?> ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}</td>
                 `;
                    tbody.appendChild(row);
-                   rowCount++;
+
+                    row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+
+                    rowCount++;
                }
 
                function hapusRow(btn) {
