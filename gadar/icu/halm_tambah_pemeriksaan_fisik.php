@@ -519,11 +519,16 @@ $data = [
         </div>
 
         <div class="row mt-2">
-            <div class="col-sm-11">
-                <label><strong>Lainnya</strong></label>
-                <input type="text" class="form-control" name="lainnyabentukdada" value="<?= htmlspecialchars($existing_data['lainnyabentukdada'] ?? '') ?>" <?= $ro ?>>
-            </div>
-        </div>
+    <div class="col-sm-11">
+        <label><strong>Lainnya</strong></label>
+        <textarea name="lainnyabentukdada" 
+                  class="form-control" 
+                  rows="1" 
+                  style="overflow:hidden; resize:none;" 
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                  <?= $ro ?>><?= htmlspecialchars($existing_data['lainnyabentukdada'] ?? '') ?></textarea>
+    </div>
+</div>
     </div>
 
 </div><div class="row mb-3">
@@ -704,12 +709,17 @@ $data = [
             <label class="form-check-label">Ascites</label>
         </div>
 
-        <div class="row mt-2">
-            <div class="col-sm-12">
-                <label><strong>Lainnya</strong></label>
-                <input type="text" class="form-control" name="lainnyaedema" value="<?= htmlspecialchars($existing_data['lainnyaedema'] ?? '') ?>" <?= $ro ?>>
-            </div>
-        </div>
+       <div class="row mt-2">
+    <div class="col-sm-12">
+        <label><strong>Lainnya</strong></label>
+        <textarea name="lainnyaedema" 
+                  class="form-control" 
+                  rows="1" 
+                  style="overflow:hidden; resize:none;" 
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                  <?= $ro ?>><?= htmlspecialchars($existing_data['lainnyaedema'] ?? '') ?></textarea>
+    </div>
+</div>
 
         
     </div> 
@@ -873,15 +883,24 @@ $data = [
         </div>
     </div>
 </div>
-
 <div class="row mb-3 align-items-center">
     <label class="col-sm-2 col-form-label"><strong>Pupil</strong></label>
     <div class="col-sm-3">
-        <input type="text" class="form-control" name="pupil" value="<?= htmlspecialchars($existing_data['pupil'] ?? '') ?>" <?= $ro ?>>
+        <textarea name="pupil" 
+                  class="form-control" 
+                  rows="1" 
+                  style="overflow:hidden; resize:none;" 
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                  <?= $ro ?>><?= htmlspecialchars($existing_data['pupil'] ?? '') ?></textarea>
     </div>    
-    <label class="col-sm-2 col-form-label text-sm-end"><strong>Ukuran </strong></label>
+    <label class="col-sm-2 col-form-label text-sm-end"><strong>Ukuran</strong></label>
     <div class="col-sm-3">
-        <input type="text" class="form-control" name="ukuran_pupil" value="<?= htmlspecialchars($existing_data['ukuran_pupil'] ?? '') ?>" <?= $ro ?>>
+        <textarea name="ukuran_pupil" 
+                  class="form-control" 
+                  rows="1" 
+                  style="overflow:hidden; resize:none;" 
+                  oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                  <?= $ro ?>><?= htmlspecialchars($existing_data['ukuran_pupil'] ?? '') ?></textarea>
     </div>   
 </div>
 

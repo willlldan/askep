@@ -72,223 +72,94 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <form class="needs-validation" novalidate action="" method="POST">
 
-                        <!-- 1. Biodata Klien -->
-                        <div class="row mb-2">
-                            <label class="col-sm-12 text-primary"><strong>1. Biodata Klien</strong></label>
-                        </div>
+                    <div class="row mb-2">
+    <label class="col-sm-12 text-primary"><strong>1. Biodata Klien</strong></label>
+</div>
 
-                        <!-- Nama Anak -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Nama Anak</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="nama_anak"
-                                    value="<?= val('nama_anak', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
+<?php
+$data_klien = [
+    ['label' => 'Nama Anak', 'name' => 'nama_anak'],
+    ['label' => 'Umur', 'name' => 'umur'],
+    ['label' => 'Agama', 'name' => 'agama'],
+];
 
-                        <!-- Jenis Kelamin -->
-                        <div class="row mb-3">
-                            <label for="jenis_kelamin" class="col-sm-2 col-form-label"><strong>Jenis Kelamin</strong></label>
+foreach ($data_klien as $field): ?>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label"><strong><?= $field['label'] ?></strong></label>
+        <div class="col-sm-10">
+            <textarea name="<?= $field['name'] ?>" class="form-control" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($field['name'], $existing_data) ?></textarea>
+        </div>
+    </div>
+<?php endforeach; ?>
 
-                            <div class="col-sm-10">
-                                <select class="form-select" name="jenis_kelamin" <?= $ro_select ?>>
-                                    <option value="">Pilih</option>
-                                    <option value="Laki-laki" <?= val('jenis_kelamin', $existing_data) === 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
-                                    <option value="Perempuan" <?= val('jenis_kelamin', $existing_data) === 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
+<div class="row mb-3">
+    <label for="jenis_kelamin" class="col-sm-2 col-form-label"><strong>Jenis Kelamin</strong></label>
+    <div class="col-sm-10">
+        <select class="form-select" name="jenis_kelamin" <?= $ro_select ?>>
+            <option value="">Pilih</option>
+            <option value="Laki-laki" <?= val('jenis_kelamin', $existing_data) === 'Laki-laki' ? 'selected' : '' ?>>Laki-laki</option>
+            <option value="Perempuan" <?= val('jenis_kelamin', $existing_data) === 'Perempuan' ? 'selected' : '' ?>>Perempuan</option>
+        </select>
+    </div>
+</div>
 
-                                </select>
-                            </div>
-                        </div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
+    <div class="col-sm-10">
+        <textarea name="alamat" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('alamat', $existing_data) ?></textarea>
+    </div>
+</div>
 
-                        <!-- Umur -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Umur</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="umur"
-                                    value="<?= val('umur', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
+<div class="row mb-2">
+    <label class="col-sm-12 text-primary"><strong>2. Biodata Orangtua</strong></label>
+</div>
 
-                        <!-- Agama -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Agama</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="agama"
-                                    value="<?= val('agama', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
+<?php
+$data_ortu = [
+    ['label' => 'Nama Ayah', 'name' => 'nama_ayah'],
+    ['label' => 'Umur Ayah', 'name' => 'umur_ayah'],
+    ['label' => 'Pendidikan Ayah', 'name' => 'pendidikan_ayah'],
+    ['label' => 'Pekerjaan Ayah', 'name' => 'pekerjaan_ayah'],
+    ['label' => 'Nama Ibu', 'name' => 'nama_ibu'],
+    ['label' => 'Umur Ibu', 'name' => 'umur_ibu'],
+    ['label' => 'Pendidikan Ibu', 'name' => 'pendidikan_ibu'],
+    ['label' => 'Pekerjaan Ibu', 'name' => 'pekerjaan_ibu'],
+];
 
-                        <!-- Alamat -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
-                            <div class="col-sm-10">
-                                <textarea name="alamat" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                    <?= $ro ?>><?= val('alamat', $existing_data) ?></textarea>
-                            </div>
-                        </div>
+foreach ($data_ortu as $field): ?>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label"><strong><?= $field['label'] ?></strong></label>
+        <div class="col-sm-10">
+            <textarea name="<?= $field['name'] ?>" class="form-control" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($field['name'], $existing_data) ?></textarea>
+        </div>
+    </div>
+<?php endforeach; ?>
 
-                        <!-- 2. Biodata Orangtua -->
-                        <div class="row mb-2">
-                            <label class="col-sm-12 text-primary"><strong>2. Biodata Orangtua</strong></label>
-                        </div>
+<div class="row mb-2">
+    <label class="col-sm-12 text-primary"><strong>B. Pemberian Imunisasi</strong></label>
+</div>
 
-                        <!-- Nama Ayah -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Nama Ayah</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="nama_ayah"
-                                    value="<?= val('nama_ayah', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
+<?php
+$data_imunisasi = [
+    ['label' => 'Imunisasi saat ini', 'name' => 'imunisasi_saat_ini'],
+    ['label' => 'Dosis pemberian', 'name' => 'dosis_pemberian'],
+    ['label' => 'Cara pemberian', 'name' => 'cara_pemberian'],
+    ['label' => 'Reaksi anak', 'name' => 'reaksi_anak'],
+    ['label' => 'Rencana imunisasi pada kunjungan berikutnya', 'name' => 'rencana_imunisasi'],
+    ['label' => 'Imunisasi yang sudah didapatkan', 'name' => 'imunisasi_didapatkan'],
+    ['label' => 'Efek yang dirasakan anak di rumah setelah pemberian imunisasi', 'name' => 'efek_dirumah'],
+    ['label' => 'Hal yang dikeluhkan orang tua setelah pemberian imunisasi', 'name' => 'pemberian_imunisasi'],
+    ['label' => 'Riwayat penyakit / pengobatan yang pernah didapatkan', 'name' => 'riwayat_penyakit'],
+];
 
-                        <!-- Umur Ayah -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Umur Ayah</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="umur_ayah"
-                                    value="<?= val('umur_ayah', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
-
-                        <!-- Pendidikan Ayah -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Pendidikan Ayah</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="pendidikan_ayah"
-                                    value="<?= val('pendidikan_ayah', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
-
-                        <!-- Pekerjaan Ayah -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Pekerjaan Ayah</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="pekerjaan_ayah"
-                                    value="<?= val('pekerjaan_ayah', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
-
-                        <!-- Nama Ibu -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Nama Ibu</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="nama_ibu"
-                                    value="<?= val('nama_ibu', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
-
-                        <!-- Umur Ibu -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Umur Ibu</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="umur_ibu"
-                                    value="<?= val('umur_ibu', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
-
-                        <!-- Pendidikan Ibu -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Pendidikan Ibu</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="pendidikan_ibu"
-                                    value="<?= val('pendidikan_ibu', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
-
-                        <!-- Pekerjaan Ibu -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Pekerjaan Ibu</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="pekerjaan_ibu"
-                                    value="<?= val('pekerjaan_ibu', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
-
-                        <!-- B. Pemberian Imunisasi -->
-                        <div class="row mb-2">
-                            <label class="col-sm-12 text-primary"><strong>B. Pemberian Imunisasi</strong></label>
-                        </div>
-
-                        <!-- Imunisasi saat ini -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Imunisasi saat ini</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="imunisasi_saat_ini"
-                                    value="<?= val('imunisasi_saat_ini', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
-
-                        <!-- Dosis -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Dosis pemberian</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="dosis_pemberian"
-                                    value="<?= val('dosis_pemberian', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
-
-                        <!-- Cara -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Cara pemberian</strong></label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="cara_pemberian"
-                                    value="<?= val('cara_pemberian', $existing_data) ?>" <?= $ro ?>>
-                            </div>
-                        </div>
-
-                        <!-- Reaksi anak -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Reaksi anak</strong></label>
-                            <div class="col-sm-10">
-                                <textarea name="reaksi_anak" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                    <?= $ro ?>><?= val('reaksi_anak', $existing_data) ?></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Rencana berikut -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Rencana imunisasi pada kunjungan berikutnya</strong></label>
-                            <div class="col-sm-10">
-                                <textarea name="rencana_imunisasi" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                    <?= $ro ?>><?= val('rencana_imunisasi', $existing_data) ?></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Riwayat imunisasi -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Imunisasi yang sudah didapatkan</strong></label>
-                            <div class="col-sm-10">
-                                <textarea name="imunisasi_didapatkan" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                    <?= $ro ?>><?= val('imunisasi_didapatkan', $existing_data) ?></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Efek di rumah -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Efek yang dirasakan anak di rumah setelah pemberian imunisasi</strong></label>
-                            <div class="col-sm-10">
-                                <textarea name="efek_dirumah" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                    <?= $ro ?>><?= val('efek_dirumah', $existing_data) ?></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Keluhan orang tua -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Hal yang dikeluhkan orang tua setelah pemberian imunisasi</strong></label>
-                            <div class="col-sm-10">
-                                <textarea name="pemberian_imunisasi" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                    <?= $ro ?>><?= val('pemberian_imunisasi', $existing_data) ?></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Riwayat penyakit -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>Riwayat penyakit / pengobatan yang pernah didapatkan</strong></label>
-                            <div class="col-sm-10">
-                                <textarea name="riwayat_penyakit" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                                    <?= $ro ?>><?= val('riwayat_penyakit', $existing_data) ?></textarea>
-                            </div>
-                        </div>
+foreach ($data_imunisasi as $field): ?>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label"><strong><?= $field['label'] ?></strong></label>
+        <div class="col-sm-10">
+            <textarea name="<?= $field['name'] ?>" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($field['name'], $existing_data) ?></textarea>
+        </div>
+    </div>
+<?php endforeach; ?>
                         <!-- TOMBOL MAHASISWA -->
                         <?php if (!$is_dosen): ?>
                             <div class="row mb-3">

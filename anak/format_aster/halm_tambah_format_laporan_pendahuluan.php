@@ -95,103 +95,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
 
                     <!-- General Form Elements -->
+<h5 class="card-title"><strong>FORMAT LAPORAN PENDAHULUAN</strong></h5>
 
-                    <!-- FORMAT LAPORAN PENDAHULUAN -->
-                    <h5 class="card-title"><strong>FORMAT LAPORAN PENDAHULUAN</strong></h5>
+<?php
+// Mendefinisikan field untuk mempermudah perulangan
+$lp_fields = [
+    'A' => [
+        'title' => 'A. Konsep Dasar Medis',
+        'items' => [
+            'pengertian' => '1. Pengertian',
+            'etiologi' => '2. Etiologi',
+            'patofisiologi' => '3. Patofisiologi',
+            'manifestasi_klinik' => '4. Manifestasi Klinik',
+            'pemeriksaan_diagnostic' => '5. Pemeriksaan Diagnostic',
+            'penatalaksanaan' => '6. Penatalaksanaan',
+            'komplikasi' => '7. Komplikasi'
+        ]
+    ],
+    'B' => [
+        'title' => 'B. Konsep Dasar Keperawatan',
+        'items' => [
+            'pengkajian_keperawatan' => '1. Pengkajian Keperawatan',
+            'penyimpangan_kdm' => '2. Penyimpangan KDM',
+            'diagnosa_keperawatan' => '3. Diagnosa Keperawatan'
+        ]
+    ]
+];
 
-                    <!-- A. Konsep Dasar Medis -->
-                    <div class="row mb-2">
-                        <label class="col-sm-3 col-form-label text-primary">
-                            <strong>A. Konsep Dasar Medis</strong>
-                        </label>
-                    </div>
+// Loop untuk menampilkan form
+foreach ($lp_fields as $section): ?>
+    <div class="row mb-2">
+        <label class="col-sm-12 col-form-label text-primary"><strong><?= $section['title'] ?></strong></label>
+    </div>
 
-                    <!-<!-- A. Landasan Teori -->
-                        <!-- 1. Pengertian -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>1. Pengertian</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="pengertian" value="<?= val('pengertian', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
+    <?php foreach ($section['items'] as $name => $label): ?>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label"><strong><?= $label ?></strong></label>
+        <div class="col-sm-9">
+            <textarea class="form-control" 
+                      name="<?= $name ?>" 
+                      rows="2" 
+                      style="overflow:hidden; resize:none;" 
+                      oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                      <?= $ro ?> required><?= htmlspecialchars(val($name, $existing_data)) ?></textarea>
+        </div>
+    </div>
+    <?php endforeach; ?>
+<?php endforeach; ?>
 
-                        <!-- 2. Etiologi -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>2. Etiologi</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="etiologi" value="<?= val('etiologi', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
-
-                        <!-- 3. Patofisiologi -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>3. Patofisiologi</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="patofisiologi" value="<?= val('patofisiologi', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
-
-                        <!-- 4. Manifestasi Klinik -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>4. Manifestasi Klinik</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="manifestasi_klinik" value="<?= val('manifestasi_klinik', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
-
-                        <!-- 5. Pemeriksaan Diagnostic -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>5. Pemeriksaan Diagnostic</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="pemeriksaan_diagnostic" value="<?= val('pemeriksaan_diagnostic', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
-
-                        <!-- 6. Penatalaksanaan -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>6. Penatalaksanaan</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="penatalaksanaan" value="<?= val('penatalaksanaan', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
-
-                        <!-- 7. Komplikasi -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>7. Komplikasi</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="komplikasi" value="<?= val('komplikasi', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
-
-                        <!-- B. Konsep Dasar Keperawatan -->
-                        <div class="row mb-2">
-                            <label class="col-sm-5 col-form-label text-primary"><strong>B. Konsep Dasar Keperawatan</strong></label>
-                        </div>
-
-                        <!-- 1. Pengkajian Keperawatan -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>1. Pengkajian Keperawatan</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="pengkajian_keperawatan" value="<?= val('pengkajian_keperawatan', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
-
-                        <!-- 2. Penyimpangan KDM -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>2. Penyimpangan KDM</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="penyimpangan_kdm" value="<?= val('penyimpangan_kdm', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
-
-                        <!-- 3. Diagnosa Keperawatan -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>3. Diagnosa Keperawatan</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="diagnosa_keperawatan" value="<?= val('diagnosa_keperawatan', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
-
+<script>
+    // Inisialisasi tinggi textarea saat halaman dimuat agar menyesuaikan isi data
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('textarea').forEach(el => {
+            el.style.height = 'auto';
+            el.style.height = el.scrollHeight + 'px';
+        });
+    });
+</script>
                         <!-- 4. Perencanaan -->
                         <p class="text-primary fw-bold mb-2">4. Perencanaan</p>
                         <table class="table table-bordered" id="tabel-obat">
@@ -235,48 +195,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 </form>
             </div>
         </div>
-        <script>
-            let rowObatCount = 1;
+       <script>
+    let rowObatCount = 1;
+    const existingObat = <?= json_encode($existing_obat) ?>;
+    const isReadonly = <?= json_encode($is_readonly) ?>;
 
-            const existingObat = <?= json_encode($existing_obat) ?>;
+    // Style dan script untuk textarea auto-resize
+    const textareaStyle = "overflow:hidden; resize:none; min-height:30px; width:100%;";
+    const onInputHandler = "this.style.height='auto'; this.style.height=this.scrollHeight+'px';";
 
-            const isReadonly = <?= json_encode($is_readonly) ?>;
-            // ---- OBAT ----
-            function tambahRowObat(data = null) {
-                const tbody = document.getElementById('tbody-obat');
-                const index = rowObatCount;
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                                <td class="text-center align-middle">${index}</td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][diagnosa]" value="${data?.diagnosa ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][tujuan]" value="${data?.tujuan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][intervensi]" value="${data?.intervensi ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td class="text-center align-middle">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
-                                </td>
-                            `;
-                tbody.appendChild(row);
-                rowObatCount++;
-            }
+    function tambahRowObat(data = null) {
+        const tbody = document.getElementById('tbody-obat');
+        const index = rowObatCount;
+        const row = document.createElement('tr');
+        
+        row.innerHTML = `
+            <td class="text-center align-middle">${index}</td>
+            <td><textarea class="form-control form-control-sm" name="obat[${index}][diagnosa]" style="${textareaStyle}" oninput="${onInputHandler}" ${isReadonly ? 'readonly' : ''}>${data?.diagnosa ?? ''}</textarea></td>
+            <td><textarea class="form-control form-control-sm" name="obat[${index}][tujuan]" style="${textareaStyle}" oninput="${onInputHandler}" ${isReadonly ? 'readonly' : ''}>${data?.tujuan ?? ''}</textarea></td>
+            <td><textarea class="form-control form-control-sm" name="obat[${index}][intervensi]" style="${textareaStyle}" oninput="${onInputHandler}" ${isReadonly ? 'readonly' : ''}>${data?.intervensi ?? ''}</textarea></td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
+            </td>
+        `;
+        tbody.appendChild(row);
+        rowObatCount++;
+    }
 
-            function hapusRow(btn) {
-                btn.closest('tr').remove();
-            }
-            // Load existing rows on page load
-            window.addEventListener('load', function() {
-                if (existingObat && existingObat.length > 0) {
-                    existingObat.forEach(row => tambahRowObat(row));
-                } else {
-                    tambahRowObat(); // default 1 row kosong
-                }
+    function hapusRow(btn) {
+        btn.closest('tr').remove();
+    }
 
+    window.addEventListener('load', function() {
+        if (existingObat && existingObat.length > 0) {
+            existingObat.forEach(row => tambahRowObat(row));
+        } else {
+            tambahRowObat();
+        }
 
-                // Disable add buttons if readonly
-                if (isReadonly) {
-                    document.getElementById('btn-tambah-obat').setAttribute('disabled', 'disabled');
-                }
-            });
-        </script>
+        // Pastikan textarea menyesuaikan tinggi saat data dimuat dari database
+        document.querySelectorAll('textarea').forEach(el => {
+            el.style.height = 'auto';
+            el.style.height = el.scrollHeight + 'px';
+        });
+
+        if (isReadonly) {
+            const btnTambah = document.getElementById('btn-tambah-obat');
+            if (btnTambah) btnTambah.setAttribute('disabled', 'disabled');
+        }
+    });
+</script>
 
         <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 

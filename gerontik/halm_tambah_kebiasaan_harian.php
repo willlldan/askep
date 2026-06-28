@@ -116,120 +116,166 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 <div class="card-body">
                     <h5 class="card-title"><strong>4. Pola Kebiasaan Sehari-Hari</strong></h5>
 
-                    <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-primary"><strong>1. Nutrisi dan Cairan</strong></label>
-                    </div>
-
                     <?php
-                    render_text_row('frekuensi_makan', $text_fields['frekuensi_makan'], $existing_data, $ro);
-                    render_text_row('nafsu_makan', $text_fields['nafsu_makan'], $existing_data, $ro);
-                    render_text_row('jenis_makanan', $text_fields['jenis_makanan'], $existing_data, $ro);
-                    render_text_row('makanan_tidak_disukai', $text_fields['makanan_tidak_disukai'], $existing_data, $ro);
-                    render_text_row('kebiasaan_sebelum_makan', $text_fields['kebiasaan_sebelum_makan'], $existing_data, $ro);
-                    render_text_row('berat_tinggi_badan', $text_fields['berat_tinggi_badan'], $existing_data, $ro);
-                    render_text_row('jenis_minuman', $text_fields['jenis_minuman'], $existing_data, $ro);
-                    render_text_row('jumlah_cairan', $text_fields['jumlah_cairan'], $existing_data, $ro);
-                    render_radio_row('kesulitan_makan_minum', $radio_fields['kesulitan_makan_minum'], $existing_data, $ro_disabled);
-                    render_radio_row('makan_minum_bantu', $radio_fields['makan_minum_bantu'], $existing_data, $ro_disabled);
-                    ?>
+// Daftar field yang ingin dijadikan textarea
+$fields = [
+    'frekuensi_makan' => 'Frekuensi Makan',
+    'nafsu_makan' => 'Nafsu Makan',
+    'jenis_makanan' => 'Jenis Makanan',
+    'makanan_tidak_disukai' => 'Makanan Tidak Disukai',
+    'kebiasaan_sebelum_makan' => 'Kebiasaan Sebelum Makan',
+    'berat_tinggi_badan' => 'Berat/Tinggi Badan',
+    'jenis_minuman' => 'Jenis Minuman',
+    'jumlah_cairan' => 'Jumlah Cairan'
+];
+
+foreach ($fields as $name => $label): ?>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label"><strong><?= $label ?></strong></label>
+        <div class="col-sm-9">
+            <textarea name="<?= $name ?>" 
+                      class="form-control" 
+                      rows="1" 
+                      style="overflow:hidden; resize:none;" 
+                      oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                      <?= $ro ?>><?= val($name, $existing_data) ?></textarea>
+        </div>
+    </div>
+<?php endforeach;
+
+// Untuk radio tetap gunakan fungsi aslinya
+render_radio_row('kesulitan_makan_minum', $radio_fields['kesulitan_makan_minum'], $existing_data, $ro_disabled);
+render_radio_row('makan_minum_bantu', $radio_fields['makan_minum_bantu'], $existing_data, $ro_disabled);
+?>
+
+                   <div class="row mb-2">
+    <label class="col-sm-12 col-form-label text-primary"><strong>2. Eliminasi</strong></label>
+</div>
+
+<div class="row mb-2">
+    <label class="col-sm-12 col-form-label text-info"><strong>a. Berkemih (BAK)</strong></label>
+</div>
+
+<?php
+$bak_fields = [
+    ['name' => 'warna_bak', 'label' => 'Warna BAK'],
+    ['name' => 'keluhan_bak', 'label' => 'Keluhan BAK']
+];
+foreach ($bak_fields as $field): ?>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label"><strong><?= $field['label'] ?></strong></label>
+        <div class="col-sm-9">
+            <textarea name="<?= $field['name'] ?>" class="form-control" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($field['name'], $existing_data) ?></textarea>
+        </div>
+    </div>
+<?php endforeach;
+
+render_radio_row('dibantu_bak', $radio_fields['dibantu_bak'], $existing_data, $ro_disabled);
+render_radio_row('mandiri_bak', $radio_fields['mandiri_bak'], $existing_data, $ro_disabled);
+?>
+
+<div class="row mb-2">
+    <label class="col-sm-12 col-form-label text-info"><strong>b. Defekasi (BAB)</strong></label>
+</div>
+
+<?php
+$bab_fields = [
+    ['name' => 'frekuensi_bab', 'label' => 'Frekuensi BAB'],
+    ['name' => 'bau_bab', 'label' => 'Bau BAB'],
+    ['name' => 'warna_bab', 'label' => 'Warna BAB'],
+    ['name' => 'konsistensi_bab', 'label' => 'Konsistensi BAB'],
+    ['name' => 'keluhan_bab', 'label' => 'Keluhan BAB'],
+    ['name' => 'pengalaman_laksatif', 'label' => 'Pengalaman Laksatif']
+];
+foreach ($bab_fields as $field): ?>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label"><strong><?= $field['label'] ?></strong></label>
+        <div class="col-sm-9">
+            <textarea name="<?= $field['name'] ?>" class="form-control" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val($field['name'], $existing_data) ?></textarea>
+        </div>
+    </div>
+<?php endforeach;
+
+render_radio_row('dibantu_bab', $radio_fields['dibantu_bab'], $existing_data, $ro_disabled);
+render_radio_row('mandiri_bab', $radio_fields['mandiri_bab'], $existing_data, $ro_disabled);
+?>
 
                     <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-primary"><strong>2. Eliminasi</strong></label>
-                    </div>
+    <label class="col-sm-12 col-form-label text-primary"><strong>3. Personal Hygiene</strong></label>
+</div>
 
-                    <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-info"><strong>a. Berkemih (BAK)</strong></label>
-                    </div>
+<?php
+// Definisi data untuk perulangan agar kode lebih rapi
+$hygiene_data = [
+    ['section' => 'Mandi', 'name' => 'frekuensi_mandi', 'label' => 'Frekuensi Mandi', 'radio_dibantu' => 'dibantu_mandi', 'radio_mandiri' => 'mandiri_mandi'],
+    ['section' => 'Oral Hygiene', 'name' => 'frekuensi_hygiene_oral', 'label' => 'Frekuensi Oral Hygiene', 'radio_dibantu' => 'dibantu_hygiene_oral', 'radio_mandiri' => 'mandiri_hygiene_oral'],
+    ['section' => 'Cuci Rambut', 'name' => 'frekuensi_cuci_rambut', 'label' => 'Frekuensi Cuci Rambut', 'radio_dibantu' => 'dibantu_cuci_rambut', 'radio_mandiri' => 'mandiri_cuci_rambut'],
+    ['section' => 'Gunting Kuku', 'name' => 'frekuensi_gunting_kuku', 'label' => 'Frekuensi Gunting Kuku', 'radio_dibantu' => 'dibantu_gunting_kuku', 'radio_mandiri' => 'mandiri_gunting_kuku'],
+];
 
-                    <?php
-                    render_text_row('warna_bak', $text_fields['warna_bak'], $existing_data, $ro);
-                    render_text_row('keluhan_bak', $text_fields['keluhan_bak'], $existing_data, $ro);
-                    render_radio_row('dibantu_bak', $radio_fields['dibantu_bak'], $existing_data, $ro_disabled);
-                    render_radio_row('mandiri_bak', $radio_fields['mandiri_bak'], $existing_data, $ro_disabled);
-                    ?>
+foreach ($hygiene_data as $index => $item): 
+    $char = chr(97 + $index); // Generate 'a', 'b', 'c', ...
+?>
+    <div class="row mb-2">
+        <label class="col-sm-12 col-form-label text-info"><strong><?= $char . '. ' . $item['section'] ?></strong></label>
+    </div>
 
-                    <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-info"><strong>b. Defekasi (BAB)</strong></label>
-                    </div>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label"><strong><?= $item['label'] ?></strong></label>
+        <div class="col-sm-9">
+            <textarea name="<?= $item['name'] ?>" 
+                      class="form-control" 
+                      rows="1" 
+                      style="overflow:hidden; resize:none;" 
+                      oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                      <?= $ro ?>><?= val($item['name'], $existing_data) ?></textarea>
+        </div>
+    </div>
 
-                    <?php
-                    render_text_row('frekuensi_bab', $text_fields['frekuensi_bab'], $existing_data, $ro);
-                    render_text_row('bau_bab', $text_fields['bau_bab'], $existing_data, $ro);
-                    render_text_row('warna_bab', $text_fields['warna_bab'], $existing_data, $ro);
-                    render_text_row('konsistensi_bab', $text_fields['konsistensi_bab'], $existing_data, $ro);
-                    render_text_row('keluhan_bab', $text_fields['keluhan_bab'], $existing_data, $ro);
-                    render_text_row('pengalaman_laksatif', $text_fields['pengalaman_laksatif'], $existing_data, $ro);
-                    render_radio_row('dibantu_bab', $radio_fields['dibantu_bab'], $existing_data, $ro_disabled);
-                    render_radio_row('mandiri_bab', $radio_fields['mandiri_bab'], $existing_data, $ro_disabled);
-                    ?>
+    <?php
+    render_radio_row($item['radio_dibantu'], $radio_fields[$item['radio_dibantu']], $existing_data, $ro_disabled);
+    render_radio_row($item['radio_mandiri'], $radio_fields[$item['radio_mandiri']], $existing_data, $ro_disabled);
+    ?>
+<?php endforeach; ?><div class="row mb-2">
+    <label class="col-sm-12 col-form-label text-primary"><strong>4. Istirahat dan Tidur</strong></label>
+</div>
 
-                    <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-primary"><strong>3. Personal Hygiene </strong></label>
-                    </div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Lama Tidur</strong></label>
+    <div class="col-sm-9">
+        <textarea name="lama_tidur" class="form-control" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('lama_tidur', $existing_data) ?></textarea>
+    </div>
+</div>
+<?php
+render_radio_row('kesulitan_tidur', $radio_fields['kesulitan_tidur'], $existing_data, $ro_disabled);
+render_radio_row('tidur_siang', $radio_fields['tidur_siang'], $existing_data, $ro_disabled);
+?>
 
-                    <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-info"><strong>a. Mandi</strong></label>
-                    </div>
+<div class="row mb-2">
+    <label class="col-sm-12 col-form-label text-primary"><strong>5. Aktivitas dan Latihan</strong></label>
+</div>
 
-                    <?php
-                    render_text_row('frekuensi_mandi', $text_fields['frekuensi_mandi'], $existing_data, $ro);
-                    render_radio_row('dibantu_mandi', $radio_fields['dibantu_mandi'], $existing_data, $ro_disabled);
-                    render_radio_row('mandiri_mandi', $radio_fields['mandiri_mandi'], $existing_data, $ro_disabled);
-                    ?>
+<?php render_radio_row('olahraga_ringan', $radio_fields['olahraga_ringan'], $existing_data, $ro_disabled); ?>
 
-                    <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-info"><strong>b. Oral Hygiene</strong></label>
-                    </div>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Jenis/Frekuensi Olahraga</strong></label>
+    <div class="col-sm-9">
+        <textarea name="jenis_frekuensi_olahraga" class="form-control" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('jenis_frekuensi_olahraga', $existing_data) ?></textarea>
+    </div>
+</div>
 
-                    <?php
-                    render_text_row('frekuensi_hygiene_oral', $text_fields['frekuensi_hygiene_oral'], $existing_data, $ro);
-                    render_radio_row('dibantu_hygiene_oral', $radio_fields['dibantu_hygiene_oral'], $existing_data, $ro_disabled);
-                    render_radio_row('mandiri_hygiene_oral', $radio_fields['mandiri_hygiene_oral'], $existing_data, $ro_disabled);
-                    ?>
+<div class="row mb-3">
+    <label class="col-sm-2 col-form-label"><strong>Kegiatan Waktu Luang</strong></label>
+    <div class="col-sm-10">
+        <textarea name="kegiatan_waktu_luang" class="form-control" rows="1" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('kegiatan_waktu_luang', $existing_data) ?></textarea>
+    </div>
+</div>
 
-                    <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-info"><strong>c. Cuci Rambut</strong></label>
-                    </div>
-
-                    <?php
-                    render_text_row('frekuensi_cuci_rambut', $text_fields['frekuensi_cuci_rambut'], $existing_data, $ro);
-                    render_radio_row('dibantu_cuci_rambut', $radio_fields['dibantu_cuci_rambut'], $existing_data, $ro_disabled);
-                    render_radio_row('mandiri_cuci_rambut', $radio_fields['mandiri_cuci_rambut'], $existing_data, $ro_disabled);
-                    ?>
-
-                    <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-info"><strong>d. Gunting Kuku</strong></label>
-                    </div>
-
-                    <?php
-                    render_text_row('frekuensi_gunting_kuku', $text_fields['frekuensi_gunting_kuku'], $existing_data, $ro);
-                    render_radio_row('dibantu_gunting_kuku', $radio_fields['dibantu_gunting_kuku'], $existing_data, $ro_disabled);
-                    render_radio_row('mandiri_gunting_kuku', $radio_fields['mandiri_gunting_kuku'], $existing_data, $ro_disabled);
-                    ?>
-
-                    <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-primary"><strong>4. Istirahat dan Tidur</strong></label>
-                    </div>
-
-                    <?php
-                    render_text_row('lama_tidur', $text_fields['lama_tidur'], $existing_data, $ro);
-                    render_radio_row('kesulitan_tidur', $radio_fields['kesulitan_tidur'], $existing_data, $ro_disabled);
-                    render_radio_row('tidur_siang', $radio_fields['tidur_siang'], $existing_data, $ro_disabled);
-                    ?>
-
-                    <div class="row mb-2">
-                        <label class="col-sm-12 col-form-label text-primary"><strong>5. Aktivitas dan Latihan</strong></label>
-                    </div>
-
-                    <?php
-                    render_radio_row('olahraga_ringan', $radio_fields['olahraga_ringan'], $existing_data, $ro_disabled);
-                    render_text_row('jenis_frekuensi_olahraga', $text_fields['jenis_frekuensi_olahraga'], $existing_data, $ro);
-                    render_text_row('kegiatan_waktu_luang', $text_fields['kegiatan_waktu_luang'], $existing_data, $ro);
-                    render_radio_row('keluhan_aktivitas', $radio_fields['keluhan_aktivitas'], $existing_data, $ro_disabled);
-                    render_radio_row('kesulitan_pergerakan', $radio_fields['kesulitan_pergerakan'], $existing_data, $ro_disabled);
-                    render_radio_row('sesak_nafas', $radio_fields['sesak_nafas'], $existing_data, $ro_disabled);
-                    ?>
-
+<?php
+render_radio_row('keluhan_aktivitas', $radio_fields['keluhan_aktivitas'], $existing_data, $ro_disabled);
+render_radio_row('kesulitan_pergerakan', $radio_fields['kesulitan_pergerakan'], $existing_data, $ro_disabled);
+render_radio_row('sesak_nafas', $radio_fields['sesak_nafas'], $existing_data, $ro_disabled);
+?>
                     <?php if (!$is_dosen): ?>
                         <div class="row mb-3">
                             <div class="col-sm-9 offset-sm-2 text-end"><button type="submit" class="btn btn-primary">Simpan Data</button></div>

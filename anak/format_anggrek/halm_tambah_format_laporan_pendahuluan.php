@@ -109,89 +109,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <!-<!-- A. Landasan Teori -->
                         <!-- 1. Pengertian -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>1. Pengertian</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="pengertian" value="<?= val('pengertian', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
+                                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>1. Pengertian</strong></label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="pengertian" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> required><?= val('pengertian', $existing_data) ?></textarea>
+                    </div>
+                </div>
 
-                        <!-- 2. Etiologi -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>2. Etiologi</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="etiologi" value="<?= val('etiologi', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>2. Etiologi</strong></label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="etiologi" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> required><?= val('etiologi', $existing_data) ?></textarea>
+                    </div>
+                </div>
 
-                        <!-- 3. Patofisiologi -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>3. Patofisiologi</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="patofisiologi" value="<?= val('patofisiologi', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>3. Patofisiologi</strong></label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="patofisiologi" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> required><?= val('patofisiologi', $existing_data) ?></textarea>
+                    </div>
+                </div>
 
-                        <!-- 4. Manifestasi Klinik -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>4. Manifestasi Klinik</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="manifestasi_klinik" value="<?= val('manifestasi_klinik', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>4. Manifestasi Klinik</strong></label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="manifestasi_klinik" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> required><?= val('manifestasi_klinik', $existing_data) ?></textarea>
+                    </div>
+                </div>
 
-                        <!-- 5. Pemeriksaan Diagnostic -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>5. Pemeriksaan Diagnostic</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="pemeriksaan_diagnostic" value="<?= val('pemeriksaan_diagnostic', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>5. Pemeriksaan Diagnostic</strong></label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="pemeriksaan_diagnostic" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> required><?= val('pemeriksaan_diagnostic', $existing_data) ?></textarea>
+                    </div>
+                </div>
 
-                        <!-- 6. Penatalaksanaan -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>6. Penatalaksanaan</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="penatalaksanaan" value="<?= val('penatalaksanaan', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>6. Penatalaksanaan</strong></label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="penatalaksanaan" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> required><?= val('penatalaksanaan', $existing_data) ?></textarea>
+                    </div>
+                </div>
 
-                        <!-- 7. Komplikasi -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>7. Komplikasi</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="komplikasi" value="<?= val('komplikasi', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>7. Komplikasi</strong></label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="komplikasi" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> required><?= val('komplikasi', $existing_data) ?></textarea>
+                    </div>
+                </div>
 
-                        <!-- B. Konsep Dasar Keperawatan -->
-                        <div class="row mb-2">
-                            <label class="col-sm-5 col-form-label text-primary"><strong>B. Konsep Dasar Keperawatan</strong></label>
-                        </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>1. Pengkajian Keperawatan</strong></label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="pengkajian_keperawatan" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> required><?= val('pengkajian_keperawatan', $existing_data) ?></textarea>
+                    </div>
+                </div>
 
-                        <!-- 1. Pengkajian Keperawatan -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>1. Pengkajian Keperawatan</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="pengkajian_keperawatan" value="<?= val('pengkajian_keperawatan', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>2. Penyimpangan KDM</strong></label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="penyimpangan_kdm" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> required><?= val('penyimpangan_kdm', $existing_data) ?></textarea>
+                    </div>
+                </div>
 
-                        <!-- 2. Penyimpangan KDM -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>2. Penyimpangan KDM</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="penyimpangan_kdm" value="<?= val('penyimpangan_kdm', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
+                <div class="row mb-3">
+                    <label class="col-sm-2 col-form-label"><strong>3. Diagnosa Keperawatan</strong></label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="diagnosa_keperawatan" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> required><?= val('diagnosa_keperawatan', $existing_data) ?></textarea>
+                    </div>
+                </div>
 
-                        <!-- 3. Diagnosa Keperawatan -->
-                        <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"><strong>3. Diagnosa Keperawatan</strong></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="diagnosa_keperawatan" value="<?= val('diagnosa_keperawatan', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
+               
 
                         <!-- 4. Perencanaan -->
                         <p class="text-primary fw-bold mb-2">4. Perencanaan</p>
@@ -216,15 +204,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         </div>
 
                         <!-- C. Daftar Pustaka -->
-                        <div class="row mt-4 mb-2">
-                            <label class="col-sm-3 col-form-label text-primary"><strong>C. Daftar Pustaka</strong></label>
-                        </div>
                         <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label"></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" name="daftar_pustaka" value="<?= val('daftar_pustaka', $existing_data) ?>" <?= $ro ?> required>
-                            </div>
-                        </div>
+                    <label class="col-sm-2 col-form-label"><strong>C. Daftar Pustaka</strong></label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="daftar_pustaka" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?> required><?= val('daftar_pustaka', $existing_data) ?></textarea>
+                    </div>
+                </div>
                         <!-- TOMBOL SUBMIT -->
                         <?php if (!$is_dosen): ?>
                             <div class="row mb-3">
@@ -236,48 +221,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 </form>
             </div>
         </div>
-        <script>
-            let rowObatCount = 1;
+        
+      <script>
+    let rowObatCount = 1;
+    const existingObat = <?= json_encode($existing_obat) ?>;
+    const isReadonly = <?= json_encode($is_readonly) ?>;
 
-            const existingObat = <?= json_encode($existing_obat) ?>;
+    // 1. Fungsi auto-resize
+    function autoExpand(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
 
-            const isReadonly = <?= json_encode($is_readonly) ?>;
-            // ---- OBAT ----
-            function tambahRowObat(data = null) {
-                const tbody = document.getElementById('tbody-obat');
-                const index = rowObatCount;
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                                <td class="text-center align-middle">${index}</td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][diagnosa]" value="${data?.diagnosa ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][tujuan]" value="${data?.tujuan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][intervensi]" value="${data?.intervensi ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td class="text-center align-middle">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
-                                </td>
-                            `;
-                tbody.appendChild(row);
-                rowObatCount++;
-            }
+    // ---- OBAT ----
+    function tambahRowObat(data = null) {
+        const tbody = document.getElementById('tbody-obat');
+        const index = rowObatCount;
+        const row = document.createElement('tr');
+        
+        // Menggunakan textarea dengan oninput dan gaya yang tepat
+        row.innerHTML = `
+            <td class="text-center align-middle">${index}</td>
+            <td>
+                <textarea class="form-control form-control-sm" name="obat[${index}][diagnosa]" rows="1" 
+                style="resize:none; overflow:hidden;" oninput="autoExpand(this)" ${isReadonly ? 'readonly' : ''}>${data?.diagnosa ?? ''}</textarea>
+            </td>
+            <td>
+                <textarea class="form-control form-control-sm" name="obat[${index}][tujuan]" rows="1" 
+                style="resize:none; overflow:hidden;" oninput="autoExpand(this)" ${isReadonly ? 'readonly' : ''}>${data?.tujuan ?? ''}</textarea>
+            </td>
+            <td>
+                <textarea class="form-control form-control-sm" name="obat[${index}][intervensi]" rows="1" 
+                style="resize:none; overflow:hidden;" oninput="autoExpand(this)" ${isReadonly ? 'readonly' : ''}>${data?.intervensi ?? ''}</textarea>
+            </td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
+            </td>
+        `;
+        tbody.appendChild(row);
 
-            function hapusRow(btn) {
-                btn.closest('tr').remove();
-            }
-            // Load existing rows on page load
-            window.addEventListener('load', function() {
-                if (existingObat && existingObat.length > 0) {
-                    existingObat.forEach(row => tambahRowObat(row));
-                } else {
-                    tambahRowObat(); // default 1 row kosong
-                }
+        // 2. Penting: Paksa perhitungan tinggi segera setelah row dibuat
+        // Ini memastikan data dari database langsung rapi saat halaman dibuka
+        row.querySelectorAll('textarea').forEach(el => autoExpand(el));
+        
+        rowObatCount++;
+    }
 
+    function hapusRow(btn) {
+        btn.closest('tr').remove();
+    }
 
-                // Disable add buttons if readonly
-                if (isReadonly) {
-                    document.getElementById('btn-tambah-obat').setAttribute('disabled', 'disabled');
-                }
-            });
-        </script>
+    // Load existing rows on page load
+    window.addEventListener('load', function() {
+        if (existingObat && existingObat.length > 0) {
+            existingObat.forEach(row => tambahRowObat(row));
+        } else {
+            tambahRowObat();
+        }
+
+        if (isReadonly) {
+            document.getElementById('btn-tambah-obat').setAttribute('disabled', 'disabled');
+        }
+    });
+</script>
 
         <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 

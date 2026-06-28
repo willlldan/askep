@@ -138,7 +138,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <th class="text-center" style="width:40px">No</th>
                                 <th class="text-center">Pemeriksaan</th>
                                 <th class="text-center">Hasil</th>
-                                <th class="text-center">Nilai Normal</th>
+                                <th class="text-center">Satuan</th>
+                                <th class="text-center">Rujukan</th>
                                 <?php if (!$is_readonly): ?>
                                 <th class="text-center" style="width:60px">Aksi</th>
                                 <?php endif; ?>
@@ -245,73 +246,82 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             </div>
                         </div>
                     <?php endif; ?>
-                    <script>
-                        let rowObatCount = 1;
-                        let rowLabCount = 1;
-                        const existingObat = <?= json_encode($existing_obat) ?>;
-                        const existingLab = <?= json_encode($existing_lab) ?>;
-                        const isReadonly = <?= json_encode($is_readonly) ?>;
-                        // ---- OBAT ----
-                        function tambahRowObat(data = null) {
-                            const tbody = document.getElementById('tbody-obat');
-                            const index = rowObatCount;
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td class="text-center align-middle">${index}</td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][nama_obat]" value="${data?.nama_obat ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][dosis]" value="${data?.dosis ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][rute]" value="${data?.rute ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][pemberian]" value="${data?.pemberian ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td class="text-center align-middle">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
-                                </td>
-                            `;
-                            tbody.appendChild(row);
-                            rowObatCount++;
-                        }
-                        // ---- LAB ----
-                        function tambahRowLab(data = null) {
-                            const tbody = document.getElementById('tbody-lab');
-                            const index = rowLabCount;
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td class="text-center align-middle">${index}</td>
-                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][pemeriksaan]" value="${data?.pemeriksaan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][hasil]" value="${data?.hasil ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][satuan]" value="${data?.satuan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>\
-                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][rujukan]" value="${data?.rujukan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                   <script>
+    let rowObatCount = 1;
+    let rowLabCount = 1;
+    const existingObat = <?= json_encode($existing_obat) ?>;
+    const existingLab = <?= json_encode($existing_lab) ?>;
+    const isReadonly = <?= json_encode($is_readonly) ?>;
 
-                                <td class="text-center align-middle">
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
-                                </td>
-                            `;
-                            tbody.appendChild(row);
-                            rowLabCount++;
-                        }
+    // ---- Helper untuk auto-resize textarea ----
+    function autoResize(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
 
-                        function hapusRow(btn) {
-                            btn.closest('tr').remove();
-                        }
-                        // Load existing rows on page load
-                        window.addEventListener('load', function() {
-                            if (existingObat && existingObat.length > 0) {
-                                existingObat.forEach(row => tambahRowObat(row));
-                            } else {
-                                tambahRowObat(); // default 1 row kosong
-                            }
-                            if (existingLab && existingLab.length > 0) {
-                                existingLab.forEach(row => tambahRowLab(row));
-                            } else {
-                                tambahRowLab(); // default 1 row kosong
-                            }
-                            // Disable add buttons if readonly
-                            if (isReadonly) {
-                                document.getElementById('btn-tambah-obat').setAttribute('disabled', 'disabled');
-                                document.getElementById('btn-tambah-lab').setAttribute('disabled', 'disabled');
-                            }
-                        });
-                        const existingData = <?= json_encode($existing_data) ?>;
-                    </script>
+    // ---- OBAT ----
+    function tambahRowObat(data = null) {
+        const tbody = document.getElementById('tbody-obat');
+        const index = rowObatCount;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="text-center align-middle">${index}</td>
+            <td><textarea class="form-control form-control-sm" name="obat[${index}][nama_obat]" rows="1" style="overflow:hidden; resize:none;" oninput="autoResize(this)" ${isReadonly ? 'readonly' : ''}>${data?.nama_obat ?? ''}</textarea></td>
+            <td><textarea class="form-control form-control-sm" name="obat[${index}][dosis]" rows="1" style="overflow:hidden; resize:none;" oninput="autoResize(this)" ${isReadonly ? 'readonly' : ''}>${data?.dosis ?? ''}</textarea></td>
+            <td><textarea class="form-control form-control-sm" name="obat[${index}][rute]" rows="1" style="overflow:hidden; resize:none;" oninput="autoResize(this)" ${isReadonly ? 'readonly' : ''}>${data?.rute ?? ''}</textarea></td>
+            <td><textarea class="form-control form-control-sm" name="obat[${index}][pemberian]" rows="1" style="overflow:hidden; resize:none;" oninput="autoResize(this)" ${isReadonly ? 'readonly' : ''}>${data?.pemberian ?? ''}</textarea></td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
+            </td>
+        `;
+        tbody.appendChild(row);
+        rowObatCount++;
+    }
+
+    // ---- LAB ----
+    function tambahRowLab(data = null) {
+        const tbody = document.getElementById('tbody-lab');
+        const index = rowLabCount;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td class="text-center align-middle">${index}</td>
+            <td><textarea class="form-control form-control-sm" name="lab[${index}][pemeriksaan]" rows="1" style="overflow:hidden; resize:none;" oninput="autoResize(this)" ${isReadonly ? 'readonly' : ''}>${data?.pemeriksaan ?? ''}</textarea></td>
+            <td><textarea class="form-control form-control-sm" name="lab[${index}][hasil]" rows="1" style="overflow:hidden; resize:none;" oninput="autoResize(this)" ${isReadonly ? 'readonly' : ''}>${data?.hasil ?? ''}</textarea></td>
+            <td><textarea class="form-control form-control-sm" name="lab[${index}][satuan]" rows="1" style="overflow:hidden; resize:none;" oninput="autoResize(this)" ${isReadonly ? 'readonly' : ''}>${data?.satuan ?? ''}</textarea></td>
+            <td><textarea class="form-control form-control-sm" name="lab[${index}][rujukan]" rows="1" style="overflow:hidden; resize:none;" oninput="autoResize(this)" ${isReadonly ? 'readonly' : ''}>${data?.rujukan ?? ''}</textarea></td>
+            <td class="text-center align-middle">
+                <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
+            </td>
+        `;
+        tbody.appendChild(row);
+        rowLabCount++;
+    }
+
+    function hapusRow(btn) {
+        btn.closest('tr').remove();
+    }
+
+    // Load existing rows on page load
+    window.addEventListener('load', function() {
+        if (existingObat && existingObat.length > 0) {
+            existingObat.forEach(row => tambahRowObat(row));
+        } else {
+            tambahRowObat();
+        }
+        if (existingLab && existingLab.length > 0) {
+            existingLab.forEach(row => tambahRowLab(row));
+        } else {
+            tambahRowLab();
+        }
+        
+        if (isReadonly) {
+            document.getElementById('btn-tambah-obat')?.setAttribute('disabled', 'disabled');
+            document.getElementById('btn-tambah-lab')?.setAttribute('disabled', 'disabled');
+        }
+    });
+
+    const existingData = <?= json_encode($existing_data) ?>;
+</script>
                 </form>
 
             </div>

@@ -100,27 +100,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <?php endforeach; ?>
 
                     <div class="row mb-2"><label class="col-sm-12 text-primary"><strong>IV. Riwayat Kesehatan Masa Lalu</strong></label></div>
-                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Imunisasi</strong></label>
-                        <div class="col-sm-9"><input type="text" class="form-control" name="imunisasi" value="<?= val('imunisasi', $existing_data) ?>" <?= $ro ?>></div>
-                    </div>
-                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Alergi Obat</strong></label>
-                        <div class="col-sm-9"><input type="text" class="form-control" name="alergi_obat" value="<?= val('alergi_obat', $existing_data) ?>" <?= $ro ?>></div>
-                    </div>
-                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Kecelakaan</strong></label>
-                        <div class="col-sm-9"><input type="text" class="form-control" name="kecelakaan" value="<?= val('kecelakaan', $existing_data) ?>" <?= $ro ?>></div>
-                    </div>
-                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Kebiasaan Merokok</strong></label>
-                        <div class="col-sm-9"><input type="text" class="form-control" name="merokok" value="<?= val('merokok', $existing_data) ?>" <?= $ro ?>></div>
-                    </div>
-                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Dirawat di Rumah Sakit</strong></label>
-                        <div class="col-sm-9"><input type="text" class="form-control" name="dirawat_rs" value="<?= val('dirawat_rs', $existing_data) ?>" <?= $ro ?>></div>
-                    </div>
-                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Penyakit 1 Tahun Terakhir</strong></label>
-                        <div class="col-sm-9"><input type="text" class="form-control" name="penyakit_1_tahun" value="<?= val('penyakit_1_tahun', $existing_data) ?>" <?= $ro ?>></div>
-                    </div>
-                    <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Nama Obat (2 Minggu Terakhir)</strong></label>
-                        <div class="col-sm-9"><input type="text" class="form-control" name="obat_2_minggu" value="<?= val('obat_2_minggu', $existing_data) ?>" <?= $ro ?>></div>
-                    </div>
+                    <?php
+$data_riwayat = [
+    ['label' => 'Imunisasi', 'name' => 'imunisasi'],
+    ['label' => 'Alergi Obat', 'name' => 'alergi_obat'],
+    ['label' => 'Kecelakaan', 'name' => 'kecelakaan'],
+    ['label' => 'Kebiasaan Merokok', 'name' => 'merokok'],
+    ['label' => 'Dirawat di Rumah Sakit', 'name' => 'dirawat_rs'],
+    ['label' => 'Penyakit 1 Tahun Terakhir', 'name' => 'penyakit_1_tahun'],
+    ['label' => 'Nama Obat (2 Minggu Terakhir)', 'name' => 'obat_2_minggu'],
+];
+
+foreach ($data_riwayat as $field): ?>
+    <div class="row mb-3">
+        <label class="col-sm-2 col-form-label"><strong><?= $field['label'] ?></strong></label>
+        <div class="col-sm-10">
+            <textarea name="<?= $field['name'] ?>" 
+                      class="form-control" 
+                      rows="1" 
+                      style="overflow:hidden; resize:none;" 
+                      oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" 
+                      <?= $ro ?>><?= val($field['name'], $existing_data) ?></textarea>
+        </div>
+    </div>
+<?php endforeach; ?>
                     <div class="row mb-3"><label class="col-sm-2 col-form-label"><strong>Teratur Dikonsumsi</strong></label>
                         <div class="col-sm-9"><select class="form-select" name="teratur_konsumsi" <?= $ro_select ?>>
                                 <option value="">-- Pilih --</option>
