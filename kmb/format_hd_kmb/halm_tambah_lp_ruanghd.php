@@ -53,9 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'pengertian'                 => $_POST['pengertian'] ?? '',
         'tujuan'                     => $_POST['tujuan'] ?? '',
         'proses_hemodialisa'         => $_POST['proses_hemodialisa'] ?? '',
-        'alasanhemodialisa'         => $_POST['alasanhemodialisa'] ?? '',
-        'indikasihemodialisa'       => $_POST['indikasihemodialisa'] ?? '',
-        'kontraindikasihemodialisa' => $_POST['kontraindikasihemodialisa'] ?? '',
+        'alasan_hemodialisa'         => $_POST['alasan_hemodialisa'] ?? '',
+        'indikasi_hemodialisa'       => $_POST['indikasi_hemodialisa'] ?? '',
+        'kontraindikasi_hemodialisa' => $_POST['kontraindikasi_hemodialisa'] ?? '',
         'frekuensihemodialisa'      => $_POST['frekuensihemodialisa'] ?? '',
         'komplikasi1'                => $_POST['komplikasi1'] ?? '',
         'daftarpustakackd'           => $_POST['daftarpustakackd'] ?? '',
@@ -274,27 +274,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 <div class="row mb-3">
                     <div class="col-sm-2 col-form-label"><strong>4. Alasan dilakukan Hemodialisa</strong></div>
                     <div class="col-sm-10">
-                        <textarea name="alasanhemodialisa" class="form-control"
+                        <textarea name="alasan_hemodialisa" class="form-control"
                         rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('alasanhemodialisa',$existing_data) ?></textarea>
+                        <?= $ro ?>><?= val('alasan_hemodialisa',$existing_data) ?></textarea>
                         </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-sm-2 col-form-label"><strong>5. Indikasi Hemodialisa</strong></div>
                     <div class="col-sm-10">
-                        <textarea name="indikasihemodialisa" class="form-control"
+                        <textarea name="indikasi_hemodialisa" class="form-control"
                         rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('indikasihemodialisa',$existing_data) ?></textarea>
+                        <?= $ro ?>><?= val('indikasi_hemodialisa',$existing_data) ?></textarea>
                         </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-sm-2 col-form-label"><strong>6. Kontraindikasi Hemodialisa</strong></div>
                     <div class="col-sm-10">
-                        <textarea name="kontraindikasihemodialisa" class="form-control"
+                        <textarea name="kontraindikasi_hemodialisa" class="form-control"
                         rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
-                        <?= $ro ?>><?= val('kontraindikasihemodialisa',$existing_data) ?></textarea>
+                        <?= $ro ?>><?= val('kontraindikasi_hemodialisa',$existing_data) ?></textarea>
                         </div>
                 </div>
 
