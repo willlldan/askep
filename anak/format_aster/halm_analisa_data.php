@@ -138,5 +138,106 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
             <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 
+            <script>
+                window.rowKlasifikasiCount = 1;
+                window.rowAnalisaCount = 1;
+
+                const existingKlasifikasi = <?= json_encode($existing_klasifikasi) ?>;
+                const existingAnalisa = <?= json_encode($existing_analisa) ?>;
+                const isReadonly = <?= json_encode($is_readonly) ?>;
+
+                function hapusRow(button) {
+                    button.closest('tr').remove();
+                }
+
+                function tambahRowKlasifikasi(data = null) {
+                    const hasConfig = data && typeof data === 'object' && (
+                        Object.prototype.hasOwnProperty.call(data, 'tbodyId') ||
+                        Object.prototype.hasOwnProperty.call(data, 'rowCountVar') ||
+                        Object.prototype.hasOwnProperty.call(data, 'isReadonly')
+                    );
+                    const config = hasConfig ? data : {};
+                    const rowData = hasConfig ? {} : (data || {});
+                    const tbody = document.getElementById(config.tbodyId || 'tbody-klasifikasi');
+
+                    if (!tbody) return;
+
+                    const rowCountVar = config.rowCountVar || 'rowKlasifikasiCount';
+                    const rowIndex = window[rowCountVar] || 1;
+                    const readonly = typeof config.isReadonly === 'boolean' ? config.isReadonly : isReadonly;
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="text-center align-middle">${rowIndex}</td>
+                        <td>
+                            <textarea class="form-control form-control-sm" name="klasifikasi[${rowIndex}][ds]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${readonly ? 'readonly' : ''}>${rowData.ds ?? ''}</textarea>
+                        </td>
+                        <td>
+                            <textarea class="form-control form-control-sm" name="klasifikasi[${rowIndex}][do]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${readonly ? 'readonly' : ''}>${rowData.do ?? ''}</textarea>
+                        </td>
+                        ${readonly ? '' : '<td class="text-center align-middle"><button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button></td>'}
+                    `;
+
+                    tbody.appendChild(row);
+                    window[rowCountVar] = rowIndex + 1;
+                }
+
+                function tambahRowAnalisa(data = null) {
+                    const hasConfig = data && typeof data === 'object' && (
+                        Object.prototype.hasOwnProperty.call(data, 'tbodyId') ||
+                        Object.prototype.hasOwnProperty.call(data, 'rowCountVar') ||
+                        Object.prototype.hasOwnProperty.call(data, 'isReadonly')
+                    );
+                    const config = hasConfig ? data : {};
+                    const rowData = hasConfig ? {} : (data || {});
+                    const tbody = document.getElementById(config.tbodyId || 'tbody-analisa');
+
+                    if (!tbody) return;
+
+                    const rowCountVar = config.rowCountVar || 'rowAnalisaCount';
+                    const rowIndex = window[rowCountVar] || 1;
+                    const readonly = typeof config.isReadonly === 'boolean' ? config.isReadonly : isReadonly;
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="text-center align-middle">${rowIndex}</td>
+                        <td>
+                            <textarea class="form-control form-control-sm" name="analisa[${rowIndex}][dsdo]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${readonly ? 'readonly' : ''}>${rowData.dsdo ?? ''}</textarea>
+                        </td>
+                        <td>
+                            <textarea class="form-control form-control-sm" name="analisa[${rowIndex}][data]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${readonly ? 'readonly' : ''}>${rowData.data ?? ''}</textarea>
+                        </td>
+                        <td>
+                            <textarea class="form-control form-control-sm" name="analisa[${rowIndex}][etiologi]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${readonly ? 'readonly' : ''}>${rowData.etiologi ?? ''}</textarea>
+                        </td>
+                        <td>
+                            <textarea class="form-control form-control-sm" name="analisa[${rowIndex}][masalah]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${readonly ? 'readonly' : ''}>${rowData.masalah ?? ''}</textarea>
+                        </td>
+                        ${readonly ? '' : '<td class="text-center align-middle"><button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button></td>'}
+                    `;
+
+                    tbody.appendChild(row);
+                    window[rowCountVar] = rowIndex + 1;
+                }
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    if (existingKlasifikasi.length > 0) {
+                        existingKlasifikasi.forEach(function(row) {
+                            tambahRowKlasifikasi(row);
+                        });
+                    } else {
+                        tambahRowKlasifikasi();
+                    }
+
+                    if (existingAnalisa.length > 0) {
+                        existingAnalisa.forEach(function(row) {
+                            tambahRowAnalisa(row);
+                        });
+                    } else {
+                        tambahRowAnalisa();
+                    }
+                });
+            </script>
+
     </section>
 </main>
