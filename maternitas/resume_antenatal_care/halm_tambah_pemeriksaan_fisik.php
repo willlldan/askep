@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'lineanigra'                    => $_POST['lineanigra'] ?? '',
         'inspeksikontraksi'             => $_POST['inspeksikontraksi'] ?? '',
         'dindingperut'                  => $_POST['dindingperut'] ?? '',
-        'inspeksitfu'                   => $_POST['masalahkhususdada'] ?? '',
+        'inspeksitfu'                   => $_POST['inspeksitfu'] ?? '',
         'inspeksikontraksi1'            => $_POST['inspeksikontraksi1'] ?? '',
         'leopoldi'                      => $_POST['leopoldi'] ?? '',
         'kanan'                         => $_POST['kanan'] ?? '',
