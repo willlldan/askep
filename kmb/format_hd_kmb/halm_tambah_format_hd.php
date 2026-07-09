@@ -466,7 +466,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     </div>
 
                     <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label"><strong>5. Hasil yang diperoleh</strong></label>
+                        <label class="col-sm-3 col-form-label"><strong>5. Laporan Pemantauan Pasien Tiap Jam</strong></label>
 
                         <!-- ===================== TABEL Pemeriksaan===================== -->
                         <table class="table table-bordered" id="tabel-Pemeriksaan">
@@ -531,7 +531,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             const row = document.createElement('tr');
                             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
-                                <td><input type="date" class="form-control form-control-sm" name="pemeriksaan[${index}][jam]" value="${data?.jam ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td><input type="time" class="form-control form-control-sm" name="pemeriksaan[${index}][jam]" value="${data?.jam ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
                                 <td><input type="text" class="form-control form-control-sm" name="pemeriksaan[${index}][td]" value="${data?.td ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
                                 <td><input type="text" class="form-control form-control-sm" name="pemeriksaan[${index}][nadi]" value="${data?.nadi ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
                                 <td><input type="text" class="form-control form-control-sm" name="pemeriksaan[${index}][qb]" value="${data?.qb ?? ''}" ${isReadonly ? 'readonly' : ''}></td>

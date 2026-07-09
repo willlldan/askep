@@ -36,7 +36,7 @@
             'riwayat_persalinan'    => $persalinan,
             'pengalaman_menyusui'   => $_POST['pengalamanmenyusui'] ?? '',
             'berapalama1'           => $_POST['berapalama'] ?? '',
-            'riwayat_ginekologi'    => $_POST['riwayatginekologi'] ?? '',
+            'riwayatginekologi'    => $_POST['riwayatginekologi'] ?? '',
             'masalah_ginekologi'    => $_POST['masalahginekologi'] ?? '',
             'riwayat_kb'            => $_POST['riwayatkb'] ?? '',
             'riwayat_penyakit'      => $_POST['riwayatpenyakit'] ?? '',
@@ -94,7 +94,7 @@
 
                        <?php if (!$is_dosen): ?>
                            <div class="row mb-3">
-                               <div class="col-sm-11 d-flex justify-content-end">
+                               <div class="col-sm-12 d-flex justify-content-end">
                                    <button type="button" class="btn btn-primary" onclick="tambahRow()">Tambah Data</button>
                                </div>
                            </div>
@@ -103,7 +103,7 @@
                        <!-- Pengalaman Menyusui -->
                        <div class="row mb-3">
                            <label for="pengalaman_menyusui" class="col-sm-2 col-form-label"><strong>Pengalaman Menyusui</strong></label>
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <select class="form-select" name="pengalamanmenyusui" <?= $ro_select ?>>
                                    <option value="">Pilih</option>
                                    <option value="Ya" <?= val('pengalaman_menyusui', $existing_data) === 'Ya' ? 'selected' : '' ?>>Ya</option>
@@ -115,7 +115,7 @@
                        <!-- Berapa Lama -->
                        <div class="row mb-3">
                            <label for="berapa_lama" class="col-sm-2 col-form-label"><strong>Berapa Lama</strong></label>
-                           <div class="col-sm-9">
+                           <div class="col-sm-10">
                                <input type="text" class="form-control" name="berapalama" value="<?= val('berapalama1', $existing_data) ?>" <?= $ro ?>>
                            </div>
                        </div>
@@ -123,32 +123,33 @@
                        <!-- Bagian Riwayat Ginekologi-->
                        <div class="row mb-3">
                            <label for="riwayat_ginekologi" class="col-sm-2 col-form-label"><strong>Riwayat Ginekologi</strong></label>
-                           <div class="col-sm-9">
-                               <input type="text" class="form-control" name="riwayatginekologi" value="<?= val('riwayat_ginekologi', $existing_data) ?>" <?= $ro ?>>
-
-                           </div>
+                           <div class="col-sm-10">
+                            <textarea name="riwayatginekologi" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('riwayatginekologi',$existing_data) ?></textarea>
+                               </div>
                        </div>
 
                        <!-- Bagian Hasil -->
                        <div class="row mb-3">
                            <label for="hasil_ginekologi" class="col-sm-2 col-form-label"><strong>Masalah Ginekologi</strong></label>
-                           <div class="col-sm-9">
-                               <textarea name="masalahginekologi" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('masalah_ginekologi', $existing_data) ?></textarea>
+                           <div class="col-sm-10">
+                               <textarea name="masalahginekologi" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('masalah_ginekologi', $existing_data) ?></textarea>
                            </div>
                        </div>
 
                        <!-- Bagian Riwayat KB -->
                        <div class="row mb-3">
                            <label for="riwayat_kb" class="col-sm-2 col-form-label"><strong>Riwayat KB</strong></label>
-                           <div class="col-sm-9">
-                               <textarea name="riwayatkb" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('riwayat_kb', $existing_data) ?></textarea>
+                           <div class="col-sm-10">
+                               <textarea name="riwayatkb" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('riwayat_kb', $existing_data) ?></textarea>
                            </div>
                        </div>
                        <!-- Bagian Riwayat KB -->
                        <div class="row mb-3">
                            <label for="riwayat_kb" class="col-sm-2 col-form-label"><strong>Riwayat Penyakit Keluarga</strong></label>
-                           <div class="col-sm-9">
-                               <textarea name="riwayatpenyakit" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('riwayat_penyakit', $existing_data) ?></textarea>
+                           <div class="col-sm-10">
+                               <textarea name="riwayatpenyakit" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" <?= $ro ?>><?= val('riwayat_penyakit', $existing_data) ?></textarea>
                            </div>
                        </div>
 
@@ -278,7 +279,7 @@
                    <!-- TOMBOL SUBMIT -->
                    <?php if (!$is_dosen): ?>
                        <div class="row mb-3">
-                           <div class="col-sm-11 d-flex justify-content-end">
+                           <div class="col-sm-12 d-flex justify-content-end">
                                <button type="submit" class="btn btn-primary">Simpan</button>
                            </div>
                        </div>
@@ -291,6 +292,11 @@
                let rowCount = 1;
                // Load existing data persalinan dari PHP
                const existingPersalinan = <?= json_encode($existing_persalinan) ?>;
+
+                function autoResizeTextarea(el) {
+                el.style.height = 'auto';
+                el.style.height = el.scrollHeight + 'px';
+                }
 
                function tambahRow(data = null) {
                    const tbody = document.getElementById('tbody-persalinan');
@@ -308,10 +314,21 @@
                             <option value="Laki-laki" ${data?.jenis_kelamin === 'Laki-laki' ? 'selected' : ''}>Laki-laki</option>
                         </select>
                     </td>
-                    <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][masalah]" value="${data?.masalah ?? ''}" <?= $ro ?>></td>
+                    <td>
+                        <textarea
+                            class="form-control form-control-sm auto-resize"
+                            name="persalinan[${index}][masalah]"
+                            rows="2"
+                            style="resize:none; overflow:hidden;"
+                            oninput="autoResizeTextarea(this)"
+                        >${data?.masalah ?? ''}</textarea>
+                    </td>
                     <td>${!<?= json_encode($is_dosen) ?> && !<?= json_encode($is_readonly) ?> ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}</td>
                 `;
                    tbody.appendChild(row);
+
+                   row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+
                    rowCount++;
                }
 

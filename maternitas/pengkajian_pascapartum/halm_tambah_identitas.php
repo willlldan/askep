@@ -21,8 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
         'agama_istri'               => $_POST['agamaistri'] ?? '',
         'suku_bangsa'               => $_POST['sukubangsa'] ?? '',
         'status_perkawinan'         => $_POST['statusperkawinan'] ?? '',
-        'alamat'                    => $_POST['keterangan'] ?? '',
-        'diagnosa_medik'            => $_POST['diagnosamedik'] ?? '',
+        'alamat'                    => $_POST['alamat'] ?? '',
+        'diagnosamedik'             => $_POST['diagnosamedik'] ?? '',
         'nama_suami'                => $_POST['namasuami'] ?? '',
         'usia_suami'                => $_POST['usiasuami'] ?? '',
         'pekerjaan_suami'           => $_POST['pekerjaansuami'] ?? '',
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Inisial Pasien</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="inisialpasien"
                                 value="<?= val('inisial_pasien', $existing_data) ?>" <?= $ro ?>>
                         </div>
@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Usia -->
                     <div class="row mb-3">
                         <label for="usiaistri" class="col-sm-2 col-form-label"><strong>Usia</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="usiaistri"
                                 value="<?= val('usia_istri', $existing_data) ?>" <?= $ro ?>>
 
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pekerjaanistri"
                                 value="<?= val('pekerjaan_istri', $existing_data) ?>" <?= $ro ?>>
                         </div>
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Pendidikan Terakhir -->
                     <div class="row mb-3">
                         <label for="pendidikanterakhiristri" class="col-sm-2 col-form-label"><strong>Pendidikan Terakhir</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pendidikanterakhiristri"
                                 value="<?= val('pendidikan_terakhir_istri', $existing_data) ?>" <?= $ro ?>>
 
@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Agama -->
                     <div class="row mb-3">
                         <label for="agamaistri" class="col-sm-2 col-form-label"><strong>Agama</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="agamaistri"
                                 value="<?= val('agama_istri', $existing_data) ?>" <?= $ro ?>>
 
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Suku Bangsa -->
                     <div class="row mb-3">
                         <label for="sukubangsa" class="col-sm-2 col-form-label"><strong>Suku Bangsa</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="sukubangsa"
                                 value="<?= val('suku_bangsa', $existing_data) ?>" <?= $ro ?>>
 
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Status Perkawinan -->
                     <div class="row mb-3">
                         <label for="statusperkawinan" class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="statusperkawinan"
                                 value="<?= val('status_perkawinan', $existing_data) ?>" <?= $ro ?>>
 
@@ -137,22 +137,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="keterangan" class="form-control" rows="5" <?= $ro ?>><?= val('alamat', $existing_data) ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="alamat" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('alamat',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Diagnosa Medik</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="diagnosamedik" class="form-control" rows="5" <?= $ro ?>><?= val('diagnosa_medik', $existing_data) ?></textarea>
-                        </div>
+                        <div class="col-sm-10">
+                        <textarea name="diagnosamedik" class="form-control"
+                        rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <?= $ro ?>><?= val('diagnosamedik',$existing_data) ?></textarea>    
+                            </div>
                     </div>
 
                     <!-- Bagian Nama Suami -->
                     <div class="row mb-3">
                         <label for="namasuami" class="col-sm-2 col-form-label"><strong>Nama Suami</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="namasuami"
                                 value="<?= val('nama_suami', $existing_data) ?>" <?= $ro ?>>
 
@@ -164,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Usia -->
                     <div class="row mb-3">
                         <label for="usiasuami" class="col-sm-2 col-form-label"><strong>Usia</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="usiasuami"
                                 value="<?= val('usia_suami', $existing_data) ?>" <?= $ro ?>>
 
@@ -176,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Pekerjaan -->
                     <div class="row mb-3">
                         <label for="pekerjaansuami" class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pekerjaansuami"
                                 value="<?= val('pekerjaan_suami', $existing_data) ?>" <?= $ro ?>>
 
@@ -188,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Pendidikan Terakhir -->
                     <div class="row mb-3">
                         <label for="pendidikanterakhirsuami" class="col-sm-2 col-form-label"><strong>Pendidikan Terakhir</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pendidikanterakhirsuami"
                                 value="<?= val('pendidikan_terakhir_suami', $existing_data) ?>" <?= $ro ?>>
                         </div>
@@ -197,17 +201,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <!-- Bagian Agama -->
                         <div class="row mb-3">
                             <label for="agamasuami" class="col-sm-2 col-form-label"><strong>Agama</strong></label>
-                            <div class="col-sm-9">
+                            <div class="col-sm-10">
                                 <input type="text" class="form-control" name="agamasuami"
                                     value="<?= val('agama_suami', $existing_data) ?>" <?= $ro ?>>
 
                             </div>
                         </div>
-                    </div>
+                    
                     <!-- TOMBOL MAHASISWA -->
                     <?php if (!$is_dosen): ?>
                         <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end">
+                            <div class="col-sm-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </div>

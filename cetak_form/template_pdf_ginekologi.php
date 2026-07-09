@@ -171,7 +171,7 @@ include 'template_pdf.php';
             <tr>
                 <td><strong>Diagnosa Medik</strong></td>
                 <td>:</td>
-                <td colspan="4"><?= p($demografi['diagnosa_medik']) ?></td>
+                <td colspan="4"><?= p($demografi['diagnosamedik']) ?></td>
             </tr>
         </table>
   
@@ -223,7 +223,7 @@ include 'template_pdf.php';
             <tr>
                 <td><strong>Riwayat Ginekologi</strong></td>
                 <td>:</td>
-                <td colspan="4"><?= p($riwayat['riwayat_ginekologi']) ?></td>
+                <td colspan="4"><?= p($riwayat['riwayatginekologi']) ?></td>
             </tr>
             <tr>
                 <td><strong>Masalah Ginekologi</strong></td>

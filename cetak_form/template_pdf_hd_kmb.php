@@ -407,7 +407,7 @@ include 'template_pdf.php';
     </div>
 </div>
 
-<h4 class="mt-5">5. Hasil yang diperoleh</h4>
+<h4 class="mt-5">5. Laporan Pemantauan Pasien Tiap Jam</h4>
 
 <table class="data">
     <thead>

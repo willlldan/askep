@@ -9,6 +9,11 @@ $existing_lab         = $existing_data['lab'] ?? [];
 $existing_klasifikasi = $existing_data['klasifikasi'] ?? [];
 $existing_analisa     = $existing_data['analisa'] ?? [];
 
+$is_dosen    = $level === 'Dosen';
+$is_readonly = $is_dosen || isLocked($submission);
+$ro          = $is_readonly ? 'readonly' : '';
+$ro_select   = $is_readonly ? 'disabled' : '';
+
 // ===================== POST HANDLER =====================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     if (isLocked($submission)) redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
@@ -201,19 +206,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         const isReadonly = <?= json_encode($is_readonly) ?>;
 
                         // ---- OBAT ----
+
+                         function autoResizeTextarea(el) {
+                            el.style.height = 'auto';
+                            el.style.height = el.scrollHeight + 'px';
+                            }
+
                         function tambahRowObat(data = null) {
                             const tbody = document.getElementById('tbody-obat');
                             const index = rowObatCount++;
                             const row = document.createElement('tr');
                             row.innerHTML = `
-        <td class="text-center">${index}</td>
-        <td><input type="text" name="obat[${index}][jenis_obat]" class="form-control" value="${data?.jenis_obat ?? ''}" ${isReadonly?'readonly':''}></td>
-        <td><input type="text" name="obat[${index}][dosis]" class="form-control" value="${data?.dosis ?? ''}" ${isReadonly?'readonly':''}></td>
-        <td><input type="text" name="obat[${index}][kegunaan]" class="form-control" value="${data?.kegunaan ?? ''}" ${isReadonly?'readonly':''}></td>
-        <td><input type="text" name="obat[${index}][cara_pemberian]" class="form-control" value="${data?.cara_pemberian ?? ''}" ${isReadonly?'readonly':''}></td>
-        <td><button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly?'disabled':''}>x</button></td>
-    `;
+                                <td class="text-center">${index}</td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.jenis_obat ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="obat[${index}][jenis_obat]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.jenis_obat ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.dosis ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="obat[${index}][dosis]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.dosis ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.kegunaan ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="obat[${index}][kegunaan]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.kegunaan ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.cara_pemberian ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="obat[${index}][cara_pemberian]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.cara_pemberian ?? ''}</textarea>`
+                                    }
+                                </td>
+                               <td><button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly?'disabled':''}>x</button></td>
+                            `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
                         }
 
                         // ---- LAB ----
@@ -222,13 +283,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             const index = rowLabCount++;
                             const row = document.createElement('tr');
                             row.innerHTML = `
-        <td class="text-center">${index}</td>
-        <td><input type="text" name="lab[${index}][pemeriksaan]" class="form-control" value="${data?.pemeriksaan ?? ''}" ${isReadonly?'readonly':''}></td>
-        <td><input type="text" name="lab[${index}][hasil]" class="form-control" value="${data?.hasil ?? ''}" ${isReadonly?'readonly':''}></td>
-        <td><input type="text" name="lab[${index}][nilai_normal]" class="form-control" value="${data?.nilai_normal ?? ''}" ${isReadonly?'readonly':''}></td>
-        <td><button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly?'disabled':''}>x</button></td>
-    `;
+                            <td class="text-center">${index}</td>
+                            <td>
+                                ${
+                                isReadonly
+                                ? `<div class="readonly-text">${data?.pemeriksaan ?? ''}</div>`
+                                : `<textarea
+                                class="form-control form-control-sm auto-resize"
+                                name="lab[${index}][pemeriksaan]"
+                                rows="2"
+                                style="resize:none; overflow:hidden;"
+                                oninput="autoResizeTextarea(this)"
+                                >${data?.pemeriksaan ?? ''}</textarea>`
+                                }
+                            </td>
+                            <td>
+                                ${
+                                isReadonly
+                                ? `<div class="readonly-text">${data?.hasil ?? ''}</div>`
+                                : `<textarea
+                                class="form-control form-control-sm auto-resize"
+                                name="lab[${index}][hasil]"
+                                rows="2"
+                                style="resize:none; overflow:hidden;"
+                                oninput="autoResizeTextarea(this)"
+                                >${data?.hasil ?? ''}</textarea>`
+                                }
+                            </td>
+                            <td>
+                                ${
+                                isReadonly
+                                ? `<div class="readonly-text">${data?.nilai_normal ?? ''}</div>`
+                                : `<textarea
+                                class="form-control form-control-sm auto-resize"
+                                name="lab[${index}][nilai_normal]"
+                                rows="2"
+                                style="resize:none; overflow:hidden;"
+                                oninput="autoResizeTextarea(this)"
+                                >${data?.nilai_normal ?? ''}</textarea>`
+                                }
+                            </td>
+                           <td><button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly?'disabled':''}>x</button></td>
+                        `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
                         }
 
                         // ---- KLASIFIKASI ----
@@ -237,12 +336,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             const index = rowKlasifikasiCount++;
                             const row = document.createElement('tr');
                             row.innerHTML = `
-        <td class="text-center">${index}</td>
-        <td><input type="text" name="klasifikasi[${index}][data_subjektif]" class="form-control" value="${data?.data_subjektif ?? ''}" ${isReadonly?'readonly':''}></td>
-        <td><input type="text" name="klasifikasi[${index}][data_objektif]" class="form-control" value="${data?.data_objektif ?? ''}" ${isReadonly?'readonly':''}></td>
-        <td><button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly?'disabled':''}>x</button></td>
-    `;
+                                <td class="text-center">${index}</td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.data_subjektif ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="klasifikasi[${index}][data_subjektif]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.data_subjektif ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.data_objektif ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="klasifikasi[${index}][data_objektif]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.data_objektif ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td><button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly?'disabled':''}>x</button></td>
+                            `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
                         }
 
                         // ---- ANALISA ----
@@ -251,13 +376,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             const index = rowAnalisaCount++;
                             const row = document.createElement('tr');
                             row.innerHTML = `
-        <td class="text-center">${index}</td>
-        <td><input type="text" name="analisa[${index}][ds_do]" class="form-control" value="${data?.ds_do ?? ''}" ${isReadonly?'readonly':''}></td>
-        <td><input type="text" name="analisa[${index}][etiologi]" class="form-control" value="${data?.etiologi ?? ''}" ${isReadonly?'readonly':''}></td>
-        <td><input type="text" name="analisa[${index}][masalah]" class="form-control" value="${data?.masalah ?? ''}" ${isReadonly?'readonly':''}></td>
-        <td><button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly?'disabled':''}>x</button></td>
-    `;
+                                <td class="text-center">${index}</td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.ds_do ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="analisa[${index}][ds_do]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.ds_do ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.etiologi ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="analisa[${index}][etiologi]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.etiologi ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.masalah ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="analisa[${index}][masalah]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.masalah ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td><button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly?'disabled':''}>x</button></td>
+                            `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
                         }
 
                         // Hapus row
