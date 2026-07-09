@@ -68,8 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     <?php include "maternitas/pengkajian_inranatal_care/tab.php"; ?>
 
     <section class="section dashboard">
-        <?php include "partials/notifikasi.php"; ?>
-        <?php include "partials/status_section.php"; ?>
+
+        <?php include dirname(__DIR__, 2) . '/partials/notifikasi.php'; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/status_section.php'; ?>
 
         <div class="card">
             <div class="card-body">
@@ -81,8 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <thead>
                             <tr>
                                 <th class="text-center" style="width:40px">No</th>
-                                <th class="text-center">Data Subjektif (DS)</th>
-                                <th class="text-center">Data Objektif (DO)</th>
+                                <th class="text-center">Data Subjektif</th>
+                                <th class="text-center">Data Objektif</th>
                                 <th class="text-center" style="width:60px">Aksi</th>
                             </tr>
                         </thead>
@@ -118,67 +119,128 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     </div>
                     <!-- TOMBOL SIMPAN -->
                     <?php if (!$is_dosen): ?>
-                        <div class="row mb-3">
-                            <div class="col-sm-12 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary" <?= $ro ?>>Simpan Data</button>
-                            </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary" <?= $ro ?>>Simpan Data</button>
                         </div>
+                    </div>
                     <?php endif; ?>
                     <script>
                         let rowKlasifikasiCount = 1;
-                        let rowAnalisaCount = 1;
+                        let rowAnalisaCount     = 1;
                         const existingKlasifikasi = <?= json_encode($existing_klasifikasi) ?>;
-                        const existingAnalisa = <?= json_encode($existing_analisa) ?>;
+                        const existingAnalisa     = <?= json_encode($existing_analisa) ?>;
                         const isReadonly = <?= json_encode($is_readonly) ?>;
                         // ---- KLASIFIKASI DATA ----
+
+                         function autoResizeTextarea(el) {
+                        el.style.height = 'auto';
+                        el.style.height = el.scrollHeight + 'px';
+                        }
+                        
                         function tambahRowKlasifikasi(data = null) {
                             const tbody = document.getElementById('tbody-klasifikasi');
                             const index = rowKlasifikasiCount;
-                            const row = document.createElement('tr');
+                            const row   = document.createElement('tr');
                             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
                                 <td>
-                                    <textarea class="form-control form-control-sm" name="klasifikasi[${index}][ds]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.ds ?? ''}</textarea>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.ds ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="klasifikasi[${index}][ds]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.ds ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td>
-                                    <textarea class="form-control form-control-sm" name="klasifikasi[${index}][do]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.do ?? ''}</textarea>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.do ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="klasifikasi[${index}][do]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.do ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td class="text-center align-middle">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
                                 </td>
                             `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+
                             rowKlasifikasiCount++;
                         }
                         // ---- ANALISA DATA ----
                         function tambahRowAnalisa(data = null) {
                             const tbody = document.getElementById('tbody-analisa');
                             const index = rowAnalisaCount;
-                            const row = document.createElement('tr');
+                            const row   = document.createElement('tr');
                             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
                                 <td>
-                                    <textarea class="form-control form-control-sm" name="analisa[${index}][ds_do]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.ds_do ?? ''}</textarea>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.ds_do ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="analisa[${index}][ds_do]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.ds_do ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td>
-                                    <textarea class="form-control form-control-sm" name="analisa[${index}][etiologi]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.etiologi ?? ''}</textarea>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.etiologi ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="analisa[${index}][etiologi]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.etiologi ?? ''}</textarea>`
+                                    }
                                 </td>
                                 <td>
-                                    <textarea class="form-control form-control-sm" name="analisa[${index}][masalah]" rows="2" style="resize:none; overflow:hidden;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" ${isReadonly ? 'readonly' : ''}>${data?.masalah ?? ''}</textarea>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.masalah ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="analisa[${index}][masalah]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.masalah ?? ''}</textarea>`
+                                    }
                                 </td>
-                                <td class="text-center align-middle">
+                               <td class="text-center align-middle">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
                                 </td>
                             `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+                            
                             rowAnalisaCount++;
                         }
-
                         function hapusRow(btn) {
                             btn.closest('tr').remove();
                         }
                         // Load existing rows on page load
-                        window.addEventListener('load', function() {
+                        window.addEventListener('load', function () {
                             if (existingKlasifikasi && existingKlasifikasi.length > 0) {
                                 existingKlasifikasi.forEach(row => tambahRowKlasifikasi(row));
                             } else {
@@ -195,12 +257,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 document.getElementById('btn-tambah-analisa').setAttribute('disabled', 'disabled');
                             }
                         });
+                        const existingData = <?= json_encode($existing_data) ?>;
                     </script>
                 </form>
             </div>
         </div>
 
-       <?php include "partials/footer_form.php"; ?>
+        <?php include dirname(__DIR__, 2) . '/partials/footer_form.php'; ?>
 
     </section>
 </main>

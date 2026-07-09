@@ -772,7 +772,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- TOMBOL SUBMIT -->
                     <?php if (!$is_dosen): ?>
                         <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end">
+                            <div class="col-sm-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </div>
@@ -794,6 +794,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
             const isReadonly = <?= json_encode($is_readonly) ?>;
             // ---- VT ----
+
+             function autoResizeTextarea(el) {
+                el.style.height = 'auto';
+                el.style.height = el.scrollHeight + 'px';
+                }
+
             function tambahRowVt(data = null) {
                 const tbody = document.getElementById('tbody-vt');
                 const index = rowVtCount;
@@ -802,12 +808,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 <td class="text-center align-middle">${index}</td>
                                 <td><input type="text" class="form-control form-control-sm" name="vt[${index}][pemeriksaaan]" value="${data?.pemeriksaaan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
                                 <td><input type="time" class="form-control form-control-sm" name="vt[${index}][jam]" value="${data?.jam ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="vt[${index}][hasil]" value="${data?.hasil ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td>
+                                    <textarea
+                                        class="form-control form-control-sm auto-resize"
+                                        name="vt[${index}][hasil]"
+                                        rows="1"
+                                        style="resize:none; overflow:hidden;"
+                                        oninput="autoResizeTextarea(this)"
+                                        <?= $ro ?>
+                                    >${data?.hasil ?? ''}</textarea>
+                                </td>
                                 <td class="text-center align-middle">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
                                 </td>
                             `;
                 tbody.appendChild(row);
+
+                row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+
                 rowVtCount++;
             }
             // ---- HIS ----
@@ -818,15 +836,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
                                 <td><input type="datetime-local" class="form-control form-control-sm" name="his[${index}][tanggal]" value="${data?.tanggal ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="his[${index}][kontraksiuterus]" value="${data?.kontraksiuterus ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="his[${index}][djj]" value="${data?.djj ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="his[${index}][nilai]" value="${data?.nilai ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-
+                                <td>
+                                    <textarea
+                                        class="form-control form-control-sm auto-resize"
+                                        name="his[${index}][kontraksiuterus]"
+                                        rows="1"
+                                        style="resize:none; overflow:hidden;"
+                                        oninput="autoResizeTextarea(this)"
+                                        <?= $ro ?>
+                                    >${data?.kontraksiuterus ?? ''}</textarea>
+                                </td>
+                                <td>
+                                    <textarea
+                                        class="form-control form-control-sm auto-resize"
+                                        name="his[${index}][djj]"
+                                        rows="1"
+                                        style="resize:none; overflow:hidden;"
+                                        oninput="autoResizeTextarea(this)"
+                                        <?= $ro ?>
+                                    >${data?.djj ?? ''}</textarea>
+                                </td>
+                                <td>
+                                    <textarea
+                                        class="form-control form-control-sm auto-resize"
+                                        name="his[${index}][nilai]"
+                                        rows="1"
+                                        style="resize:none; overflow:hidden;"
+                                        oninput="autoResizeTextarea(this)"
+                                        <?= $ro ?>
+                                    >${data?.nilai ?? ''}</textarea>
+                                </td>
                                 <td class="text-center align-middle">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
                                 </td>
                             `;
                 tbody.appendChild(row);
+
+                row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+                
                 rowHisCount++;
             }
 

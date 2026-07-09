@@ -8,7 +8,7 @@ $fisik1      = $sections['pemeriksaan_fisik'] ?? [];
 $fisik2      = $sections['pemeriksaan_fisik2'] ?? [];
 $fisik3      = $sections['pemeriksaan_fisik3'] ?? [];
 $terapi      = $sections['program_terapi_lab'] ?? [];
-$lainnya     = $sections['lainnya'] ?? [];
+$lainnya     = $sections['catatan_keperawatan'] ?? [];
 
 include 'template_pdf.php';
 ?>
@@ -169,7 +169,7 @@ include 'template_pdf.php';
             <tr>
                 <td><strong>Diagnosa Medik</strong></td>
                 <td>:</td>
-                <td colspan="4"><?= p($identitas['diagnosa_medik']) ?></td>
+                <td colspan="4"><?= p($identitas['diagnosamedik']) ?></td>
             </tr>
         </table>
 
@@ -229,7 +229,7 @@ include 'template_pdf.php';
                             <td><?= p($row['penolong']) ?></td>
                             <td><?= p($row['jenis_kelamin']) ?></td>
                             <td><?= p($row['bbtb_bayi']) ?></td>
-                            <td><?= p($row['menyesui_berapa_lama']) ?></td>
+                            <td><?= p($row['menyusui_berapa_lama']) ?></td>
                             <td><?= p($row['masalah_kehamilan']) ?></td>
                         </tr>
                     <?php endforeach; ?>
@@ -246,21 +246,10 @@ include 'template_pdf.php';
         <!-- ================================ -->
         <h3>Data Umum Kesehatan Saat Ini</h3>
 
-        <h4>Data Biologis / Fisiologis</h4>
-        <div class="field-row">
-            <div class="field-label">Keluhan Utama</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($identitas['keluhan_utama']) ?></div>
-        </div>
-        <div class="field-row">
-            <div class="field-label">Riwayat Keluhan Utama</div>
-            <div class="field-sep">:</div>
-            <div class="field-value"><?= p($identitas['riwayat_keluhan_utama']) ?></div>
-        </div>
         <div class="field-row">
             <div class="field-label">Biologis / Fisiologis</div>
             <div class="field-sep">:</div>
-            <div class="field-value"><?= p($biologis['biologis_fisiologis']) ?></div>
+            <div class="field-value"><?= p($biologis['biologisfisiologis']) ?></div>
         </div>
 
         <table class="header-table">
@@ -276,15 +265,15 @@ include 'template_pdf.php';
             <tr>
                 <td><strong>Bayi Rawat Gabung</strong></td>
                 <td>:</td>
-                <td><?= p($biologis['bayi_rawat_gabung']) ?></td>
+                <td><?= p($biologis['bayirawatgabung']) ?></td>
                 <td width="20%"><strong>Jika Tidak, Alasan</strong></td>
                 <td width="2%">:</td>
-                <td><?= p($biologis['tidak_ada_alasan']) ?></td>
+                <td><?= p($biologis['tidakadaalasan']) ?></td>
             </tr>
             <tr>
                 <td><strong>Keadaan Umum</strong></td>
                 <td>:</td>
-                <td><?= p($biologis['keadaan_umum']) ?></td>
+                <td><?= p($biologis['keadaanumum']) ?></td>
                 <td><strong>Kesadaran</strong></td>
                 <td>:</td>
                 <td><?= p($biologis['kesadaran']) ?></td>
@@ -292,7 +281,7 @@ include 'template_pdf.php';
             <tr>
                 <td><strong>BB/TB</strong></td>
                 <td>:</td>
-                <td colspan="4"><?= p($biologis['bb_tb']) ?> kg/cm</td>
+                <td colspan="4"><?= p($biologis['bbtb']) ?> kg/cm</td>
             </tr>
         </table>
 

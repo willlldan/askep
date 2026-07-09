@@ -823,8 +823,8 @@ include 'template_pdf.php';
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($catatan['implementasi'])): ?>
-                <?php foreach ($catatan['implementasi'] as $impl): ?>
+            <?php if (!empty($lainnya['implementasi'])): ?>
+                <?php foreach ($lainnya['implementasi'] as $impl): ?>
                     <tr>
                         <td><?= p($impl['no_dx']) ?></td>
                         <td><?= p($impl['hari_tgl']) ?></td>
@@ -855,8 +855,8 @@ include 'template_pdf.php';
             </tr>
         </thead>
         <tbody>
-            <?php if (!empty($catatan['evaluasi'])): ?>
-                <?php foreach ($catatan['evaluasi'] as $eval): ?>
+            <?php if (!empty($lainnya['evaluasi'])): ?>
+                <?php foreach ($lainnya['evaluasi'] as $eval): ?>
                     <tr>
                         <td><?= p($eval['no_dx']) ?></td>
                         <td><?= p($eval['hari_tgl']) ?></td>

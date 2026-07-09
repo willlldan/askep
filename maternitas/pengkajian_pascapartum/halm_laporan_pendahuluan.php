@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3 mt-3">
                         <label class="col-sm-2 col-form-label"><strong>Tanggal Pengkajian</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="date" class="form-control" name="tgl_pengkajian"
                                 value="<?= htmlspecialchars($tgl_pengkajian) ?>" <?= $ro ?> required>
                             <div class="invalid-feedback">Harap isi Tanggal Pengkajian.</div>
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>RS/Ruangan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="rs_ruangan"
                                 value="<?= htmlspecialchars($rs_ruangan) ?>" <?= $ro ?> required>
                             <div class="invalid-feedback">Harap isi RS/Ruangan.</div>
@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Definisi Nifas</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="definisi_nifas" class="form-control" rows="3"
                                 style="overflow:hidden; resize:none;"
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Anatomi Sistem Reproduksi Wanita</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="anatomi_sistem_reproduksi_wanita" class="form-control" rows="3"
                                 style="overflow:hidden; resize:none;"
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Tahapan Masa Nifas</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="tahapan_masa_nifas" class="form-control" rows="3"
                                 style="overflow:hidden; resize:none;"
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Perubahan Fisiologis Organ pada Masa Nifas</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="perubahan_fisiologis_organ_pada_masa_nifas" class="form-control" rows="3"
                                 style="overflow:hidden; resize:none;"
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Adaptasi Psikologis Masa Nifas</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="adaptasi_psikologis_masa_nifas" class="form-control" rows="3"
                                 style="overflow:hidden; resize:none;"
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Komplikasi Masa Nifas</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="komplikasi_masa_nifas" class="form-control" rows="3"
                                 style="overflow:hidden; resize:none;"
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
@@ -178,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pengkajian</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="pengkajian_keperawatan" class="form-control" rows="3"
                                 style="overflow:hidden; resize:none;"
                                 oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"

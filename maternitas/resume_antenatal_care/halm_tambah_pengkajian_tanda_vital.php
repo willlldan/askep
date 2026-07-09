@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Tekanan Darah -->
                     <div class="row mb-3 align-items-center">
                         <label class="col-sm-2 col-form-label"><strong>Tekanan Darah</strong></label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="tekanandarah" value="<?= val('tekanan_darah', $existing_data) ?>" <?= $ro ?>>
                             </div>
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                         <!-- Nadi -->
                         <label class="col-sm-2 col-form-label"><strong>Nadi</strong></label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="nadi" value="<?= val('nadi', $existing_data) ?>" <?= $ro ?>>
                             </div>
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Suhu -->
                     <div class="row mb-3 align-items-center">
                         <label class="col-sm-2 col-form-label"><strong>Suhu</strong></label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="suhu" value="<?= val('suhu', $existing_data) ?>" <?= $ro ?>>
                             </div>
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                         <!-- Pernapasan -->
                         <label class="col-sm-2 col-form-label"><strong>Pernapasan</strong></label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <div class="input-group">
                                 <input type="text" class="form-control" name="pernapasan" value="<?= val('pernapasan', $existing_data) ?>" <?= $ro ?>>
                             </div>
@@ -95,8 +95,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <h5 class="card-title"> <strong>d. Pemeriksaan Umum</strong></h5>
                     <div class="row mb-3">
                         <label for="pemeriksaan" class="col-sm-2 col-form-label"><strong> Keluhan Utama</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="keluhan_utama" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <div class="col-sm-10">
+                            <textarea name="keluhan_utama" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('keluhan_utama', $existing_data) ?></textarea>
 
 
@@ -105,18 +105,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Pemeriksaan -->
                     <div class="row mb-3">
                         <label for="pemeriksaan" class="col-sm-2 col-form-label"><strong>Riwayat Keluhan Utama</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="riwayat_keluhan_utama" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <div class="col-sm-10">
+                            <textarea name="riwayat_keluhan_utama" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('riwayat_keluhan_utama', $existing_data) ?></textarea>
 
 
                         </div>
                     </div>
-                </div>
+              
                 <!-- TOMBOL SUBMIT -->
                 <?php if (!$is_dosen): ?>
                     <div class="row mb-3">
-                        <div class="col-sm-11 d-flex justify-content-end">
+                        <div class="col-sm-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </div>
