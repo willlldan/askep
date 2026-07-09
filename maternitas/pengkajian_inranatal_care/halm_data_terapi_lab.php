@@ -62,15 +62,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     updateSubmissionStatus($submission_id, $form_id, $mysqli);
     redirectWithMessage($_SERVER['REQUEST_URI'], 'success', 'Data berhasil disimpan.');
 }
+
 ?>
 
 <main id="main" class="main">
-
     <?php include "maternitas/pengkajian_inranatal_care/tab.php"; ?>
-
     <section class="section dashboard">
         <?php include "partials/notifikasi.php"; ?>
         <?php include "partials/status_section.php"; ?>
+
 
         <div class="card">
             <div class="card-body">
@@ -134,21 +134,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         const existingLab = <?= json_encode($existing_lab) ?>;
                         const isReadonly = <?= json_encode($is_readonly) ?>;
                         // ---- OBAT ----
+
+                         function autoResizeTextarea(el) {
+                        el.style.height = 'auto';
+                        el.style.height = el.scrollHeight + 'px';
+                        }
+
                         function tambahRowObat(data = null) {
                             const tbody = document.getElementById('tbody-obat');
                             const index = rowObatCount;
                             const row = document.createElement('tr');
                             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][jenis_obat]" value="${data?.jenis_obat ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][dosis]" value="${data?.dosis ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][kegunaan]" value="${data?.kegunaan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="obat[${index}][cara_pemberian]" value="${data?.cara_pemberian ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.jenis_obat ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="obat[${index}][jenis_obat]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.jenis_obat ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.dosis ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="obat[${index}][dosis]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.dosis ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.kegunaan ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="obat[${index}][kegunaan]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.kegunaan ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.cara_pemberian ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="obat[${index}][cara_pemberian]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.cara_pemberian ?? ''}</textarea>`
+                                    }
+                                </td>
                                 <td class="text-center align-middle">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
                                 </td>
                             `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+
                             rowObatCount++;
                         }
                         // ---- LAB ----
@@ -158,14 +215,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                             const row = document.createElement('tr');
                             row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
-                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][pemeriksaan]" value="${data?.pemeriksaan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][hasil]" value="${data?.hasil ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="lab[${index}][nilai_normal]" value="${data?.nilai_normal ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.pemeriksaan ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="lab[${index}][pemeriksaan]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.pemeriksaan ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.hasil ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="lab[${index}][hasil]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.hasil ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.nilai_normal ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="lab[${index}][nilai_normal]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.nilai_normal ?? ''}</textarea>`
+                                    }
+                                </td>
                                 <td class="text-center align-middle">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
                                 </td>
                             `;
                             tbody.appendChild(row);
+
+                            row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+                            
                             rowLabCount++;
                         }
 
@@ -190,15 +286,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                                 document.getElementById('btn-tambah-lab').setAttribute('disabled', 'disabled');
                             }
                         });
+                        const existingData = <?= json_encode($existing_data) ?>;
                     </script>
                 </form>
 
             </div>
         </div>
 
-        <?php include "partials/footer_form.php"; ?>
-        </div>
-        </div>
+        <?php include "partials/footer_form.php" ?>
 
     </section>
 </main>

@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Inisial Pasien</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="inisialpasien"
                                 value="<?= val('inisial_pasien', $existing_data) ?>" <?= $ro ?>>
                         </div>
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Usia -->
                     <div class="row mb-3">
                         <label for="usiaistri" class="col-sm-2 col-form-label"><strong>Usia</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="usiaistri"
                                 value="<?= val('usia_istri', $existing_data) ?>" <?= $ro ?>>
 
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Pekerjaan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pekerjaanistri"
                                 value="<?= val('pekerjaan_istri', $existing_data) ?>" <?= $ro ?>>
                         </div>
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Pendidikan Terakhir -->
                     <div class="row mb-3">
                         <label for="pendidikanterakhiristri" class="col-sm-2 col-form-label"><strong>Pendidikan Terakhir</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="pendidikanterakhiristri"
                                 value="<?= val('pendidikan_terakhir_istri', $existing_data) ?>" <?= $ro ?>>
 
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Agama -->
                     <div class="row mb-3">
                         <label for="agamaistri" class="col-sm-2 col-form-label"><strong>Agama</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="agamaistri"
                                 value="<?= val('agama_istri', $existing_data) ?>" <?= $ro ?>>
 
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Suku Bangsa -->
                     <div class="row mb-3">
                         <label for="sukubangsa" class="col-sm-2 col-form-label"><strong>Suku Bangsa</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="sukubangsa"
                                 value="<?= val('suku_bangsa', $existing_data) ?>" <?= $ro ?>>
 
@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Status Perkawinan -->
                     <div class="row mb-3">
                         <label for="statusperkawinan" class="col-sm-2 col-form-label"><strong>Status Perkawinan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <input type="text" class="form-control" name="statusperkawinan"
                                 value="<?= val('status_perkawinan', $existing_data) ?>" <?= $ro ?>>
 
@@ -131,14 +131,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Alamat</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="keterangan" class="form-control" rows="5" <?= $ro ?>><?= val('alamat', $existing_data) ?></textarea>
+                        <div class="col-sm-10">
+                            <textarea name="keterangan" class="form-control" rows="3" <?= $ro ?>><?= val('alamat', $existing_data) ?></textarea>
                         </div>
                     </div>
                     <!-- TOMBOL SUBMIT -->
                     <?php if (!$is_dosen): ?>
                         <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end">
+                            <div class="col-sm-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </div>

@@ -65,28 +65,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Definisi Keluarga Berencana (KB)</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="definisi_kb" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" placeholder="Jelaskan definisi keluarga berencana..." <?= $ro ?>><?= val('definisi_kb', $existing_data) ?></textarea>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Ruang Lingkup Program KB</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="ruang_lingkup_program_kb" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" placeholder="Jelaskan ruang lingkup program KB..." <?= $ro ?>><?= val('ruang_lingkup_program_kb', $existing_data) ?></textarea>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Manfaat Usaha KB Dipandang Dari Segi Kesehatan</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="manfaat_kb_kesehatan" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" placeholder="Jelaskan manfaat KB dari segi kesehatan..." <?= $ro ?>><?= val('manfaat_kb_kesehatan', $existing_data) ?></textarea>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Akseptor Keluarga Berencana</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="akseptor_kb" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" placeholder="Jelaskan akseptor keluarga berencana..." <?= $ro ?>><?= val('akseptor_kb', $existing_data) ?></textarea>
                         </div>
                     </div>
@@ -95,43 +95,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Definisi Kontrasepsi</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="definisi_kontrasepsi" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" placeholder="Jelaskan definisi kontrasepsi..." <?= $ro ?>><?= val('definisi_kontrasepsi', $existing_data) ?></textarea>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Faktor-faktor Pemilihan Metode Kontrasepsi</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="faktor_pemilihan_metode_kontrasepsi" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" placeholder="Jelaskan faktor pemilihan metode kontrasepsi..." <?= $ro ?>><?= val('faktor_pemilihan_metode_kontrasepsi', $existing_data) ?></textarea>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Akseptor KB Menurut Sasaran Pemakaian Kontrasepsi</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="akseptor_kb_sasaran_pemakaian" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" placeholder="Jelaskan akseptor KB menurut sasaran pemakaian kontrasepsi..." <?= $ro ?>><?= val('akseptor_kb_sasaran_pemakaian', $existing_data) ?></textarea>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Syarat-syarat Kontrasepsi</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="syarat_kontrasepsi" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" placeholder="Jelaskan syarat-syarat kontrasepsi..." <?= $ro ?>><?= val('syarat_kontrasepsi', $existing_data) ?></textarea>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Metode Kontrasepsi Jangka Pendek dan Jangka Panjang</strong></label>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <textarea name="metode_kontrasepsi_jangka_pendek_panjang" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" placeholder="Jelaskan metode kontrasepsi jangka pendek dan jangka panjang..." <?= $ro ?>><?= val('metode_kontrasepsi_jangka_pendek_panjang', $existing_data) ?></textarea>
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <label class="col-sm-2 col-form-label"><strong>Jenis Kontrasepsi</strong><br><small class="text-muted">(definisi, kelebihan, dan kekurangan tiap jenis)</small></label>
-                        <div class="col-sm-9">
-                            <textarea name="jenis_kontrasepsi" class="form-control" rows="4" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" placeholder="Jelaskan jenis kontrasepsi beserta definisi, kelebihan, dan kekurangan..." <?= $ro ?>><?= val('jenis_kontrasepsi', $existing_data) ?></textarea>
+                        <div class="col-sm-10">
+                            <textarea name="jenis_kontrasepsi" class="form-control" rows="3" style="overflow:hidden; resize:none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';" placeholder="Jelaskan jenis kontrasepsi beserta definisi, kelebihan, dan kekurangan..." <?= $ro ?>><?= val('jenis_kontrasepsi', $existing_data) ?></textarea>
                         </div>
                     </div>
 
