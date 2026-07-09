@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                 'penolong'              => $row['penolong']           ?? '',
                 'jenis_kelamin'         => $row['jenis_kelamin']        ?? '',
                 'bbtb_bayi'             => $row['bbtb_bayi']  ?? '',
-                'menyesui_berapa_lama'  => $row['menyesui_berapa_lama']  ?? '',
+                'menyusui_berapa_lama'  => $row['menyusui_berapa_lama']  ?? '',
                 'masalah_kehamilan'     => $row['masalah_kehamilan']  ?? '',
             ];
         }
@@ -82,8 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Pemeriksaan -->
                     <div class="row mb-3">
                         <label for="pemeriksaan" class="col-sm-2 col-form-label"><strong>Berapa kali pemeriksaan ANC (kehamilan)?</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="pemeriksaan" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <div class="col-sm-10">
+                            <textarea name="pemeriksaan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('pemeriksaan', $existing_data) ?></textarea>
 
 
@@ -93,8 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Masalah Kehamilan -->
                     <div class="row mb-3">
                         <label for="masalahkehamilan" class="col-sm-2 col-form-label"><strong>Masalah yang dialami selama hamil dan tindakan pengotaban yang dilakukan</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="masalahkehamilan" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <div class="col-sm-10">
+                            <textarea name="masalahkehamilan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('masalah_kehamilan', $existing_data) ?></textarea>
 
 
@@ -104,8 +104,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Riwayat Persalinan -->
                     <div class="row mb-3">
                         <label for="riwayatpersalinan" class="col-sm-2 col-form-label"><strong>Riwayat Persalinan apakah Spontan/Letkep/Letsu/Sectio Caesarea (jika SC atas indikasi apa?)</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="riwayatpersalinan" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <div class="col-sm-10">
+                            <textarea name="riwayatpersalinan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('riwayat_persalinan', $existing_data) ?></textarea>
 
 
@@ -115,8 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Riwayat KB -->
                     <div class="row mb-3">
                         <label for="riwayatkb" class="col-sm-2 col-form-label"><strong>Riwayat KB (Jenis, Berapa lama penggunaan)</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="riwayatkb" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <div class="col-sm-10">
+                            <textarea name="riwayatkb" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('riwayat_kb', $existing_data) ?></textarea>
 
 
@@ -126,8 +126,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- Bagian Jumlah Pendarahan -->
                     <div class="row mb-3">
                         <label for="jumlahpendarahan" class="col-sm-2 col-form-label"><strong>Jumlah pendarahan saat melahirkan</strong></label>
-                        <div class="col-sm-9">
-                            <textarea name="jumlahpendarahan" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        <div class="col-sm-10">
+                            <textarea name="jumlahpendarahan" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('jumlah_pendarahan', $existing_data) ?></textarea>
 
 
@@ -162,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- TOMBOL SUBMIT -->
                     <?php if (!$is_dosen): ?>
                         <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end">
+                            <div class="col-sm-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </div>
@@ -178,24 +178,104 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             // const existingLab  = ?= json_encode($existing_lab) ?>;
             const isReadonly = <?= json_encode($is_readonly) ?>;
             // ---- Riwayat ----
+
+             function autoResizeTextarea(el) {
+                el.style.height = 'auto';
+                el.style.height = el.scrollHeight + 'px';
+                }
+
             function tambahRowRiwayat(data = null) {
                 const tbody = document.getElementById('tbody-riwayat');
                 const index = rowRiwayatCount;
                 const row = document.createElement('tr');
                 row.innerHTML = `
                                 <td class="text-center align-middle">${index}</td>
-                                <td><input type="text" class="form-control form-control-sm" name="riwayat[${index}][jenis_persalinan]" value="${data?.jenis_persalinan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="riwayat[${index}][penolong]" value="${data?.penolong ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="riwayat[${index}][jenis_kelamin]" value="${data?.jenis_kelamin ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="riwayat[${index}][bbtb_bayi]" value="${data?.bbtb_bayi ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="riwayat[${index}][menyesui_berapa_lama]" value="${data?.menyesui_berapa_lama ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-                                <td><input type="text" class="form-control form-control-sm" name="riwayat[${index}][masalah_kehamilan]" value="${data?.masalah_kehamilan ?? ''}" ${isReadonly ? 'readonly' : ''}></td>
-
-                                <td class="text-center align-middle">
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.jenis_persalinan ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="riwayat[${index}][jenis_persalinan]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.jenis_persalinan ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.penolong ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="riwayat[${index}][penolong]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.penolong ?? ''}</textarea>`
+                                    }
+                                </td>
+                                    <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.jenis_kelamin ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="riwayat[${index}][jenis_kelamin]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.jenis_kelamin ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.bbtb_bayi ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="riwayat[${index}][bbtb_bayi]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.bbtb_bayi ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.menyesui_berapa_lama ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="riwayat[${index}][menyusui_berapa_lama]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.menyusui_berapa_lama ?? ''}</textarea>`
+                                    }
+                                </td>
+                                <td>
+                                    ${
+                                    isReadonly
+                                    ? `<div class="readonly-text">${data?.masalah_kehamilan ?? ''}</div>`
+                                    : `<textarea
+                                    class="form-control form-control-sm auto-resize"
+                                    name="riwayat[${index}][masalah_kehamilan]"
+                                    rows="2"
+                                    style="resize:none; overflow:hidden;"
+                                    oninput="autoResizeTextarea(this)"
+                                    >${data?.masalah_kehamilan ?? ''}</textarea>`
+                                    }
+                                </td>
+                               <td class="text-center align-middle">
                                     <button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)" ${isReadonly ? 'disabled' : ''}>x</button>
                                 </td>
                             `;
                 tbody.appendChild(row);
+
+                row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+
                 rowRiwayatCount++;
             }
             // // ---- LAB ----

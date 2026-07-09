@@ -124,6 +124,10 @@ function buildTabUrl($tab, $submission_id)
     }
 
     function autoResizeAllTextareas(scope = document) {
+        if (!scope || typeof scope.querySelectorAll !== 'function') {
+            scope = document;
+        }
+
         scope.querySelectorAll('textarea').forEach(autoResizeTextarea);
     }
 
@@ -161,7 +165,9 @@ function buildTabUrl($tab, $submission_id)
         initFooterTextareaResize();
     }
 
-    window.addEventListener('load', autoResizeAllTextareas);
+    window.addEventListener('load', function() {
+        autoResizeAllTextareas();
+    });
 
     document.addEventListener('DOMContentLoaded', function() {
         var mainForm = document.querySelector('form.needs-validation[action=""]');

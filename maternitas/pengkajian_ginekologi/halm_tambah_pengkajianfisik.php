@@ -1251,7 +1251,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- TOMBOL SUBMIT -->
                     <?php if (!$is_dosen): ?>
                         <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end">
+                            <div class="col-sm-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </div>
