@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
 
                     <?php if (!$is_dosen): ?>
                         <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end">
+                            <div class="col-sm-12 d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary" onclick="tambahRow()">Tambah Data</button>
                             </div>
                         </div>
@@ -576,7 +576,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                         <label class="col-sm-2 col-form-label"><strong>Masalah Khusus</strong></label>
 
                         <div class="col-sm-10">
-                            <textarea name="masalahkhususpayudadra" class="form-control" rows="5" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                            <textarea name="masalahkhususpayudadra" class="form-control" rows="3" style="overflow:hidden; resize: none;" oninput="this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
                                 <?= $ro ?>><?= val('masalah_khusus_payudadra', $existing_data) ?></textarea></textarea>
                         </div>
                     </div>
@@ -841,7 +841,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     <!-- TOMBOL SUBMIT -->
                     <?php if (!$is_dosen): ?>
                         <div class="row mb-3">
-                            <div class="col-sm-11 d-flex justify-content-end">
+                            <div class="col-sm-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
                         </div>
@@ -853,6 +853,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
             let rowCount = 1;
             // Load existing data persalinan dari PHP
             const existingPersalinan = <?= json_encode($existing_persalinan) ?>;
+
+             function autoResizeTextarea(el) {
+                el.style.height = 'auto';
+                el.style.height = el.scrollHeight + 'px';
+                }
 
             function tambahRow(data = null) {
                 const tbody = document.getElementById('tbody-persalinan');
@@ -869,12 +874,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
                     </td>
                     <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][cara_lahir]" value="${data?.cara_lahir ?? ''}" <?= $ro ?>></td>
                     <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][bb]" value="${data?.bb ?? ''}" <?= $ro ?>></td>
-                    <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][keadaan]" value="${data?.keadaan ?? ''}" <?= $ro ?>></td>
-                    
+                    <td>
+                        <textarea
+                            class="form-control form-control-sm auto-resize"
+                            name="persalinan[${index}][keadaan]"
+                            rows="1"
+                            style="resize:none; overflow:hidden;"
+                            oninput="autoResizeTextarea(this)"
+                            <?= $ro ?>
+                        >${data?.keadaan ?? ''}</textarea>
+                    </td>
                     <td><input type="text" class="form-control form-control-sm" name="persalinan[${index}][umur]" value="${data?.umur ?? ''}" <?= $ro ?>></td>
                     <td>${!<?= json_encode($is_dosen) ?> && !<?= json_encode($is_readonly) ?> ? `<button type="button" class="btn btn-danger btn-sm" onclick="hapusRow(this)">x</button>` : ''}</td>
                 `;
                 tbody.appendChild(row);
+
+                row.querySelectorAll('.auto-resize').forEach(autoResizeTextarea);
+
                 rowCount++;
             }
 

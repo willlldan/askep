@@ -13,7 +13,8 @@ WHERE (
    OR (
         s.form_id = 12
         AND ss.section_name IN ('data_demografi', 'riwayat_kehamilan_kesehatan', 'lainnya')
-    );
+    )
+;
 
 -- Rename section_name dari "lainnya" ke "catatan_keperawatan".
 UPDATE submission_sections ss
