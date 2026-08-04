@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     if (isLocked($submission)) {
         redirectWithMessage($_SERVER['REQUEST_URI'], 'error', 'Data tidak dapat diubah karena sedang dalam proses review.');
     }
+    
 
     // Upload genogram
     $path_genogram = $existing_data['genogram'] ?? '';
@@ -105,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $level === 'Mahasiswa') {
     <section class="section dashboard">
         <div class="card">
             <div class="card-body">
-                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data ">
+                <form class="needs-validation" novalidate action="" method="POST" enctype="multipart/form-data">
 
                     <h5 class="card-title mb-1"><strong>1. Pengumpulan Data</strong></h5>
                     <!-- General Form Elements -->
