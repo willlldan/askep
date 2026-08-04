@@ -41,7 +41,7 @@ $currentTab = $_GET['tab'] ?? $tabs[0];
     foreach ($tabs as $tab):
         $isActive = ($currentTab == $tab) ? 'active' : '';
         $label = $tabLabels[$tab] ?? ucfirst(str_replace('_', ' ', $tab));
-        $url = "index.php?page=keperawatan-dasar/askep_ruang_flamboyan&tab={$tab}";
+        $url = "index.php?page=keperawatan-dasar/askep_ruang_perawatan&tab={$tab}";
         if ($submission_id) $url .= "&submission_id={$submission_id}";
     ?>
         <li class="nav-item">

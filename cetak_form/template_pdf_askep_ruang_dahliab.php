@@ -56,7 +56,7 @@ include 'template_pdf.php';
     <div >
 
         <!-- HEADER -->
-        <h1>ASKEP KEPERAWATAN DASAR RUANG DAHLIA A </h1>
+        <h1>ASKEP KEPERAWATAN DASAR RUANG DAHLIA B</h1>
         <br>
         
         <table class="header-table">
