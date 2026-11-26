@@ -141,6 +141,12 @@ switch ($form_name) {
     case 'igd':
         include 'template_pdf_igd.php';
         break;
+    case 'igd_rsukt':
+        include 'template_pdf_igd_rsukt.php';
+        break;
+    case 'igd_rsal':
+        include 'template_pdf_igd_rsal.php';
+        break;
     case 'format_keluarga':
         include 'template_pdf_format_keluarga.php';
         break; 

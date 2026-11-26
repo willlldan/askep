@@ -16,11 +16,11 @@
 
 
 -- Dumping database structure for askep_new
-CREATE DATABASE IF NOT EXISTS `askep_new` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `askep_new`;
+CREATE DATABASE IF NOT EXISTS `askep_new1` /*!40100 DEFAULT CHARACTER SET latin1 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `askep_new1`;
 
 
--- Dumping structure for table askep_new.tbl_user
+-- Dumping structure for table askep_new1.tbl_user
 CREATE TABLE IF NOT EXISTS `tbl_user` (
   `id_user` int NOT NULL AUTO_INCREMENT,
   `nama` varchar(50) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `tbl_user` (
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dumping data for table askep_new.tbl_user: ~5 rows (approximately)
+-- Dumping data for table askep_new1.tbl_user: ~5 rows (approximately)
 INSERT INTO `tbl_user` (`id_user`, `nama`, `npm`, `username`, `password`, `level`) VALUES
 	(3, 'Tatang suherman', '-', 'admin', 'admin', 'Admin'),
 	(4, 'mahasiswa', '123123111', 'mahasiswa', 'mahasiswa', 'Mahasiswa'),
@@ -39,7 +39,7 @@ INSERT INTO `tbl_user` (`id_user`, `nama`, `npm`, `username`, `password`, `level
 	(8, 'tasha', '173040071', 'tasha', 'tasha', 'Mahasiswa'),
 	(9, 'Wildan', '173040071', 'wil', 'wil', 'Mahasiswa');
 
--- Dumping structure for table askep_new.forms
+-- Dumping structure for table askep_new1.forms
 CREATE TABLE IF NOT EXISTS `forms` (
   `id` int NOT NULL AUTO_INCREMENT,
   `form_name` varchar(255) NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `forms` (
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
--- Dumping data for table askep_new.forms: ~13 rows (approximately)
+-- Dumping data for table askep_new1.forms: ~13 rows (approximately)
 INSERT INTO `forms` (`id`, `form_name`, `slug`, `department`, `count_section`, `description`, `created_at`) VALUES (1, 'Antenatal Care', 'pengkajian_antenatal_care', 'Maternitas', 7, 'Form pengkajian asuhan keperawatan antenatal care', '2026-04-11 16:09:32');
 INSERT INTO `forms` (`id`, `form_name`, `slug`, `department`, `count_section`, `description`, `created_at`) VALUES (2, 'Pascapartum', 'pengkajian_pascapartum', 'Maternitas', 9, 'Form pengkajian asuhan keperawatan antenatal care', '2026-04-11 16:09:32');
 INSERT INTO `forms` (`id`, `form_name`, `slug`, `department`, `count_section`, `description`, `created_at`) VALUES (3, 'Resume Antenatal Care', 'resume_antenatal_care', 'Maternitas', 8, 'Form Resume Antenatal Care', '2026-04-11 16:09:32');
@@ -85,7 +85,7 @@ INSERT INTO `forms` (`id`, `form_name`, `slug`, `department`, `count_section`, `
 
 
 
--- Dumping structure for table askep_new.submissions
+-- Dumping structure for table askep_new1.submissions
 CREATE TABLE IF NOT EXISTS `submissions` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `submissions` (
   CONSTRAINT `submissions_ibfk_2` FOREIGN KEY (`form_id`) REFERENCES `forms` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
--- Dumping structure for table askep_new.submission_sections
+-- Dumping structure for table askep_new1.submission_sections
 CREATE TABLE IF NOT EXISTS `submission_sections` (
   `id` int NOT NULL AUTO_INCREMENT,
   `submission_id` int NOT NULL,
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `submission_sections` (
 ) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=latin1;
 
 
--- Dumping structure for table askep_new.section_comments
+-- Dumping structure for table askep_new1.section_comments
 CREATE TABLE IF NOT EXISTS `section_comments` (
   `id` int NOT NULL AUTO_INCREMENT,
   `submission_id` int NOT NULL,
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `section_comments` (
   CONSTRAINT `section_comments_ibfk_1` FOREIGN KEY (`submission_id`) REFERENCES `submissions` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- Dumping structure for table askep_new.user_notifications
+-- Dumping structure for table askep_new1.user_notifications
 CREATE TABLE IF NOT EXISTS `user_notifications` (
   `id` int NOT NULL AUTO_INCREMENT,
   `recipient_id` int NOT NULL,
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `user_notifications` (
   CONSTRAINT `user_notifications_ibfk_3` FOREIGN KEY (`submission_id`) REFERENCES `submissions` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table askep_new.section_comments: ~0 rows (approximately)
+-- Dumping data for table askep_new1.section_comments: ~0 rows (approximately)
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

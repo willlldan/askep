@@ -391,6 +391,79 @@ if (isset($_SESSION['id_user'])) {
 
                 break;
 
+            // =====================
+            // Gadar IGD
+            // =====================
+            case 'gadar/igd_rsal':
+
+                $tab = $tab ?: 'laporanpendahuluan';
+
+                switch ($tab) {
+
+                    case 'laporanpendahuluan':
+                        include "gadar/igd_rsal/halm_tambah_laporanpendahuluan.php";
+                        break;
+
+                    case 'pengkajian':
+                        include "gadar/igd_rsal/halm_tambah_pengkajian.php";
+                        break;
+                    case 'pengkajian2':
+                        include "gadar/igd_rsal/halm_tambah_pengkajian2.php";
+                        break;
+                     case 'lainnya':
+                        include "gadar/igd_rsal/halm_tambah_lainnya.php";
+                        break;
+
+                    case 'pemeriksaan_penunjang':
+                        include "gadar/igd_rsal/halm_tambah_pemeriksaan_penunjang.php";
+                        break;
+
+                    case 'analisa_data':
+                        include "gadar/igd_rsal/halm_tambah_analisa.php";
+                        break;
+
+                    default:
+                        include "gadar/igd_rsal/halm_tambah_laporanpendahuluan.php";
+                }
+
+                break;
+                
+            // =====================
+            // Gadar IGD
+            // =====================
+            case 'gadar/igd_rsukt':
+
+                $tab = $tab ?: 'laporanpendahuluan';
+
+                switch ($tab) {
+
+                    case 'laporanpendahuluan':
+                        include "gadar/igd_rsukt/halm_tambah_laporanpendahuluan.php";
+                        break;
+
+                    case 'pengkajian':
+                        include "gadar/igd_rsukt/halm_tambah_pengkajian.php";
+                        break;
+                    case 'pengkajian2':
+                        include "gadar/igd_rsukt/halm_tambah_pengkajian2.php";
+                        break;
+                     case 'lainnya':
+                        include "gadar/igd_rsukt/halm_tambah_lainnya.php";
+                        break;
+
+                    case 'pemeriksaan_penunjang':
+                        include "gadar/igd_rsukt/halm_tambah_pemeriksaan_penunjang.php";
+                        break;
+
+                    case 'analisa_data':
+                        include "gadar/igd_rsukt/halm_tambah_analisa.php";
+                        break;
+
+                    default:
+                        include "gadar/igd_rsukt/halm_tambah_laporanpendahuluan.php";
+                }
+
+                break;
 
             // =====================
             // GERONTIK

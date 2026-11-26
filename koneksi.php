@@ -22,7 +22,7 @@ if (file_exists($envFile)) {
 $host = $_ENV['DB_HOST'] ?? 'localhost';
 $user = $_ENV['DB_USER'] ?? 'root';
 $pass = $_ENV['DB_PASS'] ?? '';
-$db   = $_ENV['DB_NAME'] ?? 'askep_new';
+$db   = $_ENV['DB_NAME'] ?? 'askep_new1';
 
 // Enhanced logging connections per minute
 $logFile = __DIR__ . '/db_connection_log.txt';
